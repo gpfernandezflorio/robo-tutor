@@ -1,0 +1,73 @@
+<html>
+  <textarea id="src" style="width:100%; height:calc(100% - 30px)">x = 2</textarea>
+  <br/>
+  <button onclick="run_code();">RUN</button>
+  <script>
+    const PATH = 'http://10.1.101.89:8000/';
+    const run_code = function() {
+      const jsonObj = {src:document.getElementById("src").value};
+      const callback = function(jsonObj) {
+        if ('resultado' in jsonObj) {
+          if ('error' in jsonObj) {
+            alert(jsonObj.error);
+          } else {
+            alert(jsonObj.resultado);
+          }
+        } else {
+          alert("ERROR: resultado faltante");
+        }
+      };
+      const failCallback = function() {
+        alert("ERROR: falló la comunicación con el servidor");
+      };
+      sendRequest('POST', 'code', callback, jsonObj, failCallback)
+    };
+
+    const sendRequest = function(method, path, callback, jsonObj, failCallback) {
+      let request = createRequest();
+      request.open(method, PATH + path, true);
+      request.setRequestHeader('Content-type', 'application/json');
+      request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+          if (request.status == 200) {
+            try {
+              let received = JSON.parse(request.responseText);
+              callback(received);
+            } catch (e) {
+              if (failCallback) { failCallback(); }
+            }
+          } else {
+            if (failCallback) { failCallback(); }
+          }
+        }
+      };
+      if (jsonObj) {
+        request.send(JSON.stringify(jsonObj));
+      } else {
+        request.send('');
+      }
+    };
+
+    const createRequest = function() {
+      var request = null;
+      try { // Firefox, Chrome, IE7+, Opera, Safari
+        request = new XMLHttpRequest();
+      }
+      catch (e) {
+        try { // IE6 and earlier
+          request = new ActiveXObject('Msxml2.XMLHTTP');
+        }
+        catch (e) {
+          try {
+            request = new ActiveXObject('Microsoft.XMLHTTP');
+          }
+          catch (e) {
+            throw 'Your browser does not support AJAX';
+            request = null;
+          }
+        }
+      }
+      return request;
+    };
+  </script>
+</html>
