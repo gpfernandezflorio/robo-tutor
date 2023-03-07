@@ -1,0 +1,18 @@
+{
+  "nombre":"Suma (1)",
+  "lenguaje":"Python",
+  "enunciado":"Vamos a aprender a sumar números.\n\nSabiendo que existen ya las variables x e y, creá una variable z cuyo valor sea igual a la suma entre x e y.",
+  "run_data":[{
+    "pre":"x = 3\ny = 5",
+    "def":"z",
+    "post":"z == 8"
+  }, {
+    "pre":"x = 1\ny = 15",
+    "def":"z",
+    "post":"z == 16"
+  }, {
+    "pre":"x = 2\ny = 1",
+    "def":"z",
+    "post":"z == 3"
+  }]
+}

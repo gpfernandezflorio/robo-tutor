@@ -101,4 +101,8 @@ def mi_ip():
     return s.getsockname()[0]
 
 if __name__ == '__main__':
-    launch_server(mi_ip(), 8000)
+    import argparse
+    parser = argparse.ArgumentParser(description='Server')
+    parser.add_argument('-v', dest="v", default=False, type=bool, help='Modo verborrágico.')
+    args = parser.parse_args()
+    launch_server(mi_ip(), 8000, args.v)

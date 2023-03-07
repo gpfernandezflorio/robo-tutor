@@ -1,0 +1,15 @@
+{
+  "nombre":"Suma (2)",
+  "lenguaje":"Python",
+  "enunciado":"Ahora escribamos una función que resuelva el problema de forma general.\n\nEscribir la función \"suma\" que tome 2 números como argumentos y devuelva la suma entre ellos.",
+  "run_data":[{
+    "aridad":{"suma":2},
+    "post":"suma(3,5) == 8"
+  }, {
+    "aridad":{"suma":2},
+    "post":"suma(1,15) == 16"
+  }, {
+    "aridad":{"suma":2},
+    "post":"suma(2,1) == 3"
+  }]
+}

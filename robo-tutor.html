@@ -1,15 +1,99 @@
 <html>
-  <textarea id="src" style="width:100%; height:calc(100% - 30px)">x = 2</textarea>
-  <br/>
-  <button onclick="run_code();">RUN</button>
+  <div id="ui" style="display:block;">
+    Ejercicio: <span id="ejercicioSeleccionado">Ningún ejercicio seleccionado</span>
+    <button onclick="abrirEjercicio();">Abrir</button>
+    <button onclick="verEnunciado();">Enunciado</button>
+    Lenguaje:
+    <select id="selectorLenguaje">
+      <option value="Python" selected>Python</option>
+      <option value="Gobstones">Gobstones</option>
+    </select>
+    <br/>
+    <textarea id="src" style="width:100%; height:calc(100% - 50px)">x = 2</textarea>
+    <br/>
+    <button onclick="run_code();">¡Enviar!</button>
+  </div>
+  <div id="espera" style="display:none;">
+    Conectando con el servidor...
+  </div>
   <script>
-    const PATH = 'http://10.1.101.89:8000/';
+    const PATH = 'http://192.168.0.68:8000/';
+
+    const info = {}; // ejercicio, ...
+
+    const verEnunciado = function() {
+      if ('ejercicio' in info) {
+        alert(info.ejercicio.enunciado);
+      } else {
+        alert("No se cargó ningún ejercicio");
+      }
+    };
+
+    const abrirEjercicio = function() {
+      fileChooser(function(jsonObj) {
+        if (!['nombre','lenguaje','enunciado'].every(x => x in jsonObj)) {
+          alert("Archivo inválido"); return;
+        }
+        info.ejercicio = jsonObj;
+        document.getElementById("selectorLenguaje").value = jsonObj.lenguaje;
+        document.getElementById('ejercicioSeleccionado').innerHTML = jsonObj.nombre;
+        document.getElementById('src').value = ('base' in jsonObj ? jsonObj.base : '');
+      });
+    };
+
+    const fileChooser = function(callback, failCallback) {
+      let selectFile = document.getElementById('select_file_wrapper');
+      if (selectFile !== null) {
+        selectFile.outerHTML = '';
+      }
+      let selectFileDom = document.createElement('INPUT');
+      selectFileDom.type = 'file';
+      selectFileDom.accept= '.rtx';
+      selectFileDom.id = 'select_file';
+
+      let selectFileWrapperDom = document.createElement('DIV');
+      selectFileWrapperDom.id = 'select_file_wrapper';
+      selectFileWrapperDom.style.display = 'none';
+      selectFileWrapperDom.appendChild(selectFileDom);
+
+      document.body.appendChild(selectFileWrapperDom);
+      selectFile = document.getElementById('select_file');
+      selectFile.addEventListener('change', function(e) {
+        let archivo = e.target.files[0];
+        if (archivo) {
+          let reader = new FileReader();
+          reader.onload = function() {
+            try {
+              let received = JSON.parse(reader.result);
+              callback(received);
+            } catch (e) {
+              console.log(e);
+              if (failCallback) { failCallback(); }
+              else { alert("Archivo inválido"); }
+            }
+          };
+          reader.readAsText(archivo);
+        }
+      }, false);
+      selectFile.click();
+    };
+
     const run_code = function() {
-      const jsonObj = {src:document.getElementById("src").value};
+      const jsonObj = {
+        src:document.getElementById("src").value,
+        lenguaje:document.getElementById("selectorLenguaje").value,
+      };
+      if ('ejercicio' in info) {
+        if ('run_data' in info.ejercicio) {
+          jsonObj.run_data = info.ejercicio.run_data;
+        }
+      }
       const callback = function(jsonObj) {
         if ('resultado' in jsonObj) {
           if ('error' in jsonObj) {
             alert(jsonObj.error);
+          } else if (jsonObj.resultado == "Falla") {
+            alert("Mal resuelto");
           } else {
             alert(jsonObj.resultado);
           }
@@ -24,11 +108,15 @@
     };
 
     const sendRequest = function(method, path, callback, jsonObj, failCallback) {
+      document.getElementById("ui").style.display = 'none';
+      document.getElementById("espera").style.display = 'block';
       let request = createRequest();
       request.open(method, PATH + path, true);
       request.setRequestHeader('Content-type', 'application/json');
       request.onreadystatechange = function() {
         if (request.readyState == 4) {
+          document.getElementById("espera").style.display = 'none';
+          document.getElementById("ui").style.display = 'block';
           if (request.status == 200) {
             try {
               let received = JSON.parse(request.responseText);
@@ -69,5 +157,21 @@
       }
       return request;
     };
+
+    document.getElementById('src').addEventListener('keydown', function(e) {
+      if (e.key == 'Tab') {
+        e.preventDefault();
+        var start = this.selectionStart;
+        var end = this.selectionEnd;
+
+        // set textarea value to: text before caret + tab + text after caret
+        this.value = this.value.substring(0, start) +
+          "  " + this.value.substring(end);
+
+        // put caret at right position again
+        this.selectionStart =
+          this.selectionEnd = start + 2;
+      }
+    });
   </script>
 </html>
