@@ -1,25 +1,54 @@
 <html>
-  <div id="ui" style="display:block;">
-    Ejercicio: <span id="ejercicioSeleccionado">Ningún ejercicio seleccionado</span>
-    <button onclick="abrirEjercicio();">Abrir</button>
+  <div id="seleccionDeCurso" style="display:none;">
+  </div>
+  <div id="ui" style="display:none;">
+    <span id="curso">
+      Curso:
+      <select onchange="cambiarCurso();" id="selectorCurso"></select>
+    </span>
+    Ejercicio: <span id="ejercicioSeleccionado">Ninguno</span>
+    <button id="abrirEjercicio" onclick="abrirEjercicio();">Abrir</button>
     <button onclick="verEnunciado();">Enunciado</button>
-    Lenguaje:
-    <select id="selectorLenguaje">
-      <option value="Python" selected>Python</option>
-      <option value="Gobstones">Gobstones</option>
-    </select>
+    <span id="lenguaje">
+      Lenguaje:
+      <select id="selectorLenguaje">
+        <option value="Python" selected>Python</option>
+        <option value="Gobstones">Gobstones</option>
+      </select>
+    </span>
     <br/>
-    <textarea id="src" style="width:100%; height:calc(100% - 50px)">x = 2</textarea>
+    <textarea id="src" style="width:calc(100% - 10px); height:calc(100% - 55px); margin:5px;">x = 2</textarea>
     <br/>
+    Sevidor:
+    <input type="text" value="157.92.26.235" id="url" style="width:100px">
+    :
+    <input type="text" value="8000" id="port" style="width:50px">
     <button onclick="run_code();">¡Enviar!</button>
   </div>
   <div id="espera" style="display:none;">
     Conectando con el servidor...
   </div>
   <script>
-    const PATH = 'http://192.168.0.68:8000/';
 
-    const info = {}; // ejercicio, ...
+    const info = {}; // curso, ejercicio, ...
+
+    const cursos = {
+      inpr_unq_2023_s1:{
+        nombre:"Introducción a la Programación - UNQ (2023s1)",
+        lenguaje:"Gobstones",
+        lenguaje_display:"none",
+        ejs:[
+          {
+            nombre:"Presente 13/3",
+            enunciado:"Escribir un programa que ponga una bolita de cada color en la celda actual.",
+            mostrar:false
+          }, {
+            nombre:"Presente 16/3",
+            enunciado:"Escribir un procedimiento que dibuje un cuadrado rojo de 3x3 centrado en la celda actual."
+          }
+        ]
+      }
+    };
 
     const verEnunciado = function() {
       if ('ejercicio' in info) {
@@ -30,15 +59,62 @@
     };
 
     const abrirEjercicio = function() {
-      fileChooser(function(jsonObj) {
-        if (!['nombre','lenguaje','enunciado'].every(x => x in jsonObj)) {
-          alert("Archivo inválido"); return;
+      if ('curso' in info) {
+        cargarEjercicios();
+        document.getElementById("seleccionDeCurso").style.display = 'block';
+        document.getElementById("ui").style.display = 'none';
+      } else {
+        fileChooser(function(jsonObj) {
+          if (!['nombre','lenguaje','enunciado'].every(x => x in jsonObj)) {
+            alert("Archivo inválido"); return;
+          }
+          delete info.curso;
+          document.getElementById("selectorCurso").value = "0";
+          cargarEjercicio(jsonObj);
+        });
+      }
+    };
+
+    const seleccionarEjercicio = function(i) {
+      if (i !== null) {
+        cargarEjercicio(cursos[info.curso].ejs[i]);
+      }
+      document.getElementById("seleccionDeCurso").style.display = 'none';
+      document.getElementById("ui").style.display = 'block';
+    };
+
+    const cargarEjercicio = function(ej) {
+      info.ejercicio = ej;
+      if ('lenguaje' in ej) {
+        document.getElementById("selectorLenguaje").value = ej.lenguaje;
+      }
+      document.getElementById('ejercicioSeleccionado').innerHTML = ej.nombre;
+      document.getElementById('src').value = ('base' in ej ? ej.base : '');
+    };
+
+    const cambiarCurso = function() {
+      seleccionarCurso(document.getElementById("selectorCurso").value);
+    };
+
+    const seleccionarCurso = function(k) {
+      if (k !== document.getElementById("selectorCurso").value) {
+        document.getElementById("selectorCurso").value = k;
+      }
+      if (k === '0') {
+        delete info.curso;
+        document.getElementById("lenguaje").style.display = 'inline';
+      } else {
+        info.curso = k;
+        let curso = cursos[k];
+        if ('lenguaje' in curso) {
+          document.getElementById("selectorLenguaje").value = curso.lenguaje;
         }
-        info.ejercicio = jsonObj;
-        document.getElementById("selectorLenguaje").value = jsonObj.lenguaje;
-        document.getElementById('ejercicioSeleccionado').innerHTML = jsonObj.nombre;
-        document.getElementById('src').value = ('base' in jsonObj ? jsonObj.base : '');
-      });
+        if ('lenguaje_display' in curso) {
+          document.getElementById("lenguaje").style.display = curso.lenguaje_display;
+        }
+      }
+      document.getElementById("seleccionDeCurso").style.display = 'none';
+      document.getElementById("ui").style.display = 'block';
     };
 
     const fileChooser = function(callback, failCallback) {
@@ -107,11 +183,41 @@
       sendRequest('POST', 'code', callback, jsonObj, failCallback)
     };
 
+    const cargarCursos = function() {
+      let contenidoPantalla = '';
+      let contenidoSelector = '<option value="0" selected>Ninguno</option>';
+      for (c in cursos) {
+        contenidoPantalla += `<button onclick="seleccionarCurso('${c}');">${cursos[c].nombre}</button></br>`;
+        contenidoSelector += `<option value="${c}">${cursos[c].nombre}</option>`
+      }
+      document.getElementById("selectorCurso").innerHTML = contenidoSelector;
+      document.getElementById("seleccionDeCurso").innerHTML = contenidoPantalla +
+        '<button onclick="seleccionarCurso(\'0\');">Libre</button>';
+      document.getElementById("seleccionDeCurso").style.display = 'block';
+    };
+
+    const cargarEjercicios = function() {
+      let contenidoPantalla = '';
+      let i=0;
+      for (ej of cursos[info.curso].ejs) {
+        if (ejercicioDisponible(ej)) {
+          contenidoPantalla += `<button onclick="seleccionarEjercicio(${i});">${ej.nombre}</button></br>`;
+        }
+        i++;
+      }
+      document.getElementById("seleccionDeCurso").innerHTML = contenidoPantalla +
+        '<button onclick="seleccionarEjercicio(null);">Cancelar</button>';
+    };
+
+    const ejercicioDisponible = function(ej) {
+      return !('mostrar' in ej) || ej.mostrar;
+    }
+
     const sendRequest = function(method, path, callback, jsonObj, failCallback) {
       document.getElementById("ui").style.display = 'none';
       document.getElementById("espera").style.display = 'block';
       let request = createRequest();
-      request.open(method, PATH + path, true);
+      request.open(method, rutaAlServidor() + path, true);
       request.setRequestHeader('Content-type', 'application/json');
       request.onreadystatechange = function() {
         if (request.readyState == 4) {
@@ -158,6 +264,19 @@
       return request;
     };
 
+    const rutaAlServidor = function() {
+      return `http://${document.getElementById("url").value}:${document.getElementById("port").value}/`;
+    };
+
+    const parametroURL = function(clave) {
+      let url = location.href;
+      clave = clave.replace(/[\[]/,"\\[").replace(/[\]]/,"\\]");
+      var regexS = "[\\?&]"+clave+"=([^&#]*)";
+      var regex = new RegExp( regexS );
+      var results = regex.exec( url );
+      return results == null ? null : results[1];
+    };
+
     document.getElementById('src').addEventListener('keydown', function(e) {
       if (e.key == 'Tab') {
         e.preventDefault();
@@ -173,5 +292,24 @@
           this.selectionEnd = start + 2;
       }
     });
+
+    let curso = parametroURL('curso');
+    if (curso === null) {
+      cargarCursos();
+    } else {
+      if (curso in cursos) {
+        document.getElementById("curso").style.display = 'none';
+        seleccionarCurso(curso);
+        curso = cursos[curso];
+        let ej = parametroURL('ej');
+        if (ej !== null && ej < curso.ejs.length && ejercicioDisponible(curso.ejs[ej])) {
+          cargarEjercicio(curso.ejs[ej]);
+          document.getElementById("abrirEjercicio").style.display = 'none';
+        }
+        document.getElementById("ui").style.display = 'block';
+      } else {
+        cargarCursos();
+      }
+    }
   </script>
 </html>

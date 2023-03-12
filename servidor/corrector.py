@@ -2,10 +2,16 @@ import inspect
 
 def run_code(jsonObj, v):
     if (not ("src" in jsonObj)):
+        if (v):
+            print("Falta src")
         return {"resultado":"Error", "error":"Falta src"}
     if (not ("lenguaje" in jsonObj)):
+        if (v):
+            print("Falta lenguaje")
         return {"resultado":"Error", "error":"Falta lenguaje"}
     if (jsonObj["lenguaje"] != "Python"):
+        if (v):
+            print(jsonObj["lenguaje"])
         return {"resultado":"Error", "error":"Lenguaje desconocido: " + jsonObj["lenguaje"]}
     run_data = jsonObj["run_data"] if "run_data" in jsonObj else {}
     if (type(run_data) != type([])):
