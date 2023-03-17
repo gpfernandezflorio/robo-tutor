@@ -1,4 +1,7 @@
-from subprocess import PIPE, run
+# -*- coding: utf-8 -*-
+
+from subprocess import PIPE, Popen
+import signal
 import inspect
 import json
 import os
@@ -39,8 +42,11 @@ def run_python(jsonObj, v):
                 return {"resultado":"Error", "error":"Error en el ejercicio"}
         ## Ejecución del código entregado
         try:
+            signal.alarm(1)
             exec(code)
+            signal.alarm(0)
         except Exception as e:
+            signal.alarm(0)
             if (v):
                 mostrar_excepcion(e)
             return {"resultado":"Except", "error":str(e)}
@@ -98,7 +104,15 @@ def run_gobstones(jsonObj, v):
         f = open('board.jboard', 'w')
         f.write(json.dumps(tablero))
         f.close()
-        salida, falla = ejecutar("node gobstones-lang/dist/gobstones-lang run -l es -i src.txt -b")
+        try:
+            signal.alarm(1)
+            salida, falla = ejecutar("node gobstones-lang/dist/gobstones-lang run -l es -i src.txt -b")
+            signal.alarm(0)
+        except Exception as e:
+            signal.alarm(0)
+            if (v):
+                mostrar_excepcion(e)
+            return {"resultado":"Except", "error":str(e)}
         if len(falla) > 0:
             return {"resultado":"Except", "error":buscar_falla_gobstones(falla)}
         try:
@@ -135,9 +149,14 @@ def run_gobstones(jsonObj, v):
                         return {"resultado":"Falla"}
     return {"resultado":"OK"}
 
+def handler_timeout(s, f):
+    raise Exception("La ejecución demoró más de 1 segundo")
+
+signal.signal(signal.SIGALRM, handler_timeout)
+
 def ejecutar(cmd):
-    resultado = run(cmd, stdout=PIPE, stderr=PIPE, universal_newlines=True, shell=True)
-    return resultado.stdout, resultado.stderr
+    p = Popen(cmd, stdout=PIPE, stderr=PIPE, universal_newlines=True, shell=True)
+    return p.communicate()
 
 def tablero_valido(t):
     return all(["head","width","height","board"].map(lambda x : x in t))
@@ -172,8 +191,9 @@ def celda_vacia():
 
 def buscar_falla_gobstones(s):
     for l in s.split('\n'):
-        if l.startswith('br [Error]: '):
+        if l.startswith('br [Error]: ') or l.startswith('Pr [Error]: '):
             return l[12:]
+    print(s)
     return "?"
 
 def mostrar_excepcion(e):

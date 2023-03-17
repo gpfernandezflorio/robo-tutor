@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-# from __future__ import unicode_literals, absolute_import, print_function
 
 import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 import json
 import socket
 from corrector import run_code
@@ -79,7 +80,7 @@ class HandlerAC(moduloHTTPRequest):
         try: # python 3
             self.wfile.write(bytes(datos, 'utf-8'))
         except: # python 2
-            self.wfile.write(datos.encode('utf-8'))
+            self.wfile.write(datos.decode())
 
 def run(host, port):
     global servidorAC
