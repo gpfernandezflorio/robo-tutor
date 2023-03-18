@@ -19,6 +19,7 @@
     <br/>
     <textarea id="src" style="width:calc(100% - 10px); height:calc(100% - 55px); margin:5px;">x = 2</textarea>
     <br/>
+    <span id="dni"></span>
     Sevidor:
     <input type="text" value="157.92.26.235" id="url" style="width:100px">
     :
@@ -30,7 +31,7 @@
   </div>
   <script>
 
-    const info = {}; // curso, ejercicio, ...
+    const info = {}; // dni, curso, ejercicio, ...
 
     const cursos = {
       inpr_unq_2023_s1:{
@@ -159,7 +160,18 @@
         src:document.getElementById("src").value,
         lenguaje:document.getElementById("selectorLenguaje").value,
       };
+      if ('dni' in info) {
+        jsonObj.dni = info.dni;
+      } else if ('curso' in info) {
+        const dni = prompt("Ingresá tu dni");
+        if (dni) {
+          info.dni = dni;
+          jsonObj.dni = info.dni;
+          document.getElementById("dni").innerHTML = "DNI: " + dni;
+        }
+      }
       if ('ejercicio' in info) {
+        jsonObj.ejercicio = info.ejercicio.nombre;
         if ('run_data' in info.ejercicio) {
           jsonObj.run_data = info.ejercicio.run_data;
         }
@@ -310,6 +322,12 @@
       } else {
         cargarCursos();
       }
+    }
+
+    const dni = prompt("Ingresá tu dni");
+    if (dni) {
+      info.dni = dni;
+      document.getElementById("dni").innerHTML = "DNI: " + dni;
     }
   </script>
 </html>

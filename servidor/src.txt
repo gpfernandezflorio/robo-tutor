@@ -1,0 +1,6 @@
+program {
+  Mover()
+  while() {
+    Poner()
+  }
+}

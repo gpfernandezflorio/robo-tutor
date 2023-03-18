@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from subprocess import PIPE, Popen
+import requests
 import signal
 import inspect
 import json
@@ -16,13 +17,17 @@ def run_code(jsonObj, v):
             print("Falta lenguaje")
         return {"resultado":"Error", "error":"Falta lenguaje"}
     if (jsonObj["lenguaje"] == "Python"):
-        return run_python(jsonObj, v)
+        resultado = run_python(jsonObj, v)
     elif (jsonObj["lenguaje"] == "Gobstones"):
-        return run_gobstones(jsonObj, v)
+        resultado = run_gobstones(jsonObj, v)
     else:
         if (v):
             print(jsonObj["lenguaje"])
         return {"resultado":"Error", "error":"Lenguaje desconocido: " + jsonObj["lenguaje"]}
+    if ("dni" in jsonObj):
+        jsonObj["resultado"] = mostrar_resultado(resultado)
+        commit(jsonObj)
+    return resultado
 
 def run_python(jsonObj, v):
     run_data = jsonObj["run_data"] if "run_data" in jsonObj else {}
@@ -203,3 +208,33 @@ def mostrar_excepcion(e):
         res += "\n" + tb.tb_frame.f_code.co_filename + ":" + tb.tb_frame.f_code.co_name + " " + str(tb.tb_lineno)
         tb = tb.tb_next
     print(e)
+
+def mostrar_resultado(resultado):
+    r = resultado["resultado"]
+    if "error" in resultado:
+        r += " - " + resultado["error"]
+    return r
+
+form_url = "https://docs.google.com/forms/d/e/1FAIpQLSe3UQWs9xfAMw9Cl6WfK03eBQy6BRRCyWLveWN7tREVoAuiUQ/formResponse"
+entries = {
+    "dni":"1115080072",
+    "src":"256509475",
+    "resultado":"236721452",
+    "ejercicio":"1084236439"
+}
+
+def commit(jsonObj):
+    if not ("ejercicio" in jsonObj):
+        jsonObj["ejercicio"] = "-"
+    data = {}
+    for x in entries:
+        data["entry." + entries[x]] = jsonObj[x]
+    submit(form_url, data, jsonObj["dni"])
+
+def submit(url, data, dni):
+    try:
+        requests.post(url, data = data)
+    except Exception as e:
+        if (v):
+            mostrar_excepcion(e)
+        print("ERROR " + dni)

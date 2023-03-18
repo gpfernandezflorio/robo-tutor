@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
+try: # python 2
+    reload(sys)
+    sys.setdefaultencoding('utf8')
+except:
+    pass
+
 import json
 import socket
 from corrector import run_code
