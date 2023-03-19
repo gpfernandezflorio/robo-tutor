@@ -164,7 +164,7 @@ def ejecutar(cmd):
     return p.communicate()
 
 def tablero_valido(t):
-    return all(["head","width","height","board"].map(lambda x : x in t))
+    return all(map(lambda x : x in t, ["head","width","height","board"]))
 
 def cabezal_valido(h):
     return len(h) == 2
