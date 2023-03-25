@@ -291,6 +291,9 @@
 
     const parametroURL = function(clave) {
       let url = location.href;
+      if (url.startsWith('file')) {
+        return {curso:'inpr_unq_2023_s1', ej:0}[clave];
+      }
       clave = clave.replace(/[\[]/,"\\[").replace(/[\]]/,"\\]");
       var regexS = "[\\?&]"+clave+"=([^&#]*)";
       var regex = new RegExp( regexS );
