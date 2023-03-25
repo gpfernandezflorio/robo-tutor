@@ -130,24 +130,24 @@ def run_gobstones(jsonObj, v):
         if "post" in run:
             tablero_esperado = run["post"]
             tablero_obtenido = salida
-            if not tablero_valido(tablero_esperado) and tablero_valido(tablero_obtenido):
+            if not (tablero_valido(tablero_esperado) and tablero_valido(tablero_obtenido)):
                 return {"resultado":"Error", "error":"Error en el ejercicio"}
             cabezal_esperado = tablero_esperado["head"]
             cabezal_obtenido = tablero_obtenido["head"]
-            if not cabezal_valido(cabezal_esperado) and cabezal_valido(cabezal_obtenido):
+            if not (cabezal_valido(cabezal_esperado) and cabezal_valido(cabezal_obtenido)):
                 return {"resultado":"Error", "error":"Error en el ejercicio"}
             if not mismo_cabezal(cabezal_esperado, cabezal_obtenido):
                 return {"resultado":"Falla"}
-            if not tablero_esperado["width"] == tablero_obtenido["width"] and tablero_esperado["height"] == tablero_obtenido["height"]:
+            if not (tablero_esperado["width"] == tablero_obtenido["width"] and tablero_esperado["height"] == tablero_obtenido["height"]):
                 return {"resultado":"Error", "error":"Error en el ejercicio"}
             tablero_esperado = tablero_esperado["board"]
             tablero_obtenido = tablero_obtenido["board"]
-            if not len(tablero_esperado) == len(tablero_obtenido):
+            if not (len(tablero_esperado) == len(tablero_obtenido)):
                 return {"resultado":"Error", "error":"Error en el ejercicio"}
             for x in range(len(tablero_esperado)):
                 columna_esperada = tablero_esperado[x]
                 columna_obtenida = tablero_obtenido[x]
-                if not len(columna_esperada) == len(columna_obtenida):
+                if not (len(columna_esperada) == len(columna_obtenida)):
                     return {"resultado":"Error", "error":"Error en el ejercicio"}
                 for y in range(len(columna_esperada)):
                     if not misma_celda(columna_esperada[y], columna_obtenida[y]):
