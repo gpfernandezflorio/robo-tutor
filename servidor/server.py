@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 import sys
 try: # python 2
     reload(sys)
@@ -74,7 +75,7 @@ class HandlerAC(moduloHTTPRequest):
         else:
             self.error("[POST] Ruta {} inválida".format(self.path))
 
-    def error(self, msg, obj):
+    def error(self, msg):
         print(msg)
         self._set_response(404, {})
 
@@ -110,4 +111,5 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Server')
     parser.add_argument('-v', dest="v", default=False, type=bool, help='Modo verborrágico.')
     args = parser.parse_args()
-    launch_server(mi_ip(), 8000, args.v)
+    PORT = (int(os.environ['PORT']) if 'PORT' in os.environ else 8000)
+    launch_server(mi_ip(), PORT, args.v)
