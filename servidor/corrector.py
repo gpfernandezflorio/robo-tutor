@@ -167,10 +167,10 @@ def tablero_valido(t):
     return all(map(lambda x : x in t, ["head","width","height","board"]))
 
 def cabezal_valido(h):
-    return len(h) == 2
+    return len(h) == 2 or len(h) == 0
 
 def mismo_cabezal(h1, h2):
-    return h1[0] == h2[0] and h1[1] == h2[1]
+    return len(h1) == 0 or (h1[0] == h2[0] and h1[1] == h2[1])
 
 def misma_celda(c1, c2):
     return c1["a"] == c2["a"] and c1["r"] == c2["r"] and c1["n"] == c2["n"] and c1["v"] == c2["v"]
