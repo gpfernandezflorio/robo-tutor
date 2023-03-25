@@ -20,10 +20,10 @@
     <textarea id="src" style="width:calc(100% - 10px); height:calc(100% - 55px); margin:5px;"></textarea>
     <br/>
     <span id="dni"></span>
-    <!--Sevidor:
-    <input type="text" value="172.17.1.97" id="url" style="width:100px">
+    Sevidor:
+    <input type="text" value="157.92.26.235" id="url" style="width:100px">
     :
-    <input type="text" value="6642" id="port" style="width:50px">-->
+    <input type="text" value="8000" id="port" style="width:50px">
     <button onclick="run_code();">¡Enviar!</button>
   </div>
   <div id="espera" style="display:none;">
@@ -285,8 +285,8 @@
     };
 
     const rutaAlServidor = function() {
-      return 'https://worker-production-de3a.up.railway.app/';
-      // return `http://${document.getElementById("url").value}:${document.getElementById("port").value}/`;
+      // return 'https://worker-production-de3a.up.railway.app/';
+      return `http://${document.getElementById("url").value}:${document.getElementById("port").value}/`;
     };
 
     const parametroURL = function(clave) {
