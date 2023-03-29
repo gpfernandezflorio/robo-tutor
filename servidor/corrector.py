@@ -98,7 +98,7 @@ def run_gobstones(jsonObj, v):
     if (v):
         print(code)
     if "pre" in jsonObj:
-        code += jsonObj["pre"]
+        code += "\n\n" + jsonObj["pre"]
     ## Código
     f = open('src.txt', 'w')
     f.write(code)
@@ -195,11 +195,14 @@ def celda_vacia():
     }
 
 def buscar_falla_gobstones(s):
+    falla = "?"
     for l in s.split('\n'):
         if l.startswith('br [Error]: ') or l.startswith('Pr [Error]: '):
-            return l[12:]
+            falla = l[12:]
+        elif l.startswith('    _line: '):
+            return falla + "\nLínea: " + l[11:-1]
     print(s)
-    return "?"
+    return falla
 
 def mostrar_excepcion(e):
     res = str(e)

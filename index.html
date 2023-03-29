@@ -36,6 +36,8 @@
     const v = {a: 0, r: 0, n: 0, v: 0}; // Celda vacía
     const r = {a: 0, r: 1, n: 0, v: 0}; // Celda con una roja
     const a = {a: 1, r: 0, n: 0, v: 0}; // Celda con una azul
+    // Edificio con h pisos, d departamentos por piso y a ambientes por departamento
+    const ed = function(h,d=0,a=0) { return {a: 0, r: h, n: 0, v: 1}; };
 
     const cursos = {
       inpr_unq_2023_s1:{
@@ -44,6 +46,15 @@
         lenguaje_display:"none",
         ejs:[
           {
+            nombre:"Presente 30/3",
+            enunciado:"Escribir un programa que construya una ciudad escalera de tamaño 3 desde la celda actual hacia el Oeste. El cabezal debe finalizar sobre el edificio más alto de la ciudad construida.\n\nUna ciudad es sólo una hilera de edificios consecutivos y su tamaño es la cantidad de edificios que tiene. Decimos que una ciudad es \"escalera\" si al recorrerla de Oeste a Este, el primero de sus edificios tiene dos pisos de altura y cada uno de los demás tiene un piso de altura más que el edificio anterior.\n\nCada edificio ocupa una celda del tablero y se representa con una bolita verde y tantas bolitas rojas como pisos este tenga.",
+            pre:"",
+            run_data:[{
+              tablero:{head:[3,1],width:5,height:3,board:[[v,v,v],[v,v,v],[v,v,v],[v,v,v],[v,v,v]]},
+              post:{head:[3,1],width:5,height:3,board:[[v,v,v],[v,ed(2),v],[v,ed(3),v],[v,ed(4),v],[v,v,v]]},
+            }],
+            pidePrograma: true
+          },{
             nombre:"Presente 27/3",
             enunciado:"Suponiendo que se encuentran definidos los procedimientos PintarBlanco y PintarNegro que pintan la celda actual de blanco y de negro respectivamente, escribir el procedimiento PintarTableroDeAjedrez que, suponiendo que el tablero tiene exactamente 8 filas y 8 columnas, pinte todo el tablero como un tablero de ajedrez. Tener en cuenta que este procedimiento debe funcionar sin importar la ubicación inicial del cabezal y no se pide que este finalice en alguna ubicación en particular",
             pre:"procedure PintarBlanco(){Poner(Rojo)}\nprocedure PintarNegro(){Poner(Azul)}\nprogram {PintarTableroDeAjedrez()}",
@@ -168,7 +179,7 @@
       if ('dni' in info) {
         jsonObj.dni = info.dni;
       } else if ('curso' in info) {
-        const dni = prompt("Ingresá tu dni");
+        const dni = prompt("Ingresá tu dni (sólo números)");
         if (dni) {
           info.dni = dni;
           jsonObj.dni = info.dni;
@@ -187,21 +198,37 @@
       const callback = function(jsonObj) {
         if ('resultado' in jsonObj) {
           if ('error' in jsonObj) {
-            alert(jsonObj.error);
+            if (jsonObj.error.startsWith("Ya había un programa definido en")) {
+              if (ejercicioPidePrograma()) {
+                alert("No podés definir más de un programa");
+              } else {
+                alert("El código funciona pero no cumple el enunciado");
+              }
+            } else {
+              alert(jsonObj.error);
+            }
           } else if (jsonObj.resultado == "Falla") {
-            alert("Mal resuelto");
-          } else {
-            alert(jsonObj.resultado);
+            alert("El código funciona pero no cumple el enunciado");
+          } else if (jsonObj.resultado == "OK") {
+            alert("Misión cumplida");
           }
         } else {
           alert("ERROR: resultado faltante");
         }
+        document.getElementById('src').focus();
       };
       const failCallback = function() {
         alert("ERROR: falló la comunicación con el servidor");
       };
       sendRequest('POST', 'code', callback, jsonObj, failCallback)
     };
+
+    const ejercicioPidePrograma = function() {
+      if ('ejercicio' in info) {
+        return 'pidePrograma' in info.ejercicio;
+      }
+      return false;
+    }
 
     const cargarCursos = function() {
       let contenidoPantalla = '';
@@ -243,6 +270,7 @@
         if (request.readyState == 4) {
           document.getElementById("espera").style.display = 'none';
           document.getElementById("ui").style.display = 'block';
+          localStorage.clear();
           if (request.status == 200) {
             try {
               let received = JSON.parse(request.responseText);
@@ -291,14 +319,11 @@
 
     const parametroURL = function(clave) {
       let url = location.href;
-      if (url.startsWith('file')) {
-        return {curso:'inpr_unq_2023_s1', ej:0}[clave];
-      }
       clave = clave.replace(/[\[]/,"\\[").replace(/[\]]/,"\\]");
       var regexS = "[\\?&]"+clave+"=([^&#]*)";
       var regex = new RegExp( regexS );
       var results = regex.exec( url );
-      return results == null ? null : results[1];
+      return results == null ? (url.startsWith('file') ? {curso:'inpr_unq_2023_s1', ej:0}[clave] : null) : results[1];
     };
 
     document.getElementById('src').addEventListener('keydown', function(e) {
@@ -340,6 +365,13 @@
     if (dni) {
       info.dni = dni;
       document.getElementById("dni").innerHTML = "DNI: " + dni;
+      let sesionPrevia = localStorage.getItem(dni);
+      if (sesionPrevia !== null) {
+        document.getElementById('src').value = sesionPrevia;
+      }
+      setInterval(function() {
+        localStorage.setItem(info.dni, document.getElementById('src').value);
+      }, 1000);
     }
   </script>
 </html>
