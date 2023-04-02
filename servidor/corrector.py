@@ -215,7 +215,7 @@ def mostrar_excepcion(e):
 def mostrar_resultado(resultado):
     r = resultado["resultado"]
     if "error" in resultado:
-        r += " - " + resultado["error"]
+        r += " - " + resultado["error"].split("\n")[0]
     return r
 
 form_url = "https://docs.google.com/forms/d/e/1FAIpQLSe3UQWs9xfAMw9Cl6WfK03eBQy6BRRCyWLveWN7tREVoAuiUQ/formResponse"
