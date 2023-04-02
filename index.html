@@ -36,6 +36,8 @@
     const v = {a: 0, r: 0, n: 0, v: 0}; // Celda vacía
     const r = {a: 0, r: 1, n: 0, v: 0}; // Celda con una roja
     const a = {a: 1, r: 0, n: 0, v: 0}; // Celda con una azul
+    const rs = function(x) { return {a: 0, r: x, n: 0, v: 0}; }; // Celda con varias rojas
+    const ns = function(x) { return {a: 0, r: 0, n: x, v: 0}; }; // Celda con varias negras
     // Edificio con h pisos, d departamentos por piso y a ambientes por departamento
     const ed = function(h,d=0,a=0) { return {a: 0, r: h, n: 0, v: 1}; };
 
@@ -46,6 +48,17 @@
         lenguaje_display:"none",
         ejs:[
           {
+            nombre:"Presente 3/4",
+            enunciado:"El ejercicio 5 de la práctica 4 pero permitiendo que la palabra no comience sobre el borde Oeste.",
+            pre:"program {PasarPalabraActualAMayúsculas()}",
+            run_data:[{
+              tablero:{head:[1,0],width:4,height:2,board:[[v,v],[rs(2),v],[ns(103),v],[ns(98),v]]},
+              post:{head:[1,0],width:4,height:2,board:[[v,v],[rs(2),v],[ns(103),ns(71)],[ns(98),ns(66)]]},
+            },{
+              tablero:{head:[1,0],width:5,height:2,board:[[v,v],[rs(3),v],[ns(98),v],[ns(103),v],[ns(98),v]]},
+              post:{head:[1,0],width:5,height:2,board:[[v,v],[rs(3),v],[ns(98),ns(66)],[ns(103),ns(71)],[ns(98),ns(66)]]},
+            }]
+          },{
             nombre:"Presente 30/3",
             enunciado:"Escribir un programa que construya una ciudad escalera de tamaño 3 desde la celda actual hacia el Oeste. El cabezal debe finalizar sobre el edificio más alto de la ciudad construida.\n\nUna ciudad es sólo una hilera de edificios consecutivos y su tamaño es la cantidad de edificios que tiene. Decimos que una ciudad es \"escalera\" si al recorrerla de Oeste a Este, el primero de sus edificios tiene dos pisos de altura y cada uno de los demás tiene un piso de altura más que el edificio anterior.\n\nCada edificio ocupa una celda del tablero y se representa con una bolita verde y tantas bolitas rojas como pisos este tenga.",
             pre:"",
