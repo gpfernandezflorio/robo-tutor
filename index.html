@@ -1,15 +1,18 @@
 <html>
-  <div id="seleccionDeCurso" style="display:none;">
-  </div>
-  <div id="ui" style="display:none;">
+  <div id="ui" style="display:block;">
+    <div id="seleccionDeCurso" style="display:none;">
+    </div>
+    <div id="workspace" style="display:block;">
     <span id="curso">
-      Curso:
-      <select onchange="cambiarCurso();" id="selectorCurso"></select>
+      Curso: <span id="cursoSeleccionado">Ninguno</span>
+      <button id="abrirCurso" onclick="cargarCursos();">Abrir</button>
+      <span> - </span>
     </span>
     Ejercicio: <span id="ejercicioSeleccionado">Ninguno</span>
     <button id="abrirEjercicio" onclick="abrirEjercicio();">Abrir</button>
     <button onclick="verEnunciado();">Enunciado</button>
     <span id="lenguaje">
+      <span> - </span>
       Lenguaje:
       <select id="selectorLenguaje">
         <option value="Python" selected>Python</option>
@@ -23,8 +26,9 @@
     Sevidor:
     <input type="text" value="157.92.26.235" id="url" style="width:100px">
     :
-    <input type="text" value="8000" id="port" style="width:50px">
+    <input type="text" value="" id="port" style="width:50px">
     <button onclick="run_code();">¡Enviar!</button>
+    </div>
   </div>
   <div id="espera" style="display:none;">
     Conectando con el servidor...
@@ -33,52 +37,7 @@
 
     const info = {}; // dni, curso, ejercicio, ...
 
-    const v = {a: 0, r: 0, n: 0, v: 0}; // Celda vacía
-    const r = {a: 0, r: 1, n: 0, v: 0}; // Celda con una roja
-    const a = {a: 1, r: 0, n: 0, v: 0}; // Celda con una azul
-    const rs = function(x) { return {a: 0, r: x, n: 0, v: 0}; }; // Celda con varias rojas
-    const ns = function(x) { return {a: 0, r: 0, n: x, v: 0}; }; // Celda con varias negras
-    // Edificio con h pisos, d departamentos por piso y a ambientes por departamento
-    const ed = function(h,d=0,a=0) { return {a: 0, r: h, n: 0, v: 1}; };
-
-    const cursos = {
-      inpr_unq_2023_s1:{
-        nombre:"Introducción a la Programación - UNQ (2023s1)",
-        lenguaje:"Gobstones",
-        lenguaje_display:"none",
-        ejs:[
-          {
-            nombre:"Presente 3/4",
-            enunciado:"El ejercicio 5 de la práctica 4 pero permitiendo que la palabra no comience sobre el borde Oeste.",
-            pre:"program {PasarPalabraActualAMayúsculas()}",
-            run_data:[{
-              tablero:{head:[1,0],width:4,height:2,board:[[v,v],[rs(2),v],[ns(103),v],[ns(98),v]]},
-              post:{head:[1,0],width:4,height:2,board:[[v,v],[rs(2),v],[ns(103),ns(71)],[ns(98),ns(66)]]},
-            },{
-              tablero:{head:[1,0],width:5,height:2,board:[[v,v],[rs(3),v],[ns(98),v],[ns(103),v],[ns(98),v]]},
-              post:{head:[1,0],width:5,height:2,board:[[v,v],[rs(3),v],[ns(98),ns(66)],[ns(103),ns(71)],[ns(98),ns(66)]]},
-            }]
-          },{
-            nombre:"Presente 30/3",
-            enunciado:"Escribir un programa que construya una ciudad escalera de tamaño 3 desde la celda actual hacia el Oeste. El cabezal debe finalizar sobre el edificio más alto de la ciudad construida.\n\nUna ciudad es sólo una hilera de edificios consecutivos y su tamaño es la cantidad de edificios que tiene. Decimos que una ciudad es \"escalera\" si al recorrerla de Oeste a Este, el primero de sus edificios tiene dos pisos de altura y cada uno de los demás tiene un piso de altura más que el edificio anterior.\n\nCada edificio ocupa una celda del tablero y se representa con una bolita verde y tantas bolitas rojas como pisos este tenga.",
-            pre:"",
-            run_data:[{
-              tablero:{head:[3,1],width:5,height:3,board:[[v,v,v],[v,v,v],[v,v,v],[v,v,v],[v,v,v]]},
-              post:{head:[3,1],width:5,height:3,board:[[v,v,v],[v,ed(2),v],[v,ed(3),v],[v,ed(4),v],[v,v,v]]},
-            }],
-            pidePrograma: true
-          },{
-            nombre:"Presente 27/3",
-            enunciado:"Suponiendo que se encuentran definidos los procedimientos PintarBlanco y PintarNegro que pintan la celda actual de blanco y de negro respectivamente, escribir el procedimiento PintarTableroDeAjedrez que, suponiendo que el tablero tiene exactamente 8 filas y 8 columnas, pinte todo el tablero como un tablero de ajedrez. Tener en cuenta que este procedimiento debe funcionar sin importar la ubicación inicial del cabezal y no se pide que este finalice en alguna ubicación en particular",
-            pre:"procedure PintarBlanco(){Poner(Rojo)}\nprocedure PintarNegro(){Poner(Azul)}\nprogram {PintarTableroDeAjedrez()}",
-            run_data:[{
-              tablero:{head:[5,6],width:8,height:8,board:[[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v]]},
-              post:{head:[],width:8,height:8,board:[[a,r,a,r,a,r,a,r],[r,a,r,a,r,a,r,a],[a,r,a,r,a,r,a,r],[r,a,r,a,r,a,r,a],[a,r,a,r,a,r,a,r],[r,a,r,a,r,a,r,a],[a,r,a,r,a,r,a,r],[r,a,r,a,r,a,r,a]]},
-            }]
-          }
-        ]
-      }
-    };
+    const cursos = {};
 
     const verEnunciado = function() {
       if ('ejercicio' in info) {
@@ -92,14 +51,14 @@
       if ('curso' in info) {
         cargarEjercicios();
         document.getElementById("seleccionDeCurso").style.display = 'block';
-        document.getElementById("ui").style.display = 'none';
+        document.getElementById("workspace").style.display = 'none';
       } else {
         fileChooser(function(jsonObj) {
           if (!['nombre','lenguaje','enunciado'].every(x => x in jsonObj)) {
             alert("Archivo inválido"); return;
           }
           delete info.curso;
-          document.getElementById("selectorCurso").value = "0";
+          document.getElementById("cursoSeleccionado").innerHTML = "Ninguno";
           cargarEjercicio(jsonObj);
         });
       }
@@ -110,7 +69,7 @@
         cargarEjercicio(cursos[info.curso].ejs[i]);
       }
       document.getElementById("seleccionDeCurso").style.display = 'none';
-      document.getElementById("ui").style.display = 'block';
+      document.getElementById("workspace").style.display = 'block';
     };
 
     const cargarEjercicio = function(ej) {
@@ -122,20 +81,17 @@
       document.getElementById('src').value = ('base' in ej ? ej.base : '');
     };
 
-    const cambiarCurso = function() {
-      seleccionarCurso(document.getElementById("selectorCurso").value);
-    };
-
     const seleccionarCurso = function(k) {
-      if (k !== document.getElementById("selectorCurso").value) {
-        document.getElementById("selectorCurso").value = k;
-      }
       if (k === '0') {
+        document.getElementById("cursoSeleccionado").innerHTML = "Ninguno";
+        document.getElementById("abrirCurso").innerHTML = "Abrir";
         delete info.curso;
         document.getElementById("lenguaje").style.display = 'inline';
       } else {
         info.curso = k;
         let curso = cursos[k];
+        document.getElementById("cursoSeleccionado").innerHTML = curso.nombre;
+        document.getElementById("abrirCurso").innerHTML = "Cambiar";
         if ('lenguaje' in curso) {
           document.getElementById("selectorLenguaje").value = curso.lenguaje;
         }
@@ -144,7 +100,7 @@
         }
       }
       document.getElementById("seleccionDeCurso").style.display = 'none';
-      document.getElementById("ui").style.display = 'block';
+      document.getElementById("workspace").style.display = 'block';
     };
 
     const fileChooser = function(callback, failCallback) {
@@ -215,7 +171,7 @@
               if (ejercicioPidePrograma()) {
                 alert("No podés definir más de un programa");
               } else {
-                alert("El código funciona pero no cumple el enunciado");
+                alert("El código funciona pero no cumple el enunciado (no se pide un programa)");
               }
             } else {
               alert(jsonObj.error);
@@ -223,7 +179,7 @@
           } else if (jsonObj.resultado == "Falla") {
             alert("El código funciona pero no cumple el enunciado");
           } else if (jsonObj.resultado == "OK") {
-            alert("Misión cumplida");
+            alert('ejercicio' in info ? "Misión cumplida" : "Ok");
           }
         } else {
           alert("ERROR: resultado faltante");
@@ -233,7 +189,7 @@
       const failCallback = function() {
         alert("ERROR: falló la comunicación con el servidor");
       };
-      sendRequest('POST', 'code', callback, jsonObj, failCallback)
+      sendRequest('POST', 'code', callback, jsonObj, failCallback);
     };
 
     const ejercicioPidePrograma = function() {
@@ -244,16 +200,30 @@
     }
 
     const cargarCursos = function() {
-      let contenidoPantalla = '';
-      let contenidoSelector = '<option value="0" selected>Ninguno</option>';
-      for (c in cursos) {
-        contenidoPantalla += `<button onclick="seleccionarCurso('${c}');">${cursos[c].nombre}</button></br>`;
-        contenidoSelector += `<option value="${c}">${cursos[c].nombre}</option>`
-      }
-      document.getElementById("selectorCurso").innerHTML = contenidoSelector;
-      document.getElementById("seleccionDeCurso").innerHTML = contenidoPantalla +
-        '<button onclick="seleccionarCurso(\'0\');">Libre</button>';
-      document.getElementById("seleccionDeCurso").style.display = 'block';
+      const callback = function(jsonObj) {
+        if ('cursos' in jsonObj) {
+          for (let k in cursos) {
+            if (!(k in jsonObj.cursos)) {
+              delete cursos[k];
+            }
+          }
+          for (let k in jsonObj.cursos) {
+            cursos[k] = jsonObj.cursos[k];
+          }
+          let contenidoPantalla = '';
+          for (c in cursos) {
+            contenidoPantalla += `<button onclick="seleccionarCurso('${c}');">${cursos[c].nombre}</button></br>`;
+          }
+          document.getElementById("seleccionDeCurso").innerHTML = contenidoPantalla +
+            '<button onclick="seleccionarCurso(\'0\');">Libre</button>';
+          document.getElementById("seleccionDeCurso").style.display = 'block';
+          document.getElementById("workspace").style.display = 'none';
+        }
+      };
+      const failCallback = function() {
+        alert("ERROR: falló la comunicación con el servidor");
+      };
+      sendRequest('GET', 'cursos', callback, null, failCallback);
     };
 
     const cargarEjercicios = function() {
@@ -327,7 +297,9 @@
 
     const rutaAlServidor = function() {
       // return 'https://worker-production-de3a.up.railway.app/';
-      return `http://${document.getElementById("url").value}:${document.getElementById("port").value}/`;
+      let port_value = document.getElementById("port").value;
+      const port = port_value.length > 0 ? port_value : ('dni' in info ? "805" + info.dni.charAt(info.dni.length-1) : "8060")
+      return `http://${document.getElementById("url").value}:${port}/`;
     };
 
     const parametroURL = function(clave) {
@@ -336,7 +308,7 @@
       var regexS = "[\\?&]"+clave+"=([^&#]*)";
       var regex = new RegExp( regexS );
       var results = regex.exec( url );
-      return results == null ? (url.startsWith('file') ? {curso:'inpr_unq_2023_s1', ej:0}[clave] : null) : results[1];
+      return results === null ? null : results[1];
     };
 
     document.getElementById('src').addEventListener('keydown', function(e) {
@@ -355,24 +327,7 @@
       }
     });
 
-    let curso = parametroURL('curso');
-    if (curso === null) {
-      cargarCursos();
-    } else {
-      if (curso in cursos) {
-        document.getElementById("curso").style.display = 'none';
-        seleccionarCurso(curso);
-        curso = cursos[curso];
-        let ej = parametroURL('ej');
-        if (ej !== null && ej < curso.ejs.length && ejercicioDisponible(curso.ejs[ej])) {
-          cargarEjercicio(curso.ejs[ej]);
-          document.getElementById("abrirEjercicio").style.display = 'none';
-        }
-        document.getElementById("ui").style.display = 'block';
-      } else {
-        cargarCursos();
-      }
-    }
+    seleccionarCurso('0');
 
     const dni = prompt("Ingresá tu dni");
     if (dni) {

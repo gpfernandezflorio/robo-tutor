@@ -11,6 +11,7 @@ except:
 import json
 import socket
 from corrector import run_code
+from data import dame_cursos
 
 try: # python 3
     from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -58,7 +59,10 @@ class HandlerAC(moduloHTTPRequest):
         self.end_headers()
 
     def do_GET(self):
-        self.error("[GET] Ruta {} inválida".format(self.path))
+        if (self.path == "/cursos"):
+            self.responder(dame_cursos(verb))
+        else:
+            self.error("[GET] Ruta {} inválida".format(self.path))
 
     def do_PUT(self):
         content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
@@ -110,6 +114,7 @@ if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='Server')
     parser.add_argument('-v', dest="v", default=False, type=bool, help='Modo verborrágico.')
+    parser.add_argument('-p', dest="PORT", default=8000, type=int, help='Puerto')
     args = parser.parse_args()
-    PORT = (int(os.environ['PORT']) if 'PORT' in os.environ else 8000)
+    PORT = (int(os.environ['PORT']) if 'PORT' in os.environ else args.PORT)
     launch_server(mi_ip(), PORT, args.v)
