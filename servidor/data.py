@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 v = {"a": 0, "r": 0, "n": 0, "v": 0} # Celda vacía
 r = {"a": 0, "r": 1, "n": 0, "v": 0} # Celda con una roja
 a = {"a": 1, "r": 0, "n": 0, "v": 0} # Celda con una azul
