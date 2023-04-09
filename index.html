@@ -65,7 +65,11 @@
     };
 
     const seleccionarEjercicio = function(i) {
-      if (i !== null) {
+      if (i === null) {
+        delete info.ejercicio;
+        document.getElementById('ejercicioSeleccionado').innerHTML = 'Ninguno';
+        document.getElementById('src').value = '';
+      } else {
         cargarEjercicio(cursos[info.curso].ejs[i]);
       }
       document.getElementById("seleccionDeCurso").style.display = 'none';
@@ -99,6 +103,7 @@
           document.getElementById("lenguaje").style.display = curso.lenguaje_display;
         }
       }
+      seleccionarEjercicio(null);
       document.getElementById("seleccionDeCurso").style.display = 'none';
       document.getElementById("workspace").style.display = 'block';
     };

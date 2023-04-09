@@ -130,6 +130,9 @@ def run_gobstones(jsonObj, v):
         if "post" in run:
             tablero_esperado = run["post"]
             tablero_obtenido = salida
+            if (v):
+                print(tablero_esperado)
+                print(tablero_obtenido)
             if not (tablero_valido(tablero_esperado) and tablero_valido(tablero_obtenido)):
                 return {"resultado":"Error", "error":"Error en el ejercicio"}
             cabezal_esperado = tablero_esperado["head"]

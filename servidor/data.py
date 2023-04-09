@@ -9,6 +9,8 @@ def ns(x): # Celda con varias negras
     return {"a": 0, "r": 0, "n": x, "v": 0}
 def ed(h,d=0,a=0): # Edificio con h pisos, d departamentos por piso y a ambientes por departamento
     return {"a": 0, "r": h, "n": 0, "v": 1}
+def rt(l): # Ruta con l lomos de burro
+    return {"a": 0, "r": 1, "n": 0, "v": 2*l}
 
 def dame_cursos(verb):
     return {"cursos":{
@@ -18,10 +20,36 @@ def dame_cursos(verb):
             "lenguaje_display":"none",
             "ejs":[
               {
-                "nombre":"Presente 10/4",
+                "nombre":"Rutera - parte 1",
                 "enunciado":"-",
-                "pre":"program{...}",
-                "run_data":[]
+                "pre":"program{ConstruirSegmentoDeRuta()}function hayEdificioAl_(d) {h := False;if (puedeMover(d)) {Mover(d)h := hayBolitas(Negro)}return (h)}",
+                "run_data":[{
+                  "tablero":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+                  "post":{"head":[0,0],"width":1,"height":1,"board":[[r]]},
+                },{
+                  "tablero":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[v,ns(2)],[ns(2),ns(2)]]},
+                  "post":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[rt(1),ns(2)],[ns(2),ns(2)]]},
+                }]
+              },{
+                "nombre":"Rutera - parte 2",
+                "enunciado":"-",
+                "pre":"program{ConstruirSegmentoDeRuta()}function cantidadDeEdificiosAl_(d){h := 0;if (puedeMover(d)) {Mover(d)h := nroBolitas(Negro)}return(h)}",
+                "run_data":[{
+                  "tablero":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+                  "post":{"head":[0,0],"width":1,"height":1,"board":[[r]]},
+                },{
+                  "tablero":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[v,ns(1)],[v,ns(2)]]},
+                  "post":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[r,ns(1)],[v,ns(2)]]},
+                },{
+                  "tablero":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[v,v],[ns(1),ns(2)]]},
+                  "post":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[r,v],[ns(1),ns(2)]]},
+                },{
+                  "tablero":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[v,ns(1)],[ns(1),ns(2)]]},
+                  "post":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[rt(1),ns(1)],[ns(1),ns(2)]]},
+                },{
+                  "tablero":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[v,ns(2)],[ns(2),ns(2)]]},
+                  "post":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[rt(2),ns(2)],[ns(2),ns(2)]]},
+                }]
               },{
                 "nombre":"Presente 3/4",
                 "enunciado":"El ejercicio 5 de la práctica 4 pero permitiendo que la palabra no comience sobre el borde Oeste.",
