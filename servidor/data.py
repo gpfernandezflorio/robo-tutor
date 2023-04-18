@@ -20,6 +20,10 @@ def dame_cursos(verb):
             "lenguaje_display":"none",
             "ejs":[
               {
+                "nombre":"Súper Gobi 64 - Parte 1",
+                "enunciado":"-",
+                "pre":"program{IrAGobi()}procedure Subir() {}procedure Bajar() {}function puedeSubir() {return(False)}function puedeBajar() {return(False)}function estáGobi() {return(True)}function estáGobiEnEstePiso() {return(True)}procedure IrAPrimeraCeldaEnRecorridoAl_YAl_(dirPrincipal, dirSecundaria) {}function haySiguienteCeldaEnRecorridoAl_YAl_(dirPrincipal, dirSecundaria) {return(False)}procedure PasarASiguienteCeldaEnRecorridoAl_YAl_(dirPrincipal, dirSecundaria) {}"
+              },{
                 "nombre":"Rutera - parte 1",
                 "enunciado":"-",
                 "pre":"program{ConstruirSegmentoDeRuta()}function hayEdificioAl_(d) {h := False;if (puedeMover(d)) {Mover(d)h := hayBolitas(Negro)}return (h)}",
@@ -29,7 +33,8 @@ def dame_cursos(verb):
                 },{
                   "tablero":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[v,ns(2)],[ns(2),ns(2)]]},
                   "post":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[rt(1),ns(2)],[ns(2),ns(2)]]},
-                }]
+                }],
+                "mostrar":False
               },{
                 "nombre":"Rutera - parte 2",
                 "enunciado":"-",
@@ -49,7 +54,8 @@ def dame_cursos(verb):
                 },{
                   "tablero":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[v,ns(2)],[ns(2),ns(2)]]},
                   "post":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[rt(2),ns(2)],[ns(2),ns(2)]]},
-                }]
+                }],
+                "mostrar":False
               },{
                 "nombre":"Presente 3/4",
                 "enunciado":"El ejercicio 5 de la práctica 4 pero permitiendo que la palabra no comience sobre el borde Oeste.",
