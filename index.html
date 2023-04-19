@@ -1,4 +1,18 @@
 <html>
+  <style media="screen">
+  .line-numbers {
+    width: 20px;
+    text-align: right;
+  }
+  .line-numbers span {
+    counter-increment: linenumber;
+  }
+  .line-numbers span::before {
+    content: counter(linenumber);
+    display: block;
+    color: #506882;
+  }
+  </style>
   <div id="ui" style="display:block;">
     <div id="seleccionDeCurso" style="display:none;">
     </div>
@@ -20,7 +34,12 @@
       </select>
     </span>
     <br/>
-    <textarea id="src" style="width:calc(100% - 10px); height:calc(100% - 55px); margin:5px;"></textarea>
+    <div class="editor" style="min-width:calc(100% - 10px);display: inline-flex;font-family: monospace;line-height: 21px;gap: 10px;">
+      <div class="line-numbers">
+        <span></span>
+      </div>
+      <textarea id="src" style="min-width:calc(100% - 20px);outline: none;resize: none;line-height: 21px;overflow-y: hidden;padding: 0;"></textarea>
+    </div>
     <br/>
     <span id="dni"></span>
     Sevidor:
@@ -346,5 +365,16 @@
         localStorage.setItem(info.dni, document.getElementById('src').value);
       }, 1000);
     }
+
+    const textarea = document.querySelector('textarea')
+    const lineNumbers = document.querySelector('.line-numbers')
+
+    textarea.addEventListener('keyup', event => {
+      const numberOfLines = event.target.value.split('\n').length
+
+      lineNumbers.innerHTML = Array(numberOfLines)
+        .fill('<span></span>')
+        .join('')
+    })
   </script>
 </html>
