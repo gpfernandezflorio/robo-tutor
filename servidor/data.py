@@ -11,6 +11,19 @@ def ed(h,d=0,a=0): # Edificio con h pisos, d departamentos por piso y a ambiente
     return {"a": 0, "r": h, "n": 0, "v": 1}
 def rt(l): # Ruta con l lomos de burro
     return {"a": 0, "r": 1, "n": 0, "v": 2*l}
+def fs(h,a): # Carpeta del FS con h hermanas siguientes y a archivos
+    return {"a": h+1, "r": a, "n": 0, "v": 0}
+def abrirArchivosB(b):
+    return list(map(abrirArchivosC, b))
+def abrirArchivosC(c):
+    return list(map(lambda x: {"a": x["a"], "r": x["r"], "n": 0, "v": x["r"]}, c))
+iniFs = [[v,v,v,v,v,fs(0,2)],[fs(0,2),fs(1,3),v,v,fs(2,1),fs(3,4)],[v,fs(0,3),fs(0,8),fs(1,3),fs(2,4),fs(0,2)],[v,fs(0,4),v,fs(0,2),v,v],[v,v,fs(0,1),fs(1,4),v,v],[v,v,v,v,v,v]]
+
+'''
+    head: [columna, fila]
+    board: [col0, col1, ... coln]
+        coli: [celda0, celda1, ... celdan]
+'''
 
 def dame_cursos(verb):
     return {"cursos":{
@@ -20,6 +33,50 @@ def dame_cursos(verb):
             "lenguaje_display":"none",
             "ejs":[
               {
+                "nombre":"GobFS - Parte 1",
+                "enunciado":"-",
+                "pre":"procedure IrALaCarpetaRaízDelFS() {IrAlBorde(Norte)IrAlBorde(Oeste)}function quedanCarpetasPorRecorrerEnElFS() {return (tieneCarpetasInternas() || hayCarpetasSuperioresSinRecorrer())}procedure PasarALaSiguienteCarpetaDelFS() {if (tieneCarpetasInternas()) {Mover(Este)} else {while (not hayCarpetasHermanasSinRecorrer()) {IrACarpetaSuperior()}IrACarpetaHermanaSiguiente()}}procedure IrAPrimerArchivoEnCarpetaActual() {Poner(Verde)}function quedanArchivosPorRecorrerEnCarpetaActual() {return (nroBolitas(Verde) < nroBolitas(Rojo))}procedure PasarAlSiguienteArchivoEnCarpetaActual() {Poner(Verde)}procedure ActualizarFechaEnArchivoActual() {}function tieneCarpetasInternas() {res := False if (puedeMover(Este)) {Mover(Este) res := nroBolitas(Azul) > 0}return (res)}function hayCarpetasHermanasSinRecorrer() {return (nroBolitas(Azul) > 1)}function hayCarpetasSuperioresSinRecorrer() {while (not esLaCarpetaRaízDelFS() && not hayCarpetasHermanasSinRecorrer()) {IrACarpetaSuperior()}return(hayCarpetasHermanasSinRecorrer())}procedure IrACarpetaSuperior() {while (not esPrimeraCarpeta()) {IrACarpetaHermanaAnterior()}Mover(Oeste)}procedure IrACarpetaHermanaSiguiente() {Mover(Sur)while(not hayBolitas(Azul)) {Mover(Sur)}}procedure IrACarpetaHermanaAnterior() {Mover(Norte)while(not hayBolitas(Azul)) {Mover(Norte)}}function esLaCarpetaRaízDelFS() {return(not puedeMover(Norte) && not puedeMover(Oeste))}function esPrimeraCarpeta() {Mover(Oeste)return(hayBolitas(Azul))}",
+                "base":'''program {
+  PROCEDIMIENTO1()
+}
+
+procedure PROCEDIMIENTO1() {
+  /*
+    Propósito: ?
+    Precondiciones: ?
+    Observaciones: Es un recorrido de procesamiento sobre
+      las carpetas del FS, actualizando la fecha de los
+      archivos en cada carpeta.
+  */
+  // Ir al primer elemento
+  while(/* quedan elementos por recorrer */) {
+    PROCEDIMIENTO2()
+    // Pasar al siguiente elemento
+  }
+  PROCEDIMIENTO2()
+}
+
+procedure PROCEDIMIENTO2() {
+  /*
+    Propósito: ?
+    Precondiciones: ?
+    Observaciones: Es un recorrido de procesamiento sobre
+      los archivos de la carpeta actual, actualizando la
+      fecha de cada uno.
+  */
+  // Ir al primer elemento
+  while(/* quedan elementos por recorrer */) {
+    // Procesar elemento actual
+    // Pasar al siguiente elemento
+  }
+  // Procesar último elemento (caso de borde)
+}''',
+                "run_data":[{
+                  "tablero":{"head":[3,2],"width":6,"height":6,"board":iniFs},
+                  "post":{"head":[],"width":6,"height":6,"board":abrirArchivosB(iniFs)}
+                }],
+                "pidePrograma": True
+              },{
                 "nombre":"Súper Gobi 64 - Parte 1",
                 "enunciado":"-",
                 "pre":"program{IrAGobi()}procedure Subir() {}procedure Bajar() {}function puedeSubir() {return(False)}function puedeBajar() {return(False)}function estáGobi() {return(True)}function estáGobiEnEstePiso() {return(True)}procedure IrAPrimeraCeldaEnRecorridoAl_YAl_(dirPrincipal, dirSecundaria) {}function haySiguienteCeldaEnRecorridoAl_YAl_(dirPrincipal, dirSecundaria) {return(False)}procedure PasarASiguienteCeldaEnRecorridoAl_YAl_(dirPrincipal, dirSecundaria) {}"
