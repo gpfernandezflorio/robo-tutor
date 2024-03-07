@@ -38,9 +38,10 @@ def kill_previous():
           os.system("kill -9 " + pid)
 
 async def main():
-  process = await asyncio.create_subprocess_exec(py, 'servidor/server.py', '-p80' + str(50+i))
+  process = await asyncio.create_subprocess_exec(py, 'server.py', '-p80' + str(50+i))
   print(f'subprocess: {process}')
 
 kill_previous()
+os.chdir('servidor')
 for i in range(11):
   asyncio.run(main())
