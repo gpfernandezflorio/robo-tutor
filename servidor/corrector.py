@@ -5,7 +5,14 @@ import requests
 import signal
 import inspect
 import json
-import os
+import io, os
+
+LOCAL_FILE = 'local.csv'
+
+if not os.path.isfile(LOCAL_FILE):
+  f = io.open(LOCAL_FILE, mode='w')
+  f.write("dni,src,res,ej")
+  f.close()
 
 def run_code(jsonObj, v):
     if (not ("src" in jsonObj)):
@@ -26,7 +33,7 @@ def run_code(jsonObj, v):
         return {"resultado":"Error", "error":"Lenguaje desconocido: " + jsonObj["lenguaje"]}
     if ("dni" in jsonObj):
         jsonObj["resultado"] = mostrar_resultado(resultado)
-        commit(jsonObj)
+        commit(jsonObj, v)
     return resultado
 
 def run_python(jsonObj, v):
@@ -221,7 +228,7 @@ def mostrar_resultado(resultado):
         r += " - " + resultado["error"].split("\n")[0]
     return r
 
-form_url = "https://docs.google.com/forms/d/e/1FAIpQLSe3UQWs9xfAMw9Cl6WfK03eBQy6BRRCyWLveWN7tREVoAuiUQ/formResponse"
+form_url = "https://docs.google.com/forms/d/e/1FAIpQLScHNF1TFEZrcSLNLYbxxFOHIVPyml9dpZTpqJ_WJSqGPanOAw/formResponse"
 entries = {
     "dni":"1115080072",
     "src":"256509475",
@@ -229,18 +236,29 @@ entries = {
     "ejercicio":"1084236439"
 }
 
-def commit(jsonObj):
+def commit(jsonObj, v):
     if not ("ejercicio" in jsonObj):
         jsonObj["ejercicio"] = "-"
-    data = {}
+    data_form = {}
+    data_csv = []
     for x in entries:
-        data["entry." + entries[x]] = jsonObj[x]
-    submit(form_url, data, jsonObj["dni"])
+        data_form["entry." + entries[x]] = jsonObj[x]
+        data_csv.append(limpiar_csv(jsonObj[x].replace('"','""')))
+    guardarLocal(",".join(data_csv))
+    submit(form_url, data_form, jsonObj["dni"], v)
 
-def submit(url, data, dni):
+def submit(url, data, dni, v):
     try:
         requests.post(url, data = data)
     except Exception as e:
         if (v):
             mostrar_excepcion(e)
         print("ERROR " + dni)
+
+def guardarLocal(s):
+  f = io.open(LOCAL_FILE, mode='a')
+  f.write("\n" + s)
+  f.close()
+
+def limpiar_csv(s):
+    return '"' + s + '"' if ("," in s) or ("\n" in s) else s
