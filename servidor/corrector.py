@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import datetime
 from subprocess import PIPE, Popen
 import requests
 import signal
@@ -11,7 +12,7 @@ LOCAL_FILE = 'local.csv'
 
 if not os.path.isfile(LOCAL_FILE):
   f = io.open(LOCAL_FILE, mode='w')
-  f.write("dni,src,res,ej")
+  f.write("ts,dni,src,res,ej")
   f.close()
 
 def run_code(jsonObj, v):
@@ -240,7 +241,7 @@ def commit(jsonObj, v):
     if not ("ejercicio" in jsonObj):
         jsonObj["ejercicio"] = "-"
     data_form = {}
-    data_csv = []
+    data_csv = [str(datetime.datetime.now())]
     for x in entries:
         data_form["entry." + entries[x]] = jsonObj[x]
         data_csv.append(limpiar_csv(jsonObj[x].replace('"','""')))
