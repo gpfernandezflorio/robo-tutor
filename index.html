@@ -316,14 +316,19 @@
           }
         }
       }
+      request.timeout = 2000
       return request;
     };
 
     const rutaAlServidor = function() {
       // return 'https://worker-production-de3a.up.railway.app/';
       let port_value = document.getElementById("port").value;
-      const port = port_value.length > 0 ? port_value : ('dni' in info ? "805" + info.dni.charAt(info.dni.length-1) : "8060")
+      const port = port_value.length > 0 ? port_value : "80" + ('dni' in info ? puertoParaDni() : "60");
       return `http://${document.getElementById("url").value}:${port}/`;
+    };
+
+    const puertoParaDni = function() {
+      return isNaN(Number.parseInt(info.dni)) ? "60" : "5" + info.dni.charAt(info.dni.length-1);
     };
 
     const parametroURL = function(clave) {
