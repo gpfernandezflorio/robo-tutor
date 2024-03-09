@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os
+import os, io
 import sys
 try: # python 2
     reload(sys)
@@ -11,6 +11,7 @@ except:
 import json
 import socket
 from corrector import run_code
+from admin import admin_reset
 from data import dame_cursos
 
 try: # python 3
@@ -61,6 +62,8 @@ class HandlerAC(moduloHTTPRequest):
     def do_GET(self):
         if (self.path == "/cursos"):
             self.responder(dame_cursos(verb))
+        if (self.path == "/admin"):
+            self.archivoStatico('admin.html')
         else:
             self.error("[GET] Ruta {} inválida".format(self.path))
 
@@ -76,6 +79,8 @@ class HandlerAC(moduloHTTPRequest):
         jsonObject = json.loads(post_data)
         if (self.path == "/code"):
             self.responder(run_code(jsonObject, verb))
+        elif (self.path == "/reset"):
+            self.responder(admin_reset(jsonObject, verb))
         else:
             self.error("[POST] Ruta {} inválida".format(self.path))
 
@@ -90,6 +95,17 @@ class HandlerAC(moduloHTTPRequest):
             self.wfile.write(bytes(datos, 'utf-8'))
         except: # python 2
             self.wfile.write(datos.decode())
+
+    def archivoStatico(self, ruta):
+        if (os.path.isfile(ruta)):
+            self._set_response(200, {'Content-type':tipo_archivo(ruta)})
+            # f = io.open(ruta, mode='r', encoding='utf-8')
+            f = io.open(ruta, mode='rb')
+            self.wfile.write(f.read())
+            f.close()
+        else:
+            self._set_response(404)
+            print("Archivo {} no econtrado".format(self.path))
 
 def run(host, port):
     global servidorAC
@@ -109,6 +125,19 @@ def mi_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(('8.8.8.8', 1))  # connect() for UDP doesn't send packets
     return s.getsockname()[0]
+
+def tipo_archivo(filename):
+    # if filename[-4:] == '.css':
+    #     return 'text/css'
+    # if filename[-5:] == '.json':
+    #     return 'application/json'
+    # if filename[-3:] == '.js':
+    #     return 'application/javascript'
+    # if filename[-4:] == '.ico':
+    #     return 'image/x-icon'
+    # if filename[-4:] == '.svg':
+    #     return 'image/svg+xml'
+    return 'text/html'
 
 if __name__ == '__main__':
     import argparse

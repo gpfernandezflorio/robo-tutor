@@ -1,0 +1,103 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+  Contraseña: <input type="text" id="psw">
+  <br/>
+  Reiniciar:
+  <br/>
+  <button onclick="RESET(-1);">Todos</button>
+  <button onclick="RESET(0);">0</button>
+  <button onclick="RESET(1);">1</button>
+  <button onclick="RESET(2);">2</button>
+  <button onclick="RESET(3);">3</button>
+  <button onclick="RESET(4);">4</button>
+  <button onclick="RESET(5);">5</button>
+  <button onclick="RESET(6);">6</button>
+  <button onclick="RESET(7);">7</button>
+  <button onclick="RESET(8);">8</button>
+  <button onclick="RESET(9);">9</button>
+  <button onclick="RESET(10);">10</button>
+  <br/>
+  Sevidor:
+    <input type="text" value="" id="url" style="width:100px">
+    :
+    <input type="text" value="" id="port" style="width:50px">
+  <script>
+    function RESET(i) {
+      let cb = function(jsonObj) {
+        if (!("resultado" in jsonObj)) {
+          alert("FAIL");
+        } else if (jsonObj.resultado == "OK") {
+          alert("OK");
+        } else if (jsonObj.resultado == "Error" && "error" in jsonObj) {
+          alert("Error: " + jsonObj.error);
+        } else {
+          alert("FAIL");
+        }
+      }
+      let jsonObj = {psw:document.getElementById("psw").value};
+      if (i >= 0) {
+        jsonObj.i = i;
+      }
+      sendRequest('POST', rutaAlServidor() + 'reset', cb, jsonObj, function() {alert("FAIL");});
+    }
+
+    const sendRequest = function(method, path, callback, jsonObj, failCallback) {
+      let request = createRequest();
+      request.open(method, path, true);
+      request.setRequestHeader('Content-type', 'application/json');
+      request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+          if (request.status == 200) {
+            try {
+              let received = JSON.parse(request.responseText);
+              callback(received);
+            } catch (e) {
+              if (failCallback) { failCallback(); }
+            }
+          } else {
+            if (failCallback) { failCallback(); }
+          }
+        }
+      };
+      if (jsonObj) {
+        request.send(JSON.stringify(jsonObj));
+      } else {
+        request.send('');
+      }
+    };
+
+    const createRequest = function() {
+      var request = null;
+      try { // Firefox, Chrome, IE7+, Opera, Safari
+        request = new XMLHttpRequest();
+      }
+      catch (e) {
+        try { // IE6 and earlier
+          request = new ActiveXObject('Msxml2.XMLHTTP');
+        }
+        catch (e) {
+          try {
+            request = new ActiveXObject('Microsoft.XMLHTTP');
+          }
+          catch (e) {
+            throw 'Your browser does not support AJAX';
+            request = null;
+          }
+        }
+      }
+      return request;
+    };
+
+    const rutaAlServidor = function() {
+      let port_value = document.getElementById("port").value;
+      const port = port_value.length > 0 ? port_value : location.port;
+      let url_value = document.getElementById("url").value;
+      const url = url_value.length > 0 ? url_value : location.hostname;
+      return `http://${url}:${port}/`;
+    };
+  </script>
+  </body>
+</html>
