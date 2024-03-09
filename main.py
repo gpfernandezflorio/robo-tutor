@@ -11,6 +11,8 @@ if not (py in ['python', 'python3']):
   print("Error en la ruta ejecutable: " + py)
   exit(0)
 
+otropy = 'python' if py == 'python3' else 'python3'
+
 def esEntero(x):
   try:
     int(x)
@@ -26,11 +28,11 @@ def obtener_pid(s):
 
 def kill_previous():
   from subprocess import PIPE, Popen
-  p = Popen('ps', stdout=PIPE, stderr=PIPE, universal_newlines=True, shell=True)
+  p = Popen('ps -x', stdout=PIPE, stderr=PIPE, universal_newlines=True, shell=True)
   out = p.communicate()[0]
   print(out)
   for s in out.split('\n'):
-    if s.endswith(py):
+    if (py + " server.py -p80" in s) or (otropy + " server.py -p80" in s):
       pid = obtener_pid(s)
       if not (pid is None):
         if int(pid) != os.getpid():
