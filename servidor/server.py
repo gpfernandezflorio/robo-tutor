@@ -2,6 +2,8 @@
 
 import os, io
 import sys
+import threading
+
 try: # python 2
     reload(sys)
     sys.setdefaultencoding('utf8')
@@ -18,10 +20,12 @@ try: # python 3
     from http.server import BaseHTTPRequestHandler, HTTPServer
     moduloHTTPServer = HTTPServer
     moduloHTTPRequest = BaseHTTPRequestHandler
+    from socketserver import ThreadingMixIn
 except: # python 2
     import BaseHTTPServer
     moduloHTTPServer = BaseHTTPServer.HTTPServer
     moduloHTTPRequest = BaseHTTPServer.BaseHTTPRequestHandler
+    from SocketServer import ThreadingMixIn
 
 servidorAC = None
 MODO_WEB = False
@@ -62,7 +66,7 @@ class HandlerAC(moduloHTTPRequest):
     def do_GET(self):
         if (self.path == "/cursos"):
             self.responder(dame_cursos(verb))
-        if (self.path == "/admin"):
+        elif (self.path == "/admin"):
             self.archivoStatico('admin.html')
         else:
             self.error("[GET] Ruta {} inválida".format(self.path))
@@ -107,9 +111,13 @@ class HandlerAC(moduloHTTPRequest):
             self._set_response(404)
             print("Archivo {} no econtrado".format(self.path))
 
+class ServerAC(ThreadingMixIn, moduloHTTPServer):
+    """ This class allows to handle requests in separated threads.
+        No further content needed, don't touch this. """
+
 def run(host, port):
     global servidorAC
-    servidorAC = moduloHTTPServer((host, port), HandlerAC)
+    servidorAC = ServerAC((host, port), HandlerAC)
     try:
         servidorAC.serve_forever()
     except KeyboardInterrupt:
