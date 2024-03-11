@@ -58,6 +58,9 @@
 
     const cursos = {};
 
+    const textarea = document.getElementById('src');
+    const lineNumbers = document.querySelector('.line-numbers');
+
     const verEnunciado = function() {
       if ('ejercicio' in info) {
         alert(info.ejercicio.enunciado);
@@ -87,7 +90,7 @@
       if (i === null) {
         delete info.ejercicio;
         document.getElementById('ejercicioSeleccionado').innerHTML = 'Ninguno';
-        document.getElementById('src').value = '';
+        textSet('');
       } else {
         cargarEjercicio(cursos[info.curso].ejs[i]);
       }
@@ -101,7 +104,7 @@
         document.getElementById("selectorLenguaje").value = ej.lenguaje;
       }
       document.getElementById('ejercicioSeleccionado').innerHTML = ej.nombre;
-      document.getElementById('src').value = ('base' in ej ? ej.base : '');
+      textSet('base' in ej ? ej.base : '');
     };
 
     const seleccionarCurso = function(k) {
@@ -166,7 +169,7 @@
 
     const run_code = function() {
       const jsonObj = {
-        src:document.getElementById("src").value,
+        src:textarea.value,
         lenguaje:document.getElementById("selectorLenguaje").value,
       };
       if ('dni' in info) {
@@ -208,7 +211,7 @@
         } else {
           alert("ERROR: resultado faltante");
         }
-        document.getElementById('src').focus();
+        textarea.focus();
       };
       const failCallback = function() {
         alert("ERROR: falló la comunicación con el servidor");
@@ -340,7 +343,7 @@
       return results === null ? null : results[1];
     };
 
-    document.getElementById('src').addEventListener('keydown', function(e) {
+    textarea.addEventListener('keydown', function(e) {
       if (e.key == 'Tab') {
         e.preventDefault();
         var start = this.selectionStart;
@@ -356,6 +359,19 @@
       }
     });
 
+    const actualizarNúmerosDeLinea = function() {
+      const numberOfLines = textarea.value.split('\n').length
+
+      lineNumbers.innerHTML = Array(numberOfLines)
+        .fill('<span></span>')
+        .join('')
+    };
+
+    const textSet = function(content) {
+      textarea.value = content;
+      actualizarNúmerosDeLinea();
+    };
+
     seleccionarCurso('0');
 
     const dni = prompt("Ingresá tu dni");
@@ -364,22 +380,13 @@
       document.getElementById("dni").innerHTML = "DNI: " + dni;
       let sesionPrevia = localStorage.getItem(dni);
       if (sesionPrevia !== null) {
-        document.getElementById('src').value = sesionPrevia;
+        textSet(sesionPrevia);
       }
       setInterval(function() {
-        localStorage.setItem(info.dni, document.getElementById('src').value);
+        localStorage.setItem(info.dni, textarea.value);
       }, 1000);
     }
 
-    const textarea = document.querySelector('textarea')
-    const lineNumbers = document.querySelector('.line-numbers')
-
-    textarea.addEventListener('keyup', event => {
-      const numberOfLines = event.target.value.split('\n').length
-
-      lineNumbers.innerHTML = Array(numberOfLines)
-        .fill('<span></span>')
-        .join('')
-    })
+    textarea.addEventListener('keyup', actualizarNúmerosDeLinea)
   </script>
 </html>
