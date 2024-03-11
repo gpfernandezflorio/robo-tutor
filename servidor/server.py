@@ -12,7 +12,7 @@ except:
 
 import json
 import socket
-from corrector import run_code
+from corrector import run_code, open_ej
 from admin import admin_reset
 from data import dame_cursos
 
@@ -81,7 +81,9 @@ class HandlerAC(moduloHTTPRequest):
         content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
         post_data = self.rfile.read(content_length).decode('utf-8') # <--- Gets the data itself
         jsonObject = json.loads(post_data)
-        if (self.path == "/code"):
+        if (self.path == "/open"):
+            self.responder(open_ej(jsonObject, verb))
+        elif (self.path == "/code"):
             self.responder(run_code(jsonObject, verb))
         elif (self.path == "/reset"):
             self.responder(admin_reset(jsonObject, verb))
