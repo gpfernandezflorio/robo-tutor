@@ -1,4 +1,10 @@
 <html>
+  <script>
+    // Para sólo permitir trabajar tras autenticarse (asignar 'false' para anular)
+    const force_dni = false;
+    // Para forzar un ejercicio particular (comentar para usar en modo libre)
+    window.force_ej = { curso:'inpr_unq_2023_s1', ej:1 };
+  </script>
   <style media="screen">
   .line-numbers {
     width: 20px;
@@ -63,7 +69,7 @@
     animation-duration: 10s;
   }
   </style>
-  <div id="ui" style="display:block;">
+  <div id="ui" style="display:none;">
     <div id="seleccionDeCurso" style="display:none;">
     </div>
     <div id="workspace" style="display:block;">
@@ -422,7 +428,12 @@
     };
 
     const puertoParaDni = function() {
-      return isNaN(Number.parseInt(info.dni)) ? "60" : "5" + info.dni.charAt(info.dni.length-1);
+      let p = "60";
+      if (info.dni.length > 0) {
+        let p = info.dni.charAt(info.dni.length-1);
+        p = isNaN(Number.parseInt(p)) ? "60" : "5" + p;
+      }
+      return p;
     };
 
     const parametroURL = function(clave) {
@@ -498,50 +509,89 @@
       botonDni.innerHTML = dni;
     };
 
-    const pedirDni = function(f) {
+    const pedirDni = function(f, f_cancel) {
       let dni = prompt("Ingresá tu dni (sólo números)");
       if (dni) {
         const psw = prompt("Ingresá tu contraseña");
         if (psw) {
           dniSet(dni);
-          dni += "-" + psw;
+          dni = psw + "-" + dni;
           info.dni = dni;
           f(dni);
+          return;
         }
+      }
+      if (f_cancel) {
+        f_cancel();
       }
     }
 
-    const cambiarDni = function() {
+    const cargarDatos = function(aCargar) {
+      if ('curso' in aCargar) {
+        pedirCursos(function() {
+          actualizaCursoSeleccionado(aCargar.curso);
+          if ('ej' in aCargar) {
+            actualizaEjercicioSeleccionado(cursos[info.curso].ejs[aCargar.ej]);
+          } else {
+            seleccionarEjercicio(null);
+          }
+        });
+      } else {
+        seleccionarCurso('0');
+      }
+      if ('text' in aCargar) {
+        textSet(aCargar.text);
+      }
+    }
+
+    const cambiarDni = function(f_cancel) {
       pedirDni((dni) => {
+        let aCargar = {};
+        if ('force_ej' in window) {
+          aCargar = window.force_ej;
+        }
         let sesionPrevia = localStorage.getItem(`text ${dni}`);
-        let cursoPrevio = localStorage.getItem(`curso ${dni}`);
-        if (cursoPrevio !== null && cursoPrevio !== undefined) {
-          pedirCursos(function() {
-            actualizaCursoSeleccionado(cursoPrevio);
-            let ejercicioPrevio = localStorage.getItem(`ej ${dni}`);
-            if (ejercicioPrevio !== null && ejercicioPrevio !== undefined) {
-              actualizaEjercicioSeleccionado(cursos[info.curso].ejs[ejercicioPrevio]);
-            } else {
-              seleccionarEjercicio(null);
-            }
-          });
-        } else {
-          seleccionarCurso('0');
-        }
         if (sesionPrevia !== null) {
-          textSet(sesionPrevia);
+          aCargar.text = sesionPrevia;
         }
+        if (!('curso' in aCargar)) {
+          let cursoPrevio = localStorage.getItem(`curso ${dni}`);
+          if (cursoPrevio !== null && cursoPrevio !== undefined) {
+            aCargar.curso = cursoPrevio;
+            if (!('ej' in aCargar)) {
+              let ejercicioPrevio = localStorage.getItem(`ej ${dni}`);
+              if (ejercicioPrevio !== null && ejercicioPrevio !== undefined) {
+                aCargar.ej = ejercicioPrevio;
+              }
+            }
+          }
+        }
+        cargarDatos(aCargar);
         if ('interval' in info) {
           clearInterval(info.interval);
         }
         info.interval = setInterval(function() {
           localStorage.setItem(`text ${info.dni}`, textarea.value);
         }, 1000);
-      });
+      }, f_cancel);
     };
 
-    seleccionarCurso('0');
-    cambiarDni();
+    cambiarDni(function() {
+      if ('force_ej' in window) {
+        cargarDatos(window.force_ej);
+      }
+    });
+    if ('dni' in info || !force_dni) {
+      if ('force_ej' in window) {
+        for (let i of ['curso','abrirEjercicio','lenguaje']) {
+          document.getElementById(i).style.display = 'none';
+        }
+      }
+      document.getElementById("ui").style.display = 'block';
+    } else {
+      alert("Error: se requiere autenticación");
+      location.reload();
+    }
 
     textarea.addEventListener('keyup', actualizarNúmerosDeLinea)
   </script>
