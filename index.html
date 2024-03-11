@@ -47,6 +47,21 @@
     border-radius: 5px 0px 0px 5px;
     padding: 0px 5px;
   }
+  @keyframes timeout {
+    from {
+      background-color: #e22;
+      opacity: 100%;
+    }
+    to {
+      background-color: #fff;
+      opacity: 40%;
+    }
+  }
+  .restore {
+    background-color: #e22;
+    animation-name: timeout;
+    animation-duration: 10s;
+  }
   </style>
   <div id="ui" style="display:block;">
     <div id="seleccionDeCurso" style="display:none;">
@@ -81,6 +96,7 @@
       </div>
       <span style="display: block;height: 30px;"></span>
       <div class="floatBar" style="bottom: 5px;">
+        <span id="bRestore"></span>
         <span id="dni">DNI: <button id="botonDni" onclick="cambiarDni();">Anónimo</button></span>
         Sevidor:
         <input type="text" value="157.92.26.235" id="url" style="width:100px">
@@ -102,6 +118,7 @@
     const textarea = document.getElementById('src');
     const lineNumbers = document.querySelector('.line-numbers');
     const botonDni = document.getElementById("botonDni");
+    const botonRestaurar = document.getElementById("bRestore");
 
     const verEnunciado = function() {
       if ('ejercicio' in info) {
@@ -441,7 +458,38 @@
         .join('')
     };
 
+    const restaurarCodigo = function() {
+      botonRestaurar.innerHTML = '';
+      if ('dni' in info) {
+        let prev = localStorage.getItem(`prev text ${info.dni}`);
+        if (prev) {
+          textSet(prev);
+        }
+      }
+    };
+
+    const f_timeout =function() {
+      let c = document.getElementById("counter");
+      if (c) {
+        let r = Number.parseInt(c.innerHTML);
+        if (r<2) {
+          botonRestaurar.innerHTML = '';
+        } else {
+          c.innerHTML = r-1;
+          info.timeout = setTimeout(f_timeout, 999);
+        }
+      }
+    };
+
     const textSet = function(content) {
+      if ('dni' in info && textarea.value.length > 0) {
+        localStorage.setItem(`prev text ${info.dni}`, textarea.value);
+        if ('timeout' in info) {
+          clearTimeout(info.timeout);
+        }
+        info.timeout = setTimeout(f_timeout, 1000);
+        botonRestaurar.innerHTML = '(<span id="counter">10</span>) <button class="restore" onclick="restaurarCodigo();">Restaurar código anterior</button>';
+      }
       textarea.value = content;
       actualizarNúmerosDeLinea();
     };
@@ -462,9 +510,6 @@
     const cambiarDni = function() {
       pedirDni((dni) => {
         let sesionPrevia = localStorage.getItem(`text ${dni}`);
-        if (sesionPrevia !== null) {
-          textSet(sesionPrevia);
-        }
         let cursoPrevio = localStorage.getItem(`curso ${dni}`);
         if (cursoPrevio !== null && cursoPrevio !== undefined) {
           pedirCursos(function() {
@@ -478,6 +523,9 @@
           });
         } else {
           seleccionarCurso('0');
+        }
+        if (sesionPrevia !== null) {
+          textSet(sesionPrevia);
         }
         if ('interval' in info) {
           clearInterval(info.interval);
