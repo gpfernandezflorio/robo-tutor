@@ -81,7 +81,7 @@
       </div>
       <span style="display: block;height: 30px;"></span>
       <div class="floatBar" style="bottom: 5px;">
-        <span id="dni"></span>
+        <span id="dni">DNI: <button id="botonDni" onclick="cambiarDni();">Anónimo</button></span>
         Sevidor:
         <input type="text" value="157.92.26.235" id="url" style="width:100px">
         :
@@ -101,7 +101,7 @@
 
     const textarea = document.getElementById('src');
     const lineNumbers = document.querySelector('.line-numbers');
-    const spanDni = document.getElementById("dni");
+    const botonDni = document.getElementById("botonDni");
 
     const verEnunciado = function() {
       if ('ejercicio' in info) {
@@ -447,7 +447,7 @@
     };
 
     const dniSet = function(dni) {
-      spanDni.innerHTML = `DNI: <button onclick="cambiarDni();">${dni}</button>`;
+      botonDni.innerHTML = dni;
     };
 
     const pedirDni = function(f) {
