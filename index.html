@@ -101,6 +101,7 @@
 
     const textarea = document.getElementById('src');
     const lineNumbers = document.querySelector('.line-numbers');
+    const spanDni = document.getElementById("dni");
 
     const verEnunciado = function() {
       if ('ejercicio' in info) {
@@ -130,21 +131,27 @@
     const seleccionarEjercicio = function(i) {
       if (i === null) {
         delete info.ejercicio;
+        if ('dni' in info) { localStorage.removeItem(`ej ${info.dni}`); }
         document.getElementById('ejercicioSeleccionado').innerHTML = 'Ninguno';
         textSet('');
       } else {
+        if ('dni' in info) { localStorage.setItem(`ej ${info.dni}`, i); }
         cargarEjercicio(cursos[info.curso].ejs[i]);
       }
       document.getElementById("seleccionDeCurso").style.display = 'none';
       document.getElementById("workspace").style.display = 'block';
     };
 
-    const cargarEjercicio = function(ej) {
+    const actualizaEjercicioSeleccionado = function(ej) {
       info.ejercicio = ej;
       if ('lenguaje' in ej) {
         document.getElementById("selectorLenguaje").value = ej.lenguaje;
       }
       document.getElementById('ejercicioSeleccionado').innerHTML = ej.nombre;
+    };
+
+    const cargarEjercicio = function(ej) {
+      actualizaEjercicioSeleccionado(ej);
       textSet('base' in ej ? ej.base : '');
     };
 
@@ -153,22 +160,28 @@
         document.getElementById("cursoSeleccionado").innerHTML = "Ninguno";
         document.getElementById("abrirCurso").innerHTML = "Abrir";
         delete info.curso;
+        if ('dni' in info) { localStorage.removeItem(`curso ${info.dni}`); }
         document.getElementById("lenguaje").style.display = 'inline';
       } else {
-        info.curso = k;
-        let curso = cursos[k];
-        document.getElementById("cursoSeleccionado").innerHTML = curso.nombre;
-        document.getElementById("abrirCurso").innerHTML = "Cambiar";
-        if ('lenguaje' in curso) {
-          document.getElementById("selectorLenguaje").value = curso.lenguaje;
-        }
-        if ('lenguaje_display' in curso) {
-          document.getElementById("lenguaje").style.display = curso.lenguaje_display;
-        }
+        if ('dni' in info) { localStorage.setItem(`curso ${info.dni}`, k); }
+        actualizaCursoSeleccionado(k);
       }
       seleccionarEjercicio(null);
       document.getElementById("seleccionDeCurso").style.display = 'none';
       document.getElementById("workspace").style.display = 'block';
+    };
+
+    const actualizaCursoSeleccionado = function(k) {
+      info.curso = k;
+      let curso = cursos[k];
+      document.getElementById("cursoSeleccionado").innerHTML = curso.nombre;
+      document.getElementById("abrirCurso").innerHTML = "Cambiar";
+      if ('lenguaje' in curso) {
+        document.getElementById("selectorLenguaje").value = curso.lenguaje;
+      }
+      if ('lenguaje_display' in curso) {
+        document.getElementById("lenguaje").style.display = curso.lenguaje_display;
+      }
     };
 
     const fileChooser = function(callback, failCallback) {
@@ -216,12 +229,9 @@
       if ('dni' in info) {
         jsonObj.dni = info.dni;
       } else if ('curso' in info) {
-        const dni = prompt("Ingresá tu dni (sólo números)");
-        if (dni) {
-          info.dni = dni;
-          jsonObj.dni = info.dni;
-          document.getElementById("dni").innerHTML = "DNI: " + dni;
-        }
+        pedirDni((dni) => {
+          jsonObj.dni = dni;
+        });
       }
       if ('ejercicio' in info) {
         jsonObj.ejercicio = info.ejercicio.nombre;
@@ -268,6 +278,19 @@
     }
 
     const cargarCursos = function() {
+      pedirCursos(function() {
+        let contenidoPantalla = '';
+        for (c in cursos) {
+          contenidoPantalla += `<button onclick="seleccionarCurso('${c}');">${cursos[c].nombre}</button></br>`;
+        }
+        document.getElementById("seleccionDeCurso").innerHTML = contenidoPantalla +
+          '<button onclick="seleccionarCurso(\'0\');">Libre</button>';
+        document.getElementById("seleccionDeCurso").style.display = 'block';
+        document.getElementById("workspace").style.display = 'none';
+      });
+    };
+
+    const pedirCursos = function(f) {
       const callback = function(jsonObj) {
         if ('cursos' in jsonObj) {
           for (let k in cursos) {
@@ -278,14 +301,7 @@
           for (let k in jsonObj.cursos) {
             cursos[k] = jsonObj.cursos[k];
           }
-          let contenidoPantalla = '';
-          for (c in cursos) {
-            contenidoPantalla += `<button onclick="seleccionarCurso('${c}');">${cursos[c].nombre}</button></br>`;
-          }
-          document.getElementById("seleccionDeCurso").innerHTML = contenidoPantalla +
-            '<button onclick="seleccionarCurso(\'0\');">Libre</button>';
-          document.getElementById("seleccionDeCurso").style.display = 'block';
-          document.getElementById("workspace").style.display = 'none';
+          f();
         }
       };
       const failCallback = function() {
@@ -321,15 +337,17 @@
         if (request.readyState == 4) {
           document.getElementById("espera").style.display = 'none';
           document.getElementById("ui").style.display = 'block';
-          localStorage.clear();
+          // localStorage.clear();
           if (request.status == 200) {
             try {
               let received = JSON.parse(request.responseText);
               callback(received);
             } catch (e) {
+              console.log(e);
               if (failCallback) { failCallback(); }
             }
           } else {
+            console.log(request.status);
             if (failCallback) { failCallback(); }
           }
         }
@@ -413,20 +431,40 @@
       actualizarNúmerosDeLinea();
     };
 
+    const dniSet = function(dni) {
+      spanDni.innerHTML = "DNI: " + dni;
+    };
+
+    const pedirDni = function(f) {
+      const dni = prompt("Ingresá tu dni (sólo números)");
+      if (dni) {
+        info.dni = dni;
+        dniSet(dni);
+        f(dni);
+      }
+    }
+
     seleccionarCurso('0');
 
-    const dni = prompt("Ingresá tu dni");
-    if (dni) {
-      info.dni = dni;
-      document.getElementById("dni").innerHTML = "DNI: " + dni;
-      let sesionPrevia = localStorage.getItem(dni);
+    pedirDni((dni) => {
+      let sesionPrevia = localStorage.getItem(`text ${dni}`);
       if (sesionPrevia !== null) {
         textSet(sesionPrevia);
       }
+      let cursoPrevio = localStorage.getItem(`curso ${dni}`);
+      if (cursoPrevio !== null && cursoPrevio !== undefined) {
+        pedirCursos(function() {
+          actualizaCursoSeleccionado(cursoPrevio);
+          let ejercicioPrevio = localStorage.getItem(`ej ${dni}`);
+          if (ejercicioPrevio !== null && ejercicioPrevio !== undefined) {
+            actualizaEjercicioSeleccionado(cursos[info.curso].ejs[ejercicioPrevio]);
+          }
+        });
+      }
       setInterval(function() {
-        localStorage.setItem(info.dni, textarea.value);
+        localStorage.setItem(`text ${info.dni}`, textarea.value);
       }, 1000);
-    }
+    });
 
     textarea.addEventListener('keyup', actualizarNúmerosDeLinea)
   </script>
