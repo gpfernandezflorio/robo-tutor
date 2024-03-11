@@ -127,7 +127,7 @@
             alert("Archivo inválido"); return;
           }
           delete info.curso;
-          document.getElementById("cursoSeleccionado").innerHTML = "Ninguno";
+          actualizarNombreCurso();
           cargarEjercicio(jsonObj);
         });
       }
@@ -137,7 +137,7 @@
       if (i === null) {
         delete info.ejercicio;
         if ('dni' in info) { localStorage.removeItem(`ej ${info.dni}`); }
-        document.getElementById('ejercicioSeleccionado').innerHTML = 'Ninguno';
+        actualizarNombreEjercicio();
         textSet('');
       } else {
         if ('dni' in info) { localStorage.setItem(`ej ${info.dni}`, i); }
@@ -146,12 +146,16 @@
       cerrarSelector();
     };
 
+    const actualizarNombreEjercicio = function(n) {
+      document.getElementById('ejercicioSeleccionado').innerHTML = (n === undefined ? 'Ninguno' : n)
+    };
+
     const actualizaEjercicioSeleccionado = function(ej) {
       info.ejercicio = ej;
       if ('lenguaje' in ej) {
         document.getElementById("selectorLenguaje").value = ej.lenguaje;
       }
-      document.getElementById('ejercicioSeleccionado').innerHTML = ej.nombre;
+      actualizarNombreEjercicio(ej.nombre);
     };
 
     const cargarEjercicio = function(ej) {
@@ -161,11 +165,9 @@
 
     const seleccionarCurso = function(k) {
       if (k === '0') {
-        document.getElementById("cursoSeleccionado").innerHTML = "Ninguno";
-        document.getElementById("abrirCurso").innerHTML = "Abrir";
+        actualizarNombreCurso();
         delete info.curso;
         if ('dni' in info) { localStorage.removeItem(`curso ${info.dni}`); }
-        document.getElementById("lenguaje").style.display = 'inline';
       } else {
         if ('dni' in info) { localStorage.setItem(`curso ${info.dni}`, k); }
         actualizaCursoSeleccionado(k);
@@ -177,13 +179,23 @@
     const actualizaCursoSeleccionado = function(k) {
       info.curso = k;
       let curso = cursos[k];
-      document.getElementById("cursoSeleccionado").innerHTML = curso.nombre;
-      document.getElementById("abrirCurso").innerHTML = "Cambiar";
+      actualizarNombreCurso(curso.nombre);
       if ('lenguaje' in curso) {
         document.getElementById("selectorLenguaje").value = curso.lenguaje;
       }
       if ('lenguaje_display' in curso) {
         document.getElementById("lenguaje").style.display = curso.lenguaje_display;
+      }
+    };
+
+    const actualizarNombreCurso = function(n) {
+      if (n === undefined) {
+        document.getElementById("cursoSeleccionado").innerHTML = "Ninguno";
+        document.getElementById("abrirCurso").innerHTML = "Abrir";
+        document.getElementById("lenguaje").style.display = 'inline';
+      } else {
+        document.getElementById("cursoSeleccionado").innerHTML = n;
+        document.getElementById("abrirCurso").innerHTML = "Cambiar";
       }
     };
 
@@ -435,7 +447,7 @@
     };
 
     const dniSet = function(dni) {
-      spanDni.innerHTML = "DNI: " + dni;
+      spanDni.innerHTML = `DNI: <button onclick="cambiarDni();">${dni}</button>`;
     };
 
     const pedirDni = function(f) {
@@ -447,27 +459,37 @@
       }
     }
 
-    seleccionarCurso('0');
+    const cambiarDni = function() {
+      pedirDni((dni) => {
+        let sesionPrevia = localStorage.getItem(`text ${dni}`);
+        if (sesionPrevia !== null) {
+          textSet(sesionPrevia);
+        }
+        let cursoPrevio = localStorage.getItem(`curso ${dni}`);
+        if (cursoPrevio !== null && cursoPrevio !== undefined) {
+          pedirCursos(function() {
+            actualizaCursoSeleccionado(cursoPrevio);
+            let ejercicioPrevio = localStorage.getItem(`ej ${dni}`);
+            if (ejercicioPrevio !== null && ejercicioPrevio !== undefined) {
+              actualizaEjercicioSeleccionado(cursos[info.curso].ejs[ejercicioPrevio]);
+            } else {
+              seleccionarEjercicio(null);
+            }
+          });
+        } else {
+          seleccionarCurso('0');
+        }
+        if ('interval' in info) {
+          clearInterval(info.interval);
+        }
+        info.interval = setInterval(function() {
+          localStorage.setItem(`text ${info.dni}`, textarea.value);
+        }, 1000);
+      });
+    };
 
-    pedirDni((dni) => {
-      let sesionPrevia = localStorage.getItem(`text ${dni}`);
-      if (sesionPrevia !== null) {
-        textSet(sesionPrevia);
-      }
-      let cursoPrevio = localStorage.getItem(`curso ${dni}`);
-      if (cursoPrevio !== null && cursoPrevio !== undefined) {
-        pedirCursos(function() {
-          actualizaCursoSeleccionado(cursoPrevio);
-          let ejercicioPrevio = localStorage.getItem(`ej ${dni}`);
-          if (ejercicioPrevio !== null && ejercicioPrevio !== undefined) {
-            actualizaEjercicioSeleccionado(cursos[info.curso].ejs[ejercicioPrevio]);
-          }
-        });
-      }
-      setInterval(function() {
-        localStorage.setItem(`text ${info.dni}`, textarea.value);
-      }, 1000);
-    });
+    seleccionarCurso('0');
+    cambiarDni();
 
     textarea.addEventListener('keyup', actualizarNúmerosDeLinea)
   </script>
