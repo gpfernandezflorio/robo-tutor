@@ -3,6 +3,8 @@
   .line-numbers {
     width: 20px;
     text-align: right;
+    border-right: solid 1px;
+    padding-right: 5px;
   }
   .line-numbers span {
     counter-increment: linenumber;
@@ -10,43 +12,82 @@
   .line-numbers span::before {
     content: counter(linenumber);
     display: block;
-    color: #506882;
+    color: #000;
+  }
+  .floatBar {
+    float:left;
+    position: absolute;
+    background-color: #fff;
+    border-radius: 15px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000;
+    padding: 3px 15px;
+  }
+  #src {
+    border-color: #fff;
+    min-width:calc(100% - 20px);
+    outline: none;
+    resize: none;
+    line-height: 21px;
+    overflow-y: hidden;
+    padding: 0;
+  }
+  .editor {
+    min-width:calc(100% - 10px);
+    display: inline-flex;
+    font-family: monospace;
+    line-height: 21px;
+    gap: 10px;
+  }
+  .editorWrapper {
+    height: calc(100% - 62px);
+    overflow-y: auto;
+    border: solid 1px #000;
+    border-radius: 5px 0px 0px 5px;
+    padding: 0px 5px;
   }
   </style>
   <div id="ui" style="display:block;">
     <div id="seleccionDeCurso" style="display:none;">
     </div>
     <div id="workspace" style="display:block;">
-    <span id="curso">
-      Curso: <span id="cursoSeleccionado">Ninguno</span>
-      <button id="abrirCurso" onclick="cargarCursos();">Abrir</button>
-      <span> - </span>
-    </span>
-    Ejercicio: <span id="ejercicioSeleccionado">Ninguno</span>
-    <button id="abrirEjercicio" onclick="abrirEjercicio();">Abrir</button>
-    <button onclick="verEnunciado();">Enunciado</button>
-    <span id="lenguaje">
-      <span> - </span>
-      Lenguaje:
-      <select id="selectorLenguaje">
-        <option value="Python" selected>Python</option>
-        <option value="Gobstones">Gobstones</option>
-      </select>
-    </span>
-    <br/>
-    <div class="editor" style="min-width:calc(100% - 10px);display: inline-flex;font-family: monospace;line-height: 21px;gap: 10px;">
-      <div class="line-numbers">
-        <span></span>
+      <div class="floatBar" style="top: 5px;">
+        <span id="curso">
+          Curso: <span id="cursoSeleccionado">Ninguno</span>
+          <button id="abrirCurso" onclick="cargarCursos();">Abrir</button>
+          <span> - </span>
+        </span>
+        Ejercicio: <span id="ejercicioSeleccionado">Ninguno</span>
+        <button id="abrirEjercicio" onclick="abrirEjercicio();">Abrir</button>
+        <button onclick="verEnunciado();">Enunciado</button>
+        <span id="lenguaje">
+          <span> - </span>
+          Lenguaje:
+          <select id="selectorLenguaje">
+            <option value="Python" selected>Python</option>
+            <option value="Gobstones">Gobstones</option>
+          </select>
+        </span>
       </div>
-      <textarea id="src" style="min-width:calc(100% - 20px);outline: none;resize: none;line-height: 21px;overflow-y: hidden;padding: 0;"></textarea>
-    </div>
-    <br/>
-    <span id="dni"></span>
-    Sevidor:
-    <input type="text" value="157.92.26.235" id="url" style="width:100px">
-    :
-    <input type="text" value="" id="port" style="width:50px">
-    <button onclick="run_code();">¡Enviar!</button>
+      <span style="display: block;height: 30px;"></span>
+      <div class="editorWrapper">
+        <div class="editor">
+          <div class="line-numbers">
+            <span></span>
+          </div>
+          <textarea id="src"></textarea>
+        </div>
+      </div>
+      <span style="display: block;height: 30px;"></span>
+      <div class="floatBar" style="bottom: 5px;">
+        <span id="dni"></span>
+        Sevidor:
+        <input type="text" value="157.92.26.235" id="url" style="width:100px">
+        :
+        <input type="text" value="" id="port" style="width:50px">
+        <button onclick="run_code();">¡Enviar!</button>
+      </div>
     </div>
   </div>
   <div id="espera" style="display:none;">
