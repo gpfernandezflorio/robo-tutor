@@ -111,6 +111,11 @@
       }
     };
 
+    const cerrarSelector = function() {
+      document.getElementById("seleccionDeCurso").style.display = 'none';
+      document.getElementById("workspace").style.display = 'block';
+    };
+
     const abrirEjercicio = function() {
       if ('curso' in info) {
         cargarEjercicios();
@@ -138,8 +143,7 @@
         if ('dni' in info) { localStorage.setItem(`ej ${info.dni}`, i); }
         cargarEjercicio(cursos[info.curso].ejs[i]);
       }
-      document.getElementById("seleccionDeCurso").style.display = 'none';
-      document.getElementById("workspace").style.display = 'block';
+      cerrarSelector();
     };
 
     const actualizaEjercicioSeleccionado = function(ej) {
@@ -167,8 +171,7 @@
         actualizaCursoSeleccionado(k);
       }
       seleccionarEjercicio(null);
-      document.getElementById("seleccionDeCurso").style.display = 'none';
-      document.getElementById("workspace").style.display = 'block';
+      cerrarSelector();
     };
 
     const actualizaCursoSeleccionado = function(k) {
@@ -279,12 +282,12 @@
 
     const cargarCursos = function() {
       pedirCursos(function() {
-        let contenidoPantalla = '';
+        let contenidoPantalla = '<button onclick="seleccionarCurso(\'0\');">Libre</button><br/>';
         for (c in cursos) {
-          contenidoPantalla += `<button onclick="seleccionarCurso('${c}');">${cursos[c].nombre}</button></br>`;
+          contenidoPantalla += `<button onclick="seleccionarCurso('${c}');">${cursos[c].nombre}</button><br/>`;
         }
         document.getElementById("seleccionDeCurso").innerHTML = contenidoPantalla +
-          '<button onclick="seleccionarCurso(\'0\');">Libre</button>';
+          '<button onclick="cerrarSelector();">Cancelar</button>';
         document.getElementById("seleccionDeCurso").style.display = 'block';
         document.getElementById("workspace").style.display = 'none';
       });
@@ -311,16 +314,16 @@
     };
 
     const cargarEjercicios = function() {
-      let contenidoPantalla = '';
+      let contenidoPantalla = '<button onclick="seleccionarEjercicio(null);">Libre</button><br/>';
       let i=0;
       for (ej of cursos[info.curso].ejs) {
         if (ejercicioDisponible(ej)) {
-          contenidoPantalla += `<button onclick="seleccionarEjercicio(${i});">${ej.nombre}</button></br>`;
+          contenidoPantalla += `<button onclick="seleccionarEjercicio(${i});">${ej.nombre}</button><br/>`;
         }
         i++;
       }
       document.getElementById("seleccionDeCurso").innerHTML = contenidoPantalla +
-        '<button onclick="seleccionarEjercicio(null);">Cancelar</button>';
+        '<button onclick="cerrarSelector();">Cancelar</button>';
     };
 
     const ejercicioDisponible = function(ej) {
