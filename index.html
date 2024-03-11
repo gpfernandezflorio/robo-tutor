@@ -499,11 +499,15 @@
     };
 
     const pedirDni = function(f) {
-      const dni = prompt("Ingresá tu dni (sólo números)");
+      let dni = prompt("Ingresá tu dni (sólo números)");
       if (dni) {
-        info.dni = dni;
-        dniSet(dni);
-        f(dni);
+        const psw = prompt("Ingresá tu contraseña");
+        if (psw) {
+          dniSet(dni);
+          dni += "-" + psw;
+          info.dni = dni;
+          f(dni);
+        }
       }
     }
 
