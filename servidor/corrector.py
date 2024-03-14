@@ -16,7 +16,7 @@ if not os.path.isfile(LOCAL_FILE):
   f.close()
 
 def open_ej(jsonObj, v):
-  jsonObj["src"] = ""
+  jsonObj["src"] = "."
   jsonObj["resultado"] = "OPEN"
   commit(jsonObj, v)
 
