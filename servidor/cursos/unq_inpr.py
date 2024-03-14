@@ -167,15 +167,23 @@ p_30_3 = {
   "mostrar":False
 }
 
-p_27_3 = {
-  "nombre":"Presente 27/3",
+ajedrez_1 = {
+  "nombre":"Ajedrez - Parte 1",
   "enunciado":"Suponiendo que se encuentran definidos los procedimientos PintarBlanco y PintarNegro que pintan la celda actual de blanco y de negro respectivamente, escribir el procedimiento PintarTableroDeAjedrez que, suponiendo que el tablero tiene exactamente 8 filas y 8 columnas, pinte todo el tablero como un tablero de ajedrez. Tener en cuenta que este procedimiento debe funcionar sin importar la ubicación inicial del cabezal y no se pide que este finalice en alguna ubicación en particular",
   "pre":"procedure PintarBlanco(){Poner(Rojo)}\nprocedure PintarNegro(){Poner(Azul)}\nprogram {PintarTableroDeAjedrez()}",
   "run_data":[{
     "tablero":{"head":[5,6],"width":8,"height":8,"board":[[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v]]},
     "post":{"head":[],"width":8,"height":8,"board":[[a,r,a,r,a,r,a,r],[r,a,r,a,r,a,r,a],[a,r,a,r,a,r,a,r],[r,a,r,a,r,a,r,a],[a,r,a,r,a,r,a,r],[r,a,r,a,r,a,r,a],[a,r,a,r,a,r,a,r],[r,a,r,a,r,a,r,a]]},
-  }],
-  "mostrar":False
+  }]
+}
+
+rosa_de_los_vientos = {
+  "nombre":"Rosa de los vientos",
+  "enunciado":"Escribir el procedimiento PonerRosaDeLosVientos que ponga un rosa de los vientos al rededor de la celda actual. Para representar una rosa de los vientos centrada en una celda hay que poner una bolita roja en cada una de las cuatro celdas lindantes.",
+  "run_data":[{
+    "tablero":{"head":[1,1],"width":3,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v]]},
+    "post":{"head":[1,1],"width":3,"height":3,"board":[[v,r,v],[r,v,r],[v,r,v]]},
+  }]
 }
 
 CURSOS = {
@@ -183,6 +191,12 @@ CURSOS = {
     "nombre":"Introducción a la Programación - UNQ (2023s1)",
     "lenguaje":"Gobstones",
     "lenguaje_display":"none",
-    "ejs":[superGobi64_2,gobFS_1,superGobi64_1,rutera_1,rutera_2,p_3_4,p_30_3,p_27_3]
+    "ejs":[superGobi64_2,gobFS_1,superGobi64_1,rutera_1,rutera_2,p_3_4,p_30_3,ajedrez_1]
+  },
+  "inpr_unq_2024_s1":{
+    "nombre":"Introducción a la Programación - UNQ (2024s1)",
+    "lenguaje":"Gobstones",
+    "lenguaje_display":"none",
+    "ejs":[rosa_de_los_vientos,ajedrez_1]
   }
 }
