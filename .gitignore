@@ -4,3 +4,5 @@ board.jboard
 src.txt
 info.json
 local.csv
+stderr.out
+stdout.out

@@ -17,8 +17,8 @@
     let servidorManual = false;
 
     // Para iniciar con una IP de servidor particular (comentar para anular)
-    window.servidor = "192.168.0.15";
-    window.servidor = "157.92.26.235";
+    window.servidor = "192.168.0.12";
+    // window.servidor = "157.92.26.235";
   </script>
   <style media="screen">
   body {
@@ -326,11 +326,8 @@
       }
       if ('ejercicio' in info) {
         jsonObj.ejercicio = info.ejercicio.nombre;
-        if ('run_data' in info.ejercicio) {
-          jsonObj.run_data = info.ejercicio.run_data;
-        }
-        if ('pre' in info.ejercicio) {
-          jsonObj.pre = info.ejercicio.pre;
+        if ('curso' in info) {
+          jsonObj.curso = info.curso;
         }
       }
       const callback = function(jsonObj) {

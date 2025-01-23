@@ -65,7 +65,7 @@ class HandlerAC(moduloHTTPRequest):
 
     def do_GET(self):
         if (self.path == "/cursos"):
-            self.responder(dame_cursos(verb))
+            self.responder(dame_cursos())
         elif (self.path == "/admin"):
             self.archivoStatico('admin.html')
         else:

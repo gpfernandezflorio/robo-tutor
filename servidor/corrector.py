@@ -2,11 +2,14 @@
 
 import datetime
 from subprocess import PIPE, Popen
+import select
 import requests
 import signal
 import inspect
 import json
 import io, os
+
+from data import dameEjercicio, informacionPrivada
 
 LOCAL_FILE = 'local.csv'
 
@@ -20,6 +23,13 @@ def open_ej(jsonObj, v):
   jsonObj["resultado"] = "OPEN"
   commit(jsonObj, v)
 
+def completarDataEjercicio(jsonObj):
+  if ("curso" in jsonObj) and ("ejercicio" in jsonObj):
+    ejercicio = dameEjercicio(jsonObj["curso"], jsonObj["ejercicio"])
+    for k in informacionPrivada:
+      if k in ejercicio:
+        jsonObj[k] = ejercicio[k]
+
 def run_code(jsonObj, v):
   if (not ("src" in jsonObj)):
     if (v):
@@ -29,6 +39,7 @@ def run_code(jsonObj, v):
     if (v):
       print("Falta lenguaje")
     return {"resultado":"Error", "error":"Falta lenguaje"}
+  completarDataEjercicio(jsonObj)
   if (jsonObj["lenguaje"] == "Python"):
     resultado = run_python(jsonObj, v)
   elif (jsonObj["lenguaje"] == "Gobstones"):
@@ -126,7 +137,7 @@ def run_gobstones(jsonObj, v):
       signal.alarm(1)
       salida, falla = ejecutar("node gobstones-lang/dist/gobstones-lang run -l es -i src.txt -b")
       signal.alarm(0)
-    except Exception as e:
+    except TimeoutException as e:
       signal.alarm(0)
       if (v):
         mostrar_excepcion(e)
@@ -170,14 +181,32 @@ def run_gobstones(jsonObj, v):
             return {"resultado":"Falla"}
   return {"resultado":"OK"}
 
+class TimeoutException(Exception):
+  pass
+
 def handler_timeout(s, f):
-  raise Exception("La ejecución demoró más de 1 segundo")
+  raise TimeoutException("La ejecución demoró más de 1 segundo")
 
 signal.signal(signal.SIGALRM, handler_timeout)
 
 def ejecutar(cmd):
-  p = Popen(cmd, stdout=PIPE, stderr=PIPE, universal_newlines=True, shell=True)
-  return p.communicate()
+  fOut = open('stdout.out','w')
+  fErr = open('stderr.out','w')
+  p = Popen(cmd, stdout=fOut, stderr=fErr, universal_newlines=True, shell=True)
+  errcode = p.wait()
+  fOut.close()
+  fErr.close()
+  stdout = ""
+  stderr = ""
+  fOut = open('stdout.out','r')
+  for line in fOut.read():
+      stdout += line
+  fOut.close()
+  fErr = open('stderr.out','r')
+  for line in fErr.read():
+      stderr += line
+  fErr.close()
+  return stdout, stderr
 
 def tablero_valido(t):
   return all(map(lambda x : x in t, ["head","width","height","board"]))
