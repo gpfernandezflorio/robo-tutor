@@ -2,8 +2,14 @@
   <script>
     // Para sólo permitir trabajar tras autenticarse (asignar 'false' para anular)
     const force_dni = true;
-    // Para forzar un ejercicio particular (comentar para usar en modo libre)
-    window.force_ej = { curso:'inpr_unq_2023_s1', ej:1 };
+
+    // Para forzar un curso o ejercicio particular (comentar para usar en modo libre)
+    // window.force_ej = { curso:'inpr_unq_2023_s1' }; // sólo el curso
+    // window.force_ej = { curso:'inpr_unq_2023_s1', ej:1 }; // el curso y el ejercicio
+
+    // Para iniciar con un servidor particular (comentar para anular)
+    window.servidor = "192.168.0.15";
+    window.servidor = "157.92.26.235";
   </script>
   <style media="screen">
   .line-numbers {
@@ -104,9 +110,8 @@
       <div class="floatBar" style="bottom: 5px;">
         <span id="bRestore"></span>
         <span id="dni">DNI: <button id="botonDni" onclick="cambiarDni();">Anónimo</button></span>
-        Sevidor:
-        <!--input type="text" value="192.168.0.15" id="url" style="width:100px"-->
-        <input type="text" value="157.92.26.235" id="url" style="width:100px">
+        Servidor:
+        <input type="text" id="url" style="width:100px">
         :
         <input type="text" value="" id="port" style="width:50px">
         <button onclick="run_code();">¡Enviar!</button>
@@ -126,6 +131,10 @@
     const lineNumbers = document.querySelector('.line-numbers');
     const botonDni = document.getElementById("botonDni");
     const botonRestaurar = document.getElementById("bRestore");
+
+    if ('servidor' in window) {
+      document.getElementById("url").value = window.servidor;
+    }
 
     const verEnunciado = function() {
       if ('ejercicio' in info) {
@@ -382,8 +391,6 @@
       request.setRequestHeader('Content-type', 'application/json');
       request.onreadystatechange = function() {
         if (request.readyState == 4) {
-          document.getElementById("espera").style.display = 'none';
-          document.getElementById("ui").style.display = 'block';
           // localStorage.clear();
           if (request.status == 200) {
             try {
@@ -397,6 +404,8 @@
             console.log(request.status);
             if (failCallback) { failCallback(); }
           }
+          document.getElementById("espera").style.display = 'none';
+          document.getElementById("ui").style.display = 'block';
         }
       };
       if (jsonObj) {
@@ -433,8 +442,20 @@
       // return 'https://worker-production-de3a.up.railway.app/';
       let port_value = document.getElementById("port").value;
       const port = port_value.length > 0 ? port_value : "80" + ('dni' in info ? puertoParaDni() : "60");
-      return `http://${document.getElementById("url").value}:${port}/`;
+      let url = document.getElementById("url").value;
+      if (!esUrlValida(url)) {
+        url = prompt("Ingrese la url del servidor");
+        while (!esUrlValida(url)) {
+          url = prompt("La url ingresada es inválida. Ingrese la url del servidor");
+        }
+        document.getElementById("url").value = url;
+      }
+      return `http://${url}:${port}/`;
     };
+
+    const esUrlValida = function(url) {
+      return url.length > 0;
+    }
 
     const puertoParaDni = function() {
       let p = "60";
@@ -592,11 +613,15 @@
     });
     if ('dni' in info || !force_dni) {
       if ('force_ej' in window) {
-        for (let i of ['curso','abrirEjercicio','lenguaje']) {
-          document.getElementById(i).style.display = 'none';
+        if ('curso' in window.force_ej) {
+          document.getElementById('curso').style.display = 'none';
         }
+        if ('ej' in window.force_ej) {
+          document.getElementById('abrirEjercicio').style.display = 'none';
+        }
+      } else {
+        document.getElementById("ui").style.display = 'block';
       }
-      document.getElementById("ui").style.display = 'block';
     } else {
       alert("Error: se requiere autenticación");
       location.reload();

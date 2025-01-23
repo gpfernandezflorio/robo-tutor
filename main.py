@@ -1,5 +1,10 @@
 import asyncio
-import sys, os
+import sys, os, io
+import json
+import socket
+
+PUERTO_INICIAL = (int(os.environ['PUERTO_INICIAL']) if 'PUERTO_INICIAL' in os.environ else 8050)
+todos_los_pids = [0,1,2,3,4,5,6,7,8,9,10]
 
 py_version = sys.version_info.major
 if py_version != 3:
@@ -28,7 +33,7 @@ def obtener_pid(s):
 
 def a_eliminar(pids, s):
   for p in pids:
-    if s.endswith(py + " server.py -p80" + str(50+p)) or s.endswith(otropy + " server.py -p80" + str(50+p)):
+    if s.endswith(py + " server.py -p" + str(PUERTO_INICIAL+p)) or s.endswith(otropy + " server.py -p" + str(PUERTO_INICIAL+p)):
       return True
   return False
 
@@ -46,8 +51,13 @@ def kill_previous(pids):
           os.system("kill -9 " + pid)
 
 async def main(i):
-  process = await asyncio.create_subprocess_exec(py, 'server.py', '-p80' + str(50+i))
+  process = await asyncio.create_subprocess_exec(py, 'server.py', '-p' + str(PUERTO_INICIAL+i))
   print(f'subprocess: {process}')
+
+def mi_ip():
+  s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+  s.connect(('8.8.8.8', 1))  # connect() for UDP doesn't send packets
+  return s.getsockname()[0]
 
 pids = []
 if len(sys.argv) > 1:
@@ -58,12 +68,16 @@ if len(sys.argv) > 1:
     except ValueError:
       continue
 if len(pids) == 0:
-  pids = [0,1,2,3,4,5,6,7,8,9,10]
+  pids = todos_los_pids
 
 kill_previous(pids)
 
 if len(sys.argv) > 1 and 'x' in sys.argv:
   exit(0)
+
+f = io.open('info.json', mode='w', encoding='utf-8')
+f.write(json.dumps({"ip":mi_ip(),"puerto_inicial":PUERTO_INICIAL}))
+f.close()
 
 os.chdir('servidor')
 for i in pids:
