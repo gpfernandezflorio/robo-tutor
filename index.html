@@ -1,4 +1,7 @@
 <html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
   <script>
     // Para sólo permitir trabajar tras autenticarse (asignar 'false' para anular)
     const force_dni = true;
@@ -7,11 +10,20 @@
     // window.force_ej = { curso:'inpr_unq_2023_s1' }; // sólo el curso
     // window.force_ej = { curso:'inpr_unq_2023_s1', ej:1 }; // el curso y el ejercicio
 
-    // Para iniciar con un servidor particular (comentar para anular)
+    // URL del servidor
+    const urlServidor = "https://epli.exp.dc.uba.ar"
+
+    // Para habilitar la configuración del servidor a mano a través de IP y puerto (asignar 'false' para anular)
+    let servidorManual = false;
+
+    // Para iniciar con una IP de servidor particular (comentar para anular)
     window.servidor = "192.168.0.15";
     window.servidor = "157.92.26.235";
   </script>
   <style media="screen">
+  body {
+    background-color: #ccd;
+  }
   .line-numbers {
     width: 20px;
     text-align: right;
@@ -33,7 +45,7 @@
     border-radius: 15px;
     border-style: solid;
     border-width: 1px;
-    border-color: #000;
+    border-color: #999;
     padding: 3px 15px;
   }
   #src {
@@ -58,6 +70,7 @@
     border: solid 1px #000;
     border-radius: 5px 0px 0px 5px;
     padding: 0px 5px;
+    background-color: #fff;
   }
   @keyframes timeout {
     from {
@@ -98,7 +111,7 @@
         </span>
       </div>
       <span style="display: block;height: 30px;"></span>
-      <div class="editorWrapper">
+      <div class="editorWrapper" onclick="focoAlTexto();">
         <div class="editor">
           <div class="line-numbers">
             <span></span>
@@ -110,11 +123,16 @@
       <div class="floatBar" style="bottom: 5px;">
         <span id="bRestore"></span>
         <span id="dni">DNI: <button id="botonDni" onclick="cambiarDni();">Anónimo</button></span>
-        Servidor:
-        <input type="text" id="url" style="width:100px">
-        :
-        <input type="text" value="" id="port" style="width:50px">
         <button onclick="run_code();">¡Enviar!</button>
+      </div>
+      <div class="floatBar" style="bottom: 5px;right: 5px;">
+        <span id="servidorManual">
+          Servidor:
+          <input type="text" id="url" style="width:100px">
+          :
+          <input type="text" value="" id="port" style="width:50px">
+        </span>
+        <button onclick="manual();">Configurar servidor manual</button>
       </div>
     </div>
   </div>
@@ -132,9 +150,26 @@
     const botonDni = document.getElementById("botonDni");
     const botonRestaurar = document.getElementById("bRestore");
 
-    if ('servidor' in window) {
-      document.getElementById("url").value = window.servidor;
-    }
+    const mostrarServidor = function() {
+      if (servidorManual) {
+        if ('servidor' in window) {
+          document.getElementById("url").value = window.servidor;
+        }
+        document.getElementById("servidorManual").style.display = '';
+      } else {
+        document.getElementById("servidorManual").style.display = 'none';
+      }
+    };
+    mostrarServidor(servidorManual);
+
+    const manual = function() {
+      servidorManual = !servidorManual;
+      mostrarServidor();
+    };
+
+    const focoAlTexto = function() {
+      setTimeout(() => textarea.focus(), 50);
+    };
 
     const verEnunciado = function() {
       if ('ejercicio' in info) {
@@ -318,7 +353,7 @@
         } else {
           alert("ERROR: resultado faltante");
         }
-        textarea.focus();
+        focoAlTexto();
       };
       const failCallback = function() {
         alert("ERROR: falló la comunicación con el servidor");
@@ -439,18 +474,21 @@
     };
 
     const rutaAlServidor = function() {
-      // return 'https://worker-production-de3a.up.railway.app/';
       let port_value = document.getElementById("port").value;
       const port = port_value.length > 0 ? port_value : "80" + ('dni' in info ? puertoParaDni() : "60");
-      let url = document.getElementById("url").value;
-      if (!esUrlValida(url)) {
-        url = prompt("Ingrese la url del servidor");
-        while (!esUrlValida(url)) {
-          url = prompt("La url ingresada es inválida. Ingrese la url del servidor");
+      if (servidorManual) {
+        let url = document.getElementById("url").value;
+        if (!esUrlValida(url)) {
+          url = prompt("Ingrese la url del servidor");
+          while (!esUrlValida(url)) {
+            url = prompt("La url ingresada es inválida. Ingrese la url del servidor");
+          }
+          document.getElementById("url").value = url;
         }
-        document.getElementById("url").value = url;
+        return `http://${url}:${port}/`;
+      } else {
+        return `${urlServidor}/robotutor_${port}/`;
       }
-      return `http://${url}:${port}/`;
     };
 
     const esUrlValida = function(url) {
@@ -492,7 +530,7 @@
     });
 
     const actualizarNúmerosDeLinea = function() {
-      const numberOfLines = textarea.value.split('\n').length
+      const numberOfLines = Math.max(10, textarea.value.split('\n').length)
 
       lineNumbers.innerHTML = Array(numberOfLines)
         .fill('<span></span>')
@@ -548,12 +586,14 @@
           dni = psw + "-" + dni;
           info.dni = dni;
           f(dni);
+          focoAlTexto();
           return;
         }
       }
       if (f_cancel) {
         f_cancel();
       }
+      focoAlTexto();
     }
 
     const cargarDatos = function(aCargar) {
