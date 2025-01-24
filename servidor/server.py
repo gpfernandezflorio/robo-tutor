@@ -64,10 +64,14 @@ class HandlerAC(moduloHTTPRequest):
         self.end_headers()
 
     def do_GET(self):
-        if (self.path == "/cursos"):
+        if (self.path == "/" or self.path == "index.html"):
+            self.archivoStatico('../index.html')
+        elif (self.path == "/cursos"):
             self.responder(dame_cursos())
         elif (self.path == "/admin"):
             self.archivoStatico('admin.html')
+        elif (self.path == "/favicon.ico"):
+            self.archivoStatico('favicon.ico')
         else:
             self.error("[GET] Ruta {} inválida".format(self.path))
 
@@ -143,8 +147,8 @@ def tipo_archivo(filename):
     #     return 'application/json'
     # if filename[-3:] == '.js':
     #     return 'application/javascript'
-    # if filename[-4:] == '.ico':
-    #     return 'image/x-icon'
+    if filename[-4:] == '.ico':
+        return 'image/x-icon'
     # if filename[-4:] == '.svg':
     #     return 'image/svg+xml'
     return 'text/html'
