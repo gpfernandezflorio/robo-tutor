@@ -3,6 +3,9 @@ import sys, os, io
 import json
 import socket
 
+from dotenv import load_dotenv
+load_dotenv()
+
 PUERTO_INICIAL = (int(os.environ['PUERTO_INICIAL']) if 'PUERTO_INICIAL' in os.environ else 8050)
 todos_los_pids = [0,1,2,3,4,5,6,7,8,9,10]
 

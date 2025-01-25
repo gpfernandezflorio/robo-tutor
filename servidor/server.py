@@ -71,7 +71,7 @@ class HandlerAC(moduloHTTPRequest):
         elif (self.path == "/admin"):
             self.archivoStatico('admin.html')
         elif (self.path == "/favicon.ico"):
-            self.archivoStatico('favicon.ico')
+            self.archivoStatico('../favicon.ico')
         else:
             self.error("[GET] Ruta {} inválida".format(self.path))
 
