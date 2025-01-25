@@ -12,6 +12,9 @@
 
     // URL del servidor
     const urlServidor = "https://epli.exp.dc.uba.ar"
+    // ¿Está habilitado el servidor de redirección?
+    const servidorDeRedireccion = true;
+    const puertoInicial = 8040; // En caso de usar el servidor de redirección
 
     // Para habilitar la configuración del servidor a mano a través de IP y puerto (asignar 'false' para anular)
     let servidorManual = false;
@@ -472,7 +475,7 @@
 
     const rutaAlServidor = function() {
       let port_value = document.getElementById("port").value;
-      const port = port_value.length > 0 ? port_value : "80" + ('dni' in info ? puertoParaDni() : "60");
+      const port = port_value.length > 0 ? port_value : `${('dni' in info ? puertoParaDni() : puertoInicial+10)}`;
       if (servidorManual) {
         let url = document.getElementById("url").value;
         if (!esUrlValida(url)) {
@@ -484,8 +487,11 @@
         }
         return `http://${url}:${port}/`;
       } else {
-        return `${urlServidor}/`;
-        // return `${urlServidor}/robotutor_${port}/`;
+        if (servidorDeRedireccion) {
+          return `${urlServidor}/robotutor_${port}/`;
+        } else {
+          return `${urlServidor}/`;
+        }
       }
     };
 
@@ -494,12 +500,12 @@
     }
 
     const puertoParaDni = function() {
-      let p = "60";
+      let p = 10;
       if (info.dni.length > 0) {
         p = info.dni.charAt(info.dni.length-1);
-        p = isNaN(Number.parseInt(p)) ? "60" : "5" + p;
+        p = isNaN(Number.parseInt(p)) ? 10 : Number.parseInt(p);
       }
-      return p;
+      return puertoInicial + p;
     };
 
     const parametroURL = function(clave) {
