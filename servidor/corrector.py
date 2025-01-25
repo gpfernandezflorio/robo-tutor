@@ -29,6 +29,8 @@ def completarDataEjercicio(jsonObj):
     for k in informacionPrivada:
       if k in ejercicio:
         jsonObj[k] = ejercicio[k]
+      elif k in jsonObj:
+        del jsonObj[k]
 
 def run_code(jsonObj, v):
   if (not ("src" in jsonObj)):
@@ -58,6 +60,7 @@ def run_python(jsonObj, v):
   if (type(run_data) != type([])):
     run_data = [run_data]
   code = jsonObj["src"]
+  timeout = jsonObj["timeout"] if ("timeout" in jsonObj) else 1
   if (v):
     print(code)
   for run in run_data:
@@ -71,7 +74,7 @@ def run_python(jsonObj, v):
         return {"resultado":"Error", "error":"Error en el ejercicio"}
     ## Ejecución del código entregado
     try:
-      signal.alarm(1)
+      signal.alarm(timeout)
       exec(code)
       signal.alarm(0)
     except Exception as e:
@@ -119,6 +122,7 @@ def run_gobstones(jsonObj, v):
   if (type(run_data) != type([])):
     run_data = [run_data]
   code = jsonObj["src"]
+  timeout = jsonObj["timeout"] if ("timeout" in jsonObj) else 1
   if (v):
     print(code)
   if "pre" in jsonObj:
@@ -134,7 +138,7 @@ def run_gobstones(jsonObj, v):
     f.write(json.dumps(tablero))
     f.close()
     try:
-      signal.alarm(1)
+      signal.alarm(timeout)
       salida, falla = ejecutar("node gobstones-lang/dist/gobstones-lang run -l es -i src.txt -b")
       signal.alarm(0)
     except TimeoutException as e:
@@ -185,7 +189,7 @@ class TimeoutException(Exception):
   pass
 
 def handler_timeout(s, f):
-  raise TimeoutException("La ejecución demoró más de 1 segundo")
+  raise TimeoutException("La ejecución demoró más de lo permitido")
 
 signal.signal(signal.SIGALRM, handler_timeout)
 

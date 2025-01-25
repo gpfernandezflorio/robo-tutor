@@ -23,7 +23,7 @@ for c in cursos_exactas_programa:
 
 CURSOS_publico = {"cursos":{}}
 
-informacionPrivada = ["pre","run_data"]
+informacionPrivada = ["pre","run_data","timeout"]
 informacionPublica = ["nombre","enunciado","base","pidePrograma"] # pidePrograma es público porque lo usa el cliente para armar el mensaje de error
 def esconderInformacionSensibleEjercicio(ejercicio):
   ejercicioPublico = {}
