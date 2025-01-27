@@ -16,7 +16,7 @@ proceso_en_ejecucion = None
 
 if not os.path.isfile(LOCAL_FILE):
   f = io.open(LOCAL_FILE, mode='w')
-  f.write("ts,dni,src,res,ej")
+  f.write("ts,dni,ej,src,res,d")
   f.close()
 
 def open_ej(jsonObj, v):
@@ -79,6 +79,7 @@ def run_python(jsonObj, v):
   if "pre" in jsonObj:
     code = jsonObj["pre"] + "\n\n" + code
     lineasAdicionales = lineasAdicionales + jsonObj["pre"].count("\n") + 2
+  duraciones = []
   for run in run_data:
     code_run = code
     lineasAdicionales_run = lineasAdicionales
@@ -114,18 +115,18 @@ def run_python(jsonObj, v):
     f.close()
     signal.alarm(timeout)
     errcode, salida, falla = ejecutar("python3 src.py")
-    signal.alarm(0)
+    duracion = timeout - signal.alarm(0)
     if proceso_en_ejecucion is None:
       return {"resultado":"Except", "error":"La ejecución demoró más de lo permitido"}
-    else:
-      proceso_en_ejecucion = None
+    proceso_en_ejecucion = None
+    duraciones.append(duracion)
     if len(falla) > 0:
       if (v):
         print(falla)
       return {"resultado":"Except", "error":buscar_falla_python(falla, lineasAdicionales_run)}
     if errcode != 0:
       return {"resultado":"Falla"}
-  return {"resultado":"OK"}
+  return {"resultado":"OK","duracion":sum(duraciones)/len(duraciones)}
 
 def run_gobstones(jsonObj, v):
   global proceso_en_ejecucion
@@ -144,6 +145,7 @@ def run_gobstones(jsonObj, v):
   f = open('src.txt', 'w')
   f.write(code)
   f.close()
+  duraciones = []
   for run in run_data:
     lineasAdicionales_run = lineasAdicionales
     ## Tablero inicial
@@ -153,11 +155,11 @@ def run_gobstones(jsonObj, v):
     f.close()
     signal.alarm(timeout)
     errcode, salida, falla = ejecutar("node gobstones-lang/dist/gobstones-lang run -l es -i src.txt -b")
-    signal.alarm(0)
+    duracion = timeout - signal.alarm(0)
     if proceso_en_ejecucion is None:
       return {"resultado":"Except", "error":"La ejecución demoró más de lo permitido"}
-    else:
-      proceso_en_ejecucion = None
+    proceso_en_ejecucion = None
+    duraciones.append(duracion)
     if len(falla) > 0:
       return {"resultado":"Except", "error":buscar_falla_gobstones(falla, lineasAdicionales_run)}
     try:
@@ -195,7 +197,7 @@ def run_gobstones(jsonObj, v):
         for y in range(len(columna_esperada)):
           if not misma_celda(columna_esperada[y], columna_obtenida[y]):
             return {"resultado":"Falla"}
-  return {"resultado":"OK"}
+  return {"resultado":"OK","duracion":sum(duraciones)/len(duraciones)}
 
 def handler_timeout(s, f):
   global proceso_en_ejecucion
@@ -300,9 +302,10 @@ def mostrar_resultado(resultado):
 form_url = "https://docs.google.com/forms/d/e/1FAIpQLScHNF1TFEZrcSLNLYbxxFOHIVPyml9dpZTpqJ_WJSqGPanOAw/formResponse"
 entries = {
   "dni":"1115080072",
+  "ejercicio":"1084236439",
   "src":"256509475",
   "resultado":"236721452",
-  "ejercicio":"1084236439"
+  "duracion":"1133020774"
 }
 
 def commit(jsonObj, v):
