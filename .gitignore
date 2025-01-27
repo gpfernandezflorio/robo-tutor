@@ -2,6 +2,7 @@ __pycache__
 *.pyc
 board.jboard
 src.txt
+src.py
 info.json
 local.csv
 stderr.out

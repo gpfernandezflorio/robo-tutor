@@ -327,10 +327,19 @@
           jsonObj.dni = dni;
         });
       }
+      let timeout = 2;
       if ('ejercicio' in info) {
-        jsonObj.ejercicio = info.ejercicio.nombre;
         if ('curso' in info) {
           jsonObj.curso = info.curso;
+          jsonObj.ejercicio = info.ejercicio.nombre;
+        } else {
+          jsonObj.ejercicio = info.ejercicio;
+        }
+        if ('timeoutTotal' in info.ejercicio) {
+          timeout = info.ejercicio.timeoutTotal;
+        } else if ('run_data' in info.ejercicio) {
+          timeout = 'timeout' in info.ejercicio ? info.ejercicio.timeout : 1;
+          timeout = 2 + timeout * info.ejercicio.run_data.length;
         }
       }
       const callback = function(jsonObj) {
@@ -358,7 +367,7 @@
       const failCallback = function() {
         alert("ERROR: falló la comunicación con el servidor");
       };
-      sendRequest('POST', 'code', callback, jsonObj, failCallback);
+      sendRequest('POST', 'code', callback, jsonObj, failCallback, timeout);
     };
 
     const ejercicioPidePrograma = function() {
@@ -418,10 +427,10 @@
       return !('mostrar' in ej) || ej.mostrar;
     }
 
-    const sendRequest = function(method, path, callback, jsonObj, failCallback) {
+    const sendRequest = function(method, path, callback, jsonObj, failCallback, timeout=2) {
       document.getElementById("ui").style.display = 'none';
       document.getElementById("espera").style.display = 'block';
-      let request = createRequest();
+      let request = createRequest(timeout);
       request.open(method, rutaAlServidor() + path, true);
       request.setRequestHeader('Content-type', 'application/json');
       request.onreadystatechange = function() {
@@ -450,7 +459,7 @@
       }
     };
 
-    const createRequest = function() {
+    const createRequest = function(timeout=2) {
       var request = null;
       try { // Firefox, Chrome, IE7+, Opera, Safari
         request = new XMLHttpRequest();
@@ -469,7 +478,7 @@
           }
         }
       }
-      request.timeout = 2000
+      request.timeout = timeout*1000;
       return request;
     };
 

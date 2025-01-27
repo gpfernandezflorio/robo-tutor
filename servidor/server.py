@@ -124,14 +124,19 @@ class ServerAC(ThreadingMixIn, moduloHTTPServer):
 def run(host, port):
     global servidorAC
     servidorAC = ServerAC((host, port), HandlerAC)
-    try:
-        servidorAC.serve_forever()
-    except KeyboardInterrupt:
-        pass
+    seguirSirviendo = True
+    while(seguirSirviendo):
+      try:
+          servidorAC.serve_forever()
+      except KeyboardInterrupt:
+          seguirSirviendo = False
+      except Exception as e:
+          mostrar_excepcion(e)
     close_server()
     print('Exit...\n')
 
 def close_server():
+    print("CLOSE")
     servidorAC.server_close()
     exit()
 

@@ -23,13 +23,15 @@ for c in cursos_exactas_programa:
 
 CURSOS_publico = {"cursos":{}}
 
-informacionPrivada = ["pre","run_data","timeout"]
+informacionPrivada = ["pre","run_data","aridad","timeout"]
 informacionPublica = ["nombre","enunciado","base","pidePrograma"] # pidePrograma es público porque lo usa el cliente para armar el mensaje de error
 def esconderInformacionSensibleEjercicio(ejercicio):
   ejercicioPublico = {}
   for k in ejercicio:
     if k in informacionPublica:
       ejercicioPublico[k] = ejercicio[k]
+  # Agrego un timeout para que el cliente sepa cuánto esperar al servidor
+  ejercicioPublico["timeoutTotal"] = 2 + (ejercicio["timeout"] if "timeout" in ejercicio else timeoutDefault()) * (len(ejercicio["run_data"]) if "run_data" in ejercicio else 1)
   return ejercicioPublico
 
 def esconderInformacionSensibleCurso(curso):
@@ -42,6 +44,9 @@ def esconderInformacionSensibleCurso(curso):
     if not ("mostrar" in ej) or ej["mostrar"]:
       cursoPublico["ejs"].append(esconderInformacionSensibleEjercicio(ej))
   return cursoPublico
+
+def timeoutDefault():
+  return 1
 
 for c in CURSOS:
   CURSOS_publico["cursos"][c] = esconderInformacionSensibleCurso(CURSOS[c])
