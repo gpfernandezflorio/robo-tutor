@@ -103,7 +103,7 @@ def run_python(jsonObj, v):
       code_run = "import inspect\n\n" + code_run
       lineasAdicionales_run = lineasAdicionales_run + 2
       for f in aridad:
-        verificacion_aridad = "\n\n" + "try:\n  args = len(inspect.getfullargspec(eval('" + f + "')).args)\n  if (args != " + str(aridad[f]) + "):\n    print('ARGS " + f + "' + str(args) + '[" + str(aridad[f]) + "]')\nexcept Exception as e:\n  print('ARGS Err')\n  print(e)"
+        verificacion_aridad = "\n\n" + "try:\n  args = len(inspect.getfullargspec(eval('" + f + "')).args)\n  if (args != " + str(aridad[f]) + "):\n    print('ARGS " + f + " ' + str(args) + ' [" + str(aridad[f]) + "]')\n    exit(1)\nexcept NameError as e:\n  print('DEF " + f + "')\n  exit(1)\nexcept Exception as e:\n  print('ARGS Err')\n  print(e)\n  exit(1)"
         code_run = code_run + verificacion_aridad
     ## Resultado
     if "post" in run:
