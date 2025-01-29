@@ -14,7 +14,7 @@ import json
 import socket
 from corrector import run_code, open_ej
 from admin import admin_reset
-from data import dame_cursos
+from data import dame_cursos, tryLogin
 
 try: # python 3
     from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -64,12 +64,12 @@ class HandlerAC(moduloHTTPRequest):
         self.end_headers()
 
     def do_GET(self):
-        if (self.path == "/" or self.path == "index.html"):
+        if (self.path == "/" or self.path == "/index.html"):
             self.archivoStatico('../index.html')
-        elif (self.path == "/cursos"):
-            self.responder(dame_cursos())
-        elif (self.path == "/admin"):
-            self.archivoStatico('admin.html')
+        # elif (self.path == "/admin"):
+        #     self.archivoStatico('admin.html')
+        elif (self.path.startswith("/csv")):
+            self.archivoStatico('locales/' + self.path[4:] + '.csv')
         elif (self.path == "/favicon.ico"):
             self.archivoStatico('../favicon.ico')
         else:
@@ -89,6 +89,10 @@ class HandlerAC(moduloHTTPRequest):
             self.responder(open_ej(jsonObject, verb))
         elif (self.path == "/code"):
             self.responder(run_code(jsonObject, verb))
+        elif (self.path == "/login"):
+            self.responder(tryLogin(jsonObject, verb))
+        elif (self.path == "/cursos"):
+            self.responder(dame_cursos(jsonObject))
         elif (self.path == "/reset"):
             self.responder(admin_reset(jsonObject, verb))
         else:
@@ -156,6 +160,8 @@ def tipo_archivo(filename):
         return 'image/x-icon'
     # if filename[-4:] == '.svg':
     #     return 'image/svg+xml'
+    if filename[-4:] == '.csv':
+        return 'text/csv'
     return 'text/html'
 
 if __name__ == '__main__':

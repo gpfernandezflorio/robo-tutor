@@ -8,20 +8,19 @@ import signal
 import json
 import io, os
 
-from data import dameEjercicio, informacionPrivada, timeoutDefault
+from data import dameEjercicio, informacionPrivadaEjercicio, timeoutDefault
+from users import cursosUsuario
 
-LOCAL_FILE = 'local.csv'
+LOCAL_DIR = 'locales'
+if not os.path.isdir(LOCAL_DIR):
+  os.mkdir(LOCAL_DIR)
 
 proceso_en_ejecucion = None
-
-if not os.path.isfile(LOCAL_FILE):
-  f = io.open(LOCAL_FILE, mode='w')
-  f.write("ts,dni,ej,src,res,d")
-  f.close()
 
 def open_ej(jsonObj, v):
   jsonObj["src"] = "."
   jsonObj["resultado"] = "OPEN"
+  jsonObj["duracion"] = "-"
   commit(jsonObj, v)
 
 def completarDataEjercicio(jsonObj):
@@ -31,7 +30,7 @@ def completarDataEjercicio(jsonObj):
   elif "ejercicio" in jsonObj:
     ejercicio = jsonObj["ejercicio"]
   if not (ejercicio is None):
-    for k in informacionPrivada:
+    for k in informacionPrivadaEjercicio:
       if k in ejercicio:
         jsonObj[k] = ejercicio[k]
       elif k in jsonObj:
@@ -55,6 +54,11 @@ def run_code(jsonObj, v):
     if (v):
       print(jsonObj["lenguaje"])
     return {"resultado":"Error", "error":"Lenguaje desconocido: " + jsonObj["lenguaje"]}
+  if ("duracion" in resultado):
+    jsonObj["duracion"] = "{:.2f}".format(resultado["duracion"])
+    del resultado["duracion"]
+  else:
+    jsonObj["duracion"] = "-"
   if ("dni" in jsonObj):
     jsonObj["resultado"] = mostrar_resultado(resultado)
     commit(jsonObj, v)
@@ -314,14 +318,20 @@ def commit(jsonObj, v):
       jsonObj["ejercicio"] = jsonObj["ejercicio"]["nombre"]
   else:
     jsonObj["ejercicio"] = "-"
-  if "curso" in jsonObj:
-    jsonObj["ejercicio"] = jsonObj["curso"] + " : " + jsonObj["ejercicio"]
-  data_form = {}
+  # data_form = {}
   data_csv = [str(datetime.datetime.now())]
   for x in entries:
-    data_form["entry." + entries[x]] = jsonObj[x]
+    # data_form["entry." + entries[x]] = jsonObj[x]
     data_csv.append(limpiar_csv(jsonObj[x].replace('"','""')))
-  guardarLocal(",".join(data_csv))
+  cursos = []
+  if "curso" in jsonObj:
+    cursos = [jsonObj["curso"]]
+  else:
+    cursos = cursosUsuario(jsonObj["dni"])
+  for curso in cursos:
+    guardarLocal(",".join(data_csv), curso)
+  # if "curso" in jsonObj:
+  #   data_form["entry." + entries["ejercicio"]] = jsonObj["curso"] + ":" + jsonObj["ejercicio"]
   # submit(form_url, data_form, jsonObj["dni"], v)
 
 def submit(url, data, dni, v):
@@ -332,8 +342,14 @@ def submit(url, data, dni, v):
       mostrar_excepcion(e)
     print("ERROR " + dni)
 
-def guardarLocal(s):
-  f = io.open(LOCAL_FILE, mode='a')
+def guardarLocal(s, curso):
+  archivo = os.path.join(LOCAL_DIR, curso + ".csv")
+  f = None
+  if os.path.isfile(archivo):
+    f = io.open(archivo, mode='a')
+  else:
+    f = io.open(archivo, mode='w')
+    f.write("ts,dni,ej,src,res,d")
   f.write("\n" + s)
   f.close()
 

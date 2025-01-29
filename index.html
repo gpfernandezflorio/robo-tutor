@@ -90,11 +90,70 @@
     animation-name: timeout;
     animation-duration: 10s;
   }
+  .formLogin {
+    background-color: #fff;
+    border-color: #999;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin: auto;
+    margin-top: 100px;
+    width: 350px;
+    height: 150px;
+  }
+  .formContent {
+    margin: auto;
+    width: auto;
+    height: auto;
+    display: table;
+  }
+  #errorLogin {
+    border-color: #0000;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 5px;
+    color: red;
+    text-align: center;
+  }
   </style>
-  <div id="ui" style="display:none;">
+  <div id="ui" style="display:block;">
+    <div id="login" style="display:block;">
+      <div class="formLogin">
+        <div class="formContent">
+          <table>
+            <tr>
+              <td>
+                <label><b>Usuario</b></label>
+              </td>
+              <td>
+                <input id="loginUsuario" type="text" placeholder="nombre de usuario">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label><b>Contraseña</b></label>
+              </td>
+              <td>
+                <input id="loginContrasenia" type="password" placeholder="contraseña">
+              </td>
+            </tr>
+          </table>
+          <br/>
+          <div class="formContent">
+            <button onclick="tryLogin();">Ingresar</button>
+            <br/>
+            <label>
+              <!-- <input type="checkbox" checked="checked"> Recuérdame -->
+            </label>
+          </div>
+          <div id="errorLogin"></div>
+        </div>
+      </div>
+    </div>
     <div id="seleccionDeCurso" style="display:none;">
     </div>
-    <div id="workspace" style="display:block;">
+    <div id="workspace" style="display:none;">
       <div class="floatBar" style="top: 5px;">
         <span id="curso">
           Curso: <span id="cursoSeleccionado">Ninguno</span>
@@ -125,18 +184,18 @@
       <span style="display: block;height: 30px;"></span>
       <div class="floatBar" style="bottom: 5px;">
         <span id="bRestore"></span>
-        <span id="dni">DNI: <button id="botonDni" onclick="cambiarDni();">Anónimo</button></span>
+        <span id="dni">Usuario: <button id="botonDni" onclick="cambiarDni();">Anónimo</button></span>
         <button onclick="run_code();">¡Enviar!</button>
       </div>
-      <div class="floatBar" style="bottom: 5px;right: 5px;">
-        <span id="servidorManual">
-          Servidor:
-          <input type="text" id="url" style="width:100px">
-          :
-          <input type="text" value="" id="port" style="width:50px">
-        </span>
-        <button onclick="manual();">Configurar servidor manual</button>
-      </div>
+    </div>
+    <div class="floatBar" style="bottom: 5px;right: 5px;">
+      <span id="servidorManual">
+        Servidor:
+        <input type="text" id="url" style="width:100px">
+        :
+        <input type="text" value="" id="port" style="width:50px">
+      </span>
+      <button onclick="manual();">Configurar servidor manual</button>
     </div>
   </div>
   <div id="espera" style="display:none;">
@@ -170,6 +229,73 @@
       mostrarServidor();
     };
 
+    const tryLogin = function() {
+      let usuario = document.getElementById("loginUsuario").value;
+      let contrasenia = document.getElementById("loginContrasenia").value;
+      if (usuario.length == 0 || contrasenia.length == 0) {
+        errorLogin("Ingrese usuario y contraseña.");
+      } else {
+        const fLogin = function(jsonObj) {
+          if ('resultado' in jsonObj) {
+            if (jsonObj.resultado == "Falla") {
+              errorLogin("No se pudo autenticar.");
+            } else if (jsonObj.resultado == "OK") {
+              registrarCursosRecibidos(jsonObj);
+              if ('curso' in jsonObj) {
+                actualizaCursoSeleccionado(jsonObj.curso);
+              }
+              if ('usuario' in jsonObj) {
+                info.dni = jsonObj.usuario;
+                dniSet(info.dni);
+              }
+              if ('contrasenia' in jsonObj) {
+                info.contrasenia = jsonObj.contrasenia;
+              }
+              let aCargar = {};
+              if ('force_ej' in window) {
+                aCargar = window.force_ej;
+              }
+              let sesionPrevia = localStorage.getItem(`text ${info.dni}`);
+              if (sesionPrevia !== null) {
+                aCargar.text = sesionPrevia;
+              }
+              if (!('curso' in aCargar)) {
+                let cursoPrevio = localStorage.getItem(`curso ${info.dni}`);
+                if (cursoPrevio !== null && cursoPrevio !== undefined) {
+                  aCargar.curso = cursoPrevio;
+                  if (!('ej' in aCargar)) {
+                    let ejercicioPrevio = localStorage.getItem(`ej ${info.dni}`);
+                    if (ejercicioPrevio !== null && ejercicioPrevio !== undefined) {
+                      aCargar.ej = ejercicioPrevio;
+                    }
+                  }
+                }
+              }
+              cargarDatos(aCargar);
+              if ('interval' in info) {
+                clearInterval(info.interval);
+              }
+              info.interval = setInterval(function() {
+                localStorage.setItem(`text ${info.dni}`, textarea.value);
+              }, 1000);
+              pantallaWorkspace();
+            }
+          } else {
+            alert("ERROR: resultado faltante");
+          }
+        };
+        const datos = {usuario, contrasenia};
+        if ('curso' in info) {
+          datos.curso = info.curso;
+        }
+        sendRequest('POST', 'login', fLogin, datos);
+      }
+    };
+
+    const errorLogin = function(s) {
+      document.getElementById("errorLogin").innerHTML = `Error: ${s}`;
+    };
+
     const focoAlTexto = function() {
       setTimeout(() => textarea.focus(), 50);
     };
@@ -182,16 +308,23 @@
       }
     };
 
-    const cerrarSelector = function() {
+    const pantallaWorkspace = function() {
+      document.getElementById("login").style.display = 'none';
       document.getElementById("seleccionDeCurso").style.display = 'none';
       document.getElementById("workspace").style.display = 'block';
+      focoAlTexto();
+    };
+
+    const pantallaSelector = function() {
+      document.getElementById("login").style.display = 'none';
+      document.getElementById("seleccionDeCurso").style.display = 'block';
+      document.getElementById("workspace").style.display = 'none';
     };
 
     const abrirEjercicio = function() {
       if ('curso' in info) {
         cargarEjercicios();
-        document.getElementById("seleccionDeCurso").style.display = 'block';
-        document.getElementById("workspace").style.display = 'none';
+        pantallaSelector();
       } else {
         fileChooser(function(jsonObj) {
           if (!['nombre','lenguaje','enunciado'].every(x => x in jsonObj)) {
@@ -215,7 +348,7 @@
         const ej = cursos[info.curso].ejs[i];
         cargarEjercicio(ej);
       }
-      cerrarSelector();
+      pantallaWorkspace();
     };
 
     const actualizarNombreEjercicio = function(n) {
@@ -252,7 +385,7 @@
         actualizaCursoSeleccionado(k);
       }
       seleccionarEjercicio(null);
-      cerrarSelector();
+      pantallaWorkspace();
     };
 
     const actualizaCursoSeleccionado = function(k) {
@@ -320,12 +453,12 @@
         src:textarea.value,
         lenguaje:document.getElementById("selectorLenguaje").value,
       };
-      if ('dni' in info) {
+      if ('dni' in info && 'contrasenia' in info) {
         jsonObj.dni = info.dni;
+        jsonObj.contrasenia = info.contrasenia;
       } else if ('curso' in info) {
-        pedirDni((dni) => {
-          jsonObj.dni = dni;
-        });
+        pedirDni();
+        return;
       }
       let timeout = 2;
       if ('ejercicio' in info) {
@@ -384,30 +517,35 @@
           contenidoPantalla += `<button onclick="seleccionarCurso('${c}');">${cursos[c].nombre}</button><br/>`;
         }
         document.getElementById("seleccionDeCurso").innerHTML = contenidoPantalla +
-          '<button onclick="cerrarSelector();">Cancelar</button>';
-        document.getElementById("seleccionDeCurso").style.display = 'block';
-        document.getElementById("workspace").style.display = 'none';
+          '<button onclick="pantallaWorkspace();">Cancelar</button>';
+          pantallaSelector();
       });
     };
 
     const pedirCursos = function(f) {
       const callback = function(jsonObj) {
-        if ('cursos' in jsonObj) {
-          for (let k in cursos) {
-            if (!(k in jsonObj.cursos)) {
-              delete cursos[k];
-            }
-          }
-          for (let k in jsonObj.cursos) {
-            cursos[k] = jsonObj.cursos[k];
-          }
-          f();
-        }
+        registrarCursosRecibidos(jsonObj, f);
       };
       const failCallback = function() {
         alert("ERROR: falló la comunicación con el servidor");
       };
-      sendRequest('GET', 'cursos', callback, null, failCallback);
+      sendRequest('POST', 'cursos', callback, {usuario: info.dni, contrasenia:info.contrasenia}, failCallback);
+    };
+
+    const registrarCursosRecibidos = function(jsonObj, opt_f) {
+      if ('cursos' in jsonObj) {
+        for (let k in cursos) {
+          if (!(k in jsonObj.cursos)) {
+            delete cursos[k];
+          }
+        }
+        for (let k in jsonObj.cursos) {
+          cursos[k] = jsonObj.cursos[k];
+        }
+        if (opt_f){
+          opt_f();
+        }
+      }
     };
 
     const cargarEjercicios = function() {
@@ -420,7 +558,7 @@
         i++;
       }
       document.getElementById("seleccionDeCurso").innerHTML = contenidoPantalla +
-        '<button onclick="cerrarSelector();">Cancelar</button>';
+        '<button onclick="pantallaWorkspace();">Cancelar</button>';
     };
 
     const ejercicioDisponible = function(ej) {
@@ -590,24 +728,15 @@
       botonDni.innerHTML = dni;
     };
 
-    const pedirDni = function(f, f_cancel) {
-      let dni = prompt("Ingresá tu dni (sólo números)");
-      if (dni) {
-        const psw = prompt("Ingresá tu contraseña");
-        if (psw) {
-          dniSet(dni);
-          dni = psw + "-" + dni;
-          info.dni = dni;
-          f(dni);
-          focoAlTexto();
-          return;
-        }
-      }
-      if (f_cancel) {
-        f_cancel();
-      }
-      focoAlTexto();
-    }
+    const pantallaLogin = function() {
+      document.getElementById('login').style.display = 'block';
+      document.getElementById('workspace').style.display = 'none';
+      document.getElementById('seleccionDeCurso').style.display = 'none';
+    };
+
+    const pedirDni = function() {
+      pantallaLogin();
+    };
 
     const cargarDatos = function(aCargar) {
       if ('curso' in aCargar) {
@@ -628,57 +757,8 @@
     }
 
     const cambiarDni = function(f_cancel) {
-      pedirDni((dni) => {
-        let aCargar = {};
-        if ('force_ej' in window) {
-          aCargar = window.force_ej;
-        }
-        let sesionPrevia = localStorage.getItem(`text ${dni}`);
-        if (sesionPrevia !== null) {
-          aCargar.text = sesionPrevia;
-        }
-        if (!('curso' in aCargar)) {
-          let cursoPrevio = localStorage.getItem(`curso ${dni}`);
-          if (cursoPrevio !== null && cursoPrevio !== undefined) {
-            aCargar.curso = cursoPrevio;
-            if (!('ej' in aCargar)) {
-              let ejercicioPrevio = localStorage.getItem(`ej ${dni}`);
-              if (ejercicioPrevio !== null && ejercicioPrevio !== undefined) {
-                aCargar.ej = ejercicioPrevio;
-              }
-            }
-          }
-        }
-        cargarDatos(aCargar);
-        if ('interval' in info) {
-          clearInterval(info.interval);
-        }
-        info.interval = setInterval(function() {
-          localStorage.setItem(`text ${info.dni}`, textarea.value);
-        }, 1000);
-      }, f_cancel);
+      pedirDni();
     };
-
-    cambiarDni(function() {
-      if ('force_ej' in window) {
-        cargarDatos(window.force_ej);
-      }
-    });
-    if ('dni' in info || !force_dni) {
-      if ('force_ej' in window) {
-        if ('curso' in window.force_ej) {
-          document.getElementById('curso').style.display = 'none';
-        }
-        if ('ej' in window.force_ej) {
-          document.getElementById('abrirEjercicio').style.display = 'none';
-        }
-      } else {
-        document.getElementById("ui").style.display = 'block';
-      }
-    } else {
-      alert("Error: se requiere autenticación");
-      location.reload();
-    }
 
     textarea.addEventListener('keyup', actualizarNúmerosDeLinea)
   </script>

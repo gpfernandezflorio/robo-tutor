@@ -1,10 +1,22 @@
 # -*- coding: utf-8 -*-
 
+import os, json
 from cursos.unq_inpr import CURSOS as cursos_unq_inpr
 from cursos.exactas_programa import CURSOS as cursos_exactas_programa
+from users import loginValido, cargarUsuariosEnCurso, usuarioEnCurso
 
-def dame_cursos():
-  return CURSOS_publico
+def dame_cursos(jsonObj):
+  respuesta = {'resultado':"Falla"}
+  if 'usuario' in jsonObj and 'contrasenia' in jsonObj:
+    usuario = jsonObj['usuario']
+    contrasenia = jsonObj['contrasenia']
+    if loginValido(usuario, contrasenia):
+      respuesta["cursos"] = {}
+      respuesta["resultado"] = "OK"
+      for curso in CURSOS_publico:
+        if usuarioEnCurso(usuario, curso):
+          respuesta["cursos"][curso] = CURSOS_publico[curso]
+  return respuesta
 
 def dameEjercicio(curso, nombreEjercicio):
   if curso in CURSOS:
@@ -21,23 +33,25 @@ for c in cursos_unq_inpr:
 for c in cursos_exactas_programa:
   CURSOS[c] = cursos_exactas_programa[c]
 
-CURSOS_publico = {"cursos":{}}
+CURSOS_publico = {}
 
-informacionPrivada = ["pre","run_data","aridad","timeout"]
-informacionPublica = ["nombre","enunciado","base","pidePrograma"] # pidePrograma es público porque lo usa el cliente para armar el mensaje de error
+informacionPrivadaEjercicio = ["pre","run_data","aridad","timeout"]
+informacionPublicaEjercicio = ["nombre","enunciado","base","pidePrograma"] # pidePrograma es público porque lo usa el cliente para armar el mensaje de error
 def esconderInformacionSensibleEjercicio(ejercicio):
   ejercicioPublico = {}
   for k in ejercicio:
-    if k in informacionPublica:
+    if k in informacionPublicaEjercicio:
       ejercicioPublico[k] = ejercicio[k]
   # Agrego un timeout para que el cliente sepa cuánto esperar al servidor
   ejercicioPublico["timeoutTotal"] = 2 + (ejercicio["timeout"] if "timeout" in ejercicio else timeoutDefault()) * (len(ejercicio["run_data"]) if "run_data" in ejercicio else 1)
   return ejercicioPublico
 
+informacionPublicaCurso = ['nombre','lenguaje','lenguaje_display','descripcion','docente']
+informacionPrivadaCurso = ['ejs'] # ejs es privado porque lo trato aparte
 def esconderInformacionSensibleCurso(curso):
   cursoPublico = {}
   for k in curso:
-    if k != "ejs":
+    if k in informacionPublicaCurso:
       cursoPublico[k] = curso[k]
   cursoPublico["ejs"] = []
   for ej in curso["ejs"]:
@@ -48,5 +62,29 @@ def esconderInformacionSensibleCurso(curso):
 def timeoutDefault():
   return 1
 
+def cargarEstudiantes(c):
+  archivo = f"estudiantes/{c}.json"
+  if os.path.isfile(archivo):
+    f = open(archivo, 'r')
+    estudiantes = json.loads(f.read())
+    f.close()
+    cargarUsuariosEnCurso(estudiantes, c)
+
 for c in CURSOS:
-  CURSOS_publico["cursos"][c] = esconderInformacionSensibleCurso(CURSOS[c])
+  CURSOS_publico[c] = esconderInformacionSensibleCurso(CURSOS[c])
+  cargarEstudiantes(c)
+
+def tryLogin(jsonObj, verb):
+  curso = None
+  respuesta = {'resultado':"Falla"}
+  if 'curso' in jsonObj:
+    curso = jsonObj['curso']
+  if 'usuario' in jsonObj and 'contrasenia' in jsonObj:
+    if loginValido(jsonObj['usuario'], jsonObj['contrasenia'], curso):
+      respuesta['resultado'] = "OK"
+      respuesta['usuario'] = jsonObj['usuario']
+      respuesta['contrasenia'] = jsonObj['contrasenia']
+      if not (curso is None):
+        respuesta['cursos'] = [CURSOS_publico[curso]]
+        respuesta['curso'] = curso
+  return respuesta
