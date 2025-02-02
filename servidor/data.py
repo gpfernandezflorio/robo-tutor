@@ -13,10 +13,15 @@ def dame_cursos(jsonObj):
     if loginValido(usuario, contrasenia):
       respuesta["cursos"] = {}
       respuesta["resultado"] = "OK"
-      for curso in CURSOS_publico:
-        if usuarioEnCurso(usuario, curso):
-          respuesta["cursos"][curso] = CURSOS_publico[curso]
+      respuesta["cursos"] = cursosDeUsuario(usuario)
   return respuesta
+
+def cursosDeUsuario(usuario):
+  resultado = {}
+  for curso in CURSOS_publico:
+    if usuarioEnCurso(usuario, curso):
+      resultado[curso] = CURSOS_publico[curso]
+  return resultado
 
 def dameEjercicio(curso, nombreEjercicio):
   if curso in CURSOS:
@@ -46,7 +51,7 @@ def esconderInformacionSensibleEjercicio(ejercicio):
   ejercicioPublico["timeoutTotal"] = 2 + (ejercicio["timeout"] if "timeout" in ejercicio else timeoutDefault()) * (len(ejercicio["run_data"]) if "run_data" in ejercicio else 1)
   return ejercicioPublico
 
-informacionPublicaCurso = ['nombre','lenguaje','lenguaje_display','descripcion','docente']
+informacionPublicaCurso = ['nombre','descripcion','anio','edicion','responsable','institucion','lenguaje','lenguaje_display']
 informacionPrivadaCurso = ['ejs'] # ejs es privado porque lo trato aparte
 def esconderInformacionSensibleCurso(curso):
   cursoPublico = {}
@@ -80,11 +85,16 @@ def tryLogin(jsonObj, verb):
   if 'curso' in jsonObj:
     curso = jsonObj['curso']
   if 'usuario' in jsonObj and 'contrasenia' in jsonObj:
-    if loginValido(jsonObj['usuario'], jsonObj['contrasenia'], curso):
+    usuario = jsonObj['usuario']
+    contrasenia = jsonObj['contrasenia']
+    if loginValido(usuario, contrasenia, curso):
       respuesta['resultado'] = "OK"
-      respuesta['usuario'] = jsonObj['usuario']
-      respuesta['contrasenia'] = jsonObj['contrasenia']
+      respuesta['usuario'] = usuario
+      respuesta['contrasenia'] = contrasenia
       if not (curso is None):
-        respuesta['cursos'] = [CURSOS_publico[curso]]
+        respuesta['cursos'] = {}
+        respuesta['cursos'][curso] = CURSOS_publico[curso]
         respuesta['curso'] = curso
+      else:
+        respuesta['cursos'] = cursosDeUsuario(usuario)
   return respuesta

@@ -71,7 +71,7 @@
     height: calc(100% - 62px);
     overflow-y: auto;
     border: solid 1px #000;
-    border-radius: 5px 0px 0px 5px;
+    border-radius: 5px 0px 0px 0px;
     padding: 0px 5px;
     background-color: #fff;
   }
@@ -116,6 +116,48 @@
     color: red;
     text-align: center;
   }
+  .dataCurso {
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: #999;
+    border-style: solid;
+    background-color: #fff;
+    padding: 10px;
+  }
+  #labelDni {
+    margin-right: 10px;
+  }
+  #runCode {
+    color: #fff;
+    background-color: #000;
+    border-radius: 15px;
+    margin-left: 20px;
+    border-width: 5px;
+  }
+  #pantallaEnunciado {
+    top: 0px;
+    border-width: 10px;
+    border-color: #000;
+    border-style: solid;
+    border-radius: 10px;
+    background-color: #fff;
+    margin: 5px;
+    width: -webkit-fill-available;
+    width: -moz-available;
+    height: -webkit-fill-available;
+    height: -moz-available;
+    float:left;
+    position: absolute;
+    padding: 20px;
+  }
+  #cerrarEnunciado {
+    margin: auto;
+    margin-top: 20px;
+    display: block;
+  }
+  code {
+    font-size: larger;
+  }
   </style>
   <div id="ui" style="display:block;">
     <div id="login" style="display:block;">
@@ -146,6 +188,8 @@
             <label>
               <!-- <input type="checkbox" checked="checked"> Recuérdame -->
             </label>
+            <br/>
+            <button id="cancelLogin" onclick="cancelLogin();" style="display: none;">Cancelar</button>
           </div>
           <div id="errorLogin"></div>
         </div>
@@ -178,14 +222,17 @@
           <div class="line-numbers">
             <span></span>
           </div>
-          <textarea id="src"></textarea>
+          <textarea id="src" spellcheck="false"></textarea>
         </div>
       </div>
       <span style="display: block;height: 30px;"></span>
-      <div class="floatBar" style="bottom: 5px;">
+      <div class="floatBar" style="bottom: 5px;border-radius: 0px 0px 15px 15px;">
         <span id="bRestore"></span>
-        <span id="dni">Usuario: <button id="botonDni" onclick="cambiarDni();">Anónimo</button></span>
-        <button onclick="run_code();">¡Enviar!</button>
+        <span id="dni">
+          Usuario: <label id="labelDni">Anónimo</label>
+          <button onclick="cambiarDni();">Cambiar</button>
+        </span>
+        <button id="runCode" onclick="run_code();">¡Enviar!</button>
       </div>
     </div>
     <div class="floatBar" style="bottom: 5px;right: 5px;">
@@ -196,6 +243,11 @@
         <input type="text" value="" id="port" style="width:50px">
       </span>
       <button onclick="manual();">Configurar servidor manual</button>
+    </div>
+    <div id="pantallaEnunciado" style="display:none;">
+      <h2>Enunciado:</h2>
+      <div id="contenidoEnunciado"></div>
+      <button id="cerrarEnunciado" onclick="cerrarPantallaEnunciado();">Cerrar</button>
     </div>
   </div>
   <div id="espera" style="display:none;">
@@ -209,7 +261,7 @@
 
     const textarea = document.getElementById('src');
     const lineNumbers = document.querySelector('.line-numbers');
-    const botonDni = document.getElementById("botonDni");
+    const labelDni = document.getElementById("labelDni");
     const botonRestaurar = document.getElementById("bRestore");
 
     const mostrarServidor = function() {
@@ -251,7 +303,9 @@
               if ('contrasenia' in jsonObj) {
                 info.contrasenia = jsonObj.contrasenia;
               }
-              let aCargar = {};
+              let aCargar = {
+                dst:pantallaWorkspace
+              };
               if ('force_ej' in window) {
                 aCargar = window.force_ej;
               }
@@ -269,6 +323,8 @@
                       aCargar.ej = ejercicioPrevio;
                     }
                   }
+                } else {
+                  aCargar.dst = cargarCursos
                 }
               }
               cargarDatos(aCargar);
@@ -278,7 +334,8 @@
               info.interval = setInterval(function() {
                 localStorage.setItem(`text ${info.dni}`, textarea.value);
               }, 1000);
-              pantallaWorkspace();
+              aCargar.dst();
+              document.getElementById("cancelLogin").style.display = '';
             }
           } else {
             alert("ERROR: resultado faltante");
@@ -296,13 +353,17 @@
       document.getElementById("errorLogin").innerHTML = `Error: ${s}`;
     };
 
+    const cancelLogin = function() {
+      pantallaWorkspace();
+    };
+
     const focoAlTexto = function() {
       setTimeout(() => textarea.focus(), 50);
     };
 
     const verEnunciado = function() {
       if ('ejercicio' in info) {
-        alert(info.ejercicio.enunciado);
+        pantallaEnunciado(info.ejercicio.enunciado);
       } else {
         alert("No se cargó ningún ejercicio");
       }
@@ -319,6 +380,14 @@
       document.getElementById("login").style.display = 'none';
       document.getElementById("seleccionDeCurso").style.display = 'block';
       document.getElementById("workspace").style.display = 'none';
+    };
+
+    const pantallaEnunciado = function(texto) {
+      document.getElementById("contenidoEnunciado").innerHTML = texto;
+      document.getElementById("pantallaEnunciado").style.display = '';
+    };
+    const cerrarPantallaEnunciado = function() {
+      document.getElementById("pantallaEnunciado").style.display = 'none';
     };
 
     const abrirEjercicio = function() {
@@ -376,15 +445,17 @@
     };
 
     const seleccionarCurso = function(k) {
-      if (k === '0') {
-        actualizarNombreCurso();
-        delete info.curso;
-        if ('dni' in info) { localStorage.removeItem(`curso ${info.dni}`); }
-      } else {
-        if ('dni' in info) { localStorage.setItem(`curso ${info.dni}`, k); }
-        actualizaCursoSeleccionado(k);
+      if (k != info.curso) {
+        if (k === '0') {
+          actualizarNombreCurso();
+          delete info.curso;
+          if ('dni' in info) { localStorage.removeItem(`curso ${info.dni}`); }
+        } else {
+          if ('dni' in info) { localStorage.setItem(`curso ${info.dni}`, k); }
+          actualizaCursoSeleccionado(k);
+        }
+        seleccionarEjercicio(null);
       }
-      seleccionarEjercicio(null);
       pantallaWorkspace();
     };
 
@@ -512,24 +583,52 @@
 
     const cargarCursos = function() {
       pedirCursos(function() {
-        let contenidoPantalla = '<button onclick="seleccionarCurso(\'0\');">Libre</button><br/>';
+        let contenidoPantalla = ''/*'<button onclick="seleccionarCurso(\'0\');">Libre</button><br/>'*/;
         for (c in cursos) {
-          contenidoPantalla += `<button onclick="seleccionarCurso('${c}');">${cursos[c].nombre}</button><br/>`;
+          contenidoPantalla += `<div class="dataCurso"><button onclick="seleccionarCurso('${c}');">${cursos[c].nombre}</button><br/>`;
+          contenidoPantalla += informacionCurso(cursos[c]) + '</div>';
         }
-        document.getElementById("seleccionDeCurso").innerHTML = contenidoPantalla +
-          '<button onclick="pantallaWorkspace();">Cancelar</button>';
+        document.getElementById("seleccionDeCurso").innerHTML = contenidoPantalla /*+
+          '<button onclick="pantallaWorkspace();">Cancelar</button>'*/;
           pantallaSelector();
       });
     };
 
+    const datosCurso = {
+      descripcion:{title:"Detalle"},
+      anio:{title:"Año",next:', '},
+      edicion:{title:"Edición"},
+      institucion:{title:"Institución"},
+      responsable:{title:"Responsables", show:function(r) {
+        let showUno = (x) => x.nombre + ('contacto' in x ? ` (${mostrarMail(x.contacto)})` : '');
+        return Array.isArray(r) ? '<br/>' + r.join('<br/>') : showUno(r);
+      }},
+    };
+    const mostrarMail = function(mailEncriptado) {
+      return `<a href="mailto:${mailEncriptado.replace(" (AT) ","@")}">${mailEncriptado}</a>`;
+    };
+    const informacionCurso = function(curso) {
+      let resultado = '';
+      for (let k in datosCurso) {
+        let show = 'show' in datosCurso[k] ? datosCurso[k].show : (x) => `${x}`;
+        let next = 'next' in datosCurso[k] ? datosCurso[k].next : '<br/>';
+        resultado += `<b>${datosCurso[k].title}</b>: ${show(curso[k])}${next}`;
+      }
+      return resultado;
+    };
+
     const pedirCursos = function(f) {
-      const callback = function(jsonObj) {
-        registrarCursosRecibidos(jsonObj, f);
-      };
-      const failCallback = function() {
-        alert("ERROR: falló la comunicación con el servidor");
-      };
-      sendRequest('POST', 'cursos', callback, {usuario: info.dni, contrasenia:info.contrasenia}, failCallback);
+      if (Object.keys(cursos).length == 0) {
+        const callback = function(jsonObj) {
+          registrarCursosRecibidos(jsonObj, f);
+        };
+        const failCallback = function() {
+          alert("ERROR: falló la comunicación con el servidor");
+        };
+        sendRequest('POST', 'cursos', callback, {usuario: info.dni, contrasenia:info.contrasenia}, failCallback);
+      } else {
+        f();
+      }
     };
 
     const registrarCursosRecibidos = function(jsonObj, opt_f) {
@@ -667,16 +766,28 @@
     textarea.addEventListener('keydown', function(e) {
       if (e.key == 'Tab') {
         e.preventDefault();
-        var start = this.selectionStart;
-        var end = this.selectionEnd;
+        let start = this.selectionStart;
+        let end = this.selectionEnd;
+        if (start != end) {
+          this.selectionEnd = start;
+          end = start;
+        }
 
-        // set textarea value to: text before caret + tab + text after caret
-        this.value = this.value.substring(0, start) +
-          "  " + this.value.substring(end);
-
-        // put caret at right position again
-        this.selectionStart =
-          this.selectionEnd = start + 2;
+        let antes = this.value.substring(0, start);
+        let despues = this.value.substring(end);
+        if (e.shiftKey) {
+          if (antes.endsWith("  ")) {
+            antes = antes.substring(0,antes.length-2);
+            this.value = antes + despues;
+            this.selectionStart = start-2;
+            this.selectionEnd = this.selectionStart;
+          }
+        } else {
+          // set textarea value to: text before caret + tab + text after caret
+          this.value = antes + "  " + despues;
+          // put caret at right position again
+          this.selectionStart = this.selectionEnd = start + 2;
+        }
       }
     });
 
@@ -725,7 +836,7 @@
     };
 
     const dniSet = function(dni) {
-      botonDni.innerHTML = dni;
+      labelDni.innerHTML = dni;
     };
 
     const pantallaLogin = function() {

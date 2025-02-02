@@ -189,12 +189,28 @@ rosa_de_los_vientos = {
 CURSOS = {
   "inpr_unq_2023_s1":{
     "nombre":"Introducción a la Programación - UNQ (2023s1)",
+    "anio":"2023",
+    "edicion":"Primer Semestre",
+    "descripcion":"Curso correspondiente a la materia Introducción a la Programación para las carreras Licenciatura en Informática, Tecnicatura en Programación Informática y Licenciatura en Bioinformática de la Universidad Nacional de Quilmes",
+    "responsable":{
+      "nombre":"Equipo de Intro",
+      "contacto":"tpi-doc-inpr (AT) listas.unq.edu.ar"
+    },
+    "institucion":"Universidad Nacional de Quilmes (UNQ)",
     "lenguaje":"Gobstones",
     "lenguaje_display":"none",
     "ejs":[superGobi64_2,gobFS_1,superGobi64_1,rutera_1,rutera_2,p_3_4,p_30_3,ajedrez_1]
   },
   "inpr_unq_2024_s1":{
     "nombre":"Introducción a la Programación - UNQ (2024s1)",
+    "anio":"2024",
+    "edicion":"Primer Semestre",
+    "descripcion":"Curso correspondiente a la materia Introducción a la Programación para las carreras Licenciatura en Informática, Tecnicatura en Programación Informática y Licenciatura en Bioinformática de la Universidad Nacional de Quilmes",
+    "responsable":{
+      "nombre":"Equipo de Intro",
+      "contacto":"tpi-doc-inpr (AT) listas.unq.edu.ar"
+    },
+    "institucion":"Universidad Nacional de Quilmes (UNQ)",
     "lenguaje":"Gobstones",
     "lenguaje_display":"none",
     "ejs":[rosa_de_los_vientos,ajedrez_1]
