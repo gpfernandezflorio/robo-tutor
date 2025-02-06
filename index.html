@@ -303,6 +303,7 @@
             if (jsonObj.resultado == "Falla") {
               errorLogin("No se pudo autenticar.");
             } else if (jsonObj.resultado == "OK") {
+              limpiarErrorLogin();
               registrarCursosRecibidos(jsonObj);
               if ('curso' in jsonObj) {
                 actualizaCursoSeleccionado(jsonObj.curso);
@@ -362,6 +363,10 @@
 
     const errorLogin = function(s) {
       document.getElementById("errorLogin").innerHTML = `Error: ${s}`;
+    };
+
+    const limpiarErrorLogin = function() {
+      document.getElementById("errorLogin").innerHTML = '';
     };
 
     const cancelLogin = function() {
