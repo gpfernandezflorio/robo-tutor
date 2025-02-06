@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from cursos.cursos import cargarCuestionarioMoodle
+from cursos.cursos import cargarCuestionarioMoodle, organizarPreguntasYRespuestas
 
 figus_1_cantidadNecesaria = {
   "nombre":"Figus 1",

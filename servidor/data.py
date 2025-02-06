@@ -75,12 +75,14 @@ def esconderInformacionSensibleCurso(curso):
       cursoPublico[k] = curso[k]
   cursoPublico["ejs"] = []
   cursoPublico["cuestionarios"] = []
-  for ej in curso["ejs"]:
-    if not ("mostrar" in ej) or ej["mostrar"]:
-      cursoPublico["ejs"].append(esconderInformacionSensibleEjercicio(ej))
-  for cuestionario in curso["cuestionarios"]:
-    if not ("mostrar" in cuestionario) or cuestionario["mostrar"]:
-      cursoPublico["cuestionarios"].append(esconderInformacionSensibleCuestionario(cuestionario))
+  if "ejs" in curso:
+    for ej in curso["ejs"]:
+      if not ("mostrar" in ej) or ej["mostrar"]:
+        cursoPublico["ejs"].append(esconderInformacionSensibleEjercicio(ej))
+  if "cuestionarios" in curso:
+    for cuestionario in curso["cuestionarios"]:
+      if not ("mostrar" in cuestionario) or cuestionario["mostrar"]:
+        cursoPublico["cuestionarios"].append(esconderInformacionSensibleCuestionario(cuestionario))
   return cursoPublico
 
 def timeoutDefault():

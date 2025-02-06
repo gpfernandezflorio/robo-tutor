@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from cursos.cursos import cargarCuestionarioMoodle
+from cursos.cursos import cargarCuestionarioMoodle, organizarPreguntasYRespuestas
 
 AsignacionesYListas2023_1 = {
   "file_moodle":"taller_programacion_2023_1c/AsignacionesYListas.xml"
