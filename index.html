@@ -20,7 +20,7 @@
     let servidorManual = false;
 
     // Para iniciar con una IP de servidor particular (comentar para anular)
-    window.servidor = "192.168.0.12";
+    window.servidor = "192.168.0.11";
     // window.servidor = "157.92.26.235";
   </script>
   <style media="screen">
@@ -142,18 +142,27 @@
     border-radius: 10px;
     background-color: #fff;
     margin: 5px;
-    width: -webkit-fill-available;
-    width: -moz-available;
     height: -webkit-fill-available;
     height: -moz-available;
-    float:left;
+    float:right;
+    right: 0px;
     position: absolute;
     padding: 20px;
   }
-  #cerrarEnunciado {
+  .botonCentrado {
     margin: auto;
     margin-top: 20px;
     display: block;
+  }
+  .full {
+    width: -webkit-fill-available;
+    width: -moz-available;
+  }
+  .half {
+    width: 40%;
+  }
+  h3 {
+    margin-bottom: 5px;
   }
   code {
     font-size: larger;
@@ -244,10 +253,12 @@
       </span>
       <button onclick="manual();">Configurar servidor manual</button>
     </div>
-    <div id="pantallaEnunciado" style="display:none;">
-      <h2>Enunciado:</h2>
+    <div id="pantallaEnunciado" class="full" style="display:none;">
+      <h2 id="tituloEnunciado"></h2>
+      <h3>Enunciado:</h3>
       <div id="contenidoEnunciado"></div>
-      <button id="cerrarEnunciado" onclick="cerrarPantallaEnunciado();">Cerrar</button>
+      <button id="cerrarEnunciado" class="botonCentrado" onclick="cerrarPantallaEnunciado();">Cerrar</button>
+      <button id="moverEnunciado" class="botonCentrado" onclick="moverPantallaEnunciado();">&gt;&gt;</button>
     </div>
   </div>
   <div id="espera" style="display:none;">
@@ -363,7 +374,7 @@
 
     const verEnunciado = function() {
       if ('ejercicio' in info) {
-        pantallaEnunciado(info.ejercicio.enunciado);
+        pantallaEnunciado(info.ejercicio);
       } else {
         alert("No se cargó ningún ejercicio");
       }
@@ -382,12 +393,23 @@
       document.getElementById("workspace").style.display = 'none';
     };
 
-    const pantallaEnunciado = function(texto) {
-      document.getElementById("contenidoEnunciado").innerHTML = texto;
+    const pantallaEnunciado = function(ejercicio) {
+      document.getElementById("tituloEnunciado").innerHTML = ejercicio.nombre;
+      document.getElementById("contenidoEnunciado").innerHTML = ejercicio.enunciado;
       document.getElementById("pantallaEnunciado").style.display = '';
     };
     const cerrarPantallaEnunciado = function() {
       document.getElementById("pantallaEnunciado").style.display = 'none';
+    };
+    const moverPantallaEnunciado = function() {
+      const pantalla = document.getElementById("pantallaEnunciado");
+      if (pantalla.className.includes('full')) {
+        pantalla.className = pantalla.className.replace('full', 'half');
+        document.getElementById("moverEnunciado").innerHTML = "&lt;&lt;";
+      } else {
+        pantalla.className = pantalla.className.replace('half', 'full');
+        document.getElementById("moverEnunciado").innerHTML = "&gt;&gt;";
+      }
     };
 
     const abrirEjercicio = function() {
@@ -412,6 +434,7 @@
         if ('dni' in info) { localStorage.removeItem(`ej ${info.dni}`); }
         actualizarNombreEjercicio();
         textSet('');
+        cerrarPantallaEnunciado();
       } else {
         if ('dni' in info) { localStorage.setItem(`ej ${info.dni}`, i); }
         const ej = cursos[info.curso].ejs[i];
@@ -437,6 +460,13 @@
         sendRequest('POST', 'open', function() {}, jsonObj);
       }
       actualizarNombreEjercicio(ej.nombre);
+      actualizarEnunciadoEjercicio(ej.enunciado);
+    };
+
+    const actualizarEnunciadoEjercicio = function(ejercicio) {
+      if (document.getElementById("pantallaEnunciado").style.display == '') {
+        pantallaEnunciado(ejercicio);
+      }
     };
 
     const cargarEjercicio = function(ej) {
@@ -583,7 +613,8 @@
 
     const cargarCursos = function() {
       pedirCursos(function() {
-        let contenidoPantalla = ''/*'<button onclick="seleccionarCurso(\'0\');">Libre</button><br/>'*/;
+        let contenidoPantalla = '<h2>Seleccione un curso</h2>';
+        // contenidoPantalla += '<button onclick="seleccionarCurso(\'0\');">Libre</button><br/>';
         for (c in cursos) {
           contenidoPantalla += `<div class="dataCurso"><button onclick="seleccionarCurso('${c}');">${cursos[c].nombre}</button><br/>`;
           contenidoPantalla += informacionCurso(cursos[c]) + '</div>';
@@ -867,7 +898,8 @@
       }
     }
 
-    const cambiarDni = function(f_cancel) {
+    const cambiarDni = function() {
+      cerrarPantallaEnunciado();
       pedirDni();
     };
 
