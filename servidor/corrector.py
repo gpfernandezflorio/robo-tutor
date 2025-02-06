@@ -277,11 +277,14 @@ def buscar_falla_python(s, n):
   falla = "?"
   linea = None
   for l in s.split('\n'):
-    if l.startswith('  File "src.py", line'):
-      fin = l.find(",", 22)
-      nlinea = int(l[22:fin] if fin > 0 else l[22:])
-      if nlinea > n:
-        linea = str(nlinea - n)
+    if l.startswith('  File "'):
+      inicio = l.find('src.py", line ')
+      if inicio > 0:
+        inicio = inicio + 14
+        fin = l.find(",", inicio)
+        nlinea = int(l[inicio:fin] if fin > 0 else l[inicio:])
+        if nlinea > n:
+          linea = str(nlinea - n)
     if not (l.startswith('Traceback') or l.startswith('  ')):
       falla = l
       if not (linea is None):
