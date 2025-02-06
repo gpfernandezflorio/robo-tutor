@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from cursos.cursos import cargarCuestionarioMoodle
+
 figus_1_cantidadNecesaria = {
   "nombre":"Figus 1",
   "enunciado":"Sabiendo que está definida la función <code>dado(cantidadDeCaras)</code>, que al invocarla devuelve un número entre <code>0</code> y <code>cantidadDeCaras-1</code>, inclusive, implementar la función <code>cantidadDeFigusNecesaria(tamanioAlbum)</code> que genere un álbum de tamaño <code>tamanioAlbum</code>, simule su llenado y devuelva la cantidad de figuritas que se debieron adquirir para completarlo.",
@@ -72,6 +74,34 @@ figus_5_simulacion_chance = {
   }]
 }
 
+AsignacionesYListas2023I = {
+  "file_moodle":"exactas_programa_2023_I/AsignacionesYListas.xml"
+}
+
+CiclosYCondiciones2023I = {
+  "file_moodle":"exactas_programa_2023_I/CiclosYCondiciones.xml"
+}
+
+CiclosYFigus2023I = {
+  "file_moodle":"exactas_programa_2023_I/CiclosYFigus.xml"
+}
+
+Funciones2023I = {
+  "file_moodle":"exactas_programa_2023_I/Funciones.xml"
+}
+
+ListasYFigus2023I = {
+  "file_moodle":"exactas_programa_2023_I/ListasYFigus.xml"
+}
+
+MasFunciones2023I = {
+  "file_moodle":"exactas_programa_2023_I/MasFunciones.xml"
+}
+
+OperadoresLogicos2023I = {
+  "file_moodle":"exactas_programa_2023_I/OperadoresLogicos.xml"
+}
+
 CURSOS = {
   "exactas_programa_2023_I":{
     "nombre":"Exactas Programa Invierno 2023",
@@ -85,7 +115,8 @@ CURSOS = {
     "institucion":"Facultad de Ciencias Exactas y Naturales (FCEyN) - UBA",
     "lenguaje":"Python",
     "lenguaje_display":"none",
-    "ejs":[figus_1_cantidadNecesaria,figus_2_promedio,figus_3_esperanza,figus_4_chance,figus_5_simulacion_chance]
+    "ejs":[figus_1_cantidadNecesaria,figus_2_promedio,figus_3_esperanza,figus_4_chance,figus_5_simulacion_chance],
+    "cuestionarios":[AsignacionesYListas2023I,CiclosYCondiciones2023I,CiclosYFigus2023I,Funciones2023I,ListasYFigus2023I,MasFunciones2023I,OperadoresLogicos2023I]
   },
   "exactas_programa_2025_V":{
     "nombre":"Exactas Programa Verano 2025",
@@ -102,3 +133,10 @@ CURSOS = {
     "ejs":[]
   }
 }
+
+for c in CURSOS:
+  if "cuestionarios" in CURSOS[c]:
+    for q in CURSOS[c]["cuestionarios"]:
+      if "file_moodle" in q:
+        cargarCuestionarioMoodle(q)
+      organizarPreguntasYRespuestas(q)

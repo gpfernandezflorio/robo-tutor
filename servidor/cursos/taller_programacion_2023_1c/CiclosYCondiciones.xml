@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<activity id="1680" moduleid="314009" modulename="lesson" contextid="459065">
+  <lesson id="1680">
+    <course>3532</course>
+    <name>Ciclos y Condiciones</name>
+    <intro></intro>
+    <introformat>1</introformat>
+    <practice>0</practice>
+    <modattempts>0</modattempts>
+    <usepassword>0</usepassword>
+    <password></password>
+    <dependency>0</dependency>
+    <conditions>O:8:"stdClass":3:{s:9:"timespent";i:0;s:9:"completed";i:0;s:15:"gradebetterthan";i:0;}</conditions>
+    <grade>100</grade>
+    <custom>1</custom>
+    <ongoing>0</ongoing>
+    <usemaxgrade>0</usemaxgrade>
+    <maxanswers>4</maxanswers>
+    <maxattempts>1</maxattempts>
+    <review>0</review>
+    <nextpagedefault>0</nextpagedefault>
+    <feedback>0</feedback>
+    <minquestions>0</minquestions>
+    <maxpages>1</maxpages>
+    <timelimit>0</timelimit>
+    <retake>0</retake>
+    <activitylink>0</activitylink>
+    <mediafile></mediafile>
+    <mediaheight>480</mediaheight>
+    <mediawidth>640</mediawidth>
+    <mediaclose>0</mediaclose>
+    <slideshow>0</slideshow>
+    <width>640</width>
+    <height>480</height>
+    <bgcolor>#FFFFFF</bgcolor>
+    <displayleft>0</displayleft>
+    <displayleftif>0</displayleftif>
+    <progressbar>0</progressbar>
+    <available>1680087900</available>
+    <deadline>0</deadline>
+    <timemodified>1680059607</timemodified>
+    <completionendreached>0</completionendreached>
+    <completiontimespent>0</completiontimespent>
+    <pages>
+      <page id="14731">
+        <prevpageid>0</prevpageid>
+        <nextpageid>14732</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644795454</timecreated>
+        <timemodified>1680055379</timemodified>
+        <title>Armando una Lista</title>
+        <contents>&lt;div class="no-overflow" id="yui_3_17_2_1_1644795138437_96"&gt;
+&lt;div id="highlight-preview"&gt;
+&lt;pre class="python" style="font-family: monospace;" id="yui_3_17_2_1_1644795138437_95"&gt;lista&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: black;"&gt;[&lt;/span&gt;&lt;span style="color: black;"&gt;]&lt;/span&gt;
+i&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0&lt;/span&gt;
+&lt;span style="color: #ff7700; font-weight: bold;"&gt;while&lt;/span&gt; i&lt;span style="color: #66cc66;" id="yui_3_17_2_1_1644795138437_104"&gt;&amp;lt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;5&lt;/span&gt;:
+    lista.&lt;span style="color: black;"&gt;append&lt;/span&gt;&lt;span style="color: black;"&gt;(&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0&lt;/span&gt;&lt;span style="color: black;"&gt;)&lt;/span&gt;
+    i&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;i+&lt;span style="color: #ff4500;"&gt;1&lt;br /&gt;&lt;/span&gt;
+cantidad = len(lista)&lt;br /&gt;&lt;span style="color: #ff7700; font-weight: bold;"&gt;print&lt;/span&gt;&lt;span style="color: black;"&gt;(cantidad)&lt;/span&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;Indicar qué se imprime en la consola después de ejecutarse este código&lt;/p&gt;
+&lt;/div&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29591">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644795454</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;6&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Muy bien!&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29592">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644795454</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;5&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Mmmm casi. Cuántos valores distintos toma &lt;span style="font-family: courier new, courier, monospace;"&gt;i&lt;/span&gt;?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29593">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644795454</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;0&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Mmmm no. La función &lt;span style="font-family: courier new, courier, monospace;"&gt;len&lt;/span&gt; nos devuelve la cantidad de elementos en una lista. ¿Cuántos elementos se agregaron en el ciclo?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29594">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644795454</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;1&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Mmmm no. Recordá que el código dentro del ciclo se repite varias veces, mientras se cumpla la condición&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14732">
+        <prevpageid>14731</prevpageid>
+        <nextpageid>14733</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644710693</timecreated>
+        <timemodified>1644935216</timemodified>
+        <title>¿Qué te está pasando?</title>
+        <contents>&lt;p&gt;Al ejecutar este código, ¿cuál sería su comportamiento?&lt;/p&gt;
+&lt;pre class="python" style="font-family: monospace;"&gt;lista&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: black;"&gt;[&lt;/span&gt;&lt;span style="color: black;"&gt;]&lt;/span&gt;
+i&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;1&lt;/span&gt;
+&lt;span style="color: #ff7700; font-weight: bold;"&gt;while&lt;/span&gt; i&lt;span style="color: #66cc66;"&gt;&amp;lt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;5&lt;/span&gt;:
+    lista.&lt;span style="color: black;"&gt;append&lt;/span&gt;&lt;span style="color: black;"&gt;(&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0&lt;/span&gt;&lt;span style="color: black;"&gt;)&lt;/span&gt;
+ 
+&lt;span style="color: #ff7700; font-weight: bold;"&gt;print&lt;/span&gt;&lt;span style="color: black;"&gt;(&lt;/span&gt;&lt;span style="color: #008000;"&gt;len&lt;/span&gt;&lt;span style="color: black;"&gt;(&lt;/span&gt;lista&lt;span style="color: black;"&gt;)&lt;/span&gt;&lt;span style="color: black;"&gt;)&lt;/span&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29577">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644710693</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;No termina nunca.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí! Al no modificarse el valor de la variable "i", siempre vale 1 y la condición del ciclo siempre será verdadera.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29578">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644710693</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;No hay ningún problema.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Te diría que lo pruebes y despues charlamos. Pero me asusta que se te pueda colgar la máquina, en todo caso, es una buen experiencia saber cómo parar la ejecución de un programa ;-)&lt;/p&gt;
+&lt;p&gt;Al no modificarse el valor de la variable "i", siempre vale 0 y la condición del ciclo siempre será verdadera. Entonces, ¡este código no termina núnca de ejecutarse!&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14733">
+        <prevpageid>14732</prevpageid>
+        <nextpageid>14737</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644797379</timecreated>
+        <timemodified>0</timemodified>
+        <title>Sumando en lista</title>
+        <contents>&lt;div class="no-overflow" id="yui_3_17_2_1_1644797084364_103"&gt;
+&lt;p id="yui_3_17_2_1_1644797084364_109"&gt;Indicar cuál es el valor asignado a la variable "salida" después de ejecutar este código:&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;div id="highlight-preview"&gt;
+&lt;pre class="python" style="font-family: monospace;" id="yui_3_17_2_1_1644797084364_108"&gt;lista3 &lt;span style="color: #66cc66;"&gt;= &lt;/span&gt;&lt;span style="color: black;"&gt;[&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;4&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;2&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;5&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;13&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;9&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;6&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;1&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;10&lt;/span&gt;&lt;span style="color: black;"&gt;]&lt;/span&gt;
+salida &lt;span style="color: #66cc66;"&gt;= &lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0&lt;/span&gt;
+i &lt;span style="color: #66cc66;"&gt;= &lt;/span&gt;&lt;span style="color: #ff4500;"&gt;1&lt;/span&gt;
+&lt;span style="color: #ff7700; font-weight: bold;"&gt;while&lt;/span&gt; i&lt;span style="color: #66cc66;"&gt;&amp;lt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;5&lt;/span&gt;:
+    salida &lt;span style="color: #66cc66;"&gt;= &lt;/span&gt;salida+lista3&lt;span style="color: black;"&gt;[&lt;/span&gt;i&lt;span style="color: black;"&gt;]&lt;/span&gt;
+    i &lt;span style="color: #66cc66;"&gt;= &lt;/span&gt;i+&lt;span style="color: #ff4500;"&gt;1&lt;/span&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29595">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644797379</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;35&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí! Tené presente que no estamos incluyendo el primer elemento de la lista, siendo que "i" empieza valiendo 1. En Python, el primer elemento lleva el índice 0....&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29596">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644797379</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;39&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Ups! ¿Cuál es el valor inicial de &lt;span style="font-family: courier new, courier, monospace;"&gt;i&lt;/span&gt;?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29597">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644797379</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;33&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Ups! Recordá que en Python el primer elemento de la lista tiene índice &lt;span style="font-family: courier new, courier, monospace;"&gt;0&lt;/span&gt;, no &lt;span style="font-family: courier new, courier, monospace;"&gt;1&lt;/span&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29598">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644797379</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;6&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Mmmm no. En cada ciclo le estamos sumando algo a la variable &lt;span style="font-family: courier new, courier, monospace;"&gt;salida&lt;/span&gt;, no reemplazando su valor.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14737">
+        <prevpageid>14733</prevpageid>
+        <nextpageid>14734</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644711196</timecreated>
+        <timemodified>1644935916</timemodified>
+        <title>¿Hace calor?</title>
+        <contents>&lt;p&gt;Indicar cuál es el valor asignado a la variable "hace_calor" después de ejecutar este código:&lt;/p&gt;
+&lt;pre class="python" style="font-family: monospace;"&gt;temperatura&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;12&lt;/span&gt;
+&lt;span style="color: #ff7700; font-weight: bold;"&gt;if&lt;/span&gt; temperatura&lt;span style="color: #66cc66;"&gt;&amp;lt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;20&lt;/span&gt;:
+    hace_calor&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #008000;"&gt;False&lt;/span&gt;
+&lt;span style="color: #ff7700; font-weight: bold;"&gt;else&lt;/span&gt;: 
+    hace_calor&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #008000;"&gt;True&lt;/span&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29579">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644711196</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;False&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí! Al haber asignado el valor 12 a la variable "temperatura", se cumple la condición del if.&lt;/p&gt;
+&lt;p&gt;Luego, a la variable "hace_calor" se le asigna el valor False&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29580">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644711196</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;True&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Mmmmm...&lt;/p&gt;
+&lt;p&gt;Al haber asignado el valor 12 a la variable "temperatura", se cumple la condición del if.&lt;/p&gt;
+&lt;p&gt;Luego,  a la variable "hace_calor" le asignamos el valor False.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14738">
+        <prevpageid>14734</prevpageid>
+        <nextpageid>14735</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644797721</timecreated>
+        <timemodified>1680055576</timemodified>
+        <title>¿Qué hace esto?</title>
+        <contents>&lt;pre class="python" style="font-family: monospace;"&gt;lista10 &lt;span style="color: #66cc66;"&gt;= &lt;/span&gt;&lt;span style="color: black;"&gt;[&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;5&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;5&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;5&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0&lt;/span&gt;&lt;span style="color: black;"&gt;]&lt;/span&gt;
+salida &lt;span style="color: #66cc66;"&gt;= &lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0&lt;/span&gt;
+i &lt;span style="color: #66cc66;"&gt;= &lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0&lt;/span&gt;
+&lt;span style="color: #ff7700; font-weight: bold;"&gt;while&lt;/span&gt; i&lt;span style="color: #66cc66;"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color: #008000;"&gt;len&lt;/span&gt;&lt;span style="color: black;"&gt;(&lt;/span&gt;lista10&lt;span style="color: black;"&gt;)&lt;/span&gt;:
+    &lt;span style="color: #ff7700; font-weight: bold;"&gt;if&lt;/span&gt; lista10&lt;span style="color: black;"&gt;[&lt;/span&gt;i&lt;span style="color: black;"&gt;]&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;==&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;5&lt;/span&gt;:
+        salida &lt;span style="color: #66cc66;"&gt;= &lt;/span&gt;salida + &lt;span style="color: #ff4500;"&gt;1&lt;/span&gt;
+    i &lt;span style="color: #66cc66;"&gt;= &lt;/span&gt;i + &lt;span style="color: #ff4500;"&gt;1&lt;br /&gt;print(salida)&lt;br /&gt;&lt;/span&gt;&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29599">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644797721</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;3&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Muy bien! Este código va recorriendo los valores de la lista e incrementa en uno el valor de la variable &lt;span style="font-family: courier new, courier, monospace;"&gt;salida&lt;/span&gt; cada vez que el elemento de la lista es 5.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29600">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644797721</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;7&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Mmm no. La variable &lt;span style="font-family: courier new, courier, monospace;"&gt;salida&lt;/span&gt; solo se incrementa en algunos casos (fijate la condición del &lt;span style="font-family: courier new, courier, monospace;"&gt;if&lt;/span&gt;)&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29601">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644797721</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;4&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Mmm no. En qué casos incrementamos el valor de la variable &lt;span style="font-family: courier new, courier, monospace;"&gt;salida&lt;/span&gt;? Revisá la condición del &lt;span style="font-family: courier new, courier, monospace;"&gt;if&lt;/span&gt;.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14736">
+        <prevpageid>14735</prevpageid>
+        <nextpageid>14739</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644712399</timecreated>
+        <timemodified>1644789190</timemodified>
+        <title>Un ciclo más</title>
+        <contents>&lt;p&gt;¿Cuál es el valor de la variable "s" tras ejecutarse el siguiente código?&lt;/p&gt;
+&lt;pre class="python" style="font-family: monospace;"&gt;s&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0&lt;/span&gt;
+j&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;1&lt;/span&gt;
+&lt;span style="color: #ff7700; font-weight: bold;"&gt;while&lt;/span&gt; j&lt;span style="color: #66cc66;"&gt;&amp;lt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;5&lt;/span&gt;:
+    s&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;s+j
+    j&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;j+&lt;span style="color: #ff4500;"&gt;1&lt;/span&gt;&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29585">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644712399</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;s=15&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí!&lt;/p&gt;
+&lt;p&gt;En la variable "s" vamos acumulando la suma de todos los valores de 1 a 5.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29586">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644712399</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;s=0&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Nop!&lt;/p&gt;
+&lt;p&gt;0 es el valor inicial de la variable s, antes de entrar al ciclo. En el ciclo se modifica el valor asociado a "s".&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29587">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644712399</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;s=6&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Nop! La variable "j" toma el valor 6 luego de ejecutarse este código. La variable "s" termina con otro valor distinto.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14739">
+        <prevpageid>14736</prevpageid>
+        <nextpageid>0</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644713098</timecreated>
+        <timemodified>1644797841</timemodified>
+        <title>Episodio Final - Integrador</title>
+        <contents>&lt;p&gt;Esta función debe comprobar si un número está (estrictamente) dentro de un rango. &lt;br /&gt;Indicar cuál modificación es necesaria para que realmente lo haga:&lt;/p&gt;
+&lt;pre class="python" style="font-family: monospace;"&gt;&lt;span style="color: #ff7700; font-weight: bold;"&gt;def&lt;/span&gt; numero_entre&lt;span style="color: black;"&gt;(&lt;/span&gt;numero&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt; minimo&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt; maximo&lt;span style="color: black;"&gt;)&lt;/span&gt;:
+    &lt;span style="color: #ff7700; font-weight: bold;"&gt;if&lt;/span&gt; &lt;span style="color: black;"&gt;(&lt;/span&gt;numero &lt;span style="color: #66cc66;"&gt;&amp;lt;= &lt;/span&gt;minimo&lt;span style="color: black;"&gt;)&lt;/span&gt;:
+        salida &lt;span style="color: #66cc66;"&gt;=&lt;/span&gt; &lt;span style="color: #008000;"&gt;False&lt;/span&gt;
+    &lt;span style="color: #ff7700; font-weight: bold;"&gt;elif&lt;/span&gt; &lt;span style="color: black;"&gt;(&lt;/span&gt;numero &lt;span style="color: #66cc66;"&gt;&amp;lt;= &lt;/span&gt;maximo&lt;span style="color: black;"&gt;)&lt;/span&gt;: 
+        salida &lt;span style="color: #66cc66;"&gt;=&lt;/span&gt; &lt;span style="color: #008000;"&gt;False&lt;/span&gt;
+    &lt;span style="color: #ff7700; font-weight: bold;"&gt;else&lt;/span&gt;: 
+        salida &lt;span style="color: #66cc66;"&gt;=&lt;/span&gt; &lt;span style="color: #008000;"&gt;True&lt;/span&gt;
+    &lt;span style="color: #ff7700; font-weight: bold;"&gt;return&lt;/span&gt; salida&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29588">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644713098</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;pre&gt;&lt;span style="color: #ff7700; font-weight: bold;"&gt;  elif&lt;/span&gt; &lt;span style="color: black;"&gt;(&lt;/span&gt;numero&lt;span style="color: #66cc66;"&gt; &amp;gt;= &lt;/span&gt;maximo&lt;span style="color: black;"&gt;)&lt;/span&gt;:&lt;/pre&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí!&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29589">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644713098</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;pre class="python" style="font-family: monospace;"&gt; &lt;span style="color: #ff7700; font-weight: bold;"&gt;if&lt;/span&gt; &lt;span style="color: black;"&gt;(&lt;/span&gt;numero &lt;span style="color: #66cc66;"&gt;!= &lt;/span&gt;minimo&lt;span style="color: black;"&gt;)&lt;/span&gt;:
+        salida &lt;span style="color: #66cc66;"&gt;=&lt;/span&gt; &lt;span style="color: #008000;"&gt;False&lt;/span&gt;
+&lt;/pre&gt;</answer_text>
+            <response>&lt;p&gt;No, esto devuelve un False cuando el número no es igual al mínimo. &lt;br /&gt;&lt;br /&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29590">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644713098</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;div id="highlight-preview"&gt;
+&lt;pre class="python" style="font-family: monospace;"&gt; &lt;span style="color: #ff7700; font-weight: bold;"&gt;elif&lt;/span&gt; &lt;span style="color: black;"&gt;(&lt;/span&gt;numero &lt;span style="color: #66cc66;"&gt;&amp;gt; &lt;/span&gt;minimo&lt;span style="color: black;"&gt;)&lt;/span&gt;: 
+        salida &lt;span style="color: #66cc66;"&gt;=&lt;/span&gt; &lt;span style="color: #008000;"&gt;True&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Falta verificar que sea menor al máximo antes de asignar un True.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14734">
+        <prevpageid>14737</prevpageid>
+        <nextpageid>14738</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644711458</timecreated>
+        <timemodified>1644936013</timemodified>
+        <title> ¿Hace calor? - bis</title>
+        <contents>&lt;p&gt;Indicar cuál es el valor asignado a la variable "hace_calor" después de ejecutar este código.&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre class="python" style="font-family: monospace;"&gt;temperatura&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;35&lt;/span&gt;
+&lt;span style="color: #ff7700; font-weight: bold;"&gt;if&lt;/span&gt; temperatura&lt;span style="color: #66cc66;"&gt;&amp;lt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;20&lt;/span&gt;:
+    hace_calor&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #008000;"&gt;False&lt;/span&gt;
+&lt;span style="color: #ff7700; font-weight: bold;"&gt;else&lt;/span&gt;: 
+    hace_calor&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #008000;"&gt;True&lt;/span&gt;&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29581">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644711458</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;True&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí! Con una temperatura de 35 grados a la variable "hace_calor" le queda asignado el valor True.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29582">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644711458</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;False&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Nop! Con una temperatura de 35 grados no se cumple la condición del if, por lo que "salta" al else.&lt;/p&gt;
+&lt;p&gt;Luego, a la variable hace_calor se le asigna el valor True&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14735">
+        <prevpageid>14738</prevpageid>
+        <nextpageid>14736</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644711970</timecreated>
+        <timemodified>1644789025</timemodified>
+        <title>Más problemas</title>
+        <contents>&lt;p&gt;¿El siguiente código tiene o no algún problema?&lt;/p&gt;
+&lt;pre class="python" style="font-family: monospace;"&gt;lista10&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: black;"&gt;[&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;5&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;5&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;5&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0&lt;/span&gt;&lt;span style="color: black;"&gt;]&lt;/span&gt;
+i&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0&lt;/span&gt;
+&lt;span style="color: #ff7700; font-weight: bold;"&gt;while&lt;/span&gt; i&lt;span style="color: #66cc66;"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color: #008000;"&gt;len&lt;/span&gt;&lt;span style="color: black;"&gt;(&lt;/span&gt;lista10&lt;span style="color: black;"&gt;)&lt;/span&gt;:
+    &lt;span style="color: #ff7700; font-weight: bold;"&gt;if&lt;/span&gt; lista10&lt;span style="color: black;"&gt;[&lt;/span&gt;i&lt;span style="color: black;"&gt;]&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;==&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;5&lt;/span&gt;:
+        salida&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;salida+&lt;span style="color: #ff4500;"&gt;1&lt;/span&gt;
+    i&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;i+&lt;span style="color: #ff4500;"&gt;1&lt;/span&gt;&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29583">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644711970</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Sí, hay problemas.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí! Falta definir la variable "salida". Si lo probas y ejecuta bien, es por que ya estaba definida en algún otro lado. ¡Fijate bien!&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29584">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644711970</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;No hay problemas.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Ehhh.... Sí, Houston tenemos problemas. Falta definir la variable "salida".&lt;/p&gt;
+&lt;p&gt;Al querer usar una variable para una operación, es necesario que antes tenga un valor (i.e. esté definida). Si este código te llegara a ejecutar sin error, es por que ya habías definido la variable "salida" anteriormente en algún otro lado... esto te da una pista de que ¡no tenés idea de lo que estás haciendo!&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+    </pages>
+    <grades>
+    </grades>
+    <timers>
+    </timers>
+    <overrides>
+    </overrides>
+  </lesson>
+</activity>

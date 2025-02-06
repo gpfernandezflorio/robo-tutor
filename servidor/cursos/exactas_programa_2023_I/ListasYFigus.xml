@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<activity id="1702" moduleid="323951" modulename="lesson" contextid="477651">
+  <lesson id="1702">
+    <course>3799</course>
+    <name>Listas y Figus</name>
+    <intro></intro>
+    <introformat>1</introformat>
+    <practice>0</practice>
+    <modattempts>0</modattempts>
+    <usepassword>0</usepassword>
+    <password></password>
+    <dependency>0</dependency>
+    <conditions>O:8:"stdClass":3:{s:9:"timespent";i:0;s:9:"completed";i:0;s:15:"gradebetterthan";i:0;}</conditions>
+    <grade>100</grade>
+    <custom>1</custom>
+    <ongoing>0</ongoing>
+    <usemaxgrade>0</usemaxgrade>
+    <maxanswers>4</maxanswers>
+    <maxattempts>1</maxattempts>
+    <review>0</review>
+    <nextpagedefault>0</nextpagedefault>
+    <feedback>0</feedback>
+    <minquestions>0</minquestions>
+    <maxpages>1</maxpages>
+    <timelimit>0</timelimit>
+    <retake>0</retake>
+    <activitylink>0</activitylink>
+    <mediafile></mediafile>
+    <mediaheight>480</mediaheight>
+    <mediawidth>640</mediawidth>
+    <mediaclose>0</mediaclose>
+    <slideshow>0</slideshow>
+    <width>640</width>
+    <height>480</height>
+    <bgcolor>#FFFFFF</bgcolor>
+    <displayleft>0</displayleft>
+    <displayleftif>0</displayleftif>
+    <progressbar>0</progressbar>
+    <available>1677065400</available>
+    <deadline>0</deadline>
+    <timemodified>1690829051</timemodified>
+    <completionendreached>0</completionendreached>
+    <completiontimespent>0</completiontimespent>
+    <pages>
+      <page id="14889">
+        <prevpageid>0</prevpageid>
+        <nextpageid>14890</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1677020378</timecreated>
+        <timemodified>0</timemodified>
+        <title>álbum</title>
+        <contents>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;album=[&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;]&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Representa un álbum completo&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29944">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1677020378</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;FALSO&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Claro! Estamos usando 0 para indicar que la figurita correspondiente a esa&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;posición aún no la conseguimosy 1 para indicar que sí.&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Si solo tenemos ceros, es por que aún no pegamos ninguna figu; el álbum esta vacío.&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29945">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1677020378</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;&lt;span style="color: #000000;"&gt;VERDADERO&lt;/span&gt;&lt;/div&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Ojo! Estamos usando 0 para indicar que la figurita correspondiente a esa&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;posición aún no la conseguimosy 1 para indicar que sí.&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Si solo tenemos ceros, es por que aún no pegamos ninguna figu; el álbum está vacío. &lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14890">
+        <prevpageid>14889</prevpageid>
+        <nextpageid>14891</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1677020485</timecreated>
+        <timemodified>0</timemodified>
+        <title>otro álbum</title>
+        <contents>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;album=[&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;]&lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Representa un álbum completo &lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29946">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1677020485</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;VERDADERO&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Si! Recordemos que estamos usando 0 para indicar que la figurita correspondiente a esa&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;posición aún no la conseguimos, y 1 para indicar que sí.&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Si solo tenemos 1, es por que ya conseguimos todas las figus; el álbum está completo.&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29947">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1677020485</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;FALSO&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Estemmmmmm... Recordemos que estamos usando 0 para indicar que la figurita correspondiente a esa&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;posición aún no la conseguimos, y 1 para indicar que sí.&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Si solo tenemos 1, es por que ya conseguimos todas las figus; el álbum está completo.&lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14891">
+        <prevpageid>14890</prevpageid>
+        <nextpageid>14892</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1677020598</timecreated>
+        <timemodified>1677022362</timemodified>
+        <title>tamaño del álbum</title>
+        <contents>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;album=[&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;]&lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;&lt;br /&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;¿Cuál es el tamaño de este álbum?&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29948">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1677020598</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;5&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Si! Este álbum contempla espacios para 5 figuritas. &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Podés contar "a mano". Con len(album) podés averiguar cuántos &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;lugares hay en la lista album. &lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29949">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1677020598</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;0&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Ojo. Este álbum contempla espacios para 5 figuritas. &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Podés contar "a mano". Con len(album) pod{es averiguar cuántos &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;lugares hay en la lista album. &lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29950">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1677020598</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;6&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;mmmmm. Este álbum contempla espacios para 5 figuritas. &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Podes contar "a mano". Con len(album) podés averiguar cuántos &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;lugares hay en la lista album. &lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29951">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1677020598</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;1&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Nop! Este álbum tiene contempla espacios para 5 figuritas. &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Podes contar "a mano". Con len(album) podés averiguar cuéntos &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;lugares hay en la lista album. &lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14892">
+        <prevpageid>14891</prevpageid>
+        <nextpageid>14893</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1677022717</timecreated>
+        <timemodified>0</timemodified>
+        <title>pegadas</title>
+        <contents>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;album=[&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;]&lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;¿Cuántas figurtias hay &lt;/span&gt;&lt;span style="color: #a31515;"&gt;"pegadas"&lt;/span&gt;&lt;span style="color: #000000;"&gt; en este álbum?&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29952">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1677022717</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;2&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Si! Cada uno de los unos representa una figurita pegada. &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;En este álbum "tenemos" la 0 y la 3, recordando que están numeradas de 0 a 4. &lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29953">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1677022717</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;5&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Atenti! 5 es la cantidad de lugares que hay en el álbum. Aca tenemos pegadas 2 figus. Recordemos que cada uno de los unos representa una figurita pegada. &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;En este álbum "tenemos" la 0 y la 3, recordando que están numeradas de 0 a 4. &lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14893">
+        <prevpageid>14892</prevpageid>
+        <nextpageid>14894</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1677022876</timecreated>
+        <timemodified>1688501792</timemodified>
+        <title>¿cuántas tengo pegadas?</title>
+        <contents>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;album=[&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;]&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;total=&lt;/span&gt;&lt;span style="color: #795e26;"&gt;sum&lt;/span&gt;&lt;span style="color: #000000;"&gt;(album)&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;¿Cuál es el valor de la variable total?&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29954">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1677022876</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;2&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Exacto!&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Haciendo sum(album) se suman los valores almacenados en la lista &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;álbum. En este caso, da 2. Por otra parte, como la lista tiene apenas ceros y unos, la suma coincide con la cantidad de 1's. &lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29955">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1677022876</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;5&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;5 es el tamaño del álbum. &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Haciendo sum(album) se suman los valores almacenados en la lista &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;álbum. En este caso, da 2. Por otra parte, como la lista tiene apenas ceros y unos, la suma coincide con la cantidad de 1's. &lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29956">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1677022876</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;3&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;3 figuritas faltan para completar el álbum.&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Haciendo sum(album) se suman los valores almacenados en la lista &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;álbum. En este caso, da 2. Por otra parte, como la lista tiene apenas ceros y unos, la suma coincide con la cantidad de 1's. &lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14894">
+        <prevpageid>14893</prevpageid>
+        <nextpageid>14895</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1677023021</timecreated>
+        <timemodified>0</timemodified>
+        <title>¿faltan figus?</title>
+        <contents>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;album=[&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;]&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #795e26;"&gt;sum&lt;/span&gt;&lt;span style="color: #000000;"&gt;(album)&amp;lt;&lt;/span&gt;&lt;span style="color: #795e26;"&gt;len&lt;/span&gt;&lt;span style="color: #000000;"&gt;(album)&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;¿Cuál es el resultado de esta última expresión?&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29957">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1677023021</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;TRUE&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Exacto! sum(album) es 2 mientras que len(album) vale 5. &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Como 2 es menor que 5, la comparación es verdadera. &lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29958">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1677023021</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;FALSE&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Atención: sum(album) es 2 mientras que len(album) vale 5. &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Como 2 es menor que 5, la comparación es verdadera. &lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14895">
+        <prevpageid>14894</prevpageid>
+        <nextpageid>14896</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1677023119</timecreated>
+        <timemodified>0</timemodified>
+        <title>¿qué onda?</title>
+        <contents>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;album=[&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;0&lt;/span&gt;&lt;span style="color: #000000;"&gt;]&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;nueva_figu=&lt;/span&gt;&lt;span style="color: #098156;"&gt;4&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;album[nueva_figu]=&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;total=&lt;/span&gt;&lt;span style="color: #795e26;"&gt;sum&lt;/span&gt;&lt;span style="color: #000000;"&gt;(album)&lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;¿Cuál es el valor almacenado en la variable total?&lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29959">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1677023119</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;3&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Sí, exacto!&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;con album&lt;/span&gt;&lt;span style="color: #a31515;"&gt;[nueva_figu]&lt;/span&gt;&lt;span style="color: #000000;"&gt;=1 actualizamos el álbum pegando una figu en la posición 4, donde no había figu!. Por consiguiente, como antes teníamos dos figus y pegamos una más que no teníamos, terminamos con 3 figus en el álbum.&lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29960">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1677023119</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;2&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Ojo! Inicialmente hay 2 figus en el álbum, pero la nueva es la 4! Con album&lt;/span&gt;&lt;span style="color: #a31515;"&gt;[nueva_figu]&lt;/span&gt;&lt;span style="color: #000000;"&gt;=1 actualizamos el álbum pegando una figu en la posición 4, donde no había figu!. Por consiguiente, como antes teníamos dos figus y pegamos una más que no teníamos, terminamos con 3 figus en el álbum.&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14896">
+        <prevpageid>14895</prevpageid>
+        <nextpageid>0</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1677023253</timecreated>
+        <timemodified>0</timemodified>
+        <title>todo tiene un final</title>
+        <contents>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;album=[&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;,&lt;/span&gt;&lt;span style="color: #098156;"&gt;1&lt;/span&gt;&lt;span style="color: #000000;"&gt;]&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #795e26;"&gt;sum&lt;/span&gt;&lt;span style="color: #000000;"&gt;(album)&amp;lt;&lt;/span&gt;&lt;span style="color: #795e26;"&gt;len&lt;/span&gt;&lt;span style="color: #000000;"&gt;(album)&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;¿Cuál es el resultado de esta última expresión?&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29961">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1677023253</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;FALSE&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Exacto! sum(album) es 5 mientras que len(album) vale 5. &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Como 5 es igual que 5, la comparación es FALSE. &lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29962">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1677023253</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;TRUE&lt;/p&gt;</answer_text>
+            <response>&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div style="color: #000000; background-color: #fffffe; font-family: monospace, 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'; font-weight: normal; font-size: 14px; line-height: 19px; white-space: pre;"&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Atención: sum(album) es 5 mientras que len(album) vale 5. &lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style="color: #000000;"&gt;Como 5 es igual que 5, la comparación es FALSE. &lt;/span&gt;&lt;/div&gt;
+&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+    </pages>
+    <grades>
+    </grades>
+    <timers>
+    </timers>
+    <overrides>
+    </overrides>
+  </lesson>
+</activity>

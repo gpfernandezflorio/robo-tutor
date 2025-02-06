@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<activity id="1697" moduleid="317947" modulename="lesson" contextid="469693">
+  <lesson id="1697">
+    <course>3532</course>
+    <name>Corrigiendo código</name>
+    <intro></intro>
+    <introformat>1</introformat>
+    <practice>0</practice>
+    <modattempts>0</modattempts>
+    <usepassword>0</usepassword>
+    <password></password>
+    <dependency>0</dependency>
+    <conditions>O:8:"stdClass":3:{s:9:"timespent";i:0;s:9:"completed";i:0;s:15:"gradebetterthan";i:0;}</conditions>
+    <grade>100</grade>
+    <custom>1</custom>
+    <ongoing>0</ongoing>
+    <usemaxgrade>0</usemaxgrade>
+    <maxanswers>6</maxanswers>
+    <maxattempts>1</maxattempts>
+    <review>1</review>
+    <nextpagedefault>0</nextpagedefault>
+    <feedback>0</feedback>
+    <minquestions>0</minquestions>
+    <maxpages>1</maxpages>
+    <timelimit>0</timelimit>
+    <retake>0</retake>
+    <activitylink>0</activitylink>
+    <mediafile></mediafile>
+    <mediaheight>480</mediaheight>
+    <mediawidth>640</mediawidth>
+    <mediaclose>0</mediaclose>
+    <slideshow>0</slideshow>
+    <width>640</width>
+    <height>480</height>
+    <bgcolor>#FFFFFF</bgcolor>
+    <displayleft>0</displayleft>
+    <displayleftif>0</displayleftif>
+    <progressbar>0</progressbar>
+    <available>1680695100</available>
+    <deadline>0</deadline>
+    <timemodified>1683116086</timemodified>
+    <completionendreached>0</completionendreached>
+    <completiontimespent>0</completiontimespent>
+    <pages>
+      <page id="14871">
+        <prevpageid>0</prevpageid>
+        <nextpageid>14864</nextpageid>
+        <qtype>20</qtype>
+        <qoption>0</qoption>
+        <layout>1</layout>
+        <display>1</display>
+        <timecreated>1682791852</timecreated>
+        <timemodified>1682791897</timemodified>
+        <title>Introducción</title>
+        <contents>&lt;p&gt;En esta actividad vamos a ir presentando código que vamos escribiendo como si fuéramos resolviendo una consigna en una clase de Taller de Programación. El código puede tener errores (algo que impida que corra y Python lo marca como tal) o lo que vamos a llamar en forma general problemas (el código funciona bien pero no hace lo que queremos; por ejemplo, hacer una cuenta con un valor fijo en vez de con una variable, una función que devuelva un número cuando queríamos una lista de números, etc.). Las preguntas apuntan a que marquen todos los errores y problemas que habría en el código.&lt;/p&gt;
+&lt;p&gt;Quizás sea bueno probar ir copiando y pegando el código de cada pregunta en algún lado para ver cómo corre (aunque tengan cuidado porque los espacios puede copiarse mal ahí).&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29894">
+            <jumpto>14864</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1682791852</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>Pasar a la primera pregunta</answer_text>
+            <response>$@NULL@$</response>
+            <answerformat>0</answerformat>
+            <responseformat>0</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14865">
+        <prevpageid>14864</prevpageid>
+        <nextpageid>14866</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529377</timecreated>
+        <timemodified>1682788335</timemodified>
+        <title>Pregunta 2</title>
+        <contents>&lt;p&gt;Otro estudiante nos dice que para esta consigna escribió lo siguiente, y que lo más correcto es usar un for. ¿Tiene razón? ¿La función nos daría un resultado distinto si la escribiéramos así?&lt;/p&gt;
+&lt;pre&gt;def suma_hasta_n(n):
+    suma = 0
+    for i in range(1,n):
+        suma = suma + i
+    return suma&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29872">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529377</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;No, es lo mismo.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Bien! En este caso, escribir la función con un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;for&lt;/span&gt; o un &lt;span style="font-family: 'courier 
+
+new', courier, monospace;"&gt;while&lt;/span&gt; es lo mismo. Como sabemos que tenemos que sumar los valores desde 1 hasta n, un &lt;span style="font-family: 'courier new', 
+
+courier, monospace;"&gt;for&lt;/span&gt; que va sumando sobre ese rango funciona bien. Si no, un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; (junto con un contador que definimos a mano para que vaya desde 1 hasta n, incrementándose de a 1) también anda bien. Cualquiera de las dos opciones de iteración harían lo mismo, sumar uno por uno los valores desde 1 hasta n en una variable auxiliar que definimos al comienzo de la iteración.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29873">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529377</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Usar un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;for&lt;/span&gt; es lo mejor.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Quizás sea bastante natural iterar sobre un rango que va desde 1 hasta n, pero un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; andaría bien también.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29885">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529377</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Usar un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; es lo mejor.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Anda bien el &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt;, pero el código con el &lt;span style="font-family: 'courier new', courier, 
+
+monospace;"&gt;for&lt;/span&gt; también funcionaría bien.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14866">
+        <prevpageid>14865</prevpageid>
+        <nextpageid>14867</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529526</timecreated>
+        <timemodified>1682788381</timemodified>
+        <title>Pregunta 3</title>
+        <contents>&lt;p&gt;Finalmente corregimos el código que escribimos al principio para que corra sin errores. Cuando lo ejecutamos en el Spyder, ¿qué obtenemos en la consola?&lt;/p&gt;
+&lt;pre&gt;def suma_primeros_naturales(n):
+    valor = 0
+    i = 1
+    while i &amp;lt;= n: 
+        valor = valor + i
+        i = i + 1
+    return valor&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29874">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529526</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;El código corre sin problemas pero no obtenemos nada en la consola (en el Spyder figuraría &lt;span style="font-family: 'courier new', courier, monospace;"&gt;runfile "..."&lt;/span&gt;, pero nada aparte de eso).&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Bien! Python acepta la definición de la función y la guarda, pero no nos tiene que dar un valor. De ahora en más podemos llamar esta función con un argumento adecuado.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29875">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529526</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Nos da la suma de los primeros n números naturales.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! Python se anotó la definición de la función, pero nunca le pedimos que la ejecutara (y además, nunca le dijimos quién sería n...).&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29886">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529526</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Python nos devuelve un número porque esta función toma como argumento un número natural y devuelve otro número como resultado.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! Ejecutamos el código para que se almacenara la definición de la función, pero nunca llamamos a la función. Entonces, Python no nos va a dar nada, porque no le pedimos nada.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14867">
+        <prevpageid>14866</prevpageid>
+        <nextpageid>14868</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529652</timecreated>
+        <timemodified>1682791026</timemodified>
+        <title>Pregunta 4</title>
+        <contents>&lt;p&gt;El ejercicio nos dice a continuación que todos los números triangulares (el n-ésimo número triangular es el que está dado por la suma de los primeros n naturales) son o bien múltiplos de 3, o bien tienen resto 1 en la división por 9. Queremos una función que dado un número natural n calcule la suma de los primeros n naturales, se fije si esta suma tiene resto 1 en la división por 9 y nos devuelva verdadero (&lt;span style="font-family: 'courier new', courier, monospace;"&gt;True&lt;/span&gt;) en ese caso, o falso (&lt;span style="font-family: 'courier new', courier, monospace;"&gt;False&lt;/span&gt;) si no. Escribimos el siguiente código en Python, ¿correrá sin problemas? ¿Cómo tendríamos que corregirlo para que se pueda ejecutar sin errores?&lt;/p&gt;
+&lt;pre&gt;# Copiamos la función que hicimos antes, ya corregida
+def suma_primeros_naturales(n):
+    valor = 0
+    i = 1
+    while i &amp;lt;= n:
+        valor = valor + i
+        i = i + 1
+    return valor
+
+def tiene_resto_1_div_9(n):
+    # Calculamos primero la suma usando la función anterior
+    suma = suma_primeros_naturales(n)    
+    # Usamos el comando % que nos da el resto en la división
+    if suma % 9 = 1
+        return n&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29876">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529652</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Hay que corregir dos cosas en la línea del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt; para que corra bien.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Bien! Tenemos que agregar un segundo &lt;span style="font-family: 'courier new', courier, monospace;"&gt;=&lt;/span&gt; para que nos quede una comparación lógica de igualdad (&lt;span style="font-family: 'courier new', courier, monospace;"&gt;==&lt;/span&gt;) y no una asignación de variables (&lt;span style="font-family: 'courier new', courier, 
+
+monospace;"&gt;=&lt;/span&gt;). Además, faltan unos : al final de la línea.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29877">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529652</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Va a haber un error porque pusimos un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt; pero no le pusimos una condición alternativa mediante un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;else&lt;/span&gt;.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Python no nos pide que pongamos una condición alternativa a los condicionales (es optativo esto). Si se cumple la condición, bien, ejecuta el bloque de código dentro del condicional. Si no se ejecuta, simplemente pasa de largo y no se corre nada, pero eso no va a causar un error.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29887">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529652</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Sólo falta algo al final de la línea del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt;.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Para declarar el condicional hay que ponerle un : al final de la línea del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt;... pero no es la única cosa que hay que corregir en esa línea.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29890">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529652</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Sólo habrá un problema con la comparación lógica en la línea del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt;.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Una comparación para ver si algo es igual a otra cosa se hace usando &lt;span style="font-family: 'courier new', courier, monospace;"&gt;==&lt;/span&gt;. Cuando escribimos &lt;span style="font-family: 'courier new', courier, monospace;"&gt;=&lt;/span&gt; estamos asignando un valor a una variable, no chequeando una igualdad. Pero no es el único error...&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29891">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529652</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Si no se cumple la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt; en la definición de &lt;span style="font-family: 'courier new', 
+
+courier, monospace;"&gt;suma_primeros_naturales(n)&lt;/span&gt;, la función no tiene un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;return&lt;/span&gt; asignado en ese caso, y eso daría error.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Esto es cierto, no asignamos un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;return algo&lt;/span&gt; en el caso en que la condición de tener resto 1 en la división por 9 no se cumpla. En general es mala idea dejar casos sueltos sin &lt;span style="font-family: 'courier new', courier, monospace;"&gt;return&lt;/span&gt; en una función, y aunque sea tendríamos que escribir &lt;span style="font-family: 'courier new', courier, monospace;"&gt;return&lt;/span&gt; solo, que devolvería literalmente nada (&lt;span style="font-family: 'courier new', courier, monospace;"&gt;None&lt;/span&gt;), para avisarle a Python que ahí termina la función. Pero si nos olvidamos de hacerlo, Python por defecto asigna este valor de nada a la salida de la función, por lo que si bien dejamos algo colgado, no nos saltaría error. Pero hay otras cosas para corregir antes de que el código pueda correr sin problemas...&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14868">
+        <prevpageid>14867</prevpageid>
+        <nextpageid>14869</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529793</timecreated>
+        <timemodified>1682791231</timemodified>
+        <title>Pregunta 5</title>
+        <contents>&lt;p&gt;Corregimos lo anterior, y llegamos a esta segunda versión del código, que ahora corre sin problemas. Queríamos una función que dado un número natural n calculara la suma de los primeros n naturales, se fijara si esta suma tiene resto 1 en la división por 9 y nos devolviera verdadero (&lt;span style="font-family: 'courier new', courier, 
+
+monospace;"&gt;True&lt;/span&gt;) en ese caso, o falso (&lt;span style="font-family: 'courier new', courier, monospace;"&gt;False&lt;/span&gt;) si no. ¿Cumplimos con la consigna?&lt;/p&gt;
+&lt;pre&gt;# Copiamos la función que hicimos antes
+def suma_primeros_naturales(n):
+    valor = 0
+    i = 1
+    while i &amp;lt;= n:
+        valor = valor + i
+        i = i + 1
+    return valor
+
+def tiene_resto_1_div_9(n):
+    # Calculamos primero la suma usando la función anterior
+    suma = suma_primeros_naturales(n)
+    # Usamos el comando % que nos da el resto en la división
+    if suma % 9 = 1
+        return n
+    return &lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29878">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529793</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;No.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Bien! El problema está con lo que regresa la función. En este caso me devuelve el número n si se cumple la condición, o nada si no, pero yo quería que diera un valor de verdad, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;True&lt;/span&gt; o &lt;span style="font-family: 'courier new', courier, monospace;"&gt;False&lt;/span&gt;. ¿Cómo podría corregir los &lt;span style="font-family: 'courier new', courier, monospace;"&gt;return&lt;/span&gt; para hacer eso?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29879">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529793</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Sí.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! La función va a correr sin problemas, no habrá errores, pero no está haciendo lo que yo quiero que haga. Si la condición sobre el número triangular se cumple, me devuelve el número n, y yo quería que diera &lt;span style="font-family: 'courier new', courier, monospace;"&gt;True&lt;/span&gt;. Si no se cumple la condición, la función devuelve nada y yo quería &lt;span style="font-family: 'courier new', courier, monospace;"&gt;False&lt;/span&gt;. ¿Cómo podría corregir los &lt;span style="font-family: 'courier new', courier, monospace;"&gt;return&lt;/span&gt; para hacer eso?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14869">
+        <prevpageid>14868</prevpageid>
+        <nextpageid>14870</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529914</timecreated>
+        <timemodified>1682791256</timemodified>
+        <title>Pregunta 6</title>
+        <contents>&lt;p&gt;Muy bien. Ahora seguimos programando, y la siguiente consigna nos dice que queremos crear una lista que tenga como elementos los números triangulares hasta n = 20 (para comparar, por ejemplo, con la secuencia A000217 en OEIS, una enciclopedia de secuencias numéricas famosas). Definimos una función para hacer eso. ¿Está todo bien con este código?&lt;/p&gt;
+&lt;pre&gt;# Copiamos la función que hicimos al principio
+def suma_primeros_naturales(n):
+    valor = 0
+    i = 1
+    while i &amp;lt;= n:
+        valor = valor + i
+        i = i + 1
+    return valor
+
+def lista_de_numeros_triangulares(n):
+    # Inicio una lista vacía para ir anotando los resultados
+    lista_resultados = [] 
+    # Uso la función para calcular la suma de 1 a n y anotarla en la lista
+    for i in range(1,n):
+        suma = suma_primeros_naturales(n)
+	lista_resultados.add(suma)
+    return lista_resultados
+
+lista_hasta_20 = lista_de_numeros_triangulares
+print(lista_hasta_20)&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29880">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529914</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Hay cuatro problemas con el código.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Bien! Tenemos un error grave que va a impedir que se corra el código: lista_resultados es una lista, y para agregarle resultados tenemos que usar la función &lt;span style="font-family: 'courier new', courier, monospace;"&gt;append&lt;/span&gt; (la función &lt;span style="font-family: 'courier new', courier, monospace;"&gt;add&lt;/span&gt; era para sets (conjuntos)). Además, al final, cuando llamo a la función con &lt;span style="font-family: 'courier new', courier, monospace;"&gt;lista_hasta_20 = lista_de_numeros_triangulares&lt;/span&gt; no le estoy pasando el argumento 20 a la función.&lt;/p&gt;
+&lt;p&gt;Después hay problemas con la lógica del código, que no impedirán que corra pero no darán lo que yo quiera. El &lt;span style="font-family: 'courier new', courier, monospace;"&gt;for&lt;/span&gt; va llevando la variable índice &lt;span style="font-family: 'courier new', courier, monospace;"&gt;i&lt;/span&gt; desde 1 hasta n-1 (no incluye el valor del extremo derecho). Además, cuando llamo a la función &lt;span style="font-family: 'courier new', courier, monospace;"&gt;suma_primeros_naturales(n)&lt;/span&gt; lo tengo que hacer con el argumento &lt;span style="font-family: 'courier new', courier, 
+
+monospace;"&gt;i&lt;/span&gt;, porque si no estaría calculando n veces la suma desde 1 hasta n, siempre el mismo número.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29881">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529914</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;No hay problemas en el código.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! La definición de la primera función ya la revisamos, pero en la función &lt;span style="font-family: 'courier new', courier, 
+
+monospace;"&gt;lista_de_numeros_triangulares(n)&lt;/span&gt; hay al menos un error.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29889">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529914</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Hay un problema con el código.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! La definición de la primera función ya la revisamos, pero en la función &lt;span style="font-family: 'courier new', courier, 
+
+monospace;"&gt;lista_de_numeros_triangulares(n)&lt;/span&gt; hay al menos un error. Una pista: ¿Qué función usábamos para agregar valores a una lista? Otra pista: ¿Los valores que saldrán al final en la variable local &lt;span style="font-family: 'courier new', courier, monospace;"&gt;lista_resultados&lt;/span&gt; son iguales o distintos?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29892">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529914</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Hay dos problemas con el código.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! La definición de la primera función ya la revisamos, pero después hay varios problemas. Una pista: ¿Qué función usábamos para agregar valores a una lista? Otra pista: ¿&lt;span style="font-family: 'courier new', courier, monospace;"&gt;range(1,n)&lt;/span&gt; desde dónde hasta dónde va?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29893">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529914</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Hay tres problemas con el código.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Casi! La definición de la primera función ya la revisamos, pero después hay varios problemas. Una pista: ¿Qué argumento requiere la función &lt;span style="font-family: 'courier new', courier, monospace;"&gt;lista_de_numeros_triangulares&lt;/span&gt;? Otra pista: ¿&lt;span style="font-family: 'courier new', courier, monospace;"&gt;range(1,n)&lt;/span&gt; desde dónde hasta dónde va&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14870">
+        <prevpageid>14869</prevpageid>
+        <nextpageid>0</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680530415</timecreated>
+        <timemodified>1682788055</timemodified>
+        <title>Pregunta 7</title>
+        <contents>&lt;p&gt;Ya estamos por terminar el ejercicio. La última consigna nos pide que hagamos un gráfico mostrando puntos con los valores de los primeros 20 números triangulares en función del valor de n (usando la lista que hicimos antes). Escribimos lo siguiente:&lt;/p&gt;
+&lt;pre&gt;# Importo matplotlib.pyplot para graficar
+import matplotlib.pyplot as plt
+
+# Copiamos las funciones que hicimos antes
+def suma_primeros_naturales(n):
+    valor = 0
+    i = 1
+    while i &amp;lt;= n:  
+        valor = valor + i
+        i = i + 1
+    return valor
+
+def lista_de_numeros_triangulares(n):
+    # Inicio una lista vacía para ir anotando los resultados
+    lista_resultados = []   
+    # Uso la función para calcular la suma de 1 a n y anotarla en la lista
+    for i in range(1,n+1):
+        suma = suma_primeros_naturales(i)
+	lista_resultados.append(suma)
+    return lista_resultados
+
+lista_hasta_20 = lista_de_numeros_triangulares(20)
+
+# Acá empieza lo nuevo
+
+# Creo la lista de los números hasta el 20 inclusive
+lista_ns = []
+for i in range(21):
+    # Porque range va hasta el anterior al 21
+    lista_ns.append(i)
+
+plt.plot(lista_ns, lista_hasta_20)
+plt.show()&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29882">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680530415</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Hay que corregir el código porque hay un error y no saldrá el gráfico.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Bien! Los objetos a graficar no tienen la misma longitud porque &lt;span style="font-family: 'courier new', courier, monospace;"&gt;range(21)&lt;/span&gt; abarca desde el 0 hasta el 20 inclusive. Habría que pedir que vaya de 1 a 20. También podríamos cambiarle el estilo al gráfico (usando el comando &lt;span style="font-family: 'courier new', courier, monospace;"&gt;plt.scatter(...)&lt;/span&gt; en vez de &lt;span style="font-family: 'courier new', courier, monospace;"&gt;plt.plot(...)&lt;/span&gt;, por ejemplo) para que quede lo que me pide la consigna.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29883">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680530415</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Me dará un bonito gráfico.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! Va a saltar un error por las dimensiones de las cosas que pido graficar (pista: ¿desde dónde hasta dónde va &lt;span style="font-family: 'courier new', courier, monospace;"&gt;range(21)&lt;/span&gt;?).&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29884">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680530415</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Va a salir un gráfico donde aparezca una curva, y yo quería un gráfico de puntos.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! Esto es cierto, habría que cambiar el estilo del gráfico (poniendo la opción &lt;span style="font-family: 'courier new', courier, monospace;"&gt;marker='o', linestyle='None'&lt;/span&gt; en el comando &lt;span style="font-family: 'courier new', courier, monospace;"&gt;plt.plot(...)&lt;/span&gt;, por ejemplo, o usando el comando &lt;span style="font-family: 'courier new', courier, monospace;"&gt;plt.scatter(...)&lt;/span&gt;) en vez de &lt;span style="font-family: 'courier new', courier, monospace;"&gt;plt.plot(...)&lt;/span&gt;), pero hay un error más fundamental antes.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14864">
+        <prevpageid>14871</prevpageid>
+        <nextpageid>14865</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529229</timecreated>
+        <timemodified>1682788221</timemodified>
+        <title>Pregunta 1</title>
+        <contents>&lt;p&gt;Estamos resolviendo un ejercicio en la clase de taller de programación y queremos definir una función que calcule la suma de los primeros n números naturales (llamada &lt;span style="font-family: 'courier new', courier, monospace;"&gt;suma_primeros_naturales&lt;/span&gt;). Para eso, escribimos el siguiente código en Python, pero al correrlo salta un error. ¿Qué habría que corregirle para que corra bien?&lt;/p&gt;
+&lt;pre&gt;def suma_primeros_naturales(n)
+valor = 0
+i = 1
+while i &amp;lt;= n: 
+valor = valor + i
+i = i + 1
+return valor&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29869">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529229</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Hay que revisar la primera línea y la indentación.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Exacto! Hay que agregar unos : en la primera línea, para que Python sepa que lo que viene a continución es parte de la definición de la función. También hay que &lt;br /&gt;mover las líneas que querramos que entren en la definición un bloque de espacios a la derecha (y lo que está en el while, otro más). &lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29870">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529229</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Sólo hay que revisar la línea que dice "&lt;span style="font-family: 'courier new', courier, monospace;"&gt;def suma_primeros_naturales(n)&lt;/span&gt;".&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Bien, hay que agregarle unos : al final de esa línea para que Python tome las líneas siguientes como la definición de una función. ¿Pero es el único error?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29871">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529229</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Sólo habría que corregir la indentación.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Todo el código está alineado a la izquierda, y lo que entra dentro de la definición de la función tiene que estar corrido un lugar a la derecha. También habría que &lt;br /&gt;revisar lo que está dentro del while, porque esas líneas tendrían que estar todavía más a la derecha. Pero esto, ¿es lo único que hay que corregir?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+    </pages>
+    <grades>
+    </grades>
+    <timers>
+    </timers>
+    <overrides>
+    </overrides>
+  </lesson>
+</activity>

@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<activity id="1692" moduleid="316030" modulename="lesson" contextid="464185">
+  <lesson id="1692">
+    <course>3532</course>
+    <name>Ciclos</name>
+    <intro></intro>
+    <introformat>1</introformat>
+    <practice>0</practice>
+    <modattempts>0</modattempts>
+    <usepassword>0</usepassword>
+    <password></password>
+    <dependency>0</dependency>
+    <conditions>O:8:"stdClass":3:{s:9:"timespent";i:0;s:9:"completed";i:0;s:15:"gradebetterthan";i:0;}</conditions>
+    <grade>100</grade>
+    <custom>1</custom>
+    <ongoing>0</ongoing>
+    <usemaxgrade>0</usemaxgrade>
+    <maxanswers>4</maxanswers>
+    <maxattempts>1</maxattempts>
+    <review>0</review>
+    <nextpagedefault>0</nextpagedefault>
+    <feedback>0</feedback>
+    <minquestions>0</minquestions>
+    <maxpages>1</maxpages>
+    <timelimit>0</timelimit>
+    <retake>0</retake>
+    <activitylink>0</activitylink>
+    <mediafile></mediafile>
+    <mediaheight>480</mediaheight>
+    <mediawidth>640</mediawidth>
+    <mediaclose>0</mediaclose>
+    <slideshow>0</slideshow>
+    <width>640</width>
+    <height>480</height>
+    <bgcolor>#FFFFFF</bgcolor>
+    <displayleft>0</displayleft>
+    <displayleftif>0</displayleftif>
+    <progressbar>0</progressbar>
+    <available>1680695100</available>
+    <deadline>0</deadline>
+    <timemodified>1681001466</timemodified>
+    <completionendreached>0</completionendreached>
+    <completiontimespent>0</completiontimespent>
+    <pages>
+      <page id="14825">
+        <prevpageid>0</prevpageid>
+        <nextpageid>14826</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529229</timecreated>
+        <timemodified>1681131859</timemodified>
+        <title>Pregunta 1</title>
+        <contents>&lt;p&gt;¿Qué valor tendrá asignado la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;num&lt;/span&gt; después de ejecutar el siguiente código?&lt;/p&gt;
+&lt;pre&gt;num = 10
+
+for i in [0,2,4,8]:
+    num = num - i&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29789">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529229</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;-4&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Exacto! A &lt;span style="font-family: 'courier new', courier, monospace;"&gt;num&lt;/span&gt; le vamos restando 0 (queda en 10), 2 (queda en 8), 4 (queda en 4) y 8, sucesivamente. El valor final es -4.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29790">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529229</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;10&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! ¿&lt;span style="font-family: 'courier new', courier, monospace;"&gt;num&lt;/span&gt; está siendo modificada durante la iteración?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29791">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529229</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;2&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! ¿&lt;span style="font-family: 'courier new', courier, monospace;"&gt;num&lt;/span&gt; sólo es alterado en el último paso?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14826">
+        <prevpageid>14825</prevpageid>
+        <nextpageid>14827</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529377</timecreated>
+        <timemodified>1681131907</timemodified>
+        <title>Pregunta 2</title>
+        <contents>&lt;p&gt;¿Qué valor tendrá asignado la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;contador&lt;/span&gt; después de ejecutar el siguiente código?&lt;/p&gt;
+&lt;pre&gt;contador = 0
+
+for i in range(4):
+	contador = contador + 1&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29792">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529377</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;4&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Bien! Se hacen sólo cuatro pasos en esta iteración.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29793">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529377</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;0&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! ¿&lt;span style="font-family: 'courier new', courier, monospace;"&gt;contador&lt;/span&gt; está siendo modificado durante la iteración?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29814">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529377</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;5&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! ¿Cuántos pasos se hacen en esta iteración?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14827">
+        <prevpageid>14826</prevpageid>
+        <nextpageid>14828</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529526</timecreated>
+        <timemodified>1681131921</timemodified>
+        <title>Pregunta 3</title>
+        <contents>&lt;p&gt;¿Qué se obtendrá al final en la consola?&lt;/p&gt;
+&lt;pre&gt;mi_lista = []
+
+for i in range(1,5):
+	mi_lista.append(i)
+print(mi_lista)&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29794">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529526</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;&lt;span style="font-family: 'courier new', courier, monospace;"&gt;[1, 2, 3, 4]&lt;/span&gt;&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Bien! &lt;span style="font-family: 'courier new', courier, monospace;"&gt;range(1,5)&lt;/span&gt;recorre los números enteros desde el 1 hasta el anterior al 5, o sea, 4. En cada paso de la iteración el valor de i se almacena en &lt;span style="font-family: 'courier new', courier, monospace;"&gt;mi_lista&lt;/span&gt;.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29795">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529526</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;&lt;span style="font-family: 'courier new', courier, monospace;"&gt;[0, 1, 2, 3, 4]&lt;/span&gt;&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! ¿El 0 está incluido en el rango de la iteración? &lt;span style="font-family: 'courier new', courier, monospace;"&gt;range(1,5)&lt;/span&gt; comienza en 1.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29815">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529526</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;&lt;span style="font-family: 'courier new', courier, monospace;"&gt;[1, 2, 3, 4, 5]&lt;/span&gt;&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! ¿El 5 está incluido en el rango de la iteración? &lt;span style="font-family: 'courier new', courier, monospace;"&gt;range(1,5)&lt;/span&gt; no incluye al valor final, termina en el número anterior, o sea, en 4.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14828">
+        <prevpageid>14827</prevpageid>
+        <nextpageid>14829</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529652</timecreated>
+        <timemodified>1681005544</timemodified>
+        <title>Pregunta 4</title>
+        <contents>&lt;p&gt;Quiero definir una función que me devuelva el primer índice de una sucesión positiva divergente donde la sucesión supera a una constante M (como la función &lt;span style="font-family: 'courier new', courier, monospace;"&gt;alInfinito(M)&lt;/span&gt; que hicimos en clase). ¿Qué sería lo más natural?&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29796">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529652</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Usar un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt;.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Bien! Como no sabemos en qué momento la sucesión superará a M, es mejor usar un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; con una condición adecuada.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29797">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529652</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Usar un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;for&lt;/span&gt;.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! Cuando usamos un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;for&lt;/span&gt; lo hacemos sobre un rango de iteración de longitud conocida. ¿Cómo podríamos decirle al &lt;span style="font-family: 'courier new', courier, monospace;"&gt;for&lt;/span&gt; dónde terminar?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29816">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529652</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Puedo usar cualquiera de los dos.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! Cuando usamos un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;for&lt;/span&gt; lo hacemos sobre un rango de iteración de longitud conocida. ¿Cómo podríamos decirle al &lt;span style="font-family: 'courier new', courier, monospace;"&gt;for&lt;/span&gt; dónde terminar?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14829">
+        <prevpageid>14828</prevpageid>
+        <nextpageid>14830</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529793</timecreated>
+        <timemodified>1681007144</timemodified>
+        <title>Pregunta 5</title>
+        <contents>&lt;p&gt;Quiero definir una función que me devuelva la suma de los primeros n números naturales. ¿Qué podría usar para hacerlo?&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29798">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529793</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Puedo usar cualquiera de los dos.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Sí! En este caso podría usar cualquiera de las dos formas para hacer el ciclo.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29799">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529793</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Usar un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt;.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;No está mal... ¿pero es la única forma de hacerlo? Podríamos hacerlo iterando sobre un rango adecuado, por ejemplo desde 1 hasta n, con un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;for&lt;/span&gt;.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29817">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529793</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Usar un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;for&lt;/span&gt;.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;No está mal... ¿pero es la única forma de hacerlo? Podríamos hacerlo definiendo una variable auxiliar &lt;span style="font-family: 'courier new', courier, 
+
+monospace;"&gt;contador&lt;/span&gt;, y usar un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; desde &lt;span style="font-family: 'courier new', 
+
+courier, monospace;"&gt;contador = 1&lt;/span&gt; sumando de a 1 en cada iteración hasta que valga n.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14830">
+        <prevpageid>14829</prevpageid>
+        <nextpageid>14831</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529914</timecreated>
+        <timemodified>1681006396</timemodified>
+        <title>Pregunta 6</title>
+        <contents>&lt;p&gt;¿Qué se obtendrá al final en la consola después de ejecutar el siguiente código?&lt;/p&gt;
+&lt;pre&gt;mi_lista = []
+a = 0
+b = 0
+
+for i in range(5):
+	if a &amp;lt; 1 or b &amp;lt; 3:
+		mi_lista.append(a)
+		a = a + 1
+		b = b + 1 
+
+print(mi_lista)&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29800">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529914</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;&lt;span style="font-family: 'courier new', courier, monospace;"&gt;[0,1,2]&lt;/span&gt;.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Bien! La condición &lt;span style="font-family: 'courier new', courier, monospace;"&gt;a &amp;lt; 1 or b &amp;lt; 3&lt;/span&gt; se cumple en los primeros tres pasos de la iteración (cuando a y b son 0, 1 y 2), almacenando en &lt;span style="font-family: 'courier new', courier, monospace;"&gt;mi_lista&lt;/span&gt; el valor de a en cada caso. De ahí en más no se cumple la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt; y en cada paso restante la computadora simplemente no hace nada.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29801">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529914</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Un error, porque no hay ninguna condición alternativa para el &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt;.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! En Python no es obligatorio darle una condición alternativa al &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt; con un &lt;span style="font-family: 'courier new', courier, monospace;"&gt;else&lt;/span&gt;. Si la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt; no se cumple, la computadora no hace nada en ese ciclo de la iteración y listo.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29818">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529914</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;&lt;span style="font-family: 'courier new', courier, monospace;"&gt;[0]&lt;/span&gt;&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! La condición &lt;span style="font-family: 'courier new', courier, monospace;"&gt;a &amp;lt; 1 or b &amp;lt; 3&lt;/span&gt; se cumple si una de las dos, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;a &amp;lt; 1&lt;/span&gt; o &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b &amp;lt; 3&lt;/span&gt; es cierta. ¿Hasta qué valor de a sucedería eso?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14831">
+        <prevpageid>14830</prevpageid>
+        <nextpageid>0</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680530415</timecreated>
+        <timemodified>1681006377</timemodified>
+        <title>Pregunta 7</title>
+        <contents>&lt;p&gt;¿Qué se obtendrá al final en la consola después de ejecutar el siguiente código?&lt;/p&gt;
+&lt;pre&gt;mi_lista = []
+a = 0
+b = 0
+
+for i in range(5):
+	if a &amp;lt; 1 or b &amp;lt; 3:
+		mi_lista.append(a)
+		a = a + 1
+		b = b + 1 
+		
+	else:
+		mi_lista.append(0)
+		a = a + 1
+		b = b + 1 
+
+print(mi_lista)&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29802">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680530415</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;&lt;span style="font-family: 'courier new', courier, monospace;"&gt;[0,1,2,0,0]&lt;/span&gt;.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Bien! La condición &lt;span style="font-family: 'courier new', courier, monospace;"&gt;a &amp;lt; 1 or b &amp;lt; 3&lt;/span&gt; se cumple en los primeros tres pasos de la iteración (cuando a y b son 0, 1 y 2). De ahí en más no se cumple la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt; y pasamos a almacenar el valor 0 en &lt;span style="font-family: 'courier new', courier, monospace;"&gt;mi_lista&lt;/span&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29803">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680530415</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;&lt;span style="font-family: 'courier new', courier, monospace;"&gt;[0,1,2,0,0,0]&lt;/span&gt;.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! ¿Cuántas veces hacemos la iteración?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29804">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680530415</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;&lt;span style="font-family: 'courier new', courier, monospace;"&gt;[0,1,0,0,0]&lt;/span&gt;.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Cuidado! La condición &lt;span style="font-family: 'courier new', courier, monospace;"&gt;a &amp;lt; 1 or b &amp;lt; 3&lt;/span&gt; se cumple si una de las dos, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;a &amp;lt; 1&lt;/span&gt; o &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b &amp;lt; 3&lt;/span&gt; es cierta. Hasta qué valor de a sucedería eso?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+    </pages>
+    <grades>
+    </grades>
+    <timers>
+    </timers>
+    <overrides>
+    </overrides>
+  </lesson>
+</activity>

@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<activity id="1677" moduleid="314002" modulename="lesson" contextid="459058">
+  <lesson id="1677">
+    <course>3532</course>
+    <name>Autoevaluación: asignaciones y listas</name>
+    <intro></intro>
+    <introformat>1</introformat>
+    <practice>0</practice>
+    <modattempts>1</modattempts>
+    <usepassword>0</usepassword>
+    <password></password>
+    <dependency>0</dependency>
+    <conditions>O:8:"stdClass":3:{s:9:"timespent";i:0;s:9:"completed";i:0;s:15:"gradebetterthan";i:0;}</conditions>
+    <grade>100</grade>
+    <custom>1</custom>
+    <ongoing>0</ongoing>
+    <usemaxgrade>1</usemaxgrade>
+    <maxanswers>4</maxanswers>
+    <maxattempts>1</maxattempts>
+    <review>0</review>
+    <nextpagedefault>0</nextpagedefault>
+    <feedback>0</feedback>
+    <minquestions>0</minquestions>
+    <maxpages>1</maxpages>
+    <timelimit>0</timelimit>
+    <retake>1</retake>
+    <activitylink>0</activitylink>
+    <mediafile></mediafile>
+    <mediaheight>480</mediaheight>
+    <mediawidth>640</mediawidth>
+    <mediaclose>0</mediaclose>
+    <slideshow>0</slideshow>
+    <width>640</width>
+    <height>480</height>
+    <bgcolor>#FFFFFF</bgcolor>
+    <displayleft>0</displayleft>
+    <displayleftif>0</displayleftif>
+    <progressbar>0</progressbar>
+    <available>1679484600</available>
+    <deadline>0</deadline>
+    <timemodified>1680110189</timemodified>
+    <completionendreached>0</completionendreached>
+    <completiontimespent>0</completiontimespent>
+    <pages>
+      <page id="14710">
+        <prevpageid>0</prevpageid>
+        <nextpageid>14711</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644697117</timecreated>
+        <timemodified>1689976648</timemodified>
+        <title>Primeras asignaciones</title>
+        <contents>&lt;p&gt;Indicar qué valor se imprime en pantalla al ejecutar el siguiente código:&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li style="font-weight: normal; vertical-align: top;"&gt;
+&lt;div style="font: normal normal 1em/1.2em monospace; margin: 0; padding: 0; background: none; vertical-align: top;"&gt;calificacion &lt;span style="color: #66cc66;"&gt;=&lt;/span&gt; &lt;span color="#ff4500" style="color: #ff4500;"&gt;5&lt;/span&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li style="font-weight: normal; vertical-align: top;"&gt;
+&lt;div style="font: normal normal 1em/1.2em monospace; margin: 0; padding: 0; background: none; vertical-align: top;"&gt;total &lt;span style="color: #66cc66;"&gt;=&lt;/span&gt; calificacion + &lt;span style="color: #ff4500;"&gt;2&lt;/span&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li style="font-weight: normal; vertical-align: top;"&gt;
+&lt;div style="font: normal normal 1em/1.2em monospace; margin: 0; padding: 0; background: none; vertical-align: top;"&gt;calificacion &lt;span style="color: #66cc66;"&gt;=&lt;/span&gt; &lt;span style="color: #ff4500;"&gt;4&lt;/span&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li style="font-weight: normal; vertical-align: top;"&gt;
+&lt;div style="font: normal normal 1em/1.2em monospace; margin: 0; padding: 0; background: none; vertical-align: top;"&gt;&lt;span style="color: #ff7700; font-weight: bold;"&gt;print&lt;/span&gt;&lt;span style="color: black;"&gt;(&lt;/span&gt;total&lt;span style="color: black;"&gt;)&lt;/span&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29532">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644697117</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;7&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí!&lt;br /&gt;Al momento de asignar a "total" el resultado de la operación "calificacion+2", "calificacion" tiene asignado el valor 5. Por lo tanto, "total" vale 7. &lt;br /&gt;Ese es el valor que se imprime. &lt;br /&gt;&lt;br /&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29533">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644697117</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;6&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡No! Al momento de asignar a "total" el resultado de la cuenta "calificacion+2", "calificacion" tiene asignado el valor 5. Por lo tanto, "total" vale 7. &lt;br /&gt;Ese es el valor que se imprime.  &lt;br /&gt;&lt;br /&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29534">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644697117</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;5&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Incorrecto. Este es el valor original asignado a la variable "calificacion", utilizado para calcular el total.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14711">
+        <prevpageid>14710</prevpageid>
+        <nextpageid>14712</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644697819</timecreated>
+        <timemodified>1644786522</timemodified>
+        <title>Notas</title>
+        <contents>&lt;div id="highlight-preview"&gt;&lt;ol&gt;
+&lt;li style="font-weight: normal; vertical-align: top;"&gt;
+&lt;div style="font: normal normal 1em/1.2em monospace; margin: 0; padding: 0; background: none; vertical-align: top;"&gt;nota1&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;4&lt;/span&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li style="font-weight: normal; vertical-align: top;"&gt;
+&lt;div style="font: normal normal 1em/1.2em monospace; margin: 0; padding: 0; background: none; vertical-align: top;"&gt;nota2&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;8&lt;/span&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li style="font-weight: normal; vertical-align: top;"&gt;
+&lt;div style="font: normal normal 1em/1.2em monospace; margin: 0; padding: 0; background: none; vertical-align: top;"&gt;pp&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: black;"&gt;&lt;/span&gt;nota1+nota2&lt;span style="color: black;"&gt;&lt;/span&gt;/&lt;span style="color: #ff4500;"&gt;2&lt;/span&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ol&gt;&lt;/div&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;¿Qué valor asignamos a la variable "pp"?&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29535">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644697819</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;8&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí!&lt;/p&gt;
+&lt;p&gt;Recordemos cómo es la prioridad en las operaciones aritméticas.&lt;/p&gt;
+&lt;p&gt;A la variable "nota1" le estamos sumando la mitad del valor asociado a la variable "nota2".&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29536">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644697819</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;6&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo!&lt;/p&gt;
+&lt;p&gt;Recordemos cómo es la prioridad en las operaciones aritméticas, Python hace la división primero y la suma después.&lt;/p&gt;
+&lt;p&gt;A "nota1" le estamos sumando la mitad de "nota2".&lt;/p&gt;
+&lt;p&gt;¿Cómo habría que hacer para calcular el promedio?&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14712">
+        <prevpageid>14711</prevpageid>
+        <nextpageid>14714</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644699487</timecreated>
+        <timemodified>1644786709</timemodified>
+        <title>Promedio</title>
+        <contents>&lt;p&gt;Indicar cómo completar para asignarle a la variable "prom" el promedio de las variables "nota1" y "nota2":&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;div id="highlight-preview"&gt;&lt;ol&gt;
+&lt;li style="font-weight: normal; vertical-align: top;"&gt;
+&lt;div style="font: normal normal 1em/1.2em monospace; margin: 0; padding: 0; background: none; vertical-align: top;"&gt;nota1&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;4+5+6+3+7+8+3&lt;/span&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li style="font-weight: normal; vertical-align: top;"&gt;
+&lt;div style="font: normal normal 1em/1.2em monospace; margin: 0; padding: 0; background: none; vertical-align: top;"&gt;nota2&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;8+4+5+6+2+4+3&lt;/span&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li style="font-weight: normal; vertical-align: top;"&gt;
+&lt;div style="font: normal normal 1em/1.2em monospace; margin: 0; padding: 0; background: none; vertical-align: top;"&gt;pp&lt;span style="color: #66cc66;"&gt;=&amp;lt;&lt;/span&gt;COMPLETAR&lt;span style="color: #66cc66;"&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ol&gt;&lt;/div&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29537">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644699487</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;(nota1+nota2)/2&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí! Esta es una respuesta práctica:&lt;/p&gt;
+&lt;p&gt;No necesitamos hacer la cuenta a mano de cada nota y, si eventualmente cambiamos alguna de ellas, es facil actualizar el promedio.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29538">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644699487</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;(36+30)/2&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Esta mal calculado el valor de la nota2.&lt;/p&gt;
+&lt;p&gt;Para facilitar las cosas, sin necesidad de calcular el valor de cada nota, podemos directamente hacer (nota1+nota2)/2 y usar los valores que asociamos a cada variable.&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29539">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644699487</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;nota1+nota2/2&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo!&lt;/p&gt;
+&lt;p&gt;Primero tenemos que sumar las notas y recién después dividir la suma. Podemos usar paréntesis para indicarle a Python qué cuenta hacer primero (recordar que la división tiene mayor prioridad que la suma).&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14714">
+        <prevpageid>14712</prevpageid>
+        <nextpageid>14715</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644622715</timecreated>
+        <timemodified>1644786780</timemodified>
+        <title>Listas - Largada</title>
+        <contents>&lt;p&gt;Una lista sirve para&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29521">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644622715</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Recordar cosas pendientes&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Ehhhh... Si, puede ser. Pero no en el marco de este taller y de la programación.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29522">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644622715</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Nada&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Mmmmmmm...&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29523">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644622715</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Almacenar varios valores&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí!&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14715">
+        <prevpageid>14714</prevpageid>
+        <nextpageid>14716</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644624136</timecreated>
+        <timemodified>1644786897</timemodified>
+        <title>Elementos de una lista</title>
+        <contents>&lt;pre class="python" style="font-family: monospace;"&gt;prueba_lista&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: black;"&gt;[&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;15&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;20&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;30&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;67&lt;/span&gt;&lt;span style="color: black;"&gt;]&lt;/span&gt;
+vv&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;prueba_lista&lt;span style="color: black;"&gt;[&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;1&lt;/span&gt;&lt;span style="color: black;"&gt;]&lt;/span&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;El valor asignado a la variable "vv" es:&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29524">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644624136</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;15&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Nop! Cerca, pero recordemos que los elementos de una lista se indexan empezando en el cero. Es decir, el valor 15 está guardado en "prueba_lista[0]"&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29525">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644624136</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;20&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí!&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29526">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644624136</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;67&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Este es el último valor de la lista. Es decir, sería "prueba_lista[3]".&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14716">
+        <prevpageid>14715</prevpageid>
+        <nextpageid>14713</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644624365</timecreated>
+        <timemodified>1644787124</timemodified>
+        <title>len </title>
+        <contents>&lt;pre class="python" style="font-family: monospace;"&gt;prueba_lista&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: black;"&gt;[&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;15&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;20&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;30&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;67&lt;/span&gt;&lt;span style="color: black;"&gt;]&lt;/span&gt;
+longitud&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #008000;"&gt;len&lt;/span&gt;&lt;span style="color: black;"&gt;(&lt;/span&gt;prueba_lista&lt;span style="color: black;"&gt;)&lt;/span&gt;&lt;/pre&gt;
+&lt;p&gt;El valor asignado a  la variable "longitud" es:&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29527">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644624365</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;4&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí! "prueba_lista" es una lista con cuatro elementos. &lt;br /&gt;"len" es una función que devuelve la cantidad de elementos en una lista.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29528">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644624365</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;15&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Mmmm...15 es el primer valor de la lista: coincide con "prueba_lista[0]".&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29529">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644624365</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;67&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Estem.... Éste es el último valor de la lista; coincide con "prueba_lista[3]". &lt;br /&gt;Más generalmente: podemos acceder al último elemento de una lista haciendo "prueba_lista[len(prueba_lista)-1]"&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Interesante&lt;/strong&gt;: para indexar una lista no es necesario usar una constante, podemos usar una variable o, inclusive, el resultado de una función.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14713">
+        <prevpageid>14716</prevpageid>
+        <nextpageid>0</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644624670</timecreated>
+        <timemodified>1644787466</timemodified>
+        <title>Ojo al piojo.</title>
+        <contents>&lt;pre class="python" style="font-family: monospace;"&gt;prueba_lista&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: black;"&gt;[&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;15&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;20&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;30&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;67&lt;/span&gt;&lt;span style="color: black;"&gt;]&lt;br /&gt;valor=prueba_lista&lt;span style="color: black;"&gt;[&lt;/span&gt;&lt;span style="color: #008000;"&gt;len&lt;/span&gt;&lt;span style="color: black;"&gt;(&lt;/span&gt;prueba_lista&lt;span style="color: black;"&gt;)&lt;/span&gt;&lt;span style="color: black;"&gt;]&lt;br /&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="color: #ff7700; font-weight: bold;"&gt;print&lt;/span&gt;&lt;span style="color: black;"&gt;(valor&lt;/span&gt;&lt;span style="color: black;"&gt;)&lt;/span&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;br /&gt;Luego de ejecutar estas instrucciones, ¿qué vamos a ver como salida en pantalla?&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29530">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644624670</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;El valor 67&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Nop! Recordemos que las posiciones se indexan empezando en el 0. ¡Ya nos vamos a acostumbrar!&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29531">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644624670</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Un mensaje de error.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí!&lt;/p&gt;
+&lt;p&gt;En realidad no se llega a imprimir nada, sino que dice este mensaje:&lt;/p&gt;
+&lt;p&gt;list index out of range&lt;/p&gt;
+&lt;p&gt;Estamos queriendo acceder a un elemento de la lista que no existe. Las posiciones válidas van de 0 a 3.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+    </pages>
+    <grades>
+    </grades>
+    <timers>
+    </timers>
+    <overrides>
+    </overrides>
+  </lesson>
+</activity>

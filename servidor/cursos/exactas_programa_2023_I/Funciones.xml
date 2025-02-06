@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<activity id="1703" moduleid="323956" modulename="lesson" contextid="477656">
+  <lesson id="1703">
+    <course>3799</course>
+    <name>Funciones</name>
+    <intro></intro>
+    <introformat>1</introformat>
+    <practice>0</practice>
+    <modattempts>0</modattempts>
+    <usepassword>0</usepassword>
+    <password></password>
+    <dependency>0</dependency>
+    <conditions>O:8:"stdClass":3:{s:9:"timespent";i:0;s:9:"completed";i:0;s:15:"gradebetterthan";i:0;}</conditions>
+    <grade>100</grade>
+    <custom>1</custom>
+    <ongoing>0</ongoing>
+    <usemaxgrade>0</usemaxgrade>
+    <maxanswers>4</maxanswers>
+    <maxattempts>10</maxattempts>
+    <review>0</review>
+    <nextpagedefault>0</nextpagedefault>
+    <feedback>0</feedback>
+    <minquestions>0</minquestions>
+    <maxpages>1</maxpages>
+    <timelimit>0</timelimit>
+    <retake>0</retake>
+    <activitylink>0</activitylink>
+    <mediafile></mediafile>
+    <mediaheight>480</mediaheight>
+    <mediawidth>640</mediawidth>
+    <mediaclose>0</mediaclose>
+    <slideshow>0</slideshow>
+    <width>640</width>
+    <height>480</height>
+    <bgcolor>#FFFFFF</bgcolor>
+    <displayleft>0</displayleft>
+    <displayleftif>0</displayleftif>
+    <progressbar>0</progressbar>
+    <available>1680288300</available>
+    <deadline>0</deadline>
+    <timemodified>1690829162</timemodified>
+    <completionendreached>0</completionendreached>
+    <completiontimespent>0</completiontimespent>
+    <pages>
+      <page id="14897">
+        <prevpageid>0</prevpageid>
+        <nextpageid>14898</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1643983222</timecreated>
+        <timemodified>1644784167</timemodified>
+        <title>Función - def</title>
+        <contents>&lt;p&gt;En programación una función es:&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29963">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1643983222</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Una regla de asignación que a cada elemento del dominio asigna un único elemento del codominio.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;No. Esta es la definición de función que usamos en matemática, pero en programación el concepto de "función" hace alusión a otra cosa.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29964">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1643983222</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Una construcción que permite encerrar un pedacito de programa que realiza una tarea en particular.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Si! Esto es precisamente lo que entedemos por función en el marco de la programación.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29965">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1643983222</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;&lt;span&gt;&lt;span&gt;Actividad particular que realiza una persona o una cosa dentro de un sistema de elementos, con un fin determinado.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Esta es una definición que aparece en el diccionario (por ejemplo, la "función" de Otto en Los Simpons es ser el conductor del colectivo escolar).&lt;/p&gt;
+&lt;p&gt;Advertencia: l&lt;span&gt;&lt;span&gt;as diferentes disciplinas se apropian de algunas palabras que para todos ya tienen un significado y les les reasignan un nueva definición específica. &lt;/span&gt;&lt;/span&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14898">
+        <prevpageid>14897</prevpageid>
+        <nextpageid>14899</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644584994</timecreated>
+        <timemodified>1644784523</timemodified>
+        <title>Parámetro</title>
+        <contents>&lt;p&gt;Llamamos parámetros o argumentos a:&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29969">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644584994</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Los valores que recibe una función.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí!&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29970">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644584994</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;La pendiente y la ordenada al origen.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Estos son los parámetros que típicamente definen una recta. No los de acá...&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29971">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644584994</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Variable que, en una familia de elementos, sirve para identificar cada uno de ellos mediante su valor numérico.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Esta es la definición general de parámetro en un contexto matemático.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14899">
+        <prevpageid>14898</prevpageid>
+        <nextpageid>14900</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644584653</timecreated>
+        <timemodified>1644784647</timemodified>
+        <title>devolver_la_suma</title>
+        <contents>&lt;p&gt;Completar:&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre class="python" style="font-family: monospace;"&gt;&lt;span style="color: #ff7700; font-weight: bold;"&gt;def&lt;/span&gt; devolver_la_suma&lt;span style="color: black;"&gt;(&lt;/span&gt;numero1&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt; numero2&lt;span style="color: black;"&gt;)&lt;/span&gt;:
+    suma &lt;span style="color: #66cc66;"&gt;=&lt;/span&gt; &lt;span style="color: #66cc66;"&gt;&amp;lt;&lt;/span&gt;completar&lt;span style="color: #66cc66;"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style="color: #ff7700; font-weight: bold;"&gt;return&lt;/span&gt; suma&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29966">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644584653</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;numero1+numero2&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí!&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29967">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644584653</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;numero1*numero2&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Con esto se calcula la multiplicación&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29968">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644584653</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;1+2&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Esto devuelve el valor 3, ignorando los parámetros de la función. &lt;br /&gt;&lt;br /&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14900">
+        <prevpageid>14899</prevpageid>
+        <nextpageid>14902</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644585562</timecreated>
+        <timemodified>1644784828</timemodified>
+        <title>fahrenheit_a_celsius</title>
+        <contents>&lt;p&gt;Completar&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre class="python" style="font-family: monospace;"&gt;&lt;span style="color: #ff7700; font-weight: bold;"&gt;def&lt;/span&gt; fahrenheit_a_celsius&lt;span style="color: black;"&gt;(&lt;/span&gt;temp_far&lt;span style="color: black;"&gt;)&lt;/span&gt;:
+    temp_cel &lt;span style="color: #66cc66;"&gt;=&lt;/span&gt; &lt;span style="color: #66cc66;"&gt;&amp;lt;&lt;/span&gt;completar&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt; para pasar hay que restar &lt;span style="color: #ff4500;"&gt;32&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;,&lt;/span&gt; luego
+    multiplicar por &lt;span style="color: #ff4500;"&gt;5&lt;/span&gt; y finalmente dividir por &lt;span style="color: #ff4500;"&gt;9&lt;/span&gt;&lt;span style="color: #66cc66;"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style="color: #ff7700; font-weight: bold;"&gt;return&lt;/span&gt; temp_cel&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29972">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644585562</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;pre class="python" style="font-family: monospace;"&gt;&lt;span style="color: black;"&gt;(&lt;/span&gt;temp_far-&lt;span style="color: #ff4500;"&gt;32&lt;/span&gt;&lt;span style="color: black;"&gt;)&lt;/span&gt;*&lt;span style="color: #ff4500;"&gt;5&lt;/span&gt;/&lt;span style="color: #ff4500;"&gt;9&lt;/span&gt;&lt;/pre&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí!&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29973">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644585562</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;pre class="python" style="font-family: monospace;"&gt;&lt;span style="color: black;"&gt;(&lt;/span&gt;x-&lt;span style="color: #ff4500;"&gt;32&lt;/span&gt;&lt;span style="color: black;"&gt;)&lt;/span&gt;*&lt;span style="color: #ff4500;"&gt;5&lt;/span&gt;/&lt;span style="color: #ff4500;"&gt;9&lt;/span&gt;&lt;/pre&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! ¿quién es "x"? El parámetro de la función es "temp_far".&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29974">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644585562</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;pre class="python" style="font-family: monospace;"&gt;&lt;span style="color: black;"&gt;(&lt;/span&gt;temp_cel-&lt;span style="color: #ff4500;"&gt;32&lt;/span&gt;&lt;span style="color: black;"&gt;)&lt;/span&gt;*&lt;span style="color: #ff4500;"&gt;5&lt;/span&gt;/&lt;span style="color: #ff4500;"&gt;9&lt;/span&gt;&lt;/pre&gt;</answer_text>
+            <response>&lt;p&gt;¡Atención! En este caso, tenes que obtener un valor para temp_cel, hasta el momento de la asignación, ¡temp_cel no tiene valor asociado! Estaríamos queriendo usar una variable que no está definida y eso, young padawan, es un error.&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14902">
+        <prevpageid>14900</prevpageid>
+        <nextpageid>14901</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644585713</timecreated>
+        <timemodified>1644784927</timemodified>
+        <title>perimetro_cuadrado</title>
+        <contents>&lt;p&gt;Completar&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre class="python" style="font-family: monospace;"&gt;&lt;span style="color: #ff7700; font-weight: bold;"&gt;def&lt;/span&gt; perimetro_cuadrado&lt;span style="color: black;"&gt;(&lt;/span&gt;lado&lt;span style="color: black;"&gt;)&lt;/span&gt;:
+    perim &lt;span style="color: #66cc66;"&gt;=&lt;/span&gt; &lt;span style="color: #66cc66;"&gt;&amp;lt;&lt;/span&gt;completar&lt;span style="color: #66cc66;"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span style="color: #ff7700; font-weight: bold;"&gt;return&lt;/span&gt; perim&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29975">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644585713</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;pre class="python" style="font-family: monospace;"&gt;lado*lado&lt;/pre&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Esto da el área del cuadrado, no el perímetro.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29976">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644585713</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;pre class="python" style="font-family: monospace;"&gt;lado*&lt;span style="color: #ff4500;"&gt;4&lt;/span&gt;&lt;/pre&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí!&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29977">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644585713</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;pre class="python" style="font-family: monospace;"&gt;&lt;span style="color: #ff4500;"&gt;4&lt;/span&gt;*l&lt;/pre&gt;</answer_text>
+            <response>&lt;p&gt;Atención! La variable "l" no esta definida. No es el parámetro utilizado por la función para indicar el largo del lado del cuadrado.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14901">
+        <prevpageid>14902</prevpageid>
+        <nextpageid>0</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1644587617</timecreated>
+        <timemodified>1644785072</timemodified>
+        <title>obtener_valor</title>
+        <contents>&lt;p&gt;Indicar cuál de las siguientes opciones resuelve el problema planteado.&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre class="python" style="font-family: monospace;"&gt;&lt;span style="color: #ff7700; font-weight: bold;"&gt;def&lt;/span&gt; obtener_valor&lt;span style="color: black;"&gt;(&lt;/span&gt;precio&lt;span style="color: black;"&gt;)&lt;/span&gt;:
+    &lt;span style="color: #66cc66;"&gt;&amp;lt;&lt;/span&gt;obtener el valor a pagar
+    dado un &lt;span style="color: #ff4500;"&gt;35&lt;/span&gt; porciento de descuento&lt;span style="color: #66cc66;"&gt;&amp;gt;&lt;/span&gt;&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29978">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1644587617</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;pre class="python" style="font-family: monospace;"&gt;def obtener_valor&lt;span style="color: black;"&gt;(&lt;/span&gt;precio&lt;span style="color: black;"&gt;)&lt;/span&gt;:        &lt;br /&gt;    salida&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0.65&lt;/span&gt;*precio&lt;br /&gt;    &lt;span style="color: #ff7700; font-weight: bold;"&gt;return&lt;/span&gt; salida&lt;/pre&gt;</answer_text>
+            <response>&lt;p&gt;¡Sí, sí, sí!&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29979">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644587617</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;pre class="python" style="font-family: monospace;"&gt; 
+&lt;span style="color: #ff7700; font-weight: bold;"&gt;def&lt;/span&gt; obtener_valor&lt;span style="color: black;"&gt;(&lt;/span&gt;precio&lt;span style="color: black;"&gt;)&lt;/span&gt;:
+    precio_final&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0.65&lt;/span&gt;*precio_inicial
+    &lt;span style="color: #ff7700; font-weight: bold;"&gt;return&lt;/span&gt; precio_final&lt;/pre&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! "precio_inicial" no es el nombre del parámetro de la función.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29980">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1644587617</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;pre class="python" style="font-family: monospace;"&gt;&lt;span style="color: #ff7700; font-weight: bold;"&gt;def&lt;/span&gt; obtener_valor&lt;span style="color: black;"&gt;(&lt;/span&gt;precio&lt;span style="color: black;"&gt;)&lt;/span&gt;:
+    salida&lt;span style="color: #66cc66;"&gt;=&lt;/span&gt;&lt;span style="color: #ff4500;"&gt;0.65&lt;/span&gt;*precio
+&lt;span style="color: #ff7700; font-weight: bold;"&gt;return&lt;/span&gt; salida&lt;/pre&gt;</answer_text>
+            <response>&lt;p&gt;Casi..... pero no. ¡Mal tabulado! En este caso, la instrucción "return salida" está fuera del cuerpo de la función, es decir, cuando usemos la función, no se va a ejecutar. La tabulación es un detalle crítico en Python, hay que prestarle mucha atención.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+    </pages>
+    <grades>
+    </grades>
+    <timers>
+    </timers>
+    <overrides>
+    </overrides>
+  </lesson>
+</activity>

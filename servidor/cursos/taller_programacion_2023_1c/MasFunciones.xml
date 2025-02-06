@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<activity id="1690" moduleid="315504" modulename="lesson" contextid="463251">
+  <lesson id="1690">
+    <course>3532</course>
+    <name>Más Funciones</name>
+    <intro></intro>
+    <introformat>1</introformat>
+    <practice>0</practice>
+    <modattempts>0</modattempts>
+    <usepassword>0</usepassword>
+    <password></password>
+    <dependency>0</dependency>
+    <conditions>O:8:"stdClass":3:{s:9:"timespent";i:0;s:9:"completed";i:0;s:15:"gradebetterthan";i:0;}</conditions>
+    <grade>100</grade>
+    <custom>1</custom>
+    <ongoing>0</ongoing>
+    <usemaxgrade>0</usemaxgrade>
+    <maxanswers>4</maxanswers>
+    <maxattempts>1</maxattempts>
+    <review>0</review>
+    <nextpagedefault>0</nextpagedefault>
+    <feedback>0</feedback>
+    <minquestions>0</minquestions>
+    <maxpages>1</maxpages>
+    <timelimit>0</timelimit>
+    <retake>0</retake>
+    <activitylink>0</activitylink>
+    <mediafile></mediafile>
+    <mediaheight>480</mediaheight>
+    <mediawidth>640</mediawidth>
+    <mediaclose>0</mediaclose>
+    <slideshow>0</slideshow>
+    <width>640</width>
+    <height>480</height>
+    <bgcolor>#FFFFFF</bgcolor>
+    <displayleft>0</displayleft>
+    <displayleftif>0</displayleftif>
+    <progressbar>0</progressbar>
+    <available>1680695100</available>
+    <deadline>0</deadline>
+    <timemodified>1680709235</timemodified>
+    <completionendreached>0</completionendreached>
+    <completiontimespent>0</completiontimespent>
+    <pages>
+      <page id="14817">
+        <prevpageid>0</prevpageid>
+        <nextpageid>14818</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680533321</timecreated>
+        <timemodified>1680570650</timemodified>
+        <title>Arrancamos</title>
+        <contents>&lt;p&gt;¿Qué ocurre al ejecutar el siguiente código?&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;numero_dividido = dividir_por_2(6)
+
+&lt;strong&gt;def&lt;/strong&gt; dividir_por_2(numero):
+	resultado = numero / 2
+	&lt;strong&gt;return&lt;/strong&gt; resultado&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29769">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680533321</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;A &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero_dividido&lt;/span&gt; le queda asignado el valor 3&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Estamos llamando a la función &lt;span style="font-family: 'courier new', courier, monospace;"&gt;dividir_por_2&lt;/span&gt; antes de definirla. Por lo tanto, Python no sabe a qué nos referimos con &lt;span style="font-family: 'courier new', courier, monospace;"&gt;dividir_por_2&lt;/span&gt; cuando ejecuta la primera línea. Hay que definir las funciones al comienzo del código y en el orden correcto. No podemos invocar una función que aún no fue definida.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29770">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680533321</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Salta un error porque llamamos a una función antes de definirla&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Correcto! Estamos llamando a la función &lt;span style="font-family: 'courier new', courier, monospace;"&gt;dividir_por_2&lt;/span&gt; antes de definirla. Por lo tanto, Python no sabe a qué nos referimos por el nombre &lt;span style="font-family: 'courier new', courier, monospace;"&gt;dividir_por_2&lt;/span&gt; cuando ejecuta la primera línea. Hay que definir las funciones al comienzo del código y en el orden correcto. No podemos invocar una función que aún no fue definida.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29771">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680533321</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Salta un error porque no asignamos ningún valor a la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt;&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Ese no es un problema, porque &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; es el parámetro de la función. Cualquier valor que le pasemos a la función cuando la invoquemos, será utilizado donde diga &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; dentro del cuerpo de la función.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14818">
+        <prevpageid>14817</prevpageid>
+        <nextpageid>14819</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680533503</timecreated>
+        <timemodified>1680570712</timemodified>
+        <title>Seguimos repasando</title>
+        <contents>&lt;p&gt;¿Qué ocurre al ejecutar el siguiente código?&lt;/p&gt;
+&lt;pre&gt;&lt;strong&gt;def&lt;/strong&gt; dividir_por_dos(numero):
+	resultado = numero / 2
+	&lt;strong&gt;return&lt;/strong&gt; resultado
+
+numero_a_dividir = 6
+&lt;strong&gt;print&lt;/strong&gt;(dividir_por_dos(numero_a_dividir))
+&lt;/pre&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29772">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680533503</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Salta un error porque a la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; no se le asignó ningún valor.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Cuando escribimos &lt;span style="font-family: 'courier new', courier, monospace;"&gt;dividir_por_dos(numero_a_dividir)&lt;/span&gt;, Python directamente interpreta que el valor asignado a la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero_a_dividir&lt;/span&gt; es el que tiene que usar para calcular la función &lt;span style="font-family: 'courier new', courier, monospace;"&gt;dividir_por_dos&lt;/span&gt;. Al invocar a una función, se reemplaza el parámetro por el valor utilizado al invocarla. Es decir, en este caso se usaría el valor 6 en cada lugar donde figure &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; dentro del cuerpo de la función, que es el parámetro de la función.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29773">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680533503</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Se imprime en pantalla 3&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Correcto! Cuando escribimos&lt;span style="font-family: 'courier new', courier, monospace;"&gt; dividir_por_dos(numero_a_dividir)&lt;/span&gt;, Python directamente interpreta que el valor asignado a &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; es el que debe utilizar dentro de la función. *&lt;strong&gt;IMPORTANTE&lt;/strong&gt;:* No es necesario que la variable que le pasamos a la función &lt;span style="font-family: 'courier new', courier, monospace;"&gt;dividir_por_2&lt;/span&gt; se llame &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt;.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14819">
+        <prevpageid>14818</prevpageid>
+        <nextpageid>14820</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680533642</timecreated>
+        <timemodified>1680538732</timemodified>
+        <title>Seguimos repasando!</title>
+        <contents>&lt;p&gt;¿Qué ocurre al ejecutar el siguiente código?&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;strong&gt;def&lt;/strong&gt; dividir_por_dos(numero):
+	resultado = numero / 2
+	&lt;strong&gt;return&lt;/strong&gt; resultado
+
+&lt;strong&gt;print&lt;/strong&gt;(dividir_por_dos(12))&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29774">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680533642</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Salta un error porque a la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; no se le asignó ningún valor.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Cuando escribimos &lt;span style="font-family: 'courier new', courier, monospace;"&gt;dividir_por_dos(12)&lt;/span&gt;, Python directamente va a interpretar que, dentro de la función, debe utilizar el valor 12 en cada lugar donde dice &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt;.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29775">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680533642</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Se imprime en pantalla 6&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Correcto! Cuando escribimos &lt;span style="font-family: 'courier new', courier, monospace;"&gt;dividir_por_dos(12)&lt;/span&gt;, Python directamente va a interpretar que, dentro de la función, debe utilizar el valor 12 en cada lugar donde dice &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt;.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14820">
+        <prevpageid>14819</prevpageid>
+        <nextpageid>14821</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680533760</timecreated>
+        <timemodified>1680538789</timemodified>
+        <title>Ahora un poco más difícil...</title>
+        <contents>&lt;p&gt;¿Qué ocurre al ejecutar el siguiente código?&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;strong&gt;def&lt;/strong&gt; sumarle_2(numero):
+	resultado = numero_a_sumar + 2
+	&lt;strong&gt;return&lt;/strong&gt; resultado
+
+&lt;strong&gt;print&lt;/strong&gt;(sumarle_2(8))&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29776">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680533760</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Salta un error&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Correcto! La compu busca &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero_a_sumar&lt;/span&gt; pero no tiene asignado ningún valor. El argumento con que debe operar el cuerpo de la función se llama &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; y, por consiguiente, en la variable resultado deberíamos poner &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero+2&lt;/span&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29777">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680533760</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Se imprime en pantalla 10.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! La compu busca &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero_a_sumar&lt;/span&gt; pero no tiene asignado ningún valor. El argumento con que debe operar el cuerpo de la función se llama &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; y, por consiguiente, en la variable resultado deberíamos poner &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero+2&lt;/span&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14821">
+        <prevpageid>14820</prevpageid>
+        <nextpageid>14822</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680533933</timecreated>
+        <timemodified>1680538933</timemodified>
+        <title>¿Y ahora qué sucede?</title>
+        <contents>&lt;p&gt;¿Qué ocurre al ejecutar el siguiente código?&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;strong&gt;def&lt;/strong&gt; sumarle_2(numero):
+	resultado = numero_a_sumar + 2
+	&lt;strong&gt;return&lt;/strong&gt; resultado
+
+numero_a_sumar = 10
+&lt;strong&gt;print&lt;/strong&gt;(sumarle_2(6))&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29778">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680533933</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Salta un error porque la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero_a_sumar&lt;/span&gt; no está definida en el cuerpo de la función ni es un argumento&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Por la manera en que funciona Python, en este caso no va a tirar error porque se define &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero_a_sumar&lt;/span&gt; antes de llamar a &lt;span style="font-family: 'courier new', courier, monospace;"&gt;sumarle_2&lt;/span&gt;. Sin embargo, la función no hace lo que nosotros quisiéramos que haga... (elegí alguna entre las otras respuestas)&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29779">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680533933</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Se imprime en pantalla 8.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Por la manera en la que funciona Python, en la función &lt;span style="font-family: 'courier new', courier, monospace;"&gt;sumarle_2&lt;/span&gt;, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero_a_sumar&lt;/span&gt; queda con un valor fijo de 10 (fijate que primero le asignamos el valor 10 a &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero_a_sumar&lt;/span&gt; y después ejecutamos la función). Es decir, mientras no cambiemos el valor de &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero_a_sumar&lt;/span&gt;, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;sumarle_2&lt;/span&gt; va a devolver 12 independientemente del argumento que le pasemos. Esto es una de las cosas que se conoce como &lt;strong&gt;*MALAS PRÁCTICAS DE PROGRAMACIÓN*&lt;/strong&gt;. Una función debe trabajar con los argumentos que recibe explícitamente.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29780">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680533933</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Se imprime en pantalla 12.&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Exacto! Por la manera en la que funciona Python, en la función &lt;span style="font-family: 'courier new', courier, monospace;"&gt;sumarle_2&lt;/span&gt;, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero_a_sumar&lt;/span&gt; queda con un valor fijo de 10 (fijate que primero le asignamos el valor 10 a &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero_a_sumar&lt;/span&gt; y después ejecutamos la función). Es decir, mientras no cambiemos el valor de &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero_a_sumar&lt;/span&gt;, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;sumarle_2&lt;/span&gt; va a devolver 12 independientemente del argumento que le pasemos. Esto es una de las cosas que se conoce como &lt;strong&gt;*MALAS PRÁCTICAS DE PROGRAMACIÓN*&lt;/strong&gt;. Si bien el código puede dar un error, las funciones deben trabajar con los argumentos que reciben explícitamente.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14822">
+        <prevpageid>14821</prevpageid>
+        <nextpageid>14823</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680534103</timecreated>
+        <timemodified>1680570914</timemodified>
+        <title>Vuelven las figus</title>
+        <contents>&lt;p&gt;El siguiente código fue implementado con el objetivo de simular el armado de un paquete con cierta cantidad de figuritas (&lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero_de_figus&lt;/span&gt;) para un álbum de tamaño &lt;span style="font-family: 'courier new', courier, monospace;"&gt;figus_total&lt;/span&gt;. ¿Qué ocurre cuando lo ejecutamos?&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;strong&gt;import&lt;/strong&gt; random
+
+&lt;strong&gt;def&lt;/strong&gt; armar_paquete_figus(numero_de_figus, figus_total):
+	i = 0
+	&lt;strong&gt;while&lt;/strong&gt; i &amp;lt;= numero_de_figus:
+		nueva_figu = random.randint(0, figus_total-1)
+		figus_del_paquete.append[nueva_figu]
+		i = i + 1
+	&lt;strong&gt;return&lt;/strong&gt; figus_del_paquete
+
+figus = armar_paquete_figus(5, 10)&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29781">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680534103</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;&lt;span style="font-family: 'courier new', courier, monospace;"&gt;figus&lt;/span&gt; será una lista de longitud 5 con las figus que fueron saliendo&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Fijate que en la función nunca inicializamos la lista &lt;span style="font-family: 'courier new', courier, monospace;"&gt;figus_del_paquete&lt;/span&gt;. Cuando Python llegue a la linea &lt;span style="font-family: 'courier new', courier, monospace;"&gt;figus_del_paquete.append[nueva_figu]&lt;/span&gt; por primera vez, no va a saber qué es &lt;span style="font-family: 'courier new', courier, monospace;"&gt;figus_del_paquete&lt;/span&gt;. Debemos agregar la línea "&lt;span style="font-family: 'courier new', courier, monospace;"&gt;figus_del_paquete=[]&lt;/span&gt;" antes del ciclo (&lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt;).&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29782">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680534103</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;&lt;span style="font-family: 'courier new', courier, monospace;"&gt;figus&lt;/span&gt; será un vector de longitud 10 con las figus que fueron saliendo&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! 10 es el tamaño del álbum, pero según la función, la lista tendría la longitud del argumento &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero_de_figus&lt;/span&gt; que representa la cantidad de figuritas que debería tener el paquete (en este ejemplo, estamos usando la función con el argumento &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero_de_figus&lt;/span&gt;=5). Aún así, vale la pena revisar que la definición de la función no tenga errores, me parece que hay algo ahí que no estaría funcionando...&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29783">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680534103</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Salta un error&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Muy bien! En la función nunca inicializamos la lista &lt;span style="font-family: 'courier new', courier, monospace;"&gt;figus_del_paquete&lt;/span&gt;. Cuando Python llegue a la linea &lt;span style="font-family: 'courier new', courier, monospace;"&gt;figus_del_paquete.append[nueva_figu]&lt;/span&gt; por primera vez, no va a tener definida &lt;span style="font-family: 'courier new', courier, monospace;"&gt;figus_del_paquete&lt;/span&gt; y dará un error. Deberíamos agregar la línea "&lt;span style="font-family: 'courier new', courier, monospace;"&gt;figus_del_paquete=[]&lt;/span&gt;" antes del ciclo (&lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt;).&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14823">
+        <prevpageid>14822</prevpageid>
+        <nextpageid>14824</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680534312</timecreated>
+        <timemodified>1680571018</timemodified>
+        <title>Nombre de variables...</title>
+        <contents>&lt;p&gt;Luego de ejecutar este código, ¿qué valor tendrán las variables &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; y &lt;span style="font-family: 'courier new', courier, monospace;"&gt;resultado_suma&lt;/span&gt;?&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;strong&gt;def&lt;/strong&gt; sumarle_2(numero):
+	numero = numero + 2
+	&lt;strong&gt;return&lt;/strong&gt; numero
+
+numero = 6
+otro_numero = 10
+resultado_suma = sumarle_2(otro_numero)&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29784">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680534312</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;&lt;span style="font-family: 'courier new', courier, monospace;"&gt;resultado_suma&lt;/span&gt; es 12 y &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; es 6&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Muy bien! Cuando se ejecuta &lt;span style="font-family: 'courier new', courier, monospace;"&gt;sumarle_2(otro_numero)&lt;/span&gt;, dentro del cuerpo de la función, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; tomará el valor asignado previamente a la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;otro_numero&lt;/span&gt;. Esto no afecta el valor de la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; definida fuera de la función. Aún así, es preferible no llamar a una variable con el mismo nombre que el argumento de una función porque puede dar lugar a confusiones.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29785">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680534312</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;&lt;span style="font-family: 'courier new', courier, monospace;"&gt;resultado_suma&lt;/span&gt; es 12 y &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; es 12&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Cuando se ejecuta &lt;span style="font-family: 'courier new', courier, monospace;"&gt;sumarle_2(otro_numero)&lt;/span&gt;, dentro del cuerpo de la función, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; tomará el valor asignado previamente a la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;otro_numero&lt;/span&gt;. Además, esto no afecta el valor de la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; definida fuera de la función. Aún así, es preferible no llamar a una variable con el mismo nombre que el argumento de una función porque puede dar lugar a confusiones.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29786">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680534312</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;&lt;span style="font-family: 'courier new', courier, monospace;"&gt;resultado_suma&lt;/span&gt; es 8 y &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; es 6&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Cuando se ejecuta &lt;span style="font-family: 'courier new', courier, monospace;"&gt;sumarle_2(otro_numero)&lt;/span&gt;, dentro del cuerpo de la función, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; tomará el valor asignado previamente a la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;otro_numero&lt;/span&gt;. Es correcto que esto no afecta el valor de la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; definida fuera de la función. Aún así, es preferible no llamar a una variable con el mismo nombre que el argumento de una función porque puede dar lugar a confusiones.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14824">
+        <prevpageid>14823</prevpageid>
+        <nextpageid>0</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680534405</timecreated>
+        <timemodified>1680539212</timemodified>
+        <title>La última!</title>
+        <contents>&lt;p&gt;Luego de ejecutar este código, ¿qué valor tendrá la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;resultado_suma&lt;/span&gt;?&lt;/p&gt;
+&lt;pre&gt;def sumarle_2(numero):
+	resultado = numero + 2
+	return resultado
+
+numero = 8
+resultado_suma = sumarle_2()&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29787">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680534405</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;&lt;span style="font-family: 'courier new', courier, monospace;"&gt;resultado_suma&lt;/span&gt; es 10&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Fijate que no le pasamos ningún argumento a la función &lt;span style="font-family: 'courier new', courier, monospace;"&gt;sumarle_2&lt;/span&gt;. No importa que ya haya una variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;numero&lt;/span&gt; definida afuera de la función, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;sumarle_2&lt;/span&gt; en su definición espera recibir un parámetro y si no lo ponemos, es un error.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29788">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680534405</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Salta un error&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Perfecto! Salta un error porque no le pasamos ningún argumento a la función &lt;span style="font-family: 'courier new', courier, monospace;"&gt;sumarle_2&lt;/span&gt;.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+    </pages>
+    <grades>
+    </grades>
+    <timers>
+    </timers>
+    <overrides>
+    </overrides>
+  </lesson>
+</activity>

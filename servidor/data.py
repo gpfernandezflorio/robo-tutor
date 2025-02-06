@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import os, json
+from users import loginValido, cargarUsuariosEnCurso, usuarioEnCurso
+
+# CURSOS:
 from cursos.unq_inpr import CURSOS as cursos_unq_inpr
 from cursos.exactas_programa import CURSOS as cursos_exactas_programa
-from users import loginValido, cargarUsuariosEnCurso, usuarioEnCurso
+from cursos.taller_programacion import CURSOS as cursos_taller_programacion
 
 def dame_cursos(jsonObj):
   respuesta = {'resultado':"Falla"}
@@ -38,6 +41,9 @@ for c in cursos_unq_inpr:
 for c in cursos_exactas_programa:
   CURSOS[c] = cursos_exactas_programa[c]
 
+for c in cursos_taller_programacion:
+  CURSOS[c] = cursos_taller_programacion[c]
+
 CURSOS_publico = {}
 
 informacionPrivadaEjercicio = ["pre","run_data","aridad","timeout"]
@@ -51,17 +57,30 @@ def esconderInformacionSensibleEjercicio(ejercicio):
   ejercicioPublico["timeoutTotal"] = 2 + (ejercicio["timeout"] if "timeout" in ejercicio else timeoutDefault()) * (len(ejercicio["run_data"]) if "run_data" in ejercicio else 1)
   return ejercicioPublico
 
+informacionPrivadaCuestionario = ["preguntas","file_moodle","data_moodle"]
+informacionPublicaCuestionario = ["nombre","solo_preguntas","solo_respuestas"]
+def esconderInformacionSensibleCuestionario(cuestionario):
+  cuestionarioPublico = {}
+  for k in cuestionario:
+    if k in informacionPublicaCuestionario:
+      cuestionarioPublico[k] = cuestionario[k]
+  return cuestionarioPublico
+
 informacionPublicaCurso = ['nombre','descripcion','anio','edicion','responsable','institucion','lenguaje','lenguaje_display']
-informacionPrivadaCurso = ['ejs'] # ejs es privado porque lo trato aparte
+informacionPrivadaCurso = ['ejs','cuestionarios'] # ejs y cuestionarios son privados porque lo trato aparte
 def esconderInformacionSensibleCurso(curso):
   cursoPublico = {}
   for k in curso:
     if k in informacionPublicaCurso:
       cursoPublico[k] = curso[k]
   cursoPublico["ejs"] = []
+  cursoPublico["cuestionarios"] = []
   for ej in curso["ejs"]:
     if not ("mostrar" in ej) or ej["mostrar"]:
       cursoPublico["ejs"].append(esconderInformacionSensibleEjercicio(ej))
+  for cuestionario in curso["cuestionarios"]:
+    if not ("mostrar" in cuestionario) or cuestionario["mostrar"]:
+      cursoPublico["cuestionarios"].append(esconderInformacionSensibleCuestionario(cuestionario))
   return cursoPublico
 
 def timeoutDefault():

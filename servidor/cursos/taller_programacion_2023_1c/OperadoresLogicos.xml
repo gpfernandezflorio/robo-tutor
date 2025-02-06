@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<activity id="1689" moduleid="315502" modulename="lesson" contextid="463249">
+  <lesson id="1689">
+    <course>3532</course>
+    <name>Operadores lógicos</name>
+    <intro></intro>
+    <introformat>1</introformat>
+    <practice>0</practice>
+    <modattempts>0</modattempts>
+    <usepassword>0</usepassword>
+    <password></password>
+    <dependency>0</dependency>
+    <conditions>O:8:"stdClass":3:{s:9:"timespent";i:0;s:9:"completed";i:0;s:15:"gradebetterthan";i:0;}</conditions>
+    <grade>100</grade>
+    <custom>1</custom>
+    <ongoing>0</ongoing>
+    <usemaxgrade>0</usemaxgrade>
+    <maxanswers>4</maxanswers>
+    <maxattempts>1</maxattempts>
+    <review>0</review>
+    <nextpagedefault>0</nextpagedefault>
+    <feedback>0</feedback>
+    <minquestions>0</minquestions>
+    <maxpages>1</maxpages>
+    <timelimit>0</timelimit>
+    <retake>0</retake>
+    <activitylink>0</activitylink>
+    <mediafile></mediafile>
+    <mediaheight>480</mediaheight>
+    <mediawidth>640</mediawidth>
+    <mediaclose>0</mediaclose>
+    <slideshow>0</slideshow>
+    <width>640</width>
+    <height>480</height>
+    <bgcolor>#FFFFFF</bgcolor>
+    <displayleft>0</displayleft>
+    <displayleftif>0</displayleftif>
+    <progressbar>0</progressbar>
+    <available>1680695100</available>
+    <deadline>0</deadline>
+    <timemodified>1680659279</timemodified>
+    <completionendreached>0</completionendreached>
+    <completiontimespent>0</completiontimespent>
+    <pages>
+      <page id="14806">
+        <prevpageid>0</prevpageid>
+        <nextpageid>14807</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529229</timecreated>
+        <timemodified>1680540081</timemodified>
+        <title>Precalentamiento</title>
+        <contents>&lt;p&gt;¿Qué valor tendrá asignado la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;contador&lt;/span&gt; después de ejecutar el siguiente código?&lt;/p&gt;
+&lt;pre&gt;a = 4
+contador = 0
+
+&lt;strong&gt;if&lt;/strong&gt; a &amp;gt;= 5:
+	contador = contador + 1&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29744">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529229</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;1&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! a tiene asignado el valor &lt;span style="font-family: 'courier new', courier, monospace;"&gt;4&lt;/span&gt; y, por lo tanto, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;a&amp;gt;=5&lt;/span&gt; es &lt;span style="font-family: 'courier new', courier, monospace;"&gt;FALSE&lt;/span&gt;. Es decir, no se cumple la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt;. El valor de contador no se actualiza.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29745">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529229</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;0&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Exacto! Como la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt; no se cumple, el valor de contador no se actualiza.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29746">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529229</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;4&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! &lt;span style="font-family: 'courier new', courier, monospace;"&gt;4&lt;/span&gt; es el valor que le asignamos a la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;a&lt;/span&gt;. Fijate qué está pasando con la variable contador.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14807">
+        <prevpageid>14806</prevpageid>
+        <nextpageid>14808</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529377</timecreated>
+        <timemodified>1680540089</timemodified>
+        <title>Ahora un poco más difícil</title>
+        <contents>&lt;p&gt;¿Qué valor tendrá asignado la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;contador&lt;/span&gt; después de ejecutar el siguiente código?&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;a = 4
+b = 6
+contador = 0
+
+&lt;strong&gt;if&lt;/strong&gt; b - a &amp;gt;= 5: 
+	contador = contador + 1&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29747">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529377</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;1&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b-a&lt;/span&gt; da como resultado 2 y por lo tanto &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b-a&amp;gt;=5&lt;/span&gt; es &lt;span style="font-family: 'courier new', courier, monospace;"&gt;FALSE&lt;/span&gt; . Entonces, no se cumple la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt;. El valor de contador no se actualiza.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29748">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529377</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;0&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Exacto! Como la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt; no se cumple, el valor de contador no se actualiza.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14808">
+        <prevpageid>14807</prevpageid>
+        <nextpageid>14809</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529526</timecreated>
+        <timemodified>1680540097</timemodified>
+        <title>Seguimos con if</title>
+        <contents>&lt;p&gt;¿Qué valor tendrá asignado la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;contador&lt;/span&gt; después de ejecutar el siguiente código?&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;a = 4
+b = 6
+contador = 0
+
+&lt;strong&gt;if&lt;/strong&gt; b + a &amp;gt;= 6:
+	contador = contador + 1&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29749">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529526</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;1&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Exacto! Como la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt; se cumple, el valor de contador se actualiza.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29750">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529526</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;0&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b+a&lt;/span&gt; da como resultado 10 y, por lo tanto, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b+a &amp;gt;= 6&lt;/span&gt; es VERDADERO. Entonces, sí se cumple la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt;. El valor de contador se actualiza.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14809">
+        <prevpageid>14808</prevpageid>
+        <nextpageid>14810</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529652</timecreated>
+        <timemodified>1680540106</timemodified>
+        <title>Conjunción</title>
+        <contents>&lt;p&gt;¿Qué valor tendrá asignado la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;contador&lt;/span&gt; después de ejecutar el siguiente código?&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;a = 4
+b = 6
+contador = 0
+
+&lt;strong&gt;if&lt;/strong&gt; (b + a &amp;lt; 2) and (a &amp;gt; 2):
+	contador = contador + 1&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29751">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529652</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;1&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Para que se cumpla la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt;, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b+a&amp;lt;2)&lt;/span&gt; debe ser VERDADERO &lt;strong&gt;Y&lt;/strong&gt; &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a&amp;gt;2)&lt;/span&gt; debe ser VERDADERO. Sin embargo, sólo se cumple que &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a&amp;gt;2)&lt;/span&gt; y eso no alcanza para que la conjunción (&lt;strong&gt;and&lt;/strong&gt;) sea verdadera. El valor de contador no se actualiza.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29752">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529652</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;0&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Exacto! Como &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b+a&amp;lt;2)&lt;/span&gt; es FALSO, entonces la conjunción (&lt;strong&gt;and&lt;/strong&gt;) no es verdadera. Entonces, no se cumple la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt;. El valor de contador no se actualiza.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14810">
+        <prevpageid>14809</prevpageid>
+        <nextpageid>14811</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529793</timecreated>
+        <timemodified>1680540114</timemodified>
+        <title>Disyunción</title>
+        <contents>&lt;p&gt;¿Qué valor tendrá asignado la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;contador&lt;/span&gt; después de ejecutar el siguiente código?&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;a = 4
+b = 6
+contador = 0
+
+&lt;strong&gt;if&lt;/strong&gt; (b + a &amp;lt; 2) or (a &amp;gt; 2):
+	contador = contador + 1&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29753">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529793</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;1&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Bien! Para que se cumpla la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt;, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b+a&amp;lt;2)&lt;/span&gt; debe ser VERDADERO &lt;strong&gt;O&lt;/strong&gt; &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a&amp;gt;2)&lt;/span&gt; debe ser VERDADERO. Como se cumple al menos una de ellas, alcanza para que la disyunción (&lt;strong&gt;or&lt;/strong&gt;) sea verdadera. El valor de contador se actualiza.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29754">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529793</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;0&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Para que se cumpla la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt;, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b+a&amp;lt;2)&lt;/span&gt; debe ser VERDADERO &lt;strong&gt;O&lt;/strong&gt; &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a&amp;gt;2)&lt;/span&gt; debe ser VERDADERO. Como se cumple al menos una de ellas, alcanza para que la disyunción (&lt;strong&gt;or&lt;/strong&gt;) sea verdadera. El valor de contador se actualiza.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14811">
+        <prevpageid>14810</prevpageid>
+        <nextpageid>14812</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680529914</timecreated>
+        <timemodified>1680539663</timemodified>
+        <title>Negación</title>
+        <contents>&lt;p&gt;¿Qué valor tendrá asignado la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;contador&lt;/span&gt; después de ejecutar el siguiente código?&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;a = 4
+b = 6
+contador = 0
+
+&lt;strong&gt;if not&lt;/strong&gt;(a &amp;gt; 2): 
+	contador = contador + 1&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29755">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680529914</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;1&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! La negación (&lt;strong&gt;not&lt;/strong&gt;) invierte el valor lógico: si &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a&amp;gt;2)&lt;/span&gt; es FALSO, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;not(a&amp;gt;2)&lt;/span&gt; es VERDADERO. Para que la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt; se cumpla, necesitamos que &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a&amp;gt;2)&lt;/span&gt; sea FALSO. Como la variable a tiene asignado el valor 4, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a&amp;gt;2)&lt;/span&gt; es VERDADERO y, por ende, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;not(a&amp;gt;2)&lt;/span&gt; es FALSO. La condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt; no se cumple. El valor de contador no se actualiza.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29756">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680529914</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;0&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Exacto! Como &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a&amp;gt;2)&lt;/span&gt; es VERDADERO, not&lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a&amp;gt;2)&lt;/span&gt; es FALSO. Por lo tanto, no se cumple la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;if&lt;/span&gt;. El valor de contador no se actualiza.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14812">
+        <prevpageid>14811</prevpageid>
+        <nextpageid>14813</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680530415</timecreated>
+        <timemodified>1680540127</timemodified>
+        <title>Aumentamos un poco la dificultad...</title>
+        <contents>&lt;p&gt;¿Qué valor tiene asignado la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;contador&lt;/span&gt; después de ejecutar el siguiente código?&lt;/p&gt;
+&lt;pre&gt;a = 2
+b = 10
+contador = 0
+
+&lt;strong&gt;while&lt;/strong&gt; (b &amp;gt; 6) and (b != a):
+	b = b-1
+	contador = contador + 1&lt;/pre&gt;
+&lt;p&gt;&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29757">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680530415</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;0&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Fijate que la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; se cumple al menos una vez. Inicialmente &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b&lt;/span&gt; vale 10 y &lt;span style="font-family: 'courier new', courier, monospace;"&gt;a&lt;/span&gt; vale 2. Entonces &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;gt;6)&lt;/span&gt; es VERDADERO &lt;strong&gt;Y&lt;/strong&gt; &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b!=a)&lt;/span&gt; es VERDADERO. Por lo tanto, se entra al &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; al menos una vez y el valor de contador deja de ser 0.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29758">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680530415</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;4&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Muy bien! El código dentro del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while &lt;/span&gt;se ejecutará si &lt;span&gt;(b&amp;gt;6)&lt;/span&gt; es VERDADERO &lt;strong&gt;Y&lt;/strong&gt; &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b!=a)&lt;/span&gt; es VERDADERO. Después de cuatro ciclos, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b &lt;/span&gt;vale 5 y ya no se cumple &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;gt;6)&lt;/span&gt;. Por lo tanto, &lt;span&gt;&lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;gt;6) and (b!=a)&lt;/span&gt;&lt;/span&gt; es FALSO y no se vuelve a entrar al &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt;.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29759">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680530415</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;8&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! El código dentro del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; se ejecutará si &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;gt;6)&lt;/span&gt; es VERDADERO &lt;strong&gt;Y&lt;/strong&gt; &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b!=a)&lt;/span&gt; es VERDADERO. Después de cuatro ciclos, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b&lt;/span&gt; vale 5 y ya no se cumple &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;gt;6)&lt;/span&gt;. Por lo tanto, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;gt;6) and (b!=a)&lt;/span&gt; es FALSO y no se vuelve a entrar al &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt;.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14813">
+        <prevpageid>14812</prevpageid>
+        <nextpageid>14814</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680530824</timecreated>
+        <timemodified>1680540261</timemodified>
+        <title>¿Qué pasa con las disyunción?</title>
+        <contents>&lt;p&gt;¿Qué valor tiene asignado la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;contador&lt;/span&gt; después de ejecutar el siguiente código?&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;a = 2
+b = 10
+contador = 0
+
+&lt;strong&gt;while&lt;/strong&gt; (b &amp;gt; 6) &lt;strong&gt;or&lt;/strong&gt; (b != a):
+	b = b-1
+	contador = contador + 1&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29760">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680530824</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;4&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! El código dentro del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; se ejecutará si &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;gt;6)&lt;/span&gt; es VERDADERO o &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b!=a)&lt;/span&gt; es VERDADERO. Es decir, si al alguna de las condiciones es verdadera. Después de cuatro ciclos, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b&lt;/span&gt; vale 5 y ya no se cumple &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;gt;6)&lt;/span&gt;, pero &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b!=a)&lt;/span&gt; sigue siendo VERDADERO. Por lo tanto, va a seguir entrando al ciclo hasta que &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b!=a)&lt;/span&gt; sea FALSO. Es decir, hasta que &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b&lt;/span&gt; valga 2.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29761">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680530824</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;0&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Fijate que la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; se cumple al menos una vez. Inicialmente &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b&lt;/span&gt; vale 10 y&lt;span style="font-family: 'courier new', courier, monospace;"&gt; a&lt;/span&gt; vale 2. Entonces, alguna de las condiciones es verdadera. Por lo tanto se entra al &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; al menos una vez y la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;contador&lt;/span&gt; deja de ser 0.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29762">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680530824</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;8&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Exacto! El código dentro del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; se ejecutará si &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;gt;6)&lt;/span&gt; es VERDADERO o &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b!=a)&lt;/span&gt; es VERDADERO. Es decir, si al menos una de las dos condiciones es verdadera. Después de cuatro ciclos, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b&lt;/span&gt; vale 5 y ya no se cumple&lt;span style="font-family: 'courier new', courier, monospace;"&gt; (b&amp;gt;6)&lt;/span&gt;, pero &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b!=a)&lt;/span&gt; sigue siendo VERDADERO. Por lo tanto, va a seguir entrando al ciclo hasta que &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b!=a)&lt;/span&gt; sea FALSO. Es decir, hasta que &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b&lt;/span&gt; valga 2.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14814">
+        <prevpageid>14813</prevpageid>
+        <nextpageid>14815</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680531015</timecreated>
+        <timemodified>1680540148</timemodified>
+        <title>Cambiamos un poco la consigna...</title>
+        <contents>&lt;p&gt;¿Qué valor tiene asignado la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;contador&lt;/span&gt; después de ejecutar el siguiente código?&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;a = 2
+b = 4
+contador = 0
+
+&lt;strong&gt;while&lt;/strong&gt; (b &amp;gt; 6) &lt;strong&gt;or&lt;/strong&gt; (b != a):
+	b = b-1
+	contador = contador + 1&lt;/pre&gt;
+&lt;p&gt;&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29763">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680531015</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;2&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Exacto! El código dentro del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; se ejecutará si &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;gt;6)&lt;/span&gt; es VERDADERO &lt;strong&gt;O&lt;/strong&gt;&lt;span style="font-family: 'courier new', courier, monospace;"&gt; (b!=a)&lt;/span&gt; es VERDADERO. Es decir, si alguna de las condiciones es verdadera. Como &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b&lt;/span&gt; comienza valiendo 4, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;gt;6)&lt;/span&gt; es FALSO. Sin embargo, como &lt;span style="font-family: 'courier new', courier, monospace;"&gt;a&lt;/span&gt; vale 2, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b!=a)&lt;/span&gt; es VERDADERO. Entonces, la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; es verdadera y se ejecuta el código del ciclo. Esto también ocurre en la siguiente iteración, pero deja de valer en la tercera.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29764">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680531015</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;0&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Fijate que la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; se cumple al menos una vez. Como &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b&lt;/span&gt; comienza valiendo 4,&lt;span style="font-family: 'courier new', courier, monospace;"&gt; (b&amp;gt;6)&lt;/span&gt; es FALSO. Sin embargo, como a vale 2, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b!=a)&lt;/span&gt; es VERDADERO. Entonces, la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; es verdadera y se ejecuta el código del ciclo. El valor de la variable contador se modifica al menos una vez.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14815">
+        <prevpageid>14814</prevpageid>
+        <nextpageid>14816</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680531146</timecreated>
+        <timemodified>1680540158</timemodified>
+        <title>¿Qué pasa con la conjunción?</title>
+        <contents>&lt;p&gt;¿Qué valor tiene asignado la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;contador&lt;/span&gt; después de ejecutar el siguiente código?&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;a = 2
+b = 4
+contador = 0
+
+&lt;strong&gt;while&lt;/strong&gt; (b &amp;gt; 6) &lt;strong&gt;and&lt;/strong&gt; (b != a):
+	b = b-1
+	contador = contador + 1&lt;/pre&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29765">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680531146</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;2&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! El código dentro del while se ejecutará si &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;gt;6)&lt;/span&gt; es VERDADERO &lt;strong&gt;Y&lt;/strong&gt; &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b!=a)&lt;/span&gt; es VERDADERO. Como inicialmente &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b&lt;/span&gt; vale 4, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;gt;6)&lt;/span&gt; es FALSA. Por ende, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b &amp;gt; 6) and (b != a)&lt;/span&gt; es FALSO y *nunca* se entra en el &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt;, ni siquiera una vez.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29766">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680531146</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;0&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Exacto! La condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; se cumple si&lt;span style="font-family: 'courier new', courier, monospace;"&gt; (b&amp;gt;6)&lt;/span&gt; es VERDADERO y&lt;span style="font-family: 'courier new', courier, monospace;"&gt; (b!=a)&lt;/span&gt; es VERDADERO. Como inicialmente &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b&lt;/span&gt; vale 4, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;gt;6)&lt;/span&gt; es FALSO. Por ende, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;gt;6) and (b!=a)&lt;/span&gt; es FALSO y nunca se entra en el &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt;.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14816">
+        <prevpageid>14815</prevpageid>
+        <nextpageid>0</nextpageid>
+        <qtype>3</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1680531314</timecreated>
+        <timemodified>1680540169</timemodified>
+        <title>Combinemos operadores</title>
+        <contents>&lt;p&gt;Después de ejecutar el siguiente código, ¿qué valor tiene asignado la variable &lt;span style="font-family: 'courier new', courier, monospace;"&gt;contador&lt;/span&gt;?&lt;/p&gt;
+&lt;pre&gt;a = 2
+b = 10
+contador = 0
+
+&lt;strong&gt;while  not&lt;/strong&gt;((a+b &amp;lt; 6) or (b &amp;lt; a)):
+	b = b-1
+	contador = contador + 1&lt;/pre&gt;
+&lt;p&gt;&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="29767">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1680531314</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;0&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Ojo! Observemos que la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; es la negación de &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a+b&amp;lt;6) or (b&amp;lt;a)&lt;/span&gt;. Es decir, la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; se cumple si &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a+b&amp;lt;6) or (b&amp;lt;a)&lt;/span&gt; es FALSO. Para que &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a+b&amp;lt;6) or (b&amp;lt;a)&lt;/span&gt; sea FALSO, debe ocurrir que &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a+b&amp;lt;6) y (b&amp;lt;a)&lt;/span&gt; sean falsas *al mismo tiempo*. Como inicialmente &lt;span style="font-family: 'courier new', courier, monospace;"&gt;a&lt;/span&gt; vale 2 y&lt;span style="font-family: 'courier new', courier, monospace;"&gt; b&lt;/span&gt; vale 10,&lt;span style="font-family: 'courier new', courier, monospace;"&gt; (a+b&amp;lt;6)&lt;/span&gt; es FALSO y también &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;lt;a)&lt;/span&gt; es FALSO. Por lo tanto, se entra al &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; al menos una vez y el valor de la variable contador se modifica.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="29768">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1680531314</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Un valor mayor que 0 porque se entró al while al menos una vez&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¡Exacto! Observemos que la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; es la negación de&lt;span style="font-family: 'courier new', courier, monospace;"&gt; (a+b&amp;lt;6) or (b&amp;lt;a)&lt;/span&gt;. Es decir, la condición del &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; se cumple si &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a+b&amp;lt;6) or (b&amp;lt;a)&lt;/span&gt; es FALSO. Para que &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a+b&amp;lt;6) or (b&amp;lt;a)&lt;/span&gt; sea FALSO, debe ocurrir que &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a+b&amp;lt;6)&lt;/span&gt; y &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;lt;a)&lt;/span&gt; sean ambas falsas al mismo tiempo. Como inicialmente &lt;span style="font-family: 'courier new', courier, monospace;"&gt;a&lt;/span&gt; vale 2 y &lt;span style="font-family: 'courier new', courier, monospace;"&gt;b&lt;/span&gt; vale 10, &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(a+b&amp;lt;6)&lt;/span&gt; es FALSO y &lt;span style="font-family: 'courier new', courier, monospace;"&gt;(b&amp;lt;a)&lt;/span&gt; es FALSO. Por lo tanto, se entra al &lt;span style="font-family: 'courier new', courier, monospace;"&gt;while&lt;/span&gt; al menos una vez y valor de la variable contador se modifica.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+    </pages>
+    <grades>
+    </grades>
+    <timers>
+    </timers>
+    <overrides>
+    </overrides>
+  </lesson>
+</activity>

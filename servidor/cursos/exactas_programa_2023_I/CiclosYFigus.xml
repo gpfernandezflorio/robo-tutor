@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<activity id="1707" moduleid="325797" modulename="lesson" contextid="479625">
+  <lesson id="1707">
+    <course>3799</course>
+    <name>Ciclos y Figus</name>
+    <intro></intro>
+    <introformat>1</introformat>
+    <practice>0</practice>
+    <modattempts>0</modattempts>
+    <usepassword>0</usepassword>
+    <password></password>
+    <dependency>0</dependency>
+    <conditions>O:8:"stdClass":3:{s:9:"timespent";i:0;s:9:"completed";i:0;s:15:"gradebetterthan";i:0;}</conditions>
+    <grade>100</grade>
+    <custom>1</custom>
+    <ongoing>0</ongoing>
+    <usemaxgrade>0</usemaxgrade>
+    <maxanswers>4</maxanswers>
+    <maxattempts>1</maxattempts>
+    <review>0</review>
+    <nextpagedefault>0</nextpagedefault>
+    <feedback>0</feedback>
+    <minquestions>0</minquestions>
+    <maxpages>1</maxpages>
+    <timelimit>0</timelimit>
+    <retake>0</retake>
+    <activitylink>0</activitylink>
+    <mediafile></mediafile>
+    <mediaheight>480</mediaheight>
+    <mediawidth>640</mediawidth>
+    <mediaclose>0</mediaclose>
+    <slideshow>0</slideshow>
+    <width>640</width>
+    <height>480</height>
+    <bgcolor>#FFFFFF</bgcolor>
+    <displayleft>0</displayleft>
+    <displayleftif>0</displayleftif>
+    <progressbar>0</progressbar>
+    <available>1677337500</available>
+    <deadline>0</deadline>
+    <timemodified>1690829079</timemodified>
+    <completionendreached>0</completionendreached>
+    <completiontimespent>0</completiontimespent>
+    <pages>
+      <page id="14987">
+        <prevpageid>0</prevpageid>
+        <nextpageid>14988</nextpageid>
+        <qtype>2</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1689975993</timecreated>
+        <timemodified>1690500925</timemodified>
+        <title>¿Cumple con lo pedido?</title>
+        <contents>&lt;p&gt;Indicar si el siguiente programa emula el completado de un album de 6 figuritas, &lt;br /&gt;registrando la cantidad  de figuritas requeridas para completarlo. &lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;&lt;strong&gt;&lt;span style="color: #ff00ff;"&gt;import&lt;/span&gt; &lt;/strong&gt;random  &lt;span style="color: #99cc00;"&gt;#importamos modulo para emular dado&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;        &lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;album &lt;span style="color: #000000;"&gt;= &lt;/span&gt;[&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;] &lt;span style="color: #99cc00;"&gt;#creamos album&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;&lt;strong&gt;&lt;span style="color: #ff00ff;"&gt;while&lt;/span&gt; &lt;span style="color: #ff6600;"&gt;sum&lt;/span&gt;&lt;/strong&gt;(album) &amp;lt; &lt;span style="color: #ff9900;"&gt;6&lt;/span&gt;:&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;    contador = &lt;span style="color: #ff9900;"&gt;0&lt;/span&gt; &lt;span style="color: #99cc00;"&gt;#inicializamos contador de figus compradas&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;    figu = random.randint(&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;5&lt;/span&gt;) &lt;span style="font-family: 'courier new', courier, monospace; color: #99cc00;"&gt;#compramos figu al azar&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;    contador = contador + &lt;span style="color: #ff9900;"&gt;1&lt;/span&gt; &lt;span style="color: #99cc00;"&gt;#actualizamos contador&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;    album[figu] = 1 &lt;span style="color: #99cc00;"&gt;#pegamos la figu en el album&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;&lt;strong&gt;&lt;span style="color: #ff6600;"&gt;print&lt;/span&gt;&lt;/strong&gt;(contador) &lt;span style="color: #99cc00;"&gt;#mostramos en consola el valor de contador&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="30233">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1689975993</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;No&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Exacto! En este código se inicializa &lt;span style="font-family: courier new, courier, monospace;"&gt;contador&lt;/span&gt; en cada iteración. &lt;br /&gt;Cuando el álbum haya sido completado y termine el ciclo, ¿que valor tendra asignado la variable &lt;span style="font-family: courier new, courier, monospace;"&gt;contador&lt;/span&gt;?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="30234">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1689975993</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Si&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Ojo! En este código se le asigna el valor 0 a &lt;span style="font-family: courier new, courier, monospace;"&gt;contador&lt;/span&gt; en cada iteración del ciclo. &lt;br /&gt;Cuando el álbum haya sido completado y termine el ciclo, ¿que valor tendra asignado  la variable contador?&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14988">
+        <prevpageid>14987</prevpageid>
+        <nextpageid>15017</nextpageid>
+        <qtype>2</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1689976114</timecreated>
+        <timemodified>1690500942</timemodified>
+        <title>Y este, ¿cumple lo pedido?</title>
+        <contents>&lt;p&gt;Indicar si el siguiente programa emula el completado de un album de 6 figuritas, &lt;br /&gt;registrando la cantidad  de figuritas requeridas para completarlo. &lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;&lt;strong&gt;&lt;span style="color: #ff00ff;"&gt;import&lt;/span&gt; &lt;/strong&gt;random  &lt;span style="color: #99cc00;"&gt;#importamos modulo para emular dado&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;        &lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;album = [&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;] &lt;span style="color: #99cc00;"&gt;#creamos album&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;contador = 0 &lt;span style="color: #99cc00;"&gt;#inicializamos contador de figus compradas&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;&lt;strong&gt;&lt;span style="color: #ff00ff;"&gt;while&lt;/span&gt; &lt;span style="color: #ff6600;"&gt;sum&lt;/span&gt;&lt;/strong&gt;(album) &amp;lt; &lt;span style="color: #ff9900;"&gt;6&lt;/span&gt;:&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;    figu = random.randint(0,5) &lt;span style="color: #99cc00;"&gt;#compramos figu al azar&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;    contador = contador + 1 &lt;span style="color: #99cc00;"&gt;#actualizamos contador&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;    album[figu] = &lt;span style="color: #ff9900;"&gt;1&lt;/span&gt; &lt;span style="color: #99cc00;"&gt;#pegamos la figu en el album&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;&lt;strong&gt;&lt;span style="color: #ff6600;"&gt;print&lt;/span&gt;&lt;/strong&gt;(contador) &lt;span style="color: #99cc00;"&gt;#mostramos en consola el valor de contador&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="30235">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1689976114</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Si&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Correcto! Este codigo hace lo que queremos.&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="30236">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1689976114</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;No&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;¿Qué pensás que podría estar fallando?&lt;br /&gt;Revisalo de nuevo; este codigo resuelve bien el problema. &lt;br /&gt;&lt;br /&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="15017">
+        <prevpageid>14988</prevpageid>
+        <nextpageid>14989</nextpageid>
+        <qtype>2</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1690304932</timecreated>
+        <timemodified>1690500957</timemodified>
+        <title>Otro más, ¿cumple con lo pedido?</title>
+        <contents>&lt;p&gt;Indicar si el siguiente programa emula el completado de un album de 6 figuritas, &lt;br /&gt;registrando la cantidad  de figuritas requeridas para completarlo.&lt;br /&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;&lt;strong&gt;&lt;span style="color: #ff00ff;"&gt;import&lt;/span&gt; &lt;/strong&gt;random&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;contador = &lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;&lt;strong&gt;&lt;span style="color: #ff00ff;"&gt;while&lt;/span&gt; &lt;span style="color: #ff6600;"&gt;sum&lt;/span&gt;&lt;/strong&gt;(album) &amp;lt; &lt;span style="color: #ff9900;"&gt;6&lt;/span&gt;:&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;    album = [&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;]&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;    figu = random.randint(&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;5&lt;/span&gt;)&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;    contador = contador + &lt;span style="color: #ff9900;"&gt;1&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;    album[figu] = &lt;span style="color: #ff9900;"&gt;1&lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;&lt;strong&gt;&lt;span style="color: #ff6600;"&gt;print&lt;/span&gt;&lt;/strong&gt;(contador)&lt;/span&gt;&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="30304">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1690304932</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;No&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Correcto!&lt;br /&gt;En cada vuelta del ciclo, el álbum es reseteado al álbum vacío. &lt;br /&gt;Por lo tanto, al final de cada vuelta, el álbum tiene una única figurita pegada.&lt;/p&gt;
+&lt;p&gt;Como el álbum nunca llega a tener más de una figurita pegada, la condición &lt;span style="font-family: courier new, courier, monospace;"&gt;&lt;span style="color: #ff6600;"&gt;sum&lt;/span&gt;(album) &amp;lt; &lt;span style="color: #ff9900;"&gt;6&lt;/span&gt; &lt;span style="font-family: arial, helvetica, sans-serif;"&gt;siempre es verdadera y el programa nunca termina de ejecutarse.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="30305">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1690304932</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Si&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Cuidado!&lt;br /&gt;En cada vuelta del ciclo, el álbum es reseteado al álbum vacío. &lt;br /&gt;Por lo tanto, al final de cada vuelta, el álbum tiene una única figurita pegada.&lt;/p&gt;
+&lt;p&gt;Como el álbum nunca llega a tener más de una figurita pegada, la condición &lt;span style="font-family: courier new, courier, monospace;"&gt;&lt;span style="color: #ff6600;"&gt;sum&lt;/span&gt;(album) &amp;lt; &lt;span style="color: #ff9900;"&gt;6&lt;/span&gt; &lt;span style="font-family: arial, helvetica, sans-serif;"&gt;siempre es verdadera y el programa nunca termina de ejecutarse.&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+      <page id="14989">
+        <prevpageid>15017</prevpageid>
+        <nextpageid>0</nextpageid>
+        <qtype>2</qtype>
+        <qoption>0</qoption>
+        <layout>0</layout>
+        <display>0</display>
+        <timecreated>1689976223</timecreated>
+        <timemodified>1690500971</timemodified>
+        <title>El último! ¿funca o no funca?</title>
+        <contents>&lt;p&gt;Indicar si el siguiente programa emula el completado de un album de 6 figuritas, &lt;br /&gt;registrando la cantidad  de figuritas requeridas para completarlo. &lt;br /&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;&lt;strong&gt;&lt;span style="color: #ff00ff;"&gt;import&lt;/span&gt; &lt;/strong&gt;random&lt;br /&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;album = [&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;] &lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;contador = 0 &lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;&lt;strong&gt;&lt;span style="color: #ff00ff;"&gt;while&lt;/span&gt; &lt;span style="color: #ff6600;"&gt;sum&lt;/span&gt;&lt;/strong&gt;(album) &amp;lt; &lt;span style="color: #ff9900;"&gt;6&lt;/span&gt;:&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;    figu = random.randint(&lt;span style="color: #ff9900;"&gt;0&lt;/span&gt;,&lt;span style="color: #ff9900;"&gt;3&lt;/span&gt;)&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;    contador = contador + &lt;span style="color: #ff9900;"&gt;1 &lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;    album[figu] = &lt;span style="color: #ff9900;"&gt;1 &lt;/span&gt;&lt;/span&gt;&lt;br /&gt;&lt;span style="font-family: courier new, courier, monospace;"&gt;&lt;strong&gt;&lt;span style="color: #ff6600;"&gt;print&lt;/span&gt;&lt;/strong&gt;(contador)&lt;/span&gt;&lt;/p&gt;</contents>
+        <contentsformat>1</contentsformat>
+        <answers>
+          <answer id="30237">
+            <jumpto>-1</jumpto>
+            <grade>0</grade>
+            <score>1</score>
+            <flags>0</flags>
+            <timecreated>1689976223</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;No&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Exacto! &lt;br /&gt;Aca tenemos un album de 6 figuritas, del 0 al 5, pero solo compramos figus del 0 al 3. Nunca vamos a conseguir completarlo! &lt;br /&gt;Nunca termina el ciclo, siendo que la condicion &lt;span style="font-family: courier new, courier, monospace;"&gt;&lt;span style="color: #ff6600;"&gt;sum&lt;/span&gt;(album) &amp;lt; &lt;span style="color: #ff9900;"&gt;6&lt;/span&gt;&lt;/span&gt; es SIEMPRE verdadera. &lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+          <answer id="30238">
+            <jumpto>0</jumpto>
+            <grade>0</grade>
+            <score>0</score>
+            <flags>0</flags>
+            <timecreated>1689976223</timecreated>
+            <timemodified>0</timemodified>
+            <answer_text>&lt;p&gt;Si&lt;/p&gt;</answer_text>
+            <response>&lt;p&gt;Cuidado! &lt;br /&gt;Aca tenemos un album de 6 figuritas, del 0 al 5, pero solo compramos figus del 0 al 3. Nunca vamos a conseguir completarlo! &lt;br /&gt;Nunca termina el ciclo, siendo que la condicion &lt;span style="font-family: courier new, courier, monospace;"&gt;&lt;span style="color: #ff6600;"&gt;sum&lt;/span&gt;(album) &amp;lt; &lt;span style="color: #ff9900;"&gt;6&lt;/span&gt;&lt;/span&gt; es SIEMPRE verdadera.&lt;br /&gt;&lt;br /&gt;&lt;/p&gt;</response>
+            <answerformat>1</answerformat>
+            <responseformat>1</responseformat>
+            <attempts>
+            </attempts>
+          </answer>
+        </answers>
+        <branches>
+        </branches>
+      </page>
+    </pages>
+    <grades>
+    </grades>
+    <timers>
+    </timers>
+    <overrides>
+    </overrides>
+  </lesson>
+</activity>
