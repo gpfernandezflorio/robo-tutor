@@ -64,13 +64,14 @@ class HandlerAC(moduloHTTPRequest):
         self.end_headers()
 
     def do_GET(self):
-        if (self.path == "/" or self.path == "/index.html"):
+        ruta = self.path.split("?")[0]
+        if (ruta == "/" or ruta == "/index.html"):
             self.archivoStatico('../index.html')
-        # elif (self.path == "/admin"):
+        # elif (ruta == "/admin"):
         #     self.archivoStatico('admin.html')
-        elif (self.path.startswith("/csv")):
-            self.archivoStatico('locales/' + self.path[4:] + '.csv')
-        elif (self.path == "/favicon.ico"):
+        elif (ruta.startswith("/csv")):
+            self.archivoStatico('locales/' + ruta[4:] + '.csv')
+        elif (ruta == "/favicon.ico"):
             self.archivoStatico('../favicon.ico')
         else:
             self.error("[GET] Ruta {} inválida".format(self.path))

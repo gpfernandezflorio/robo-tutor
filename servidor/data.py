@@ -14,16 +14,19 @@ def dame_cursos(jsonObj):
     usuario = jsonObj['usuario']
     contrasenia = jsonObj['contrasenia']
     if loginValido(usuario, contrasenia):
-      respuesta["cursos"] = {}
       respuesta["resultado"] = "OK"
-      respuesta["cursos"] = cursosDeUsuario(usuario)
+      respuesta["cursos"] = cursosDeUsuario(usuario, jsonObj)
   return respuesta
 
-def cursosDeUsuario(usuario):
+def cursosDeUsuario(usuario, jsonObj):
   resultado = {}
   for curso in CURSOS_publico:
     if usuarioEnCurso(usuario, curso):
-      resultado[curso] = CURSOS_publico[curso]
+      resultado[curso] = {"info":CURSOS_publico[curso]["info"]}
+  if 'dataEjs' in jsonObj:
+    agregarDataEjs(resultado)
+  if 'dataCuestionarios' in jsonObj:
+    agregarDataCuestionarios(resultado)
   return resultado
 
 def dameEjercicio(curso, nombreEjercicio):
@@ -69,10 +72,12 @@ def esconderInformacionSensibleCuestionario(cuestionario):
 informacionPublicaCurso = ['nombre','descripcion','anio','edicion','responsable','institucion','lenguaje','lenguaje_display']
 informacionPrivadaCurso = ['ejs','cuestionarios'] # ejs y cuestionarios son privados porque lo trato aparte
 def esconderInformacionSensibleCurso(curso):
-  cursoPublico = {}
+  cursoPublico = {
+    "info":{}
+  }
   for k in curso:
     if k in informacionPublicaCurso:
-      cursoPublico[k] = curso[k]
+      cursoPublico["info"][k] = curso[k]
   cursoPublico["ejs"] = []
   cursoPublico["cuestionarios"] = []
   if "ejs" in curso:
@@ -109,13 +114,69 @@ def tryLogin(jsonObj, verb):
     usuario = jsonObj['usuario']
     contrasenia = jsonObj['contrasenia']
     if loginValido(usuario, contrasenia, curso):
-      respuesta['resultado'] = "OK"
-      respuesta['usuario'] = usuario
-      respuesta['contrasenia'] = contrasenia
-      if not (curso is None):
-        respuesta['cursos'] = {}
-        respuesta['cursos'][curso] = CURSOS_publico[curso]
-        respuesta['curso'] = curso
+      if "ej" in jsonObj and not ejercicioHabilitado(usuario, curso, jsonObj["ej"]):
+        respuesta["msg"] = "DISABLE"
+      elif "cuestionario" in jsonObj and not cuestionarioHabilitado(usuario, curso, jsonObj["cuestionario"]):
+        respuesta["msg"] = "DISABLE"
       else:
-        respuesta['cursos'] = cursosDeUsuario(usuario)
+        respuesta['resultado'] = "OK"
+        respuesta['usuario'] = usuario
+        respuesta['contrasenia'] = contrasenia
+        if curso is None:
+          respuesta['cursos'] = cursosDeUsuario(usuario, jsonObj)
+        else:
+          respuesta['cursos'] = {curso:{"info":CURSOS_publico[curso]["info"]}}
+          respuesta['curso'] = curso
+          if 'dataEjs' in jsonObj or "ej" in jsonObj:
+            agregarDataEjs(respuesta['cursos'], jsonObj)
+          if 'dataCuestionarios' in jsonObj or "cuestionario" in jsonObj:
+            agregarDataCuestionarios(respuesta['cursos'], jsonObj)
   return respuesta
+
+def agregarDataEjs(cursos, jsonObj={}):
+  if "ej" in jsonObj:
+    for curso in cursos:
+      if "ejs" in CURSOS_publico[curso]:
+        cursos[curso]["ejs"] = []
+        ej = elementoDeNombre(CURSOS_publico[curso]["ejs"], jsonObj["ej"])
+        if not (ej is None):
+          cursos[curso]["ejs"].append(ej)
+  else:
+    for curso in cursos:
+      if "ejs" in CURSOS_publico[curso]:
+        cursos[curso]["ejs"] = CURSOS_publico[curso]["ejs"]
+
+def agregarDataCuestionarios(cursos, jsonObj={}):
+  if "cuestionario" in jsonObj:
+    for curso in cursos:
+      if "cuestionarios" in CURSOS_publico[curso]:
+        cursos[curso]["cuestionarios"] = []
+        cuestionario = elementoDeNombre(CURSOS_publico[curso]["cuestionarios"], jsonObj["cuestionario"])
+        if not (cuestionario is None):
+          cursos[curso]["cuestionarios"].append(cuestionario)
+  else:
+    for curso in cursos:
+      if "cuestionarios" in CURSOS_publico[curso]:
+        cursos[curso]["cuestionarios"] = CURSOS_publico[curso]["cuestionarios"]
+
+def elementoDeNombre(lista, nombre):
+  for elemento in lista:
+    if elemento["nombre"] == nombre:
+      return elemento
+  return None
+
+def ejercicioHabilitado(usuario, curso, ejercicio):
+  if curso is None or not (curso in CURSOS_publico):
+    return False
+  if not (ejercicio in CURSOS_publico[curso]):
+    return False
+  # Acá se puede verificar si la fecha del ejercicio ya pasó o si el usuario ya lo resolvió y no lo puede resolver otra vez
+  return True
+
+def cuestionarioHabilitado(usuario, curso, cuestionario):
+  if curso is None or not (curso in CURSOS_publico):
+    return False
+  if not (ejercicio in CURSOS_publico[curso]):
+    return False
+  # Acá se puede verificar si la fecha del ejercicio ya pasó o si el usuario ya lo resolvió y no lo puede resolver otra vez
+  return True

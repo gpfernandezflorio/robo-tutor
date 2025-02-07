@@ -8,7 +8,7 @@
 
     // Para forzar un curso o ejercicio particular (comentar para usar en modo libre)
     // window.force_ej = { curso:'inpr_unq_2023_s1' }; // sólo el curso
-    // window.force_ej = { curso:'inpr_unq_2023_s1', ej:1 }; // el curso y el ejercicio
+    // window.force_ej = { curso:'inpr_unq_2023_s1', ej:'Rosa de los vientos' }; // el curso y el ejercicio
 
     // URL del servidor
     const urlServidor = "https://epli.exp.dc.uba.ar"
@@ -318,7 +318,7 @@
                 dst:pantallaWorkspace
               };
               if ('force_ej' in window) {
-                aCargar = window.force_ej;
+                aCargar = Object.assign(aCargar, window.force_ej);
               }
               let sesionPrevia = localStorage.getItem(`text ${info.dni}`);
               if (sesionPrevia !== null) {
@@ -328,14 +328,14 @@
                 let cursoPrevio = localStorage.getItem(`curso ${info.dni}`);
                 if (cursoPrevio !== null && cursoPrevio !== undefined) {
                   aCargar.curso = cursoPrevio;
-                  if (!('ej' in aCargar)) {
-                    let ejercicioPrevio = localStorage.getItem(`ej ${info.dni}`);
-                    if (ejercicioPrevio !== null && ejercicioPrevio !== undefined) {
-                      aCargar.ej = ejercicioPrevio;
-                    }
-                  }
                 } else {
                   aCargar.dst = cargarCursos
+                }
+              }
+              if ('curso' in aCargar && !('ej' in aCargar)) {
+                let ejercicioPrevio = localStorage.getItem(`ej ${info.dni}`);
+                if (ejercicioPrevio !== null && ejercicioPrevio !== undefined) {
+                  aCargar.ej = ejercicioPrevio;
                 }
               }
               cargarDatos(aCargar);
@@ -352,9 +352,12 @@
             alert("ERROR: resultado faltante");
           }
         };
-        const datos = {usuario, contrasenia};
+        const datos = {usuario, contrasenia, dataEjs:true};
         if ('curso' in info) {
           datos.curso = info.curso;
+          if ('ejercicio' in info) {
+            datos.ej = info.ejercicio;
+          }
         }
         sendRequest('POST', 'login', fLogin, datos);
       }
@@ -440,15 +443,16 @@
         textSet('');
         cerrarPantallaEnunciado();
       } else {
-        if ('dni' in info) { localStorage.setItem(`ej ${info.dni}`, i); }
         const ej = cursos[info.curso].ejs[i];
+        if ('dni' in info) { localStorage.setItem(`ej ${info.dni}`, ej.nombre); }
         cargarEjercicio(ej);
       }
       pantallaWorkspace();
     };
 
     const actualizarNombreEjercicio = function(n) {
-      document.getElementById('ejercicioSeleccionado').innerHTML = (n === undefined ? 'Ninguno' : n)
+      document.getElementById('ejercicioSeleccionado').innerHTML = (n === undefined ? 'Ninguno' : n);
+      document.getElementById("abrirEjercicio").innerHTML = (n === undefined ? 'Abrir' : 'Cambiar');
     };
 
     const actualizaEjercicioSeleccionado = function(ej) {
@@ -483,9 +487,7 @@
         if (k === '0') {
           actualizarNombreCurso();
           delete info.curso;
-          if ('dni' in info) { localStorage.removeItem(`curso ${info.dni}`); }
         } else {
-          if ('dni' in info) { localStorage.setItem(`curso ${info.dni}`, k); }
           actualizaCursoSeleccionado(k);
         }
         seleccionarEjercicio(null);
@@ -495,7 +497,7 @@
 
     const actualizaCursoSeleccionado = function(k) {
       info.curso = k;
-      let curso = cursos[k];
+      let curso = cursos[k]["info"];
       actualizarNombreCurso(curso.nombre);
       if ('lenguaje' in curso) {
         document.getElementById("selectorLenguaje").value = curso.lenguaje;
@@ -510,9 +512,11 @@
         document.getElementById("cursoSeleccionado").innerHTML = "Ninguno";
         document.getElementById("abrirCurso").innerHTML = "Abrir";
         document.getElementById("lenguaje").style.display = 'inline';
+        if ('dni' in info) { localStorage.removeItem(`curso ${info.dni}`); }
       } else {
         document.getElementById("cursoSeleccionado").innerHTML = n;
         document.getElementById("abrirCurso").innerHTML = "Cambiar";
+        if ('dni' in info) { localStorage.setItem(`curso ${info.dni}`, info.curso); }
       }
     };
 
@@ -620,8 +624,8 @@
         let contenidoPantalla = '<h2>Seleccione un curso</h2>';
         // contenidoPantalla += '<button onclick="seleccionarCurso(\'0\');">Libre</button><br/>';
         for (c in cursos) {
-          contenidoPantalla += `<div class="dataCurso"><button onclick="seleccionarCurso('${c}');">${cursos[c].nombre}</button><br/>`;
-          contenidoPantalla += informacionCurso(cursos[c]) + '</div>';
+          contenidoPantalla += `<div class="dataCurso"><button onclick="seleccionarCurso('${c}');">${cursos[c]["info"].nombre}</button><br/>`;
+          contenidoPantalla += informacionCurso(cursos[c]["info"]) + '</div>';
         }
         document.getElementById("seleccionDeCurso").innerHTML = contenidoPantalla /*+
           '<button onclick="pantallaWorkspace();">Cancelar</button>'*/;
@@ -660,7 +664,7 @@
         const failCallback = function() {
           alert("ERROR: falló la comunicación con el servidor");
         };
-        sendRequest('POST', 'cursos', callback, {usuario: info.dni, contrasenia:info.contrasenia}, failCallback);
+        sendRequest('POST', 'cursos', callback, {usuario: info.dni, contrasenia:info.contrasenia, dataEjs:true}, failCallback);
       } else {
         f();
       }
@@ -683,7 +687,8 @@
     };
 
     const cargarEjercicios = function() {
-      let contenidoPantalla = '<button onclick="seleccionarEjercicio(null);">Libre</button><br/>';
+      let contenidoPantalla = '<h2>Seleccione un ejercicio</h2>';
+      contenidoPantalla += '<button onclick="seleccionarEjercicio(null);">Libre</button><br/>';
       let i=0;
       for (ej of cursos[info.curso].ejs) {
         if (ejercicioDisponible(ej)) {
@@ -795,7 +800,7 @@
       var regexS = "[\\?&]"+clave+"=([^&#]*)";
       var regex = new RegExp( regexS );
       var results = regex.exec( url );
-      return results === null ? null : results[1];
+      return results === null ? null : results[1].replace("%20"," ");
     };
 
     textarea.addEventListener('keydown', function(e) {
@@ -889,7 +894,12 @@
         pedirCursos(function() {
           actualizaCursoSeleccionado(aCargar.curso);
           if ('ej' in aCargar) {
-            actualizaEjercicioSeleccionado(cursos[info.curso].ejs[aCargar.ej]);
+            let ejercicio = ejercicioDeNombre(cursos[info.curso].ejs, aCargar.ej);
+            if (ejercicio === null) {
+              seleccionarEjercicio(null);
+            } else {
+              actualizaEjercicioSeleccionado(ejercicio);
+            }
           } else {
             seleccionarEjercicio(null);
           }
@@ -900,12 +910,32 @@
       if ('text' in aCargar) {
         textSet(aCargar.text);
       }
-    }
+    };
+
+    const ejercicioDeNombre = function(ejs, nombre) {
+      for (let ej of ejs) {
+        if (ej.nombre == nombre) {
+          return ej;
+        }
+      }
+      return null;
+    };
 
     const cambiarDni = function() {
       cerrarPantallaEnunciado();
       pedirDni();
     };
+
+    const cursoSolicitado = parametroURL('curso');
+    if (cursoSolicitado !== null) {
+      window.force_ej = {curso: cursoSolicitado};
+      document.getElementById("abrirCurso").style.display = 'none';
+      const ejSolicitado = parametroURL('ej');
+      if (ejSolicitado !== null) {
+        window.force_ej.ej = ejSolicitado;
+        document.getElementById("abrirEjercicio").style.display = 'none';
+      }
+    }
 
     textarea.addEventListener('keyup', actualizarNúmerosDeLinea)
   </script>
