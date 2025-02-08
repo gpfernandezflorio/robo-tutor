@@ -8,6 +8,17 @@ from cursos.unq_inpr import CURSOS as cursos_unq_inpr
 from cursos.exactas_programa import CURSOS as cursos_exactas_programa
 from cursos.taller_programacion import CURSOS as cursos_taller_programacion
 
+CURSOS = {}
+
+for c in cursos_unq_inpr:
+  CURSOS[c] = cursos_unq_inpr[c]
+
+for c in cursos_exactas_programa:
+  CURSOS[c] = cursos_exactas_programa[c]
+
+for c in cursos_taller_programacion:
+  CURSOS[c] = cursos_taller_programacion[c]
+
 def dame_cursos(jsonObj):
   respuesta = {'resultado':"Falla"}
   if 'usuario' in jsonObj and 'contrasenia' in jsonObj:
@@ -29,28 +40,17 @@ def cursosDeUsuario(usuario, jsonObj):
     agregarDataCuestionarios(resultado)
   return resultado
 
-def dameEjercicio(curso, nombreEjercicio):
+def dameEjercicio(curso, idEjercicio):
   if curso in CURSOS:
     for ejercicio in CURSOS[curso]["ejs"]:
-      if ejercicio["nombre"] == nombreEjercicio:
+      if ejercicio["id"] == idEjercicio:
         return ejercicio
   return {}
-
-CURSOS = {}
-
-for c in cursos_unq_inpr:
-  CURSOS[c] = cursos_unq_inpr[c]
-
-for c in cursos_exactas_programa:
-  CURSOS[c] = cursos_exactas_programa[c]
-
-for c in cursos_taller_programacion:
-  CURSOS[c] = cursos_taller_programacion[c]
 
 CURSOS_publico = {}
 
 informacionPrivadaEjercicio = ["pre","run_data","aridad","timeout"]
-informacionPublicaEjercicio = ["nombre","enunciado","base","pidePrograma"] # pidePrograma es público porque lo usa el cliente para armar el mensaje de error
+informacionPublicaEjercicio = ["id","nombre","enunciado","base","pidePrograma"] # pidePrograma es público porque lo usa el cliente para armar el mensaje de error
 def esconderInformacionSensibleEjercicio(ejercicio):
   ejercicioPublico = {}
   for k in ejercicio:
@@ -61,7 +61,7 @@ def esconderInformacionSensibleEjercicio(ejercicio):
   return ejercicioPublico
 
 informacionPrivadaCuestionario = ["preguntas","file_moodle","data_moodle"]
-informacionPublicaCuestionario = ["nombre","solo_preguntas","solo_respuestas"]
+informacionPublicaCuestionario = ["id","nombre","solo_preguntas","solo_respuestas"]
 def esconderInformacionSensibleCuestionario(cuestionario):
   cuestionarioPublico = {}
   for k in cuestionario:
@@ -138,7 +138,7 @@ def agregarDataEjs(cursos, jsonObj={}):
     for curso in cursos:
       if "ejs" in CURSOS_publico[curso]:
         cursos[curso]["ejs"] = []
-        ej = elementoDeNombre(CURSOS_publico[curso]["ejs"], jsonObj["ej"])
+        ej = elementoDeId(CURSOS_publico[curso]["ejs"], jsonObj["ej"])
         if not (ej is None):
           cursos[curso]["ejs"].append(ej)
   else:
@@ -151,7 +151,7 @@ def agregarDataCuestionarios(cursos, jsonObj={}):
     for curso in cursos:
       if "cuestionarios" in CURSOS_publico[curso]:
         cursos[curso]["cuestionarios"] = []
-        cuestionario = elementoDeNombre(CURSOS_publico[curso]["cuestionarios"], jsonObj["cuestionario"])
+        cuestionario = elementoDeId(CURSOS_publico[curso]["cuestionarios"], jsonObj["cuestionario"])
         if not (cuestionario is None):
           cursos[curso]["cuestionarios"].append(cuestionario)
   else:
@@ -159,16 +159,17 @@ def agregarDataCuestionarios(cursos, jsonObj={}):
       if "cuestionarios" in CURSOS_publico[curso]:
         cursos[curso]["cuestionarios"] = CURSOS_publico[curso]["cuestionarios"]
 
-def elementoDeNombre(lista, nombre):
+def elementoDeId(lista, id):
   for elemento in lista:
-    if elemento["nombre"] == nombre:
+    if elemento["id"] == id:
       return elemento
   return None
 
 def ejercicioHabilitado(usuario, curso, ejercicio):
   if curso is None or not (curso in CURSOS_publico):
     return False
-  if not (ejercicio in CURSOS_publico[curso]):
+  ejercicio = elementoDeId(CURSOS_publico[curso]["ejs"], ejercicio)
+  if ejercicio is None:
     return False
   # Acá se puede verificar si la fecha del ejercicio ya pasó o si el usuario ya lo resolvió y no lo puede resolver otra vez
   return True
@@ -176,7 +177,60 @@ def ejercicioHabilitado(usuario, curso, ejercicio):
 def cuestionarioHabilitado(usuario, curso, cuestionario):
   if curso is None or not (curso in CURSOS_publico):
     return False
-  if not (ejercicio in CURSOS_publico[curso]):
+  cuestionario = elementoDeId(CURSOS_publico[curso]["cuestionarios"], cuestionario)
+  if cuestionario is None:
     return False
-  # Acá se puede verificar si la fecha del ejercicio ya pasó o si el usuario ya lo resolvió y no lo puede resolver otra vez
+  # Acá se puede verificar si la fecha del cuestionario ya pasó o si el usuario ya lo respondió y no lo puede responder otra vez
   return True
+
+def dame_data_cuestionario(ruta):
+  respuesta = {'resultado':"Falla"}
+  data = ruta.split("/")
+  if len(data) == 2:
+    curso = data[0]
+    if curso in CURSOS_publico:
+      curso = CURSOS_publico[curso]
+      if "cuestionarios" in curso:
+        cuestionario = elementoDeId(curso["cuestionarios"], data[1])
+        if not (cuestionario is None):
+          respuesta["resultado"] = "OK"
+          respuesta["cuestionario"] = {
+            "nombre": cuestionario["nombre"],
+            "preguntas": cuestionario["solo_preguntas"]
+          }
+  return respuesta
+
+def respuestaCuestionario(jsonObj):
+  resultado = {'resultado':"Falla"}
+  if all(map(lambda x : x in jsonObj, ['usuario', 'contrasenia', 'curso', 'cuestionario', 'nPregunta', 'respuesta'])):
+    usuario = jsonObj['usuario']
+    contrasenia = jsonObj['contrasenia']
+    curso = jsonObj['curso']
+    if loginValido(usuario, contrasenia, curso):
+      cuestionario = jsonObj['cuestionario']
+      if cuestionarioHabilitado(usuario, curso, cuestionario):
+        cuestionario = elementoDeId(CURSOS[curso]["cuestionarios"], cuestionario)
+        nPregunta = jsonObj['nPregunta']
+        if "preguntas" in cuestionario and nPregunta < len(cuestionario["preguntas"]):
+          pregunta = cuestionario["preguntas"][nPregunta]
+          respuesta = jsonObj['respuesta']
+          devolucion = validarRespuesta(pregunta, respuesta)
+          resultado["resultado"] = "OK"
+          resultado["devolucion"] = devolucion
+          commit(usuario, curso, cuestionario["id"], nPregunta, respuesta)
+  return resultado
+
+def validarRespuesta(pregunta, respuesta):
+  resultado = {}
+  if pregunta["tipo"] == "OPCION_MULTIPLE":
+    # respuesta es un número
+    # TODO: Ver si hay respuesta correcta en la pregunta
+      # Agregar ese campo cuando parseo el cuestionario
+    # resultado["correcto"] = ...
+    respuesta = pregunta["respuestas"][respuesta]
+    if "devolucion" in respuesta:
+      resultado["texto"] = respuesta["devolucion"]
+  return resultado
+
+def commit(usuario, curso, cuestionario, nPregunta, respuesta):
+  pass # TODO: guardarlo en locales y en un form de Google que dependa del curso

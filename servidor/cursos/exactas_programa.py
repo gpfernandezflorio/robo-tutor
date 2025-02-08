@@ -3,6 +3,7 @@
 from cursos.cursos import cargarCuestionarioMoodle, organizarPreguntasYRespuestas
 
 figus_1_cantidadNecesaria = {
+  "id":"Figus1",
   "nombre":"Figus 1",
   "enunciado":"Sabiendo que está definida la función <code>dado(cantidadDeCaras)</code>, que al invocarla devuelve un número entre <code>0</code> y <code>cantidadDeCaras-1</code>, inclusive, implementar la función <code>cantidadDeFigusNecesaria(tamanioAlbum)</code> que genere un álbum de tamaño <code>tamanioAlbum</code>, simule su llenado y devuelva la cantidad de figuritas que se debieron adquirir para completarlo.",
   "aridad":{"cantidadDeFigusNecesaria":1},
@@ -20,6 +21,7 @@ figus_1_cantidadNecesaria = {
 }
 
 figus_2_promedio = {
+  "id":"Figus2",
   "nombre":"Figus 2",
   "enunciado":"Teniendo ya definda la función <code>cantidadDeFigusNecesaria</code> del ejercicio anterior, implementar la función <code>cantidadDeFigusPromedio(tamanioAlbum,cantidadDeRepeticiones)</code> que tome por parámetros el tamaño del álbum (<code>tamanioAlbum</code>) y la cantidad de repeticiones que queremos hacer (<code>cantidadDeRepeticiones</code>). Debe devolver por medio de la instrucción <code>return</code> el promedio de los valores obtenidos a lo largo de las <code>cantidadDeRepeticiones</code> simulaciones realizadas para completar un álbum de tamaño <code>tamanioAlbum</code>.",
   "aridad":{"cantidadDeFigusPromedio":2},
@@ -37,6 +39,7 @@ figus_2_promedio = {
 }
 
 figus_3_esperanza = {
+  "id":"Figus3",
   "nombre":"Figus 3",
   "enunciado":"Implementar una función llamada <code>cantidadDeFigusEsperada</code> que tenga por parámetro el tamaño del álbum (<code>tamanioAlbum</code>). Debe devolver la cantidad esperada que propone la matemática, presentada en la fórmula (1).",
   "aridad":{"cantidadDeFigusEsperada":1},
@@ -48,6 +51,7 @@ figus_3_esperanza = {
 }
 
 figus_4_chance = {
+  "id":"Figus4",
   "nombre":"Figus 4",
   "enunciado":"Implemente una funcion llamada <code>chanceDeCompletarAlbum(resultados, cantidadMaxima)</code> donde <code>resultados</code> representa una lista con la cantidad de figuritas que tuvimos que comprar para llenar el album, mientras que <code>cantidadMaxima</code> denota la canditad máxima de de figus que podemos comprar. Debe devolver las chances de completar un álbum pudiendo comprar a lo sumo <code>cantidadMaxima</code> figuritas. Utilizando la lista <code>resultados</code>, calcular el cociente entre la cantidad de veces que <code>cantidadMaxima</code> sirve para completar el álbum, dividido la cantidad de elementos que hay en <code>resultados</code>.",
   "aridad":{"chanceDeCompletarAlbum":2},
@@ -61,6 +65,7 @@ figus_4_chance = {
 }
 
 figus_5_simulacion_chance = {
+  "id":"Figus5",
   "nombre":"Figus 5",
   "enunciado":"Implementar la función <code>chanceSimulada(tamanioAlbum,cantidadMaxima,cantidadDeRepeticiones)</code> que tome por parámetros el tamaño del álbum (<code>tamanioAlbum</code>) la cantidad máxima de figus que se pueden comprar (<code>cantidadMaxima</code>) y la cantidad de repeticiones que queremos hacer (<code>cantidadDeRepeticiones</code>). Debe devolver por medio de la instrucción <code>return</code> la chance de completar un álbum de tamaño <code>tamanioAlbum</code>, si puedo compar a lo suma <code>cantidadMaxima</code>, calculada por medio de una simulación de <code>cantidadDeRepeticiones</code> llenados de álbum. Como en el primer ejercicio, está definida la función <code>dado(cantidadDeCaras)</code>, que al invocarla devuelve un número entre <code>0</code> y <code>cantidadDeCaras-1</code>, inclusive",
   "aridad":{"chanceSimulada":3},
@@ -75,30 +80,37 @@ figus_5_simulacion_chance = {
 }
 
 AsignacionesYListas2023I = {
+  "id":"AsignacionesYListas",
   "file_moodle":"exactas_programa_2023_I/AsignacionesYListas.xml"
 }
 
+ListasYFigus2023I = {
+  "id":"ListasYFigus",
+  "file_moodle":"exactas_programa_2023_I/ListasYFigus.xml"
+}
+
+Funciones2023I = {
+  "id":"Funciones",
+  "file_moodle":"exactas_programa_2023_I/Funciones.xml"
+}
+
 CiclosYCondiciones2023I = {
+  "id":"CiclosYCondiciones",
   "file_moodle":"exactas_programa_2023_I/CiclosYCondiciones.xml"
 }
 
 CiclosYFigus2023I = {
+  "id":"CiclosYFigus",
   "file_moodle":"exactas_programa_2023_I/CiclosYFigus.xml"
 }
 
-Funciones2023I = {
-  "file_moodle":"exactas_programa_2023_I/Funciones.xml"
-}
-
-ListasYFigus2023I = {
-  "file_moodle":"exactas_programa_2023_I/ListasYFigus.xml"
-}
-
 MasFunciones2023I = {
+  "id":"MasFunciones",
   "file_moodle":"exactas_programa_2023_I/MasFunciones.xml"
 }
 
 OperadoresLogicos2023I = {
+  "id":"OperadoresLogicos",
   "file_moodle":"exactas_programa_2023_I/OperadoresLogicos.xml"
 }
 
@@ -116,7 +128,7 @@ CURSOS = {
     "lenguaje":"Python",
     "lenguaje_display":"none",
     "ejs":[figus_1_cantidadNecesaria,figus_2_promedio,figus_3_esperanza,figus_4_chance,figus_5_simulacion_chance],
-    "cuestionarios":[AsignacionesYListas2023I,CiclosYCondiciones2023I,CiclosYFigus2023I,Funciones2023I,ListasYFigus2023I,MasFunciones2023I,OperadoresLogicos2023I]
+    "cuestionarios":[AsignacionesYListas2023I,ListasYFigus2023I,Funciones2023I,CiclosYCondiciones2023I,CiclosYFigus2023I,MasFunciones2023I,OperadoresLogicos2023I]
   },
   "exactas_programa_2025_V":{
     "nombre":"Exactas Programa Verano 2025",

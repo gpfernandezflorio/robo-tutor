@@ -359,6 +359,14 @@
             datos.ej = info.ejercicio;
           }
         }
+        if ('force_ej' in window) {
+          if ('curso' in window.force_ej) {
+            datos.curso = window.force_ej.curso;
+            if ('ej' in window.force_ej) {
+              datos.ej = window.force_ej.ej;
+            }
+          }
+        }
         sendRequest('POST', 'login', fLogin, datos);
       }
     };
@@ -444,7 +452,7 @@
         cerrarPantallaEnunciado();
       } else {
         const ej = cursos[info.curso].ejs[i];
-        if ('dni' in info) { localStorage.setItem(`ej ${info.dni}`, ej.nombre); }
+        if ('dni' in info) { localStorage.setItem(`ej ${info.dni}`, ej.id); }
         cargarEjercicio(ej);
       }
       pantallaWorkspace();
@@ -463,7 +471,7 @@
       if ('dni' in info) {
         let jsonObj = {
           dni: info.dni,
-          ejercicio: ej.nombre,
+          ejercicio: ej.id,
         };
         sendRequest('POST', 'open', function() {}, jsonObj);
       }
@@ -573,7 +581,7 @@
       if ('ejercicio' in info) {
         if ('curso' in info) {
           jsonObj.curso = info.curso;
-          jsonObj.ejercicio = info.ejercicio.nombre;
+          jsonObj.ejercicio = info.ejercicio.id;
         } else {
           jsonObj.ejercicio = info.ejercicio;
         }
@@ -894,7 +902,7 @@
         pedirCursos(function() {
           actualizaCursoSeleccionado(aCargar.curso);
           if ('ej' in aCargar) {
-            let ejercicio = ejercicioDeNombre(cursos[info.curso].ejs, aCargar.ej);
+            let ejercicio = ejercicioDeId(cursos[info.curso].ejs, aCargar.ej);
             if (ejercicio === null) {
               seleccionarEjercicio(null);
             } else {
@@ -912,9 +920,9 @@
       }
     };
 
-    const ejercicioDeNombre = function(ejs, nombre) {
+    const ejercicioDeId = function(ejs, id) {
       for (let ej of ejs) {
-        if (ej.nombre == nombre) {
+        if (ej.id == id) {
           return ej;
         }
       }

@@ -88,8 +88,8 @@ def ordenarLecciones(cuestionario):
 def limpiarXML(textoOriginal):
   return textoOriginal.replace('&lt;','<').replace('&gt;','>')
 
-informacionPrivadaPregunta = ["tipo","tipoMoodle","respuestas"]
-informacionPublicaPregunta = ["titulo","pregunta"]
+informacionPrivadaPregunta = ["respuestas"]
+informacionPublicaPregunta = ["titulo","tipo","tipoMoodle","pregunta"]
 
 informacionPrivadaRespuesta = ["devolucion"]
 informacionPublicaRespuesta = ["texto"]

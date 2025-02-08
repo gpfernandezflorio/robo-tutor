@@ -14,7 +14,7 @@ import json
 import socket
 from corrector import run_code, open_ej
 from admin import admin_reset
-from data import dame_cursos, tryLogin
+from data import dame_cursos, tryLogin, dame_data_cuestionario, respuestaCuestionario
 
 try: # python 3
     from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -69,8 +69,10 @@ class HandlerAC(moduloHTTPRequest):
             self.archivoStatico('../index.html')
         # elif (ruta == "/admin"):
         #     self.archivoStatico('admin.html')
-        elif (ruta.startswith("/csv")):
+        elif (ruta.startswith("/csv/")):
             self.archivoStatico('locales/' + ruta[4:] + '.csv')
+        elif (ruta.startswith("/cuestionario/")):
+            self.responder(dame_data_cuestionario(ruta[14:]))
         elif (ruta == "/favicon.ico"):
             self.archivoStatico('../favicon.ico')
         else:
@@ -90,6 +92,8 @@ class HandlerAC(moduloHTTPRequest):
             self.responder(open_ej(jsonObject, verb))
         elif (self.path == "/code"):
             self.responder(run_code(jsonObject, verb))
+        elif (self.path == "/answer"):
+            self.responder(respuestaCuestionario(jsonObject))
         elif (self.path == "/login"):
             self.responder(tryLogin(jsonObject, verb))
         elif (self.path == "/cursos"):

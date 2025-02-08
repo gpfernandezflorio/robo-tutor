@@ -37,6 +37,8 @@ def completarDataEjercicio(jsonObj):
         del jsonObj[k]
 
 def run_code(jsonObj, v):
+  # TODO: verificar ejercicioHabilitado(usuario, curso, ejercicio)
+    # Tengo que agregar esos campos en el front
   if (not ("src" in jsonObj)):
     if (v):
       print("Falta src")
@@ -316,9 +318,11 @@ entries = {
 }
 
 def commit(jsonObj, v):
+  # TODO: Que el form de Google dependa del curso
+    # Tengo que agregar ese campos en el front
   if "ejercicio" in jsonObj:
     if type(jsonObj["ejercicio"]) == type({}):
-      jsonObj["ejercicio"] = jsonObj["ejercicio"]["nombre"]
+      jsonObj["ejercicio"] = jsonObj["ejercicio"]["id"]
   else:
     jsonObj["ejercicio"] = "-"
   # data_form = {}
