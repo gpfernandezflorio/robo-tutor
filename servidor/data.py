@@ -2,6 +2,7 @@
 
 import os, json
 from users import loginValido, cargarUsuariosEnCurso, usuarioEnCurso
+from cursos.cursos import cargarCuestionarioMoodle, organizarPreguntasYRespuestas
 
 # CURSOS:
 from cursos.unq_inpr import CURSOS as cursos_unq_inpr
@@ -36,23 +37,21 @@ def cursosDeUsuario(usuario, jsonObj):
       resultado[curso] = {"info":CURSOS_publico[curso]["info"]}
   if 'dataEjs' in jsonObj:
     agregarDataEjs(resultado)
-  if 'dataCuestionarios' in jsonObj:
-    agregarDataCuestionarios(resultado)
   return resultado
 
 def dameEjercicio(curso, idEjercicio):
-  if curso in CURSOS:
-    for ejercicio in CURSOS[curso]["ejs"]:
-      if ejercicio["id"] == idEjercicio:
-        return ejercicio
-  return {}
+  if curso in CURSOS and 'actividades' in CURSOS[curso]:
+    ejercicio = elementoDeId(CURSOS[curso]["actividades"], idEjercicio)
+    if ejercicio is None:
+      return {}
+  return ejercicio
 
 CURSOS_publico = {}
 
 informacionPrivadaEjercicio = ["pre","run_data","aridad","timeout"]
 informacionPublicaEjercicio = ["id","nombre","enunciado","base","pidePrograma"] # pidePrograma es público porque lo usa el cliente para armar el mensaje de error
 def esconderInformacionSensibleEjercicio(ejercicio):
-  ejercicioPublico = {}
+  ejercicioPublico = {"tipo":"CODIGO"}
   for k in ejercicio:
     if k in informacionPublicaEjercicio:
       ejercicioPublico[k] = ejercicio[k]
@@ -63,14 +62,14 @@ def esconderInformacionSensibleEjercicio(ejercicio):
 informacionPrivadaCuestionario = ["preguntas","file_moodle","data_moodle"]
 informacionPublicaCuestionario = ["id","nombre","solo_preguntas","solo_respuestas"]
 def esconderInformacionSensibleCuestionario(cuestionario):
-  cuestionarioPublico = {}
+  cuestionarioPublico = {"tipo":"CUESTIONARIO"}
   for k in cuestionario:
     if k in informacionPublicaCuestionario:
       cuestionarioPublico[k] = cuestionario[k]
   return cuestionarioPublico
 
 informacionPublicaCurso = ['nombre','descripcion','anio','edicion','responsable','institucion','lenguaje','lenguaje_display']
-informacionPrivadaCurso = ['ejs','cuestionarios'] # ejs y cuestionarios son privados porque lo trato aparte
+informacionPrivadaCurso = ['actividades'] # es privada porque la trato aparte (hay que ocultar la información sensible)
 def esconderInformacionSensibleCurso(curso):
   cursoPublico = {
     "info":{}
@@ -78,16 +77,17 @@ def esconderInformacionSensibleCurso(curso):
   for k in curso:
     if k in informacionPublicaCurso:
       cursoPublico["info"][k] = curso[k]
-  cursoPublico["ejs"] = []
-  cursoPublico["cuestionarios"] = []
-  if "ejs" in curso:
-    for ej in curso["ejs"]:
-      if not ("mostrar" in ej) or ej["mostrar"]:
-        cursoPublico["ejs"].append(esconderInformacionSensibleEjercicio(ej))
-  if "cuestionarios" in curso:
-    for cuestionario in curso["cuestionarios"]:
-      if not ("mostrar" in cuestionario) or cuestionario["mostrar"]:
-        cursoPublico["cuestionarios"].append(esconderInformacionSensibleCuestionario(cuestionario))
+  cursoPublico["todas_las_actividades"] = []
+  if "actividades" in curso:
+    for actividad in curso["actividades"]:
+      if actividad["tipo"] == "CODIGO":
+        cursoPublico["todas_las_actividades"].append(esconderInformacionSensibleEjercicio(actividad))
+      elif actividad["tipo"] == "CUESTIONARIO":
+        if "file_moodle" in actividad:
+          cargarCuestionarioMoodle(actividad)
+        organizarPreguntasYRespuestas(actividad)
+        cursoPublico["todas_las_actividades"].append(esconderInformacionSensibleCuestionario(actividad))
+      cursoPublico["todas_las_actividades"]
   return cursoPublico
 
 def timeoutDefault():
@@ -114,9 +114,7 @@ def tryLogin(jsonObj, verb):
     usuario = jsonObj['usuario']
     contrasenia = jsonObj['contrasenia']
     if loginValido(usuario, contrasenia, curso):
-      if "ej" in jsonObj and not ejercicioHabilitado(usuario, curso, jsonObj["ej"]):
-        respuesta["msg"] = "DISABLE"
-      elif "cuestionario" in jsonObj and not cuestionarioHabilitado(usuario, curso, jsonObj["cuestionario"]):
+      if "actividad" in jsonObj and not actividadHabilitada(usuario, curso, jsonObj["actividad"]):
         respuesta["msg"] = "DISABLE"
       else:
         respuesta['resultado'] = "OK"
@@ -127,37 +125,25 @@ def tryLogin(jsonObj, verb):
         else:
           respuesta['cursos'] = {curso:{"info":CURSOS_publico[curso]["info"]}}
           respuesta['curso'] = curso
-          if 'dataEjs' in jsonObj or "ej" in jsonObj:
+          if 'dataEjs' in jsonObj or "actividad" in jsonObj:
             agregarDataEjs(respuesta['cursos'], jsonObj)
-          if 'dataCuestionarios' in jsonObj or "cuestionario" in jsonObj:
-            agregarDataCuestionarios(respuesta['cursos'], jsonObj)
   return respuesta
 
 def agregarDataEjs(cursos, jsonObj={}):
-  if "ej" in jsonObj:
+  if "actividad" in jsonObj:
     for curso in cursos:
-      if "ejs" in CURSOS_publico[curso]:
-        cursos[curso]["ejs"] = []
-        ej = elementoDeId(CURSOS_publico[curso]["ejs"], jsonObj["ej"])
+      if "todas_las_actividades" in CURSOS_publico[curso]:
+        ej = elementoDeId(CURSOS_publico[curso]["todas_las_actividades"], jsonObj["actividad"])
         if not (ej is None):
-          cursos[curso]["ejs"].append(ej)
+          if not ("actividades" in cursos[curso]):
+            cursos[curso]["actividades"] = []
+          cursos[curso]["actividades"].append(ej)
   else:
     for curso in cursos:
-      if "ejs" in CURSOS_publico[curso]:
-        cursos[curso]["ejs"] = CURSOS_publico[curso]["ejs"]
-
-def agregarDataCuestionarios(cursos, jsonObj={}):
-  if "cuestionario" in jsonObj:
-    for curso in cursos:
-      if "cuestionarios" in CURSOS_publico[curso]:
-        cursos[curso]["cuestionarios"] = []
-        cuestionario = elementoDeId(CURSOS_publico[curso]["cuestionarios"], jsonObj["cuestionario"])
-        if not (cuestionario is None):
-          cursos[curso]["cuestionarios"].append(cuestionario)
-  else:
-    for curso in cursos:
-      if "cuestionarios" in CURSOS_publico[curso]:
-        cursos[curso]["cuestionarios"] = CURSOS_publico[curso]["cuestionarios"]
+      if "todas_las_actividades" in CURSOS_publico[curso]:
+        if not ("actividades" in cursos[curso]):
+          cursos[curso]["actividades"] = []
+        cursos[curso]["actividades"] += CURSOS_publico[curso]["todas_las_actividades"]
 
 def elementoDeId(lista, id):
   for elemento in lista:
@@ -165,21 +151,23 @@ def elementoDeId(lista, id):
       return elemento
   return None
 
-def ejercicioHabilitado(usuario, curso, ejercicio):
+def actividadHabilitada(usuario, curso, actividad):
   if curso is None or not (curso in CURSOS_publico):
     return False
-  ejercicio = elementoDeId(CURSOS_publico[curso]["ejs"], ejercicio)
-  if ejercicio is None:
+  actividad = elementoDeId(CURSOS_publico[curso]["todas_las_actividades"], actividad)
+  if actividad is None:
     return False
+  if actividad["tipo"] == "CODIGO":
+    return ejercicioHabilitado(usuario, actividad)
+  elif actividad["tipo"] == "CUESTIONARIO":
+    return cuestionarioHabilitado(usuario, actividad)
+  return False
+
+def ejercicioHabilitado(usuario, ejercicio):
   # Acá se puede verificar si la fecha del ejercicio ya pasó o si el usuario ya lo resolvió y no lo puede resolver otra vez
   return True
 
-def cuestionarioHabilitado(usuario, curso, cuestionario):
-  if curso is None or not (curso in CURSOS_publico):
-    return False
-  cuestionario = elementoDeId(CURSOS_publico[curso]["cuestionarios"], cuestionario)
-  if cuestionario is None:
-    return False
+def cuestionarioHabilitado(usuario, cuestionario):
   # Acá se puede verificar si la fecha del cuestionario ya pasó o si el usuario ya lo respondió y no lo puede responder otra vez
   return True
 
@@ -190,8 +178,8 @@ def dame_data_cuestionario(ruta):
     curso = data[0]
     if curso in CURSOS_publico:
       curso = CURSOS_publico[curso]
-      if "cuestionarios" in curso:
-        cuestionario = elementoDeId(curso["cuestionarios"], data[1])
+      if "todas_las_actividades" in curso:
+        cuestionario = elementoDeId(curso["todas_las_actividades"], data[1])
         if not (cuestionario is None):
           respuesta["resultado"] = "OK"
           respuesta["cuestionario"] = {
@@ -209,7 +197,7 @@ def respuestaCuestionario(jsonObj):
     if loginValido(usuario, contrasenia, curso):
       cuestionario = jsonObj['cuestionario']
       if cuestionarioHabilitado(usuario, curso, cuestionario):
-        cuestionario = elementoDeId(CURSOS[curso]["cuestionarios"], cuestionario)
+        cuestionario = elementoDeId(CURSOS[curso]["actividades"], cuestionario)
         nPregunta = jsonObj['nPregunta']
         if "preguntas" in cuestionario and nPregunta < len(cuestionario["preguntas"]):
           pregunta = cuestionario["preguntas"][nPregunta]

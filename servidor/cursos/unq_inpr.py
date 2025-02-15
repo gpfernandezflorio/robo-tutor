@@ -40,6 +40,7 @@ def iniGobi(a): # Tablero inicial Gobi en piso a
 '''
 
 superGobi64_2 = {
+  "tipo":"CODIGO",
   "id":"SuperGobi64_2",
   "nombre":"Súper Gobi 64 - Parte 2",
   "enunciado":"En el ejercicio anterior mencionamos que, además de Gobi, en el tablero 3D hay enemigos. Cada enemigo tiene un color y nivel de poder. Algunos de estos enemigos son jefes. Para completar un nivel, Gobi debe derrotar a todos los jefes. Escribir la función cantidadDeJefesEnEstePiso que describe la cantidad de jefes que hay en el piso actual. Los jefes son aquellos enemigos que tienen al menos un minion de cada color. Los minions también son enemigos pero para que un enemigo sea minion de un jefe tiene que pasar que su poder sea menor, que estén en el mismo piso y que estén en la misma fila o en la misma columna. Notar que un mismo enemigo puede ser minion de más de un jefe y que los jefes pueden a su vez ser minions de otros jefes más fuertes. Además de todas las primitivas dadas en el ejercico anterior se cuenta también con hayEnemigo, poderDelEnemigo y colorDelEnemigo.",
@@ -54,6 +55,7 @@ superGobi64_2 = {
 }
 
 gobFS_1 = {
+  "tipo":"CODIGO",
   "id":"GobFS_1",
   "nombre":"GobFS - Parte 1",
   "enunciado":"-",
@@ -101,6 +103,7 @@ procedure PROCEDIMIENTO2() {
 }
 
 superGobi64_1 = {
+  "tipo":"CODIGO",
   "id":"SuperGobi64_1",
   "nombre":"Súper Gobi 64 - Parte 1",
   "enunciado":"-",
@@ -108,6 +111,7 @@ superGobi64_1 = {
 }
 
 rutera_1 = {
+  "tipo":"CODIGO",
   "id":"Rutera1",
   "nombre":"Rutera - parte 1",
   "enunciado":"-",
@@ -118,11 +122,11 @@ rutera_1 = {
   },{
     "tablero":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[v,ns(2)],[ns(2),ns(2)]]},
     "post":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[rt(1),ns(2)],[ns(2),ns(2)]]},
-  }],
-  "mostrar":False
+  }]
 }
 
 rutera_2 = {
+  "tipo":"CODIGO",
   "id":"Rutera2",
   "nombre":"Rutera - parte 2",
   "enunciado":"-",
@@ -142,11 +146,11 @@ rutera_2 = {
   },{
     "tablero":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[v,ns(2)],[ns(2),ns(2)]]},
     "post":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[rt(2),ns(2)],[ns(2),ns(2)]]},
-  }],
-  "mostrar":False
+  }]
 }
 
 p_3_4 = {
+  "tipo":"CODIGO",
   "id":"P34",
   "nombre":"Presente 3/4",
   "enunciado":"El ejercicio 5 de la práctica 4 pero permitiendo que la palabra no comience sobre el borde Oeste.",
@@ -157,11 +161,11 @@ p_3_4 = {
   },{
     "tablero":{"head":[1,0],"width":5,"height":2,"board":[[v,v],[rs(3),v],[ns(98),v],[ns(103),v],[ns(98),v]]},
     "post":{"head":[1,0],"width":5,"height":2,"board":[[v,v],[rs(3),v],[ns(98),ns(66)],[ns(103),ns(71)],[ns(98),ns(66)]]},
-  }],
-  "mostrar":False
+  }]
 }
 
 p_30_3 = {
+  "tipo":"CODIGO",
   "id":"P303",
   "nombre":"Presente 30/3",
   "enunciado":"Escribir un programa que construya una ciudad escalera de tamaño 3 desde la celda actual hacia el Oeste. El cabezal debe finalizar sobre el edificio más alto de la ciudad construida.\n\nUna ciudad es sólo una hilera de edificios consecutivos y su tamaño es la cantidad de edificios que tiene. Decimos que una ciudad es \"escalera\" si al recorrerla de Oeste a Este, el primero de sus edificios tiene dos pisos de altura y cada uno de los demás tiene un piso de altura más que el edificio anterior.\n\nCada edificio ocupa una celda del tablero y se representa con una bolita verde y tantas bolitas rojas como pisos este tenga.",
@@ -170,11 +174,11 @@ p_30_3 = {
     "tablero":{"head":[3,1],"width":5,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v],[v,v,v],[v,v,v]]},
     "post":{"head":[3,1],"width":5,"height":3,"board":[[v,v,v],[v,ed(2),v],[v,ed(3),v],[v,ed(4),v],[v,v,v]]},
   }],
-  "pidePrograma": True,
-  "mostrar":False
+  "pidePrograma": True
 }
 
 ajedrez_1 = {
+  "tipo":"CODIGO",
   "id":"Ajedrez_1",
   "nombre":"Ajedrez - Parte 1",
   "enunciado":"Suponiendo que se encuentran definidos los procedimientos PintarBlanco y PintarNegro que pintan la celda actual de blanco y de negro respectivamente, escribir el procedimiento PintarTableroDeAjedrez que, suponiendo que el tablero tiene exactamente 8 filas y 8 columnas, pinte todo el tablero como un tablero de ajedrez. Tener en cuenta que este procedimiento debe funcionar sin importar la ubicación inicial del cabezal y no se pide que este finalice en alguna ubicación en particular",
@@ -186,6 +190,7 @@ ajedrez_1 = {
 }
 
 rosa_de_los_vientos = {
+  "tipo":"CODIGO",
   "id":"RosaVientos",
   "nombre":"Rosa de los vientos",
   "enunciado":"Escribir el procedimiento PonerRosaDeLosVientos que ponga un rosa de los vientos al rededor de la celda actual. Para representar una rosa de los vientos centrada en una celda hay que poner una bolita roja en cada una de las cuatro celdas lindantes.",
@@ -208,7 +213,7 @@ CURSOS = {
     "institucion":"Universidad Nacional de Quilmes (UNQ)",
     "lenguaje":"Gobstones",
     "lenguaje_display":"none",
-    "ejs":[superGobi64_2,gobFS_1,superGobi64_1,rutera_1,rutera_2,p_3_4,p_30_3,ajedrez_1]
+    "actividades":[superGobi64_2,gobFS_1,superGobi64_1,rutera_1,rutera_2,p_3_4,p_30_3,ajedrez_1]
   },
   "inpr_unq_2024_s1":{
     "nombre":"Introducción a la Programación - UNQ (2024s1)",
@@ -222,6 +227,6 @@ CURSOS = {
     "institucion":"Universidad Nacional de Quilmes (UNQ)",
     "lenguaje":"Gobstones",
     "lenguaje_display":"none",
-    "ejs":[rosa_de_los_vientos,ajedrez_1]
+    "actividades":[rosa_de_los_vientos,ajedrez_1]
   }
 }
