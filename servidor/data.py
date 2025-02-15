@@ -196,7 +196,7 @@ def respuestaCuestionario(jsonObj):
     curso = jsonObj['curso']
     if loginValido(usuario, contrasenia, curso):
       cuestionario = jsonObj['cuestionario']
-      if cuestionarioHabilitado(usuario, curso, cuestionario):
+      if actividadHabilitada(usuario, curso, cuestionario):
         cuestionario = elementoDeId(CURSOS[curso]["actividades"], cuestionario)
         nPregunta = jsonObj['nPregunta']
         if "preguntas" in cuestionario and nPregunta < len(cuestionario["preguntas"]):
@@ -212,10 +212,9 @@ def validarRespuesta(pregunta, respuesta):
   resultado = {}
   if pregunta["tipo"] == "OPCION_MULTIPLE":
     # respuesta es un número
-    # TODO: Ver si hay respuesta correcta en la pregunta
-      # Agregar ese campo cuando parseo el cuestionario
-    # resultado["correcto"] = ...
     respuesta = pregunta["respuestas"][respuesta]
+    if "puntaje" in respuesta:
+      resultado["correcto"] = respuesta["puntaje"] == "1"
     if "devolucion" in respuesta:
       resultado["texto"] = respuesta["devolucion"]
   return resultado

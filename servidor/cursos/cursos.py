@@ -14,7 +14,6 @@ def cargarCuestionarioMoodle(cuestionario):
       cuestionario[campo] = cuestionario["data_moodle"][campo]
 
 def cargarInformacionDeElementoMoodle(cuestionario, elemento):
-  # Atributos: elemento.attrib
   if (elemento.tag == "activity"):
     for hijo in elemento:
       cargarInformacionDeElementoMoodle(cuestionario, hijo)
@@ -66,6 +65,8 @@ def cargarInformacionRespuestaMoodle(respuesta):
       nuevaRespuesta["texto"] = limpiarXML(elemento.text)
     elif (elemento.tag == "response"):
       nuevaRespuesta["devolucion"] = limpiarXML(elemento.text)
+    elif (elemento.tag == "score"):
+      nuevaRespuesta["puntaje"] = elemento.text
   return nuevaRespuesta
 
 camposLeccion = ["nombre","preguntas"]
@@ -91,7 +92,7 @@ def limpiarXML(textoOriginal):
 informacionPrivadaPregunta = ["respuestas"]
 informacionPublicaPregunta = ["titulo","tipo","tipoMoodle","pregunta"]
 
-informacionPrivadaRespuesta = ["devolucion"]
+informacionPrivadaRespuesta = ["devolucion","puntaje"]
 informacionPublicaRespuesta = ["texto"]
 
 def organizarPreguntasYRespuestas(cuestionario):
