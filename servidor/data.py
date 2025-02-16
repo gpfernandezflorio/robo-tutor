@@ -60,7 +60,7 @@ def esconderInformacionSensibleEjercicio(ejercicio):
   return ejercicioPublico
 
 informacionPrivadaCuestionario = ["preguntas","file_moodle","data_moodle"]
-informacionPublicaCuestionario = ["id","nombre","solo_preguntas","solo_respuestas"]
+informacionPublicaCuestionario = ["id","nombre","solo_preguntas","solo_respuestas","puedenReintentar","puedenSaltearPreguntas","puedenRetroceder"]
 def esconderInformacionSensibleCuestionario(cuestionario):
   cuestionarioPublico = {"tipo":"CUESTIONARIO"}
   for k in cuestionario:
