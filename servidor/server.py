@@ -12,9 +12,9 @@ except:
 
 import json
 import socket
-from corrector import run_code, open_ej
 from admin import admin_reset
-from data import dame_cursos, tryLogin, dame_data_cuestionario, respuestaCuestionario
+from data import dame_cursos, tryLogin, dame_data_cuestionario, intentoCodigo, respuestaCuestionario, open_ej
+from corrector import mostrar_excepcion
 
 try: # python 3
     from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -91,9 +91,9 @@ class HandlerAC(moduloHTTPRequest):
         if (self.path == "/open"):
             self.responder(open_ej(jsonObject, verb))
         elif (self.path == "/code"):
-            self.responder(run_code(jsonObject, verb))
+            self.responder(intentoCodigo(jsonObject, verb))
         elif (self.path == "/answer"):
-            self.responder(respuestaCuestionario(jsonObject))
+            self.responder(respuestaCuestionario(jsonObject, verb))
         elif (self.path == "/login"):
             self.responder(tryLogin(jsonObject, verb))
         elif (self.path == "/cursos"):

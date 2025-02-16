@@ -137,7 +137,17 @@ CURSOS = {
     "institucion":"Facultad de Ciencias Exactas y Naturales (FCEyN) - UBA",
     "lenguaje":"Python",
     "lenguaje_display":"none",
-    "actividades":[AsignacionesYListas2023I,ListasYFigus2023I,Funciones2023I,figus_1_cantidadNecesaria,figus_2_promedio,figus_3_esperanza,figus_4_chance,figus_5_simulacion_chance,CiclosYCondiciones2023I,CiclosYFigus2023I,MasFunciones2023I,OperadoresLogicos2023I]
+    "actividades":[AsignacionesYListas2023I,ListasYFigus2023I,Funciones2023I,figus_1_cantidadNecesaria,figus_2_promedio,figus_3_esperanza,figus_4_chance,figus_5_simulacion_chance,CiclosYCondiciones2023I,CiclosYFigus2023I,MasFunciones2023I,OperadoresLogicos2023I],
+    "planilla":{
+      "url":"1FAIpQLSeUWC_rd9VPapkUy4LsnQrwTqUs3J3U5kuFJMmEk8SUXzPaLQ",
+      "campos":{
+        "usuario":"9867257",
+        "actividad":"1165966175",
+        "respuesta":"1778184894",
+        "resultado":"1496208069",
+        "duracion":"1460244707"
+      }
+    }
   },
   "exactas_programa_2025_V":{
     "nombre":"Exactas Programa Verano 2025",

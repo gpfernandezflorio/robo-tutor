@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import os, json
-from users import loginValido, cargarUsuariosEnCurso, usuarioEnCurso
+import io, os, json
+import datetime
+import requests
+from users import loginValido, cargarUsuariosEnCurso, usuarioEnCurso, cursosUsuario
+from corrector import run_code, timeoutDefault, mostrar_excepcion
 from cursos.cursos import cargarCuestionarioMoodle, organizarPreguntasYRespuestas
 
 # CURSOS:
@@ -19,6 +22,10 @@ for c in cursos_exactas_programa:
 
 for c in cursos_taller_programacion:
   CURSOS[c] = cursos_taller_programacion[c]
+
+LOCAL_DIR = 'locales'
+if not os.path.isdir(LOCAL_DIR):
+  os.mkdir(LOCAL_DIR)
 
 def dame_cursos(jsonObj):
   respuesta = {'resultado':"Falla"}
@@ -38,13 +45,6 @@ def cursosDeUsuario(usuario, jsonObj):
   if 'dataEjs' in jsonObj:
     agregarDataEjs(resultado)
   return resultado
-
-def dameEjercicio(curso, idEjercicio):
-  if curso in CURSOS and 'actividades' in CURSOS[curso]:
-    ejercicio = elementoDeId(CURSOS[curso]["actividades"], idEjercicio)
-    if ejercicio is None:
-      return {}
-  return ejercicio
 
 CURSOS_publico = {}
 
@@ -69,7 +69,7 @@ def esconderInformacionSensibleCuestionario(cuestionario):
   return cuestionarioPublico
 
 informacionPublicaCurso = ['nombre','descripcion','anio','edicion','responsable','institucion','lenguaje','lenguaje_display']
-informacionPrivadaCurso = ['actividades'] # es privada porque la trato aparte (hay que ocultar la información sensible)
+informacionPrivadaCurso = ['actividades','planilla'] # actividades es privada porque la trato aparte (hay que ocultar la información sensible)
 def esconderInformacionSensibleCurso(curso):
   cursoPublico = {
     "info":{}
@@ -89,9 +89,6 @@ def esconderInformacionSensibleCurso(curso):
         cursoPublico["todas_las_actividades"].append(esconderInformacionSensibleCuestionario(actividad))
       cursoPublico["todas_las_actividades"]
   return cursoPublico
-
-def timeoutDefault():
-  return 1
 
 def cargarEstudiantes(c):
   archivo = f"estudiantes/{c}.json"
@@ -188,14 +185,14 @@ def dame_data_cuestionario(ruta):
           }
   return respuesta
 
-def respuestaCuestionario(jsonObj):
+def respuestaCuestionario(jsonObj, verb):
   resultado = {'resultado':"Falla"}
-  if all(map(lambda x : x in jsonObj, ['usuario', 'contrasenia', 'curso', 'cuestionario', 'nPregunta', 'respuesta'])):
+  if all(map(lambda x : x in jsonObj, ['usuario', 'contrasenia', 'curso', 'actividad', 'nPregunta', 'respuesta'])):
     usuario = jsonObj['usuario']
     contrasenia = jsonObj['contrasenia']
     curso = jsonObj['curso']
     if loginValido(usuario, contrasenia, curso):
-      cuestionario = jsonObj['cuestionario']
+      cuestionario = jsonObj['actividad']
       if actividadHabilitada(usuario, curso, cuestionario):
         cuestionario = elementoDeId(CURSOS[curso]["actividades"], cuestionario)
         nPregunta = jsonObj['nPregunta']
@@ -205,7 +202,35 @@ def respuestaCuestionario(jsonObj):
           devolucion = validarRespuesta(pregunta, respuesta)
           resultado["resultado"] = "OK"
           resultado["devolucion"] = devolucion
-          commit(usuario, curso, cuestionario["id"], nPregunta, respuesta)
+          jsonObj['actividad'] = jsonObj['actividad'] + "." + str(jsonObj['nPregunta']+1)
+          jsonObj['respuesta'] = str(respuesta+1) if type(respuesta) == int else respuesta
+          jsonObj['resultado'] = ("OK" if devolucion['correcto'] else "NO") if 'correcto' in devolucion else "-"
+          jsonObj['duracion'] = "-"
+          commit(jsonObj, verb)
+  return resultado
+
+def intentoCodigo(jsonObj, verb):
+  resultado = {'resultado':"Falla"}
+  if all(map(lambda x : x in jsonObj, ['usuario', 'contrasenia', 'curso', 'actividad'])):
+    usuario = jsonObj['usuario']
+    contrasenia = jsonObj['contrasenia']
+    curso = jsonObj['curso']
+    if loginValido(usuario, contrasenia, curso):
+      ejercicio = jsonObj['actividad']
+      if actividadHabilitada(usuario, curso, ejercicio):
+        jsonObj["ejercicio"] = elementoDeId(CURSOS[curso]["actividades"], ejercicio)
+        resultado = run_code(jsonObj, verb)
+  # else: # Ejercicio libre o usuario anónimo:
+  #   resultado = run_code(jsonObj)
+  if resultado["resultado"] != "Falla" and "usuario" in jsonObj:
+    if ("duracion" in resultado):
+      jsonObj["duracion"] = "{:.2f}".format(resultado["duracion"])
+      del resultado["duracion"]
+    else:
+      jsonObj["duracion"] = "-"
+    jsonObj["respuesta"] = jsonObj["src"]
+    jsonObj["resultado"] = mostrar_resultado(resultado)
+    commit(jsonObj, verb)
   return resultado
 
 def validarRespuesta(pregunta, respuesta):
@@ -219,5 +244,77 @@ def validarRespuesta(pregunta, respuesta):
       resultado["texto"] = respuesta["devolucion"]
   return resultado
 
-def commit(usuario, curso, cuestionario, nPregunta, respuesta):
-  pass # TODO: guardarlo en locales y en un form de Google que dependa del curso
+def open_ej(jsonObj, v):
+  # usuario, curso y actividad ya vienen
+  jsonObj["respuesta"] = "OPEN"
+  jsonObj["resultado"] = "-"
+  jsonObj["duracion"] = "-"
+  commit(jsonObj, v)
+  return {'resultado':"OK"}
+
+def mostrar_resultado(resultado):
+  r = resultado["resultado"]
+  if "error" in resultado:
+    r += " - " + resultado["error"].split("\n")[0]
+  return r
+
+entries = ["usuario","actividad","respuesta","resultado","duracion"]
+
+def commit(jsonObj, v):
+  if "ejercicio" in jsonObj:
+    if type(jsonObj["ejercicio"]) == type({}):
+      jsonObj["ejercicio"] = jsonObj["ejercicio"]["id"]
+  else:
+    jsonObj["ejercicio"] = "-"
+  data_form = {}
+  data_csv = [str(datetime.datetime.now())]
+  for x in entries:
+    data_form[x] = jsonObj[x]
+    data_csv.append(limpiar_csv(jsonObj[x].replace('"','""')))
+  cursos = []
+  if "curso" in jsonObj:
+    cursos = [jsonObj["curso"]]
+  else:
+    cursos = cursosUsuario(jsonObj["usuario"])
+  for curso in cursos:
+    guardarLocal(",".join(data_csv), curso)
+    guardarDrive(data_form, curso, v)
+
+def guardarDrive(data, curso, v):
+  planillaCurso = planillaDeCurso(curso)
+  if not (planillaCurso is None):
+    dataParaCurso = {}
+    for x in planillaCurso["campos"]:
+      dataParaCurso["entry." + planillaCurso["campos"][x]] = data[x]
+    submit("https://docs.google.com/forms/d/e/" + planillaCurso["url"] + "/formResponse",
+      dataParaCurso, data["usuario"], v
+    )
+
+def submit(url, data, dni, v):
+  try:
+    requests.post(url, data = data)
+  except Exception as e:
+    if (v):
+      mostrar_excepcion(e)
+    print("ERROR " + dni)
+
+def guardarLocal(s, curso):
+  archivo = os.path.join(LOCAL_DIR, curso + ".csv")
+  f = None
+  if os.path.isfile(archivo):
+    f = io.open(archivo, mode='a')
+  else:
+    f = io.open(archivo, mode='w')
+    f.write("ts,usuario,actividad,respuesta,resultado,d")
+  f.write("\n" + s)
+  f.close()
+
+def limpiar_csv(s):
+  return '"' + s + '"' if ("," in s) or ("\n" in s) else s
+
+def planillaDeCurso(curso):
+  if curso in CURSOS:
+    curso = CURSOS[curso]
+    if 'planilla' in curso:
+      return curso['planilla']
+  return None

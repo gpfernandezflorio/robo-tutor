@@ -1,44 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import datetime
 from subprocess import Popen
-import select
-import requests
 import signal
 import json
-import io, os
-
-from data import dameEjercicio, informacionPrivadaEjercicio, timeoutDefault
-from users import cursosUsuario
-
-LOCAL_DIR = 'locales'
-if not os.path.isdir(LOCAL_DIR):
-  os.mkdir(LOCAL_DIR)
 
 proceso_en_ejecucion = None
 
-def open_ej(jsonObj, v):
-  jsonObj["src"] = "."
-  jsonObj["resultado"] = "OPEN"
-  jsonObj["duracion"] = "-"
-  commit(jsonObj, v)
-
-def completarDataEjercicio(jsonObj):
-  ejercicio = None
-  if ("curso" in jsonObj) and ("ejercicio" in jsonObj):
-    ejercicio = dameEjercicio(jsonObj["curso"], jsonObj["ejercicio"])
-  elif "ejercicio" in jsonObj:
-    ejercicio = jsonObj["ejercicio"]
-  if not (ejercicio is None):
-    for k in informacionPrivadaEjercicio:
-      if k in ejercicio:
-        jsonObj[k] = ejercicio[k]
-      elif k in jsonObj:
-        del jsonObj[k]
-
 def run_code(jsonObj, v):
-  # TODO: verificar ejercicioHabilitado(usuario, curso, ejercicio)
-    # Tengo que agregar esos campos en el front
   if (not ("src" in jsonObj)):
     if (v):
       print("Falta src")
@@ -47,7 +15,6 @@ def run_code(jsonObj, v):
     if (v):
       print("Falta lenguaje")
     return {"resultado":"Error", "error":"Falta lenguaje"}
-  completarDataEjercicio(jsonObj)
   if (jsonObj["lenguaje"] == "Python"):
     resultado = run_python(jsonObj, v)
   elif (jsonObj["lenguaje"] == "Gobstones"):
@@ -56,14 +23,6 @@ def run_code(jsonObj, v):
     if (v):
       print(jsonObj["lenguaje"])
     return {"resultado":"Error", "error":"Lenguaje desconocido: " + jsonObj["lenguaje"]}
-  if ("duracion" in resultado):
-    jsonObj["duracion"] = "{:.2f}".format(resultado["duracion"])
-    del resultado["duracion"]
-  else:
-    jsonObj["duracion"] = "-"
-  if ("dni" in jsonObj):
-    jsonObj["resultado"] = mostrar_resultado(resultado)
-    commit(jsonObj, v)
   return resultado
 
 def run_python(jsonObj, v):
@@ -131,7 +90,7 @@ def run_python(jsonObj, v):
         print(falla)
       return {"resultado":"Except", "error":buscar_falla_python(falla, lineasAdicionales_run)}
     if errcode != 0:
-      return {"resultado":"Falla"}
+      return {"resultado":"NO"}
   return {"resultado":"OK","duracion":sum(duraciones)/len(duraciones)}
 
 def run_gobstones(jsonObj, v):
@@ -188,7 +147,7 @@ def run_gobstones(jsonObj, v):
       if not (cabezal_valido(cabezal_esperado) and cabezal_valido(cabezal_obtenido)):
         return {"resultado":"Error", "error":"Error en el ejercicio (POST:cabezal)"}
       if not mismo_cabezal(cabezal_esperado, cabezal_obtenido):
-        return {"resultado":"Falla"}
+        return {"resultado":"NO"}
       if not (tablero_esperado["width"] == tablero_obtenido["width"] and tablero_esperado["height"] == tablero_obtenido["height"]):
         return {"resultado":"Error", "error":"Error en el ejercicio (POST:dimensiones)"}
       tablero_esperado = tablero_esperado["board"]
@@ -202,7 +161,7 @@ def run_gobstones(jsonObj, v):
           return {"resultado":"Error", "error":"Error en el ejercicio (POST:columna final)"}
         for y in range(len(columna_esperada)):
           if not misma_celda(columna_esperada[y], columna_obtenida[y]):
-            return {"resultado":"Falla"}
+            return {"resultado":"NO"}
   return {"resultado":"OK","duracion":sum(duraciones)/len(duraciones)}
 
 def handler_timeout(s, f):
@@ -302,67 +261,6 @@ def mostrar_excepcion(e):
     tb = tb.tb_next
   print(e)
 
-def mostrar_resultado(resultado):
-  r = resultado["resultado"]
-  if "error" in resultado:
-    r += " - " + resultado["error"].split("\n")[0]
-  return r
-
-form_url = "https://docs.google.com/forms/d/e/1FAIpQLScHNF1TFEZrcSLNLYbxxFOHIVPyml9dpZTpqJ_WJSqGPanOAw/formResponse"
-entries = {
-  "dni":"1115080072",
-  "ejercicio":"1084236439",
-  "src":"256509475",
-  "resultado":"236721452",
-  "duracion":"1133020774"
-}
-
-def commit(jsonObj, v):
-  # TODO: Que el form de Google dependa del curso
-    # Tengo que agregar ese campos en el front
-  if "ejercicio" in jsonObj:
-    if type(jsonObj["ejercicio"]) == type({}):
-      jsonObj["ejercicio"] = jsonObj["ejercicio"]["id"]
-  else:
-    jsonObj["ejercicio"] = "-"
-  # data_form = {}
-  data_csv = [str(datetime.datetime.now())]
-  for x in entries:
-    # data_form["entry." + entries[x]] = jsonObj[x]
-    data_csv.append(limpiar_csv(jsonObj[x].replace('"','""')))
-  cursos = []
-  if "curso" in jsonObj:
-    cursos = [jsonObj["curso"]]
-  else:
-    cursos = cursosUsuario(jsonObj["dni"])
-  for curso in cursos:
-    guardarLocal(",".join(data_csv), curso)
-  # if "curso" in jsonObj:
-  #   data_form["entry." + entries["ejercicio"]] = jsonObj["curso"] + ":" + jsonObj["ejercicio"]
-  # submit(form_url, data_form, jsonObj["dni"], v)
-
-def submit(url, data, dni, v):
-  try:
-    requests.post(url, data = data)
-  except Exception as e:
-    if (v):
-      mostrar_excepcion(e)
-    print("ERROR " + dni)
-
-def guardarLocal(s, curso):
-  archivo = os.path.join(LOCAL_DIR, curso + ".csv")
-  f = None
-  if os.path.isfile(archivo):
-    f = io.open(archivo, mode='a')
-  else:
-    f = io.open(archivo, mode='w')
-    f.write("ts,dni,ej,src,res,d")
-  f.write("\n" + s)
-  f.close()
-
-def limpiar_csv(s):
-  return '"' + s + '"' if ("," in s) or ("\n" in s) else s
-
 def prePython():
   return '''def secure_importer(name, globals=None, locals=None, fromlist=(), level=0):
   raise ImportError("No está permitido importar módulos")
@@ -372,3 +270,6 @@ def verificarCodigoMaliciosoPython(codigo):
   if "exit" in codigo:
     return "No está permitido usar 'exit'"
   return None
+
+def timeoutDefault():
+  return 1

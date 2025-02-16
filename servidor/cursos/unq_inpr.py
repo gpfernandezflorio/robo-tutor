@@ -213,7 +213,17 @@ CURSOS = {
     "institucion":"Universidad Nacional de Quilmes (UNQ)",
     "lenguaje":"Gobstones",
     "lenguaje_display":"none",
-    "actividades":[superGobi64_2,gobFS_1,superGobi64_1,rutera_1,rutera_2,p_3_4,p_30_3,ajedrez_1]
+    "actividades":[superGobi64_2,gobFS_1,superGobi64_1,rutera_1,rutera_2,p_3_4,p_30_3,ajedrez_1],
+    "planilla":{
+      "url":"1FAIpQLScHNF1TFEZrcSLNLYbxxFOHIVPyml9dpZTpqJ_WJSqGPanOAw",
+      "campos":{
+        "usuario":"1115080072",
+        "actividad":"1084236439",
+        "respuesta":"256509475",
+        "resultado":"236721452",
+        "duracion":"1133020774"
+      }
+    }
   },
   "inpr_unq_2024_s1":{
     "nombre":"Introducción a la Programación - UNQ (2024s1)",
