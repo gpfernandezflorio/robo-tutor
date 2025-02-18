@@ -27,11 +27,11 @@ def run_code(jsonObj, v):
 
 def run_python(jsonObj, v):
   global proceso_en_ejecucion
-  run_data = jsonObj["run_data"] if "run_data" in jsonObj else {}
+  run_data = jsonObj["ejercicio"]["run_data"] if "run_data" in jsonObj["ejercicio"] else {}
   if (type(run_data) != type([])):
     run_data = [run_data]
   code = jsonObj["src"]
-  timeout = jsonObj["timeout"] if ("timeout" in jsonObj) else timeoutDefault()
+  timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
   if (v):
     print(code)
   cm = verificarCodigoMaliciosoPython(code)
@@ -41,30 +41,33 @@ def run_python(jsonObj, v):
   codigoPre = prePython() + "\n\n"
   lineasAdicionales = codigoPre.count('\n')
   code = codigoPre + code
-  if "pre" in jsonObj:
-    code = jsonObj["pre"] + "\n\n" + code
-    lineasAdicionales = lineasAdicionales + jsonObj["pre"].count("\n") + 2
+  if "pre" in jsonObj["ejercicio"]:
+    code = jsonObj["ejercicio"]["pre"] + "\n\n" + code
+    lineasAdicionales = lineasAdicionales + jsonObj["ejercicio"]["pre"].count("\n") + 2
   duraciones = []
   for run in run_data:
-    code_run = code
+    code_run = code + "\n"
     lineasAdicionales_run = lineasAdicionales
     ## Inicialización
     if "pre" in run:
       code_run = run["pre"] + "\n\n" + code_run
       lineasAdicionales_run = lineasAdicionales_run + run["pre"].count("\n") + 2
     ## Variables definidas
+    defs = []
     if "def" in run:
       defs = run["def"]
-      if (type(defs) != type([])):
-        defs = [defs]
-      for d in defs:
-        code_run = code_run + "try:\n  eval(" + d + ")\nexcept Exception as e:\n  print('DEF " + d + "')"
+    elif "def" in jsonObj["ejercicio"]:
+      defs = jsonObj["ejercicio"]["def"]
+    if (type(defs) != type([])):
+      defs = [defs]
+    for d in defs:
+      code_run = code_run + "\ntry:\n  eval('" + d + "')\nexcept Exception as e:\n  print('DEF " + d + "')\n  exit(1)"
     ## Aridad de funciones correcta
     aridad = None
     if "aridad" in run:
       aridad = run["aridad"]
-    elif "aridad" in jsonObj:
-      aridad = jsonObj["aridad"]
+    elif "aridad" in jsonObj["ejercicio"]:
+      aridad = jsonObj["ejercicio"]["aridad"]
     if not (aridad is None):
       code_run = "import inspect\n\n" + code_run
       lineasAdicionales_run = lineasAdicionales_run + 2
@@ -72,8 +75,12 @@ def run_python(jsonObj, v):
         verificacion_aridad = "\n\n" + "try:\n  args = len(inspect.getfullargspec(eval('" + f + "')).args)\n  if (args != " + str(aridad[f]) + "):\n    print('ARGS " + f + " ' + str(args) + ' [" + str(aridad[f]) + "]')\n    exit(1)\nexcept NameError as e:\n  print('DEF " + f + "')\n  exit(1)\nexcept Exception as e:\n  print('ARGS Err')\n  print(e)\n  exit(1)"
         code_run = code_run + verificacion_aridad
     ## Resultado
+    if "post" in jsonObj["ejercicio"]:
+      code_run = code_run + "\n\n" + jsonObj["ejercicio"]["post"]
     if "post" in run:
-      code_run = code_run + "\n\n" + "if (" + run["post"] + "):\n  exit(0)\nelse:\n  exit(1)"
+      code_run = code_run + "\n\n" + run["post"]
+    if "assert" in run:
+      code_run = code_run + "\n\n" + "if (" + run["assert"] + "):\n  exit(0)\nelse:\n  exit(1)"
     ## Ejecución del código entregado
     f = open('src.py', 'w')
     f.write(code_run)
@@ -95,17 +102,17 @@ def run_python(jsonObj, v):
 
 def run_gobstones(jsonObj, v):
   global proceso_en_ejecucion
-  run_data = jsonObj["run_data"] if "run_data" in jsonObj else {}
+  run_data = jsonObj["ejercicio"]["run_data"] if "run_data" in jsonObj["ejercicio"] else {}
   if (type(run_data) != type([])):
     run_data = [run_data]
   code = jsonObj["src"]
-  timeout = jsonObj["timeout"] if ("timeout" in jsonObj) else timeoutDefault()
+  timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
   if (v):
     print(code)
   lineasAdicionales = 0
-  if "pre" in jsonObj:
-    code = jsonObj["pre"] + "\n\n" + code
-    lineasAdicionales = lineasAdicionales + jsonObj["pre"].count("\n") + 2
+  if "pre" in jsonObj["ejercicio"]:
+    code = jsonObj["ejercicio"]["pre"] + "\n\n" + code
+    lineasAdicionales = lineasAdicionales + jsonObj["ejercicio"]["pre"].count("\n") + 2
   ## Código
   f = open('src.txt', 'w')
   f.write(code)
@@ -114,7 +121,7 @@ def run_gobstones(jsonObj, v):
   for run in run_data:
     lineasAdicionales_run = lineasAdicionales
     ## Tablero inicial
-    tablero = run["tablero"] if "tablero" in run else tablero_default()
+    tablero = run["t0"] if "t0" in run else tablero_default()
     f = open('board.jboard', 'w')
     f.write(json.dumps(tablero))
     f.close()
@@ -134,8 +141,8 @@ def run_gobstones(jsonObj, v):
         mostrar_excepcion(e)
       return {"resultado":"Except", "error":str(e)}
     ## Validar tablero final
-    if "post" in run:
-      tablero_esperado = run["post"]
+    if "tf" in run:
+      tablero_esperado = run["tf"]
       tablero_obtenido = salida
       if (v):
         print(tablero_esperado)
