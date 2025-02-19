@@ -242,6 +242,20 @@ diezmil_3 = {
   }]
 }
 
+linkEncuestaInicial_2025_V = {
+  "tipo":"LINK",
+  "id":"linkEncuestaInicial",
+  "nombre":"Encuesta Inicial",
+  "url":"https://docs.google.com/forms/d/e/1FAIpQLSefK1jnPNEanKnKnVxkZNZfFJv0sWRS4ataFyerLZd_fQ47tA/viewform?usp=header"
+}
+
+linkBloquesFigus1 = {
+  "tipo":"LINK",
+  "id":"bloquesFigus1",
+  "nombre":"Figus Bloques (1)",
+  "url":"https://reda-ar.github.io/campus/milanator/?juego=figus0&toolbox=off"
+}
+
 CURSOS = {
   "exactas_programa_2023_I":{
     "nombre":"Exactas Programa Invierno 2023",
@@ -279,6 +293,6 @@ CURSOS = {
     "institucion":"Facultad de Ciencias Exactas y Naturales (FCEyN) - UBA",
     "lenguaje":"Python",
     "lenguaje_display":"none",
-    "actividades":[figus_sin_funciones,figus_de_verdad_1,figus_de_verdad_2,diezmil_1,diezmil_2,diezmil_3]
+    "actividades":[linkEncuestaInicial_2025_V,linkBloquesFigus1,figus_sin_funciones,AsignacionesYListas2023I,ListasYFigus2023I,figus_de_verdad_1,figus_de_verdad_2,Funciones2023I,CiclosYCondiciones2023I,CiclosYFigus2023I,MasFunciones2023I,diezmil_1,diezmil_2,diezmil_3,OperadoresLogicos2023I]
   }
 }

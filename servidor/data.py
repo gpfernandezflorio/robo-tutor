@@ -87,7 +87,8 @@ def esconderInformacionSensibleCurso(curso):
           cargarCuestionarioMoodle(actividad)
         organizarPreguntasYRespuestas(actividad)
         cursoPublico["todas_las_actividades"].append(esconderInformacionSensibleCuestionario(actividad))
-      cursoPublico["todas_las_actividades"]
+      else: # LINK
+        cursoPublico["todas_las_actividades"].append(actividad)
   return cursoPublico
 
 def cargarEstudiantes(c):
@@ -158,6 +159,8 @@ def actividadHabilitada(usuario, curso, actividad):
     return ejercicioHabilitado(usuario, actividad)
   elif actividad["tipo"] == "CUESTIONARIO":
     return cuestionarioHabilitado(usuario, actividad)
+  elif actividad["tipo"] == "LINK":
+    return linkHabilitado(usuario, actividad)
   return False
 
 def ejercicioHabilitado(usuario, ejercicio):
@@ -166,6 +169,10 @@ def ejercicioHabilitado(usuario, ejercicio):
 
 def cuestionarioHabilitado(usuario, cuestionario):
   # Acá se puede verificar si la fecha del cuestionario ya pasó o si el usuario ya lo respondió y no lo puede responder otra vez
+  return True
+
+def linkHabilitado(usuario, cuestionario):
+  # Acá se puede verificar si la fecha del link ya pasó
   return True
 
 def dame_data_cuestionario(ruta):
