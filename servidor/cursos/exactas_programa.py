@@ -278,7 +278,7 @@ clase1 = {
 clase2 = {
   "tipo":"SECCION",
   "id":"clase2",
-  "nombre":"Clase 01 - Diez mil"
+  "nombre":"Clase 02 - Diez mil"
 }
 
 CURSOS = {
