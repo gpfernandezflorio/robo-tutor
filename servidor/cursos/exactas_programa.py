@@ -246,7 +246,7 @@ linkEncuestaInicial_2025_V = {
   "tipo":"LINK",
   "id":"linkEncuestaInicial",
   "nombre":"Encuesta Inicial",
-  "url":"https://docs.google.com/forms/d/e/1FAIpQLSefK1jnPNEanKnKnVxkZNZfFJv0sWRS4ataFyerLZd_fQ47tA/viewform?usp=header"
+  "url":"https://docs.google.com/forms/d/e/1FAIpQLSefK1jnPNEanKnKnVxkZNZfFJv0sWRS4ataFyerLZd_fQ47tA/viewform"
 }
 
 linkBloquesFigus1 = {
@@ -254,6 +254,31 @@ linkBloquesFigus1 = {
   "id":"bloquesFigus1",
   "nombre":"Figus Bloques (1)",
   "url":"https://reda-ar.github.io/campus/milanator/?juego=figus0&toolbox=off"
+}
+
+linkComoLaPasaste_2025_V = {
+  "tipo":"LINK",
+  "id":"linkComoLaPasaste",
+  "nombre":"Encuesta Clase 00",
+  "url":"https://docs.google.com/forms/d/e/1FAIpQLSdjUo4bpoJ0wYFftUUMs9xh0BfY6wLiKsjbFj5l1HfHVeJ8ZQ/viewform"
+}
+
+clase0 = {
+  "tipo":"SECCION",
+  "id":"clase0",
+  "nombre":"Clase 00 - Introducción"
+}
+
+clase1 = {
+  "tipo":"SECCION",
+  "id":"clase1",
+  "nombre":"Clase 01 - Figuritas"
+}
+
+clase2 = {
+  "tipo":"SECCION",
+  "id":"clase2",
+  "nombre":"Clase 01 - Diez mil"
 }
 
 CURSOS = {
@@ -269,17 +294,7 @@ CURSOS = {
     "institucion":"Facultad de Ciencias Exactas y Naturales (FCEyN) - UBA",
     "lenguaje":"Python",
     "lenguaje_display":"none",
-    "actividades":[AsignacionesYListas2023I,ListasYFigus2023I,Funciones2023I,figus_1_cantidadNecesaria,figus_2_promedio,figus_3_esperanza,figus_4_chance,figus_5_simulacion_chance,CiclosYCondiciones2023I,CiclosYFigus2023I,MasFunciones2023I,OperadoresLogicos2023I],
-    "planilla":{
-      "url":"1FAIpQLSeUWC_rd9VPapkUy4LsnQrwTqUs3J3U5kuFJMmEk8SUXzPaLQ",
-      "campos":{
-        "usuario":"9867257",
-        "actividad":"1165966175",
-        "respuesta":"1778184894",
-        "resultado":"1496208069",
-        "duracion":"1460244707"
-      }
-    }
+    "actividades":[AsignacionesYListas2023I,ListasYFigus2023I,Funciones2023I,figus_1_cantidadNecesaria,figus_2_promedio,figus_3_esperanza,figus_4_chance,figus_5_simulacion_chance,CiclosYCondiciones2023I,CiclosYFigus2023I,MasFunciones2023I,OperadoresLogicos2023I]
   },
   "exactas_programa_2025_V":{
     "nombre":"Exactas Programa Verano 2025",
@@ -293,6 +308,16 @@ CURSOS = {
     "institucion":"Facultad de Ciencias Exactas y Naturales (FCEyN) - UBA",
     "lenguaje":"Python",
     "lenguaje_display":"none",
-    "actividades":[linkEncuestaInicial_2025_V,linkBloquesFigus1,figus_sin_funciones,AsignacionesYListas2023I,ListasYFigus2023I,figus_de_verdad_1,figus_de_verdad_2,Funciones2023I,CiclosYCondiciones2023I,CiclosYFigus2023I,MasFunciones2023I,diezmil_1,diezmil_2,diezmil_3,OperadoresLogicos2023I]
+    "actividades":[clase0,linkEncuestaInicial_2025_V,linkBloquesFigus1,linkComoLaPasaste_2025_V,AsignacionesYListas2023I,ListasYFigus2023I,CiclosYFigus2023I,figus_sin_funciones,clase1,CiclosYCondiciones2023I,Funciones2023I,MasFunciones2023I,figus_de_verdad_1,figus_de_verdad_2,clase2,OperadoresLogicos2023I,diezmil_1,diezmil_2,diezmil_3],
+    "planilla":{
+      "url":"1FAIpQLSeUWC_rd9VPapkUy4LsnQrwTqUs3J3U5kuFJMmEk8SUXzPaLQ",
+      "campos":{
+        "usuario":"9867257",
+        "actividad":"1165966175",
+        "respuesta":"1778184894",
+        "resultado":"1496208069",
+        "duracion":"1460244707"
+      }
+    }
   }
 }
