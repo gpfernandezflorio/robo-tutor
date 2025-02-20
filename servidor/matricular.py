@@ -23,7 +23,7 @@ Saludos.
 
 def main(): # Cómo usar este archivo: 
   # 0: Conseguir un archivo con la lista de nombres de usuarios de un curso.
-  archivoUsuariosCurso = "estudiantes/exactas_programa_2023_I.json"
+  archivoUsuariosCurso = "estudiantes/exactas_programa_2025_V.json"
   # 1: Ejecutar FiltrarEstudiantesExistentes para obtener en un nuevo archivo sólo los usuarios que no están en el sistema.
   if (pasosAEjecutar[1]):
     FiltrarEstudiantesExistentes(
@@ -117,7 +117,7 @@ def GenerarClaves(archivoEntrada, archivoSalida):
       exit()
   usuariosAnteriores = todosLosUsuarios()
   for u in nuevosUsuarios:
-    if usuariosAnteriores:
+    if u in usuariosAnteriores:
       print("Error: en el archivo " + archivoEntrada + " aparece el usuario " + u + " pero este ya existe en la base de datos actual")
       exit()
   nuevosUsuariosConClave = {}
@@ -143,8 +143,8 @@ def MandarMailsConClave(archivoEntrada, archivoSalida):
   #   mailsAMandar.append(mailPara(d, destinatarios[d]))
   # MandarMails(mailsAMandar)
   # print("Enviados los mails con las claves a los usuarios de " + archivoEntrada)
-      mailsAMandar.append(d + ',' + destinatarios[d]["contrasenia"])
-  EscribirArchivo(archivoSalida, "mail,clave\n" + "\n".join(mailsAMandar))
+      mailsAMandar.append(d + '\t' + destinatarios[d]["contrasenia"])
+  EscribirArchivo(archivoSalida, "mail\tclave\n" + "\n".join(mailsAMandar))
   print("Creado el csv con los nuevos usuarios en " + archivoSalida)
 
 def mailPara(destinatario, informacionAdicional):
@@ -175,7 +175,7 @@ def MandarMails(mailsAMandar):
       mail['From'] = CUENTA
       server.sendmail(CUENTA, mail['To'], mail.as_string())
 
-caracteres = "1234567890qwertyuiopasdfghjklzxcvbnmMNBVCXZLKJHGFDSAQWERTYUIOP=)(&%$#!¿¡+*-_.:[]}{><"
+caracteres = "1234567890qwertyuiopasdfghjklzxcvbnmMNBVCXZLKJHGFDSAQWERTYUIOP=)(&%$#!¿?+*-_.[]}{"
 def claveAleatoria():
   clave = ""
   i=0
