@@ -353,7 +353,7 @@ linkMachete00_2025_V = {
   "tipo":"LINK",
   "id":"linkMachete00",
   "nombre":"Machete Clase 00",
-  "url":"https://drive.google.com/file/d/110QruT1EjERsnzYqCveLokIRF5Khqw7h/view?usp=drive_link",
+  "url":"https://drive.google.com/file/d/1rbB3bocljMegO8o-X3_rHL30CVo5nI7w/view?usp=drive_link",
   "disponible":{"desde":"25/2/2025-8:30"}
 }
 
