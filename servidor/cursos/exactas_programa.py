@@ -124,6 +124,55 @@ OperadoresLogicos2023I = {
   "file_moodle":"exactas_programa_2023_I/OperadoresLogicos.xml"
 }
 
+AsignacionesYListas2025V = {
+  "tipo":"CUESTIONARIO",
+  "id":"AsignacionesYListas",
+  "file_moodle":"exactas_programa_2025_V/Asignaciones y Listas.xml",
+  "disponible":{"desde":"24/2/2025-8:30"}
+}
+
+ListasYFigus2025V = {
+  "tipo":"CUESTIONARIO",
+  "id":"ListasYFigus",
+  "file_moodle":"exactas_programa_2025_V/Listas y Figus.xml",
+  "disponible":{"desde":"24/2/2025-8:30"}
+}
+
+Funciones2025V = {
+  "tipo":"CUESTIONARIO",
+  "id":"Funciones",
+  "file_moodle":"exactas_programa_2025_V/Funciones.xml",
+  "disponible":{"desde":"26/2/2025-8:30"}
+}
+
+CiclosYCondiciones2025V = {
+  "tipo":"CUESTIONARIO",
+  "id":"CiclosYCondiciones",
+  "file_moodle":"exactas_programa_2025_V/Ciclos y Condiciones.xml",
+  "disponible":{"desde":"26/2/2025-8:30"}
+}
+
+CiclosYFigus2025V = {
+  "tipo":"CUESTIONARIO",
+  "id":"CiclosYFigus",
+  "file_moodle":"exactas_programa_2025_V/Ciclos y Figus.xml",
+  "disponible":{"desde":"24/2/2025-8:30"}
+}
+
+MasFunciones2025V = {
+  "tipo":"CUESTIONARIO",
+  "id":"MasFunciones",
+  "file_moodle":"exactas_programa_2025_V/Mas Funciones.xml",
+  "disponible":{"desde":"26/2/2025-8:30"},
+  "visible":"NO"
+}
+
+OperadoresLogicos2025V = {
+  "tipo":"CUESTIONARIO",
+  "id":"OperadoresLogicos",
+  "file_moodle":"exactas_programa_2025_V/Operadores Logicos.xml"
+}
+
 figus_sin_funciones = {
   "tipo":"CODIGO",
   "id":"Figus_sf_1",
@@ -137,7 +186,8 @@ figus_sin_funciones = {
   }, {
     "pre":"tiradas = [0,1,2,0,1,2,3,4,3,5]",
     "assert":"i == 10 and type(album) == type([]) and len(album) == 6 and len(list(filter(lambda x : x==1, album))) == 6"
-  }]
+  }],
+  "disponible":{"desde":"24/2/2025-8:30"}
 }
 
 figus_de_verdad_1 = {
@@ -157,7 +207,8 @@ figus_de_verdad_1 = {
   }, {
     "pre":"tiradas = [0,1,2,3,4,5,6,0,1,1,2,2,3,7,4,5]",
     "assert":"j == 1000 and promedio == 8 and cuantas_figus(8) == 14"
-  }]
+  }],
+  "disponible":{"desde":"26/2/2025-8:30"}
 }
 
 figus_de_verdad_2 = {
@@ -180,7 +231,8 @@ figus_de_verdad_2 = {
   }, {
     "pre":"tiradas = [0,1,2,3,0,0,1,1,2,2,3,3,3,3,2,2,2,1,1,1,0]",
     "assert":"abs(promedio(4,3) - 7) < 0.1 and abs(promedio(4,6) - 7) < 0.1"
-  }]
+  }],
+  "disponible":{"desde":"26/2/2025-8:30"}
 }
 
 diezmil_1 = {
@@ -253,14 +305,88 @@ linkBloquesFigus1 = {
   "tipo":"LINK",
   "id":"bloquesFigus1",
   "nombre":"Figus Bloques (1)",
-  "url":"https://reda-ar.github.io/campus/milanator/?juego=figus0&toolbox=off"
+  "url":"https://reda-ar.github.io/campus/milanator/?juego=figus0&toolbox=off",
+  "disponible":{"desde":"24/2/2025-8:30"}
+}
+
+linkBloquesFigus2 = {
+  "tipo":"LINK",
+  "id":"bloquesFigus2",
+  "nombre":"Figus Bloques (2) (opcional)",
+  "url":"https://reda-ar.github.io/campus/milanator/?juego=figus",
+  "disponible":{"desde":"24/2/2025-8:30"}
+}
+
+linkBloquesFigus3 = {
+  "tipo":"LINK",
+  "id":"bloquesFigus3",
+  "nombre":"Figus Bloques (3) (opcional)",
+  "url":"https://reda-ar.github.io/campus/milanator/?juego=figus&fix=N",
+  "disponible":{"desde":"24/2/2025-8:30"}
+}
+
+linkBloquesFigus4 = {
+  "tipo":"LINK",
+  "id":"bloquesFigus4",
+  "nombre":"Figus Bloques (4) (opcional)",
+  "url":"https://reda-ar.github.io/campus/milanator/?juego=figus2",
+  "disponible":{"desde":"24/2/2025-8:30"}
 }
 
 linkComoLaPasaste_2025_V = {
   "tipo":"LINK",
   "id":"linkComoLaPasaste",
-  "nombre":"Encuesta Clase 00",
-  "url":"https://docs.google.com/forms/d/e/1FAIpQLSdjUo4bpoJ0wYFftUUMs9xh0BfY6wLiKsjbFj5l1HfHVeJ8ZQ/viewform"
+  "nombre":"Encuesta cierre Clase 00",
+  "url":"https://docs.google.com/forms/d/e/1FAIpQLSdjUo4bpoJ0wYFftUUMs9xh0BfY6wLiKsjbFj5l1HfHVeJ8ZQ/viewform",
+  "disponible":{"desde":"24/2/2025-8:30"}
+}
+
+linkDiaposClase00_2025_V = {
+  "tipo":"LINK",
+  "id":"linkDiapos00",
+  "nombre":"Diapositivas Clase 00",
+  "url":"https://drive.google.com/file/d/110QruT1EjERsnzYqCveLokIRF5Khqw7h/view?usp=drive_link",
+  "disponible":{"desde":"25/2/2025-8:30"}
+}
+
+linkMachete00_2025_V = {
+  "tipo":"LINK",
+  "id":"linkMachete00",
+  "nombre":"Machete Clase 00",
+  "url":"https://drive.google.com/file/d/110QruT1EjERsnzYqCveLokIRF5Khqw7h/view?usp=drive_link",
+  "disponible":{"desde":"25/2/2025-8:30"}
+}
+
+linkDiaposClase01_2025_V = {
+  "tipo":"LINK",
+  "id":"linkDiapos01",
+  "nombre":"Diapositivas Clase 01",
+  "url":"https://drive.google.com/file/d/1XMrG_3MsUSMdk61eJTpSK0ceEyKltmds/view?usp=drive_link",
+  "disponible":{"desde":"26/2/2025-8:30"}
+}
+
+linkActividad01_2025_V = {
+  "tipo":"LINK",
+  "id":"linkActividad01",
+  "nombre":"Actividad Clase 01",
+  "url":"https://drive.google.com/file/d/1iW4qFXydl6-daZ6r5mhnGdYUgqFCiJfL/view?usp=drive_link",
+  "disponible":{"desde":"26/2/2025-8:30"}
+}
+
+linkParaPensar01_2025_V = {
+  "tipo":"LINK",
+  "id":"linkParaPensar01",
+  "nombre":"Para pensar durante el finde",
+  "url":"https://drive.google.com/file/d/1OQd1wt5iLhr129ze6dknUY-GkF6lT8Am/view?usp=drive_link",
+  "disponible":{"desde":"27/2/2025-8:00"}
+}
+
+linkNotaPenza_2025_V = {
+  "tipo":"LINK",
+  "id":"linkNotaPenza",
+  "nombre":"Nota de Adrián Paenza sobre figuritas",
+  "url":"https://drive.google.com/file/d/16RFHGLYCPpMqC8keGVrPaq3DcreegTPM/view?usp=drive_link",
+  "disponible":{"desde":"27/2/2025-8:00"}
 }
 
 clase0 = {
@@ -308,7 +434,8 @@ CURSOS = {
     "institucion":"Facultad de Ciencias Exactas y Naturales (FCEyN) - UBA",
     "lenguaje":"Python",
     "lenguaje_display":"none",
-    "actividades":[clase0,linkEncuestaInicial_2025_V,linkBloquesFigus1,linkComoLaPasaste_2025_V,AsignacionesYListas2023I,ListasYFigus2023I,CiclosYFigus2023I,figus_sin_funciones,clase1,CiclosYCondiciones2023I,Funciones2023I,MasFunciones2023I,figus_de_verdad_1,figus_de_verdad_2,clase2,OperadoresLogicos2023I,diezmil_1,diezmil_2,diezmil_3],
+    "actividades":[clase0,linkEncuestaInicial_2025_V,linkBloquesFigus1,linkBloquesFigus2,linkBloquesFigus3,linkBloquesFigus4,linkComoLaPasaste_2025_V,linkDiaposClase00_2025_V,AsignacionesYListas2025V,ListasYFigus2025V,CiclosYFigus2025V,figus_sin_funciones,linkMachete00_2025_V,
+    clase1,linkDiaposClase01_2025_V,linkActividad01_2025_V,CiclosYCondiciones2025V,Funciones2025V,MasFunciones2025V,figus_de_verdad_1,figus_de_verdad_2,linkParaPensar01_2025_V,linkNotaPenza_2025_V,clase2,OperadoresLogicos2025V,diezmil_1,diezmil_2,diezmil_3],
     "planilla":{
       "url":"1FAIpQLSeUWC_rd9VPapkUy4LsnQrwTqUs3J3U5kuFJMmEk8SUXzPaLQ",
       "campos":{
