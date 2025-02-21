@@ -14,19 +14,25 @@ if os.path.isfile('usersDB.json'):
 def existeUsuario(nombre):
   return nombre in USUARIOS
 
-def usuarioEnCurso(nombre, curso):
-  return (nombre in CURSOS_POR_USUARIO) and (curso in CURSOS_POR_USUARIO[nombre])
+def usuarioEnCurso(nombre, curso, rol=None):
+  if (nombre in CURSOS_POR_USUARIO) and (curso in CURSOS_POR_USUARIO[nombre]):
+    return rol is None or rol in CURSOS_POR_USUARIO[nombre][curso]
+  return False
 
-def matricular(nombre, curso):
+def matricular(nombre, curso, rol):
   if not (nombre in CURSOS_POR_USUARIO):
-    CURSOS_POR_USUARIO[nombre] = [curso]
+    CURSOS_POR_USUARIO[nombre] = {curso:[rol]}
+  elif not (curso in CURSOS_POR_USUARIO[nombre]):
+    CURSOS_POR_USUARIO[nombre][curso] = [rol]
   else:
-    CURSOS_POR_USUARIO[nombre].append(curso)
+    CURSOS_POR_USUARIO[nombre][curso].append(rol)
 
-def cargarUsuariosEnCurso(listaDeUsuarios, curso):
-  for usuario in listaDeUsuarios:
-    if not usuarioEnCurso(usuario, curso):
-      matricular(usuario, curso)
+def cargarUsuariosEnCurso(matricula, curso):
+  for rol in ['docente','estudiante']:
+    if rol in matricula:
+      for usuario in matricula[rol]:
+        if not usuarioEnCurso(usuario, curso, rol):
+          matricular(usuario, curso, rol)
 
 def contraseniaUsuario(nombre):
   return USUARIOS[nombre]['contrasenia']
@@ -36,6 +42,11 @@ def loginValido(usuario, contrasenia, curso=None):
 
 def cursosUsuario(nombre):
   if nombre in CURSOS_POR_USUARIO:
-    return CURSOS_POR_USUARIO[nombre]
+    return CURSOS_POR_USUARIO[nombre].keys()
   else:
     return []
+
+def rolesEnCurso(usuario, curso):
+  if usuario in CURSOS_POR_USUARIO and curso in CURSOS_POR_USUARIO[usuario]:
+    return CURSOS_POR_USUARIO[usuario][curso]
+  return []

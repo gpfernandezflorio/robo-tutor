@@ -23,12 +23,12 @@ Saludos.
 
 def main(): # Cómo usar este archivo: 
   # 0: Conseguir un archivo con la lista de nombres de usuarios de un curso.
-  archivoUsuariosCurso = "estudiantes/exactas_programa_2025_V.json"
+  archivoUsuariosCurso = "matricula/exactas_programa_2025_V.json"
   # 1: Ejecutar FiltrarEstudiantesExistentes para obtener en un nuevo archivo sólo los usuarios que no están en el sistema.
   if (pasosAEjecutar[1]):
     FiltrarEstudiantesExistentes(
-      archivoUsuariosCurso, # La lista con los nombres de los usuarios de un curso. Ej: ["estudiante_fictio@gmail.com", ...]
-      "nuevosUsuarios.json" # La misma lista pero quitando a los usuarios que ya estaban antes en el sistema
+      archivoUsuariosCurso, # Un objeto con roles y en cada rol una lista con los nombres de los usuarios del curso que tienen ese rol. Ej: {"docente:["estudiante_fictio@gmail.com", ...], "estudiante":[...]}
+      "nuevosUsuarios.json" # Una lista con los usuarios en el archivo anterior pero quitando a los usuarios que ya estaban antes en el sistema
     )
   # 2: Ejecutar GenerarClaves para obtener un nuevo archivo con las contraseñas de cada nuevo usuario.
   if (pasosAEjecutar[2]):
@@ -73,14 +73,20 @@ def todosLosUsuarios():
   return {}
 
 def FiltrarEstudiantesExistentes(archivoEntrada, archivoSalida):
-  # archivoEntrada tiene que ser un json con una lista de strings correspondientes a los nombres de usuario (sus mails)
+  # archivoEntrada tiene que ser un json con los roles y, en cada rol una lista de strings correspondientes a los nombres de usuario (sus mails)
   if not os.path.isfile(archivoEntrada):
     print("Error: no se encuentra el archivo " + archivoEntrada)
     exit()
-  usuariosCurso = contenidoArchivo(archivoEntrada)
-  if not isinstance(usuariosCurso, list):
-    print("Error: se esperaba una lista en el archivo " + archivoEntrada)
+  usuariosCurso = []
+  obj = contenidoArchivo(archivoEntrada)
+  if not isinstance(obj, dict):
+    print("Error: se esperaba un diccionario en el archivo " + archivoEntrada)
     exit()
+  for rol in obj:
+    if not isinstance(obj[rol], list):
+      print("Error: se esperaba una lista en cada campo del archivo " + archivoEntrada)
+      exit()
+    usuariosCurso = usuariosCurso + obj[rol]
   for u in usuariosCurso:
     if not isinstance(u, str):
       print("Error: se esperaba que todos los elementos de la lista sean strings en el archivo " + archivoEntrada)

@@ -3,9 +3,10 @@
 import io, os, json
 import datetime
 import requests
-from users import loginValido, cargarUsuariosEnCurso, usuarioEnCurso, cursosUsuario
+from users import loginValido, cargarUsuariosEnCurso, usuarioEnCurso, cursosUsuario, rolesEnCurso
 from corrector import run_code, timeoutDefault, mostrar_excepcion
 from cursos.cursos import cargarCuestionarioMoodle, organizarPreguntasYRespuestas
+from fechas import fueraDeFecha
 
 # CURSOS:
 from cursos.unq_inpr import CURSOS as cursos_unq_inpr
@@ -43,13 +44,14 @@ def cursosDeUsuario(usuario, jsonObj):
     if usuarioEnCurso(usuario, curso):
       resultado[curso] = {"info":CURSOS_publico[curso]["info"]}
   if 'dataEjs' in jsonObj:
-    agregarDataEjs(resultado)
+    agregarDataEjs(usuario, resultado)
   return resultado
 
 CURSOS_publico = {}
 
 informacionPrivadaEjercicio = ["pre","run_data","aridad","timeout"]
-informacionPublicaEjercicio = ["id","nombre","enunciado","base","pidePrograma"] # pidePrograma es público porque lo usa el cliente para armar el mensaje de error
+informacionPublicaEjercicio = ["id","nombre","visible","disponible",
+  "enunciado","base","pidePrograma"] # pidePrograma es público porque lo usa el cliente para armar el mensaje de error
 def esconderInformacionSensibleEjercicio(ejercicio):
   ejercicioPublico = {"tipo":"CODIGO"}
   for k in ejercicio:
@@ -60,7 +62,8 @@ def esconderInformacionSensibleEjercicio(ejercicio):
   return ejercicioPublico
 
 informacionPrivadaCuestionario = ["preguntas","file_moodle","data_moodle"]
-informacionPublicaCuestionario = ["id","nombre","solo_preguntas","solo_respuestas","puedenReintentar","puedenSaltearPreguntas","puedenRetroceder"]
+informacionPublicaCuestionario = ["id","nombre","visible","disponible",
+  "solo_preguntas","solo_respuestas","puedenReintentar","puedenSaltearPreguntas","puedenRetroceder"]
 def esconderInformacionSensibleCuestionario(cuestionario):
   cuestionarioPublico = {"tipo":"CUESTIONARIO"}
   for k in cuestionario:
@@ -91,17 +94,17 @@ def esconderInformacionSensibleCurso(curso):
         cursoPublico["todas_las_actividades"].append(actividad)
   return cursoPublico
 
-def cargarEstudiantes(c):
-  archivo = f"estudiantes/{c}.json"
+def cargarUsuarios(c):
+  archivo = f"matricula/{c}.json"
   if os.path.isfile(archivo):
     f = open(archivo, 'r')
-    estudiantes = json.loads(f.read())
+    matricula = json.loads(f.read())
     f.close()
-    cargarUsuariosEnCurso(estudiantes, c)
+    cargarUsuariosEnCurso(matricula, c)
 
 for c in CURSOS:
   CURSOS_publico[c] = esconderInformacionSensibleCurso(CURSOS[c])
-  cargarEstudiantes(c)
+  cargarUsuarios(c)
 
 def tryLogin(jsonObj, verb):
   curso = None
@@ -124,11 +127,12 @@ def tryLogin(jsonObj, verb):
           respuesta['cursos'] = {curso:{"info":CURSOS_publico[curso]["info"]}}
           respuesta['curso'] = curso
           if 'dataEjs' in jsonObj or "actividad" in jsonObj:
-            agregarDataEjs(respuesta['cursos'], jsonObj)
+            agregarDataEjs(usuario, respuesta['cursos'], jsonObj)
   return respuesta
 
-def agregarDataEjs(cursos, jsonObj={}):
+def agregarDataEjs(usuario, cursos, jsonObj={}):
   if "actividad" in jsonObj:
+    # Ya verifiqué que la actividad está habilitada
     for curso in cursos:
       if "todas_las_actividades" in CURSOS_publico[curso]:
         ej = elementoDeId(CURSOS_publico[curso]["todas_las_actividades"], jsonObj["actividad"])
@@ -141,7 +145,7 @@ def agregarDataEjs(cursos, jsonObj={}):
       if "todas_las_actividades" in CURSOS_publico[curso]:
         if not ("actividades" in cursos[curso]):
           cursos[curso]["actividades"] = []
-        cursos[curso]["actividades"] += CURSOS_publico[curso]["todas_las_actividades"]
+        cursos[curso]["actividades"] += versionesParaMostrar(usuario, CURSOS_publico[curso]["todas_las_actividades"], rolesEnCurso(usuario, curso))
 
 def elementoDeId(lista, id):
   for elemento in lista:
@@ -150,11 +154,28 @@ def elementoDeId(lista, id):
   return None
 
 def actividadHabilitada(usuario, curso, actividad):
+  return habilitacionId(usuario, curso, actividad) == "HABILITADA"
+
+# Puede devolver HABILITADA, DESHABILITADA, OCULTA o INEXISTENTE
+def habilitacionId(usuario, curso, actividad):
   if curso is None or not (curso in CURSOS_publico):
-    return False
+    return "INEXISTENTE"
   actividad = elementoDeId(CURSOS_publico[curso]["todas_las_actividades"], actividad)
   if actividad is None:
-    return False
+    return "INEXISTENTE"
+  return habilitacion(usuario, actividad)
+
+def habilitacion(usuario, actividad):
+  if "visible" in actividad:
+    if actividad["visible"] == "NO":
+      return "OCULTA"
+    if fueraDeFecha(actividad["visible"]):
+      return "OCULTA"
+  if "disponible" in actividad:
+    if actividad["disponible"] == "NO":
+      return "DESHABILITADA"
+    if fueraDeFecha(actividad["disponible"]):
+      return "DESHABILITADA"
   if actividad["tipo"] == "CODIGO":
     return ejercicioHabilitado(usuario, actividad)
   elif actividad["tipo"] == "CUESTIONARIO":
@@ -163,23 +184,23 @@ def actividadHabilitada(usuario, curso, actividad):
     return linkHabilitado(usuario, actividad)
   elif actividad["tipo"] == "SECCION":
     return seccionHabilitada(usuario, actividad)
-  return False
+  return "INEXISTENTE"
 
 def ejercicioHabilitado(usuario, ejercicio):
-  # Acá se puede verificar si la fecha del ejercicio ya pasó o si el usuario ya lo resolvió y no lo puede resolver otra vez
-  return True
+  # Acá se puede verificar si el usuario ya lo resolvió y no lo puede resolver otra vez
+  return "HABILITADA"
 
 def cuestionarioHabilitado(usuario, cuestionario):
-  # Acá se puede verificar si la fecha del cuestionario ya pasó o si el usuario ya lo respondió y no lo puede responder otra vez
-  return True
+  # Acá se puede verificar si el usuario ya lo respondió y no lo puede responder otra vez
+  return "HABILITADA"
 
 def linkHabilitado(usuario, cuestionario):
-  # Acá se puede verificar si la fecha del link ya pasó
-  return True
+  # Acá se puede verificar ... ?
+  return "HABILITADA"
 
 def seccionHabilitada(usuario, cuestionario):
   # Acá se puede verificar si hay contenido habilitado en la sección
-  return True
+  return "HABILITADA"
 
 def dame_data_cuestionario(ruta):
   respuesta = {'resultado':"Falla"}
@@ -331,3 +352,19 @@ def planillaDeCurso(curso):
     if 'planilla' in curso:
       return curso['planilla']
   return None
+
+def versionesParaMostrar(usuario, actividades, roles):
+  if 'docente' in roles:
+    return actividades
+  lista = []
+  for actividad in actividades:
+    estado = habilitacion(usuario, actividad)
+    if estado == "HABILITADA":
+      lista.append(actividad)
+    elif estado == "DESHABILITADA":
+      actividadDeshabilitada = {}
+      for k in ['tipo','id','nombre','disponible']:
+        actividadDeshabilitada[k] = actividad[k]
+      actividadDeshabilitada["activa"] = "NO"
+      lista.append(actividadDeshabilitada)
+  return lista
