@@ -23,7 +23,7 @@ Saludos.
 
 def main(): # Cómo usar este archivo: 
   # 0: Conseguir un archivo con la lista de nombres de usuarios de un curso.
-  archivoUsuariosCurso = "matricula/exactas_programa_2025_V.json"
+  archivoUsuariosCurso = "matricula/exactas_programa_2023_I.json"
   # 1: Ejecutar FiltrarEstudiantesExistentes para obtener en un nuevo archivo sólo los usuarios que no están en el sistema.
   if (pasosAEjecutar[1]):
     FiltrarEstudiantesExistentes(
@@ -181,7 +181,7 @@ def MandarMails(mailsAMandar):
       mail['From'] = CUENTA
       server.sendmail(CUENTA, mail['To'], mail.as_string())
 
-caracteres = "1234567890qwertyuiopasdfghjklzxcvbnmMNBVCXZLKJHGFDSAQWERTYUIOP=)(&%$#!¿?+*-_.[]}{"
+caracteres = "1234567890qwertyuiopasdfghjklzxcvbnmMNBVCXZLKJHGFDSAQWERTYUIOP=)(&%$#!?+*-_.[]}{"
 def claveAleatoria():
   clave = ""
   i=0
