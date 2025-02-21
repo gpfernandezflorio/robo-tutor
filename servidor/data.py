@@ -154,7 +154,7 @@ def elementoDeId(lista, id):
   return None
 
 def actividadHabilitada(usuario, curso, actividad):
-  return habilitacionId(usuario, curso, actividad) == "HABILITADA"
+  return 'docente' in rolesEnCurso(usuario, curso) or habilitacionId(usuario, curso, actividad) == "HABILITADA"
 
 # Puede devolver HABILITADA, DESHABILITADA, OCULTA o INEXISTENTE
 def habilitacionId(usuario, curso, actividad):
