@@ -170,7 +170,8 @@ MasFunciones2025V = {
 OperadoresLogicos2025V = {
   "tipo":"CUESTIONARIO",
   "id":"OperadoresLogicos",
-  "file_moodle":"exactas_programa_2025_V/Operadores Logicos.xml"
+  "file_moodle":"exactas_programa_2025_V/Operadores Logicos.xml",
+  "visible":"NO"
 }
 
 figus_sin_funciones = {
@@ -252,7 +253,8 @@ diezmil_1 = {
   }, {
     "pre":"tiradas = [4,3,2,1,0]",
     "assert":"len(cubilete) == 5 and all([(cubilete[i] >= 1 and cubilete[i] <= 6) for i in range(5)]) and all([cubilete[i] != cubilete[i+1] for i in range(4)])"
-  }]
+  }],
+  "visible":"NO"
 }
 
 diezmil_2 = {
@@ -276,7 +278,8 @@ diezmil_2 = {
   }, {
     "pre":"cubilete = [1,1,1,1,1]",
     "assert":"puntos_por_unos(cubilete) == 10000 and cubilete == [1,1,1,1,1]"
-  }]
+  }],
+  "visible":"NO"
 }
 
 diezmil_3 = {
@@ -291,7 +294,8 @@ diezmil_3 = {
   }, {
     "pre":"jugada = [150,250,300]\ntotales = [350,1100,2350]",
     "assert":"acumular_puntajes(jugada,totales) is None and jugada == [150,250,300] and totales == [500,1350,2650]"
-  }]
+  }],
+  "visible":"NO"
 }
 
 linkEncuestaInicial_2025_V = {
