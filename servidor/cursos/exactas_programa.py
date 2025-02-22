@@ -124,117 +124,127 @@ OperadoresLogicos2023I = {
   "file_moodle":"exactas_programa_2023_I/OperadoresLogicos.xml"
 }
 
-AsignacionesYListas2025V = {
-  "tipo":"CUESTIONARIO",
-  "id":"AsignacionesYListas",
-  "file_moodle":"exactas_programa_2025_V/Asignaciones y Listas.xml",
-  "disponible":{"desde":"24/2/2025-8:30"}
-}
+def AsignacionesYListas2025V(fecha):
+  return {
+    "tipo":"CUESTIONARIO",
+    "id":"AsignacionesYListas",
+    "file_moodle":"exactas_programa_2025_V/Asignaciones y Listas.xml",
+    "visible":{"desde":fecha}
+  }
 
-ListasYFigus2025V = {
-  "tipo":"CUESTIONARIO",
-  "id":"ListasYFigus",
-  "file_moodle":"exactas_programa_2025_V/Listas y Figus.xml",
-  "disponible":{"desde":"24/2/2025-8:30"}
-}
+def ListasYFigus2025V(fecha):
+  return {
+    "tipo":"CUESTIONARIO",
+    "id":"ListasYFigus",
+    "file_moodle":"exactas_programa_2025_V/Listas y Figus.xml",
+    "visible":{"desde":fecha}
+  }
 
-Funciones2025V = {
-  "tipo":"CUESTIONARIO",
-  "id":"Funciones",
-  "file_moodle":"exactas_programa_2025_V/Funciones.xml",
-  "disponible":{"desde":"26/2/2025-8:30"}
-}
+def Funciones2025V(fecha):
+  return {
+    "tipo":"CUESTIONARIO",
+    "id":"Funciones",
+    "file_moodle":"exactas_programa_2025_V/Funciones.xml",
+    "visible":{"desde":fecha}
+  }
 
-CiclosYCondiciones2025V = {
-  "tipo":"CUESTIONARIO",
-  "id":"CiclosYCondiciones",
-  "file_moodle":"exactas_programa_2025_V/Ciclos y Condiciones.xml",
-  "disponible":{"desde":"26/2/2025-8:30"}
-}
+def CiclosYCondiciones2025V(fecha):
+  return {
+    "tipo":"CUESTIONARIO",
+    "id":"CiclosYCondiciones",
+    "file_moodle":"exactas_programa_2025_V/Ciclos y Condiciones.xml",
+    "visible":{"desde":fecha}
+  }
 
-CiclosYFigus2025V = {
-  "tipo":"CUESTIONARIO",
-  "id":"CiclosYFigus",
-  "file_moodle":"exactas_programa_2025_V/Ciclos y Figus.xml",
-  "disponible":{"desde":"24/2/2025-8:30"}
-}
+def CiclosYFigus2025V(fecha):
+  return {
+    "tipo":"CUESTIONARIO",
+    "id":"CiclosYFigus",
+    "file_moodle":"exactas_programa_2025_V/Ciclos y Figus.xml",
+    "visible":{"desde":fecha}
+  }
 
-MasFunciones2025V = {
-  "tipo":"CUESTIONARIO",
-  "id":"MasFunciones",
-  "file_moodle":"exactas_programa_2025_V/Mas Funciones.xml",
-  "disponible":{"desde":"26/2/2025-8:30"},
-  "visible":"NO"
-}
+def MasFunciones2025V(fecha):
+  return {
+    "tipo":"CUESTIONARIO",
+    "id":"MasFunciones",
+    "file_moodle":"exactas_programa_2025_V/Mas Funciones.xml",
+    "visible":{"desde":fecha},
+    "visible":"NO"
+  }
 
-OperadoresLogicos2025V = {
-  "tipo":"CUESTIONARIO",
-  "id":"OperadoresLogicos",
-  "file_moodle":"exactas_programa_2025_V/Operadores Logicos.xml",
-  "visible":"NO"
-}
+def OperadoresLogicos2025V(fecha):
+  return {
+    "tipo":"CUESTIONARIO",
+    "id":"OperadoresLogicos",
+    "file_moodle":"exactas_programa_2025_V/Operadores Logicos.xml",
+    "visible":"NO"
+  }
 
-figus_sin_funciones = {
-  "tipo":"CODIGO",
-  "id":"Figus_sf_1",
-  "nombre":"Figus, sin funciones",
-  "enunciado":"Sabiendo que está definida la función <code>dadoDe_Caras(cantidadDeCaras)</code>, que al invocarla devuelve un número entre <code>0</code> y <code>cantidadDeCaras-1</code>, inclusive, escribir una rutina en la que:<br/>- Se genere una variable <code>album</code>, que sea una lista de 6 casilleros, en principio rellena de ceros.<br/>- Se defina un ciclo que repita el mismo <em>procedimiento</em> hasta que el album se llene (todos los casilleros tengan un 1).<br/>- El <em>procedimiento</em> debe consistir en:<br/>1. Generar una variable <code>dado</code> que reciba un número aleatorio entre 0 y 5.<br/>2. Poner un 1 en el casillero <code>dado</code> del album.<br/>- Además, debe haber un contador <code>i</code> que cada vez que se tire el <code>dado</code> aumente en 1.",
-  "pre":"k=-1\ndef dadoDe_Caras(cantidadDeCaras):\n  global k\n  k = (k+1) % len(tiradas)\n  return tiradas[k] % cantidadDeCaras",
-  "def":["album","i","dado"],
-  "run_data":[{
-    "pre":"tiradas = [0,1,2,3,4,5]",
-    "assert":"i == 6 and type(album) == type([]) and len(album) == 6 and len(list(filter(lambda x : x==1, album))) == 6"
-  }, {
-    "pre":"tiradas = [0,1,2,0,1,2,3,4,3,5]",
-    "assert":"i == 10 and type(album) == type([]) and len(album) == 6 and len(list(filter(lambda x : x==1, album))) == 6"
-  }],
-  "disponible":{"desde":"24/2/2025-8:30"}
-}
+def figus_sin_funciones(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"Figus_sf_1",
+    "nombre":"Figus, sin funciones",
+    "enunciado":"Sabiendo que está definida la función <code>dadoDe_Caras(cantidadDeCaras)</code>, que al invocarla devuelve un número entre <code>0</code> y <code>cantidadDeCaras-1</code>, inclusive, escribir una rutina en la que:<br/>- Se genere una variable <code>album</code>, que sea una lista de 6 casilleros, en principio rellena de ceros.<br/>- Se defina un ciclo que repita el mismo <em>procedimiento</em> hasta que el album se llene (todos los casilleros tengan un 1).<br/>- El <em>procedimiento</em> debe consistir en:<br/>1. Generar una variable <code>dado</code> que reciba un número aleatorio entre 0 y 5.<br/>2. Poner un 1 en el casillero <code>dado</code> del album.<br/>- Además, debe haber un contador <code>i</code> que cada vez que se tire el <code>dado</code> aumente en 1.",
+    "pre":"k=-1\ndef dadoDe_Caras(cantidadDeCaras):\n  global k\n  k = (k+1) % len(tiradas)\n  return tiradas[k] % cantidadDeCaras",
+    "def":["album","i","dado"],
+    "run_data":[{
+      "pre":"tiradas = [0,1,2,3,4,5]",
+      "assert":"i == 6 and type(album) == type([]) and len(album) == 6 and len(list(filter(lambda x : x==1, album))) == 6"
+    }, {
+      "pre":"tiradas = [0,1,2,0,1,2,3,4,3,5]",
+      "assert":"i == 10 and type(album) == type([]) and len(album) == 6 and len(list(filter(lambda x : x==1, album))) == 6"
+    }],
+    "visible":{"desde":fecha}
+  }
 
-figus_de_verdad_1 = {
-  "tipo":"CODIGO",
-  "id":"Figus_dv_1",
-  "nombre":"Figus, de verdad (1)",
-  "enunciado":"Sabiendo que está definida la función <code>dadoDe_Caras(cantidadDeCaras)</code>, que al invocarla devuelve un número entre <code>0</code> y <code>cantidadDeCaras-1</code>, inclusive, implementar la función <code>cuantas_figus(figus_total)</code> que reciba la cantidad total de figuritas de un álbum (<code>figus_total</code>), realice la simulación de llenado y devuelva la cantidad de figuritas que fue necesario comprar para llenar el álbum. Se asume que las figuritas se compran de a una. Escribir un ciclo controlado por un contador <code>j</code> en el que la función se corra 1000 veces para un álbum de 6 figuritas y se calcule el promedio de figuritas necesarias para llenar el álbum en esas 1000 pruebas. Este promedio debe almacenarse en una variable de nombre <code>promedio</code>.",
-  "pre":"k=-1\ndef dadoDe_Caras(cantidadDeCaras):\n  global k\n  k = (k+1) % len(tiradas)\n  return tiradas[k] % cantidadDeCaras",
-  "aridad":{"cuantas_figus":1},
-  "def":["promedio","j"],
-  "run_data":[{
-    "pre":"tiradas = [0,1,2,3,4,5]",
-    "assert":"j == 1000 and promedio == 6"
-  }, {
-    "pre":"tiradas = [0,6,1,7,2,2,3,3,4,4,5]",
-    "assert":"j == 1000 and promedio == 11 and cuantas_figus(8) == 11"
-  }, {
-    "pre":"tiradas = [0,1,2,3,4,5,6,0,1,1,2,2,3,7,4,5]",
-    "assert":"j == 1000 and promedio == 8 and cuantas_figus(8) == 14"
-  }],
-  "disponible":{"desde":"26/2/2025-8:30"}
-}
+def figus_de_verdad_1(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"Figus_dv_1",
+    "nombre":"Figus, de verdad (1)",
+    "enunciado":"Sabiendo que está definida la función <code>dadoDe_Caras(cantidadDeCaras)</code>, que al invocarla devuelve un número entre <code>0</code> y <code>cantidadDeCaras-1</code>, inclusive, implementar la función <code>cuantas_figus(figus_total)</code> que reciba la cantidad total de figuritas de un álbum (<code>figus_total</code>), realice la simulación de llenado y devuelva la cantidad de figuritas que fue necesario comprar para llenar el álbum. Se asume que las figuritas se compran de a una. Escribir un ciclo controlado por un contador <code>j</code> en el que la función se corra 1000 veces para un álbum de 6 figuritas y se calcule el promedio de figuritas necesarias para llenar el álbum en esas 1000 pruebas. Este promedio debe almacenarse en una variable de nombre <code>promedio</code>.",
+    "pre":"k=-1\ndef dadoDe_Caras(cantidadDeCaras):\n  global k\n  k = (k+1) % len(tiradas)\n  return tiradas[k] % cantidadDeCaras",
+    "aridad":{"cuantas_figus":1},
+    "def":["promedio","j"],
+    "run_data":[{
+      "pre":"tiradas = [0,1,2,3,4,5]",
+      "assert":"j == 1000 and promedio == 6"
+    }, {
+      "pre":"tiradas = [0,6,1,7,2,2,3,3,4,4,5]",
+      "assert":"j == 1000 and promedio == 11 and cuantas_figus(8) == 11"
+    }, {
+      "pre":"tiradas = [0,1,2,3,4,5,6,0,1,1,2,2,3,7,4,5]",
+      "assert":"j == 1000 and promedio == 8 and cuantas_figus(8) == 14"
+    }],
+    "visible":{"desde":fecha}
+  }
 
-figus_de_verdad_2 = {
-  "tipo":"CODIGO",
-  "id":"Figus_dv_2",
-  "nombre":"Figus, de verdad (2)",
-  "enunciado":"Sabiendo que está definida la función <code>dadoDe_Caras(cantidadDeCaras)</code>, que al invocarla devuelve un número entre <code>0</code> y <code>cantidadDeCaras-1</code>, inclusive, implementar las siguientes funciones:<br/>(a) <code>cuantas_figus(album)</code>: debe recibir una lista <code>album</code> y simular el llenado, asumiendo que se compran figuritas de a una. Debe devolver la cantidad de figuritas que fue necesario comprar.<br/>(b) <code>limpiar_album(album)</code>: debe recibir una lista <code>album</code> y llenarla de ceros (reiniciar el álbum).<br/>(c) <code>promedio(figus_total, n_albumes)</code>: debe recibir dos números, crear un álbum de <code>figus_total</code> casilleros y definir un contador <code>cantidad</code> en el que se acumule la cantidad de figus compradas. Luego, realizar un ciclo de <code>n_albumes</code> pasos en el que:<br/>1. Se limpie el album usando la función <code>limpiar_album</code>,<br/>2. Se llene el album usando la función <code>cuantas_figus</code> y<br/>3. Se sume a <code>cantidad</code> el número de figuritas necesarias para llenar el álbum.<br/>Finalmente, debe devolver el promedio de figuritas necesarias para llenar un álbum (<code>cantidad / n_albumes</code>).",
-  "aridad":{"cuantas_figus":1,"limpiar_album":1,"promedio":2},
-  "pre":"k=-1\ndef dadoDe_Caras(cantidadDeCaras):\n  global k\n  k = (k+1) % len(tiradas)\n  return tiradas[k] % cantidadDeCaras",
-  "run_data":[{
-    "pre":"a1 = [1]*6\na2 = [1]*10\na3 = [1]*150",
-    "post":"limpiar_album(a1)\nlimpiar_album(a2)\nlimpiar_album(a3)",
-    "assert":"all(a1[i] == 0 for i in range(len(a1))) and all(a2[i] == 0 for i in range(len(a2))) and all(a3[i] == 0 for i in range(len(a3)))"
-  }, {
-    "pre":"tiradas = [0,1,2,3,4,5]",
-    "assert":"cuantas_figus([0]*6) == 6 and abs(promedio(6,4) - 6) < 0.1"
-  }, {
-    "pre":"tiradas = [0,6,1,7,2,8,3,9,4,10,5,11]",
-    "assert":"cuantas_figus([0]*6) == 11 and cuantas_figus([0]*10) == 12"
-  }, {
-    "pre":"tiradas = [0,1,2,3,0,0,1,1,2,2,3,3,3,3,2,2,2,1,1,1,0]",
-    "assert":"abs(promedio(4,3) - 7) < 0.1 and abs(promedio(4,6) - 7) < 0.1"
-  }],
-  "disponible":{"desde":"26/2/2025-8:30"}
-}
+def figus_de_verdad_2(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"Figus_dv_2",
+    "nombre":"Figus, de verdad (2)",
+    "enunciado":"Sabiendo que está definida la función <code>dadoDe_Caras(cantidadDeCaras)</code>, que al invocarla devuelve un número entre <code>0</code> y <code>cantidadDeCaras-1</code>, inclusive, implementar las siguientes funciones:<br/>(a) <code>cuantas_figus(album)</code>: debe recibir una lista <code>album</code> y simular el llenado, asumiendo que se compran figuritas de a una. Debe devolver la cantidad de figuritas que fue necesario comprar.<br/>(b) <code>limpiar_album(album)</code>: debe recibir una lista <code>album</code> y llenarla de ceros (reiniciar el álbum).<br/>(c) <code>promedio(figus_total, n_albumes)</code>: debe recibir dos números, crear un álbum de <code>figus_total</code> casilleros y definir un contador <code>cantidad</code> en el que se acumule la cantidad de figus compradas. Luego, realizar un ciclo de <code>n_albumes</code> pasos en el que:<br/>1. Se limpie el album usando la función <code>limpiar_album</code>,<br/>2. Se llene el album usando la función <code>cuantas_figus</code> y<br/>3. Se sume a <code>cantidad</code> el número de figuritas necesarias para llenar el álbum.<br/>Finalmente, debe devolver el promedio de figuritas necesarias para llenar un álbum (<code>cantidad / n_albumes</code>).",
+    "aridad":{"cuantas_figus":1,"limpiar_album":1,"promedio":2},
+    "pre":"k=-1\ndef dadoDe_Caras(cantidadDeCaras):\n  global k\n  k = (k+1) % len(tiradas)\n  return tiradas[k] % cantidadDeCaras",
+    "run_data":[{
+      "pre":"a1 = [1]*6\na2 = [1]*10\na3 = [1]*150",
+      "post":"limpiar_album(a1)\nlimpiar_album(a2)\nlimpiar_album(a3)",
+      "assert":"all(a1[i] == 0 for i in range(len(a1))) and all(a2[i] == 0 for i in range(len(a2))) and all(a3[i] == 0 for i in range(len(a3)))"
+    }, {
+      "pre":"tiradas = [0,1,2,3,4,5]",
+      "assert":"cuantas_figus([0]*6) == 6 and abs(promedio(6,4) - 6) < 0.1"
+    }, {
+      "pre":"tiradas = [0,6,1,7,2,8,3,9,4,10,5,11]",
+      "assert":"cuantas_figus([0]*6) == 11 and cuantas_figus([0]*10) == 12"
+    }, {
+      "pre":"tiradas = [0,1,2,3,0,0,1,1,2,2,3,3,3,3,2,2,2,1,1,1,0]",
+      "assert":"abs(promedio(4,3) - 7) < 0.1 and abs(promedio(4,6) - 7) < 0.1"
+    }],
+    "visible":{"desde":fecha}
+  }
 
 diezmil_1 = {
   "tipo":"CODIGO",
@@ -305,110 +315,219 @@ linkEncuestaInicial_2025_V = {
   "url":"https://docs.google.com/forms/d/e/1FAIpQLSefK1jnPNEanKnKnVxkZNZfFJv0sWRS4ataFyerLZd_fQ47tA/viewform"
 }
 
-linkBloquesFigus1 = {
-  "tipo":"LINK",
-  "id":"bloquesFigus1",
-  "nombre":"Figus Bloques (1)",
-  "url":"https://reda-ar.github.io/campus/milanator/?juego=figus0&toolbox=off",
-  "disponible":{"desde":"24/2/2025-8:30"}
-}
+def linkBloquesFigus1(fecha):
+  return {
+    "tipo":"LINK",
+    "id":"bloquesFigus1",
+    "nombre":"Figus Bloques (1)",
+    "url":"https://reda-ar.github.io/campus/milanator/?juego=figus0&toolbox=off",
+    "visible":{"desde":fecha}
+  }
 
-linkBloquesFigus2 = {
-  "tipo":"LINK",
-  "id":"bloquesFigus2",
-  "nombre":"Figus Bloques (2) (opcional)",
-  "url":"https://reda-ar.github.io/campus/milanator/?juego=figus",
-  "disponible":{"desde":"24/2/2025-8:30"}
-}
+def linkBloquesFigus2(fecha):
+  return {
+    "tipo":"LINK",
+    "id":"bloquesFigus2",
+    "nombre":"Figus Bloques (2) (exploratorio)",
+    "url":"https://reda-ar.github.io/campus/milanator/?juego=figus",
+    "visible":{"desde":fecha}
+  }
 
-linkBloquesFigus3 = {
-  "tipo":"LINK",
-  "id":"bloquesFigus3",
-  "nombre":"Figus Bloques (3) (opcional)",
-  "url":"https://reda-ar.github.io/campus/milanator/?juego=figus&fix=N",
-  "disponible":{"desde":"24/2/2025-8:30"}
-}
+def linkBloquesFigus3(fecha):
+  return {
+    "tipo":"LINK",
+    "id":"bloquesFigus3",
+    "nombre":"Figus Bloques (3) (exploratorio)",
+    "url":"https://reda-ar.github.io/campus/milanator/?juego=figus&fix=N",
+    "visible":{"desde":fecha}
+  }
 
-linkBloquesFigus4 = {
-  "tipo":"LINK",
-  "id":"bloquesFigus4",
-  "nombre":"Figus Bloques (4) (opcional)",
-  "url":"https://reda-ar.github.io/campus/milanator/?juego=figus2",
-  "disponible":{"desde":"24/2/2025-8:30"}
-}
+def linkBloquesFigus4(fecha):
+  return {
+    "tipo":"LINK",
+    "id":"bloquesFigus4",
+    "nombre":"Figus Bloques (4) (exploratorio)",
+    "url":"https://reda-ar.github.io/campus/milanator/?juego=figus2",
+    "visible":{"desde":fecha}
+  }
 
-linkComoLaPasaste_2025_V = {
-  "tipo":"LINK",
-  "id":"linkComoLaPasaste",
-  "nombre":"Encuesta cierre Clase 00",
-  "url":"https://docs.google.com/forms/d/e/1FAIpQLSdjUo4bpoJ0wYFftUUMs9xh0BfY6wLiKsjbFj5l1HfHVeJ8ZQ/viewform",
-  "disponible":{"desde":"24/2/2025-8:30"}
-}
+def linkComoLaPasaste_2025_V(fecha):
+  return {
+    "tipo":"LINK",
+    "id":"linkComoLaPasaste",
+    "nombre":"Encuesta cierre Clase 00",
+    "url":"https://docs.google.com/forms/d/e/1FAIpQLSdjUo4bpoJ0wYFftUUMs9xh0BfY6wLiKsjbFj5l1HfHVeJ8ZQ/viewform",
+    "visible":{"desde":fecha}
+  }
 
-linkDiaposClase00_2025_V = {
-  "tipo":"LINK",
-  "id":"linkDiapos00",
-  "nombre":"Diapositivas Clase 00",
-  "url":"https://drive.google.com/file/d/110QruT1EjERsnzYqCveLokIRF5Khqw7h/view?usp=drive_link",
-  "disponible":{"desde":"25/2/2025-8:30"}
-}
+def linkDiaposClase00_2025_V(fecha):
+  return {
+    "tipo":"LINK",
+    "id":"linkDiapos00",
+    "nombre":"Diapositivas Clase 00",
+    "url":"https://drive.google.com/file/d/110QruT1EjERsnzYqCveLokIRF5Khqw7h/view?usp=drive_link",
+    "visible":{"desde":fecha}
+  }
 
-linkMachete00_2025_V = {
-  "tipo":"LINK",
-  "id":"linkMachete00",
-  "nombre":"Machete Clase 00",
-  "url":"https://drive.google.com/file/d/1rbB3bocljMegO8o-X3_rHL30CVo5nI7w/view?usp=drive_link",
-  "disponible":{"desde":"25/2/2025-8:30"}
-}
+def linkMachete00_2025_V(fecha):
+  return {
+    "tipo":"LINK",
+    "id":"linkMachete00",
+    "nombre":"Machete Clase 00",
+    "url":"https://drive.google.com/file/d/1rbB3bocljMegO8o-X3_rHL30CVo5nI7w/view?usp=drive_link",
+    "visible":{"desde":fecha}
+  }
 
-linkDiaposClase01_2025_V = {
-  "tipo":"LINK",
-  "id":"linkDiapos01",
-  "nombre":"Diapositivas Clase 01",
-  "url":"https://drive.google.com/file/d/1XMrG_3MsUSMdk61eJTpSK0ceEyKltmds/view?usp=drive_link",
-  "disponible":{"desde":"26/2/2025-8:30"}
-}
+def linkDiaposClase01_2025_V(fecha):
+  return {
+    "tipo":"LINK",
+    "id":"linkDiapos01",
+    "nombre":"Diapositivas Clase 01",
+    "url":"https://drive.google.com/file/d/1XMrG_3MsUSMdk61eJTpSK0ceEyKltmds/view?usp=drive_link",
+    "visible":{"desde":fecha}
+  }
 
-linkActividad01_2025_V = {
-  "tipo":"LINK",
-  "id":"linkActividad01",
-  "nombre":"Actividad Clase 01",
-  "url":"https://drive.google.com/file/d/1iW4qFXydl6-daZ6r5mhnGdYUgqFCiJfL/view?usp=drive_link",
-  "disponible":{"desde":"26/2/2025-8:30"}
-}
+def linkActividad01_2025_V(fecha):
+  return {
+    "tipo":"LINK",
+    "id":"linkActividad01",
+    "nombre":"Actividad Clase 01",
+    "url":"https://drive.google.com/file/d/1iW4qFXydl6-daZ6r5mhnGdYUgqFCiJfL/view?usp=drive_link",
+    "visible":{"desde":fecha}
+  }
 
-linkParaPensar01_2025_V = {
-  "tipo":"LINK",
-  "id":"linkParaPensar01",
-  "nombre":"Para pensar durante el finde",
-  "url":"https://drive.google.com/file/d/1OQd1wt5iLhr129ze6dknUY-GkF6lT8Am/view?usp=drive_link",
-  "disponible":{"desde":"27/2/2025-8:00"}
-}
+def linkParaPensar01_2025_V(fecha):
+  return {
+    "tipo":"LINK",
+    "id":"linkParaPensar01",
+    "nombre":"Para pensar durante el finde",
+    "url":"https://drive.google.com/file/d/1OQd1wt5iLhr129ze6dknUY-GkF6lT8Am/view?usp=drive_link",
+    "visible":{"desde":fecha}
+  }
 
-linkNotaPenza_2025_V = {
-  "tipo":"LINK",
-  "id":"linkNotaPenza",
-  "nombre":"Nota de Adrián Paenza sobre figuritas",
-  "url":"https://drive.google.com/file/d/16RFHGLYCPpMqC8keGVrPaq3DcreegTPM/view?usp=drive_link",
-  "disponible":{"desde":"27/2/2025-8:00"}
-}
+def linkNotaPenza_2025_V(fecha):
+  return {
+    "tipo":"LINK",
+    "id":"linkNotaPenza",
+    "nombre":"Nota de Adrián Paenza sobre figuritas",
+    "url":"https://drive.google.com/file/d/16RFHGLYCPpMqC8keGVrPaq3DcreegTPM/view?usp=drive_link",
+    "visible":{"desde":fecha}
+  }
 
-clase0 = {
-  "tipo":"SECCION",
-  "id":"clase0",
-  "nombre":"Clase 00 - Introducción"
-}
+def clase0(fecha):
+  return {
+    "tipo":"SECCION",
+    "id":"clase0",
+    "nombre":"Clase 00 - Introducción",
+    "visible":{"desde":fecha}
+  }
 
-clase1 = {
-  "tipo":"SECCION",
-  "id":"clase1",
-  "nombre":"Clase 01 - Figuritas"
-}
+def clase1(fecha):
+  return {
+    "tipo":"SECCION",
+    "id":"clase1",
+    "nombre":"Clase 01 - Figuritas",
+    "visible":{"desde":fecha}
+  }
 
 clase2 = {
   "tipo":"SECCION",
   "id":"clase2",
-  "nombre":"Clase 02 - Diez mil"
+  "nombre":"Clase 02 - Diez mil",
+  "visible":"NO"
+}
+
+actividades_2025_V = {
+  "TM":[
+      linkEncuestaInicial_2025_V,
+    clase0("24/2/2025-8:30"),
+      linkBloquesFigus1("24/2/2025-8:30"),
+      linkBloquesFigus2("24/2/2025-8:30"),
+      linkBloquesFigus3("24/2/2025-8:30"),
+      linkBloquesFigus4("24/2/2025-8:30"),
+      linkComoLaPasaste_2025_V("24/2/2025-12:30"),
+      linkDiaposClase00_2025_V("24/2/2025-8:30"),
+      AsignacionesYListas2025V("24/2/2025-12:30"),
+      ListasYFigus2025V("24/2/2025-12:30"),
+      CiclosYFigus2025V("24/2/2025-12:30"),
+      figus_sin_funciones("24/2/2025-12:30"),
+      linkMachete00_2025_V("24/2/2025-12:30"),
+    clase1("26/2/2025-8:30"),
+      linkDiaposClase01_2025_V("26/2/2025-8:30"),
+      linkActividad01_2025_V("26/2/2025-8:30"),
+      CiclosYCondiciones2025V("26/2/2025-12:30"),
+      Funciones2025V("26/2/2025-12:30"),
+      MasFunciones2025V("26/2/2025-12:30"),
+      figus_de_verdad_1("26/2/2025-12:30"),
+      figus_de_verdad_2("26/2/2025-12:30"),
+      linkParaPensar01_2025_V("26/2/2025-12:30"),
+      linkNotaPenza_2025_V("26/2/2025-12:30"),
+    clase2,
+      OperadoresLogicos2025V(""),
+      diezmil_1,
+      diezmil_2,
+      diezmil_3
+  ],
+  "TT":[
+      linkEncuestaInicial_2025_V,
+    clase0("24/2/2025-13:00"),
+      linkBloquesFigus1("24/2/2025-13:00"),
+      linkBloquesFigus2("24/2/2025-13:00"),
+      linkBloquesFigus3("24/2/2025-13:00"),
+      linkBloquesFigus4("24/2/2025-13:00"),
+      linkComoLaPasaste_2025_V("24/2/2025-17:00"),
+      linkDiaposClase00_2025_V("24/2/2025-13:00"),
+      AsignacionesYListas2025V("24/2/2025-17:00"),
+      ListasYFigus2025V("24/2/2025-17:00"),
+      CiclosYFigus2025V("24/2/2025-17:00"),
+      figus_sin_funciones("24/2/2025-17:00"),
+      linkMachete00_2025_V("24/2/2025-17:00"),
+    clase1("26/2/2025-13:00"),
+      linkDiaposClase01_2025_V("26/2/2025-13:00"),
+      linkActividad01_2025_V("26/2/2025-13:00"),
+      CiclosYCondiciones2025V("26/2/2025-17:00"),
+      Funciones2025V("26/2/2025-17:00"),
+      MasFunciones2025V("26/2/2025-17:00"),
+      figus_de_verdad_1("26/2/2025-17:00"),
+      figus_de_verdad_2("26/2/2025-17:00"),
+      linkParaPensar01_2025_V("26/2/2025-17:00"),
+      linkNotaPenza_2025_V("26/2/2025-17:00"),
+    clase2,
+      OperadoresLogicos2025V(""),
+      diezmil_1,
+      diezmil_2,
+      diezmil_3
+  ],
+  "TV":[
+      linkEncuestaInicial_2025_V,
+    clase0("24/2/2025-17:30"),
+      linkBloquesFigus1("24/2/2025-17:30"),
+      linkBloquesFigus2("24/2/2025-17:30"),
+      linkBloquesFigus3("24/2/2025-17:30"),
+      linkBloquesFigus4("24/2/2025-17:30"),
+      linkComoLaPasaste_2025_V("24/2/2025-21:30"),
+      linkDiaposClase00_2025_V("24/2/2025-17:30"),
+      AsignacionesYListas2025V("24/2/2025-21:30"),
+      ListasYFigus2025V("24/2/2025-21:30"),
+      CiclosYFigus2025V("24/2/2025-21:30"),
+      figus_sin_funciones("24/2/2025-21:30"),
+      linkMachete00_2025_V("24/2/2025-21:30"),
+    clase1("26/2/2025-17:30"),
+      linkDiaposClase01_2025_V("26/2/2025-17:30"),
+      linkActividad01_2025_V("26/2/2025-17:30"),
+      CiclosYCondiciones2025V("26/2/2025-21:30"),
+      Funciones2025V("26/2/2025-21:30"),
+      MasFunciones2025V("26/2/2025-21:30"),
+      figus_de_verdad_1("26/2/2025-21:30"),
+      figus_de_verdad_2("26/2/2025-21:30"),
+      linkParaPensar01_2025_V("26/2/2025-21:30"),
+      linkNotaPenza_2025_V("26/2/2025-21:30"),
+    clase2,
+      OperadoresLogicos2025V(""),
+      diezmil_1,
+      diezmil_2,
+      diezmil_3
+  ]
 }
 
 CURSOS = {
@@ -425,9 +544,12 @@ CURSOS = {
     "lenguaje":"Python",
     "lenguaje_display":"none",
     "actividades":[AsignacionesYListas2023I,ListasYFigus2023I,Funciones2023I,figus_1_cantidadNecesaria,figus_2_promedio,figus_3_esperanza,figus_4_chance,figus_5_simulacion_chance,CiclosYCondiciones2023I,CiclosYFigus2023I,MasFunciones2023I,OperadoresLogicos2023I]
-  },
-  "exactas_programa_2025_V":{
-    "nombre":"Exactas Programa Verano 2025",
+  }
+}
+
+for turno in actividades_2025_V:
+  CURSOS["exactas_programa_2025_V_" + turno] = {
+    "nombre":"Exactas Programa Verano 2025 (" + turno + ")",
     "anio":"2025",
     "edicion":"Verano",
     "descripcion":"Curso correspondiente al taller de Python Exactas Programa",
@@ -438,8 +560,7 @@ CURSOS = {
     "institucion":"Facultad de Ciencias Exactas y Naturales (FCEyN) - UBA",
     "lenguaje":"Python",
     "lenguaje_display":"none",
-    "actividades":[clase0,linkEncuestaInicial_2025_V,linkBloquesFigus1,linkBloquesFigus2,linkBloquesFigus3,linkBloquesFigus4,linkComoLaPasaste_2025_V,linkDiaposClase00_2025_V,AsignacionesYListas2025V,ListasYFigus2025V,CiclosYFigus2025V,figus_sin_funciones,linkMachete00_2025_V,
-    clase1,linkDiaposClase01_2025_V,linkActividad01_2025_V,CiclosYCondiciones2025V,Funciones2025V,MasFunciones2025V,figus_de_verdad_1,figus_de_verdad_2,linkParaPensar01_2025_V,linkNotaPenza_2025_V,clase2,OperadoresLogicos2025V,diezmil_1,diezmil_2,diezmil_3],
+    "actividades":actividades_2025_V[turno],
     "planilla":{
       "url":"1FAIpQLSeUWC_rd9VPapkUy4LsnQrwTqUs3J3U5kuFJMmEk8SUXzPaLQ",
       "campos":{
@@ -451,4 +572,3 @@ CURSOS = {
       }
     }
   }
-}
