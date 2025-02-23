@@ -186,15 +186,15 @@ def figus_sin_funciones(fecha):
     "tipo":"CODIGO",
     "id":"Figus_sf_1",
     "nombre":"Figus, versión 0",
-    "enunciado":"Sabiendo que está definida la función <code>dadoDe_Caras(cantidadDeCaras)</code>, que al invocarla devuelve un número entre <code>0</code> y <code>cantidadDeCaras-1</code>, inclusive, escribir una rutina en la que:<br/>- Se genere una variable <code>album</code>, que sea una lista de 6 casilleros, en principio rellena de ceros.<br/>- Se defina un ciclo que repita el mismo <em>procedimiento</em> hasta que el album se llene (todos los casilleros tengan un 1).<br/>- El <em>procedimiento</em> debe consistir en:<br/>1. Generar una variable <code>dado</code> que reciba un número aleatorio entre 0 y 5.<br/>2. Poner un 1 en el casillero <code>dado</code> del album.<br/>- Además, debe haber un contador <code>i</code> que cada vez que se tire el <code>dado</code> aumente en 1.",
-    "pre":"k=-1\ndef dadoDe_Caras(cantidadDeCaras):\n  global k\n  k = (k+1) % len(tiradas)\n  return tiradas[k] % cantidadDeCaras",
-    "def":["album","i","dado"],
+    "enunciado":"Sabiendo que está disponible la función <code>randint(inf, sup)</code>, que devuelve un número entero aleatorio entre <code>inf</code> y <code>sup</code> (ambos incluídos), escribir un código en el que:<br/>- Se genere una variable <code>album</code>, que represente a un álbum de 6 figuritas vacío.<br/>- Se genere una variable <code>contador</code>, para contar el total de figuritas compradas para llenar el álbum.<br/>-  Se defina un ciclo que repita el mismo procedimiento hasta que el album se llene (todos los elementos sean 1). El procedimiento debe consistir en:<br/>1. Generar una variable <code>figu</code> que reciba un número aleatorio entre 0 y 5.<br/>2. Pegar la figu, es decir, poner un 1 en la posición que corresponda del album.<br/>3. Contar la figu, es decir, incrementar la variable <code>contador</code>.",
+    "pre":"k=-1\ndef randint(inf, sup):\n  global k\n  k = (k+1) % len(tiradas)\n  return inf + (tiradas[k] % (sup+1-inf))",
+    "def":["album","contador","figu"],
     "run_data":[{
-      "pre":"tiradas = [0,1,2,3,4,5]",
-      "assert":"i == 6 and type(album) == type([]) and len(album) == 6 and len(list(filter(lambda x : x==1, album))) == 6"
+      "pre":"tiradas = [6,1,2,3,4,5]",
+      "assert":"contador == 6 and type(album) == type([]) and len(album) == 6 and len(list(filter(lambda x : x==1, album))) == 6"
     }, {
       "pre":"tiradas = [0,1,2,0,1,2,3,4,3,5]",
-      "assert":"i == 10 and type(album) == type([]) and len(album) == 6 and len(list(filter(lambda x : x==1, album))) == 6"
+      "assert":"contador == 10 and type(album) == type([]) and len(album) == 6 and len(list(filter(lambda x : x==1, album))) == 6"
     }],
     "visible":{"desde":fecha}
   }
