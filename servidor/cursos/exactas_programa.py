@@ -185,7 +185,7 @@ def figus_sin_funciones(fecha):
   return {
     "tipo":"CODIGO",
     "id":"Figus_sf_1",
-    "nombre":"Figus, sin funciones",
+    "nombre":"Figus, versión 0",
     "enunciado":"Sabiendo que está definida la función <code>dadoDe_Caras(cantidadDeCaras)</code>, que al invocarla devuelve un número entre <code>0</code> y <code>cantidadDeCaras-1</code>, inclusive, escribir una rutina en la que:<br/>- Se genere una variable <code>album</code>, que sea una lista de 6 casilleros, en principio rellena de ceros.<br/>- Se defina un ciclo que repita el mismo <em>procedimiento</em> hasta que el album se llene (todos los casilleros tengan un 1).<br/>- El <em>procedimiento</em> debe consistir en:<br/>1. Generar una variable <code>dado</code> que reciba un número aleatorio entre 0 y 5.<br/>2. Poner un 1 en el casillero <code>dado</code> del album.<br/>- Además, debe haber un contador <code>i</code> que cada vez que se tire el <code>dado</code> aumente en 1.",
     "pre":"k=-1\ndef dadoDe_Caras(cantidadDeCaras):\n  global k\n  k = (k+1) % len(tiradas)\n  return tiradas[k] % cantidadDeCaras",
     "def":["album","i","dado"],
