@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from subprocess import Popen
-import signal
 import json
-
-proceso_en_ejecucion = None
+from analizador import analizarPython, analizarGobstones
+from procesos import ejecutarConTimeout
 
 def run_code(jsonObj, v):
   if (not ("src" in jsonObj)):
@@ -26,17 +24,19 @@ def run_code(jsonObj, v):
   return resultado
 
 def run_python(jsonObj, v):
-  global proceso_en_ejecucion
   run_data = jsonObj["ejercicio"]["run_data"] if "run_data" in jsonObj["ejercicio"] else {}
   if (type(run_data) != type([])):
     run_data = [run_data]
   code = jsonObj["src"]
-  timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
   if (v):
     print(code)
   cm = verificarCodigoMaliciosoPython(code)
   if not (cm is None):
     return {"resultado":"EVIL", "error":cm}
+  resultadoAnalisisCodigo = analizarPython(code, jsonObj["analisisCodigo"])
+  if not(resultadoAnalisisCodigo is None):
+    return resultadoAnalisisCodigo
+  timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
   lineasAdicionales = 0
   codigoPre = prePython() + "\n\n"
   lineasAdicionales = codigoPre.count('\n')
@@ -85,30 +85,29 @@ def run_python(jsonObj, v):
     f = open('src.py', 'w')
     f.write(code_run)
     f.close()
-    signal.alarm(timeout)
-    errcode, salida, falla = ejecutar("python3 src.py")
-    duracion = timeout - signal.alarm(0)
-    if proceso_en_ejecucion is None:
+    resultadoEjecucion = ejecutarConTimeout("python3 src.py", timeout)
+    if resultadoEjecucion["resultado"] == "TIMEOUT":
       return {"resultado":"Except", "error":"La ejecución demoró más de lo permitido"}
-    proceso_en_ejecucion = None
-    duraciones.append(duracion)
-    if len(falla) > 0:
+    duraciones.append(resultadoEjecucion["duracion"])
+    if len(resultadoEjecucion["falla"]) > 0:
       if (v):
-        print(falla)
-      return {"resultado":"Except", "error":buscar_falla_python(falla, lineasAdicionales_run)}
-    if errcode != 0:
+        print(resultadoEjecucion["falla"])
+      return {"resultado":"Except", "error":buscar_falla_python(resultadoEjecucion["falla"], lineasAdicionales_run)}
+    if resultadoEjecucion["errcode"] != 0:
       return {"resultado":"NO"}
   return {"resultado":"OK","duracion":sum(duraciones)/len(duraciones)}
 
 def run_gobstones(jsonObj, v):
-  global proceso_en_ejecucion
   run_data = jsonObj["ejercicio"]["run_data"] if "run_data" in jsonObj["ejercicio"] else {}
   if (type(run_data) != type([])):
     run_data = [run_data]
   code = jsonObj["src"]
-  timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
   if (v):
     print(code)
+  resultadoAnalisisCodigo = analizarGobstones(code, jsonObj["analisisCodigo"])
+  if not(resultadoAnalisisCodigo is None):
+    return resultadoAnalisisCodigo
+  timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
   lineasAdicionales = 0
   if "pre" in jsonObj["ejercicio"]:
     code = jsonObj["ejercicio"]["pre"] + "\n\n" + code
@@ -125,17 +124,14 @@ def run_gobstones(jsonObj, v):
     f = open('board.jboard', 'w')
     f.write(json.dumps(tablero))
     f.close()
-    signal.alarm(timeout)
-    errcode, salida, falla = ejecutar("node gobstones-lang/dist/gobstones-lang run -l es -i src.txt -b")
-    duracion = timeout - signal.alarm(0)
-    if proceso_en_ejecucion is None:
+    resultadoEjecucion = ejecutarConTimeout("node gobstones-lang/dist/gobstones-lang run -l es -i src.txt -b", timeout)
+    if resultadoEjecucion["resultado"] == "TIMEOUT":
       return {"resultado":"Except", "error":"La ejecución demoró más de lo permitido"}
-    proceso_en_ejecucion = None
-    duraciones.append(duracion)
-    if len(falla) > 0:
-      return {"resultado":"Except", "error":buscar_falla_gobstones(falla, lineasAdicionales_run)}
+    duraciones.append(resultadoEjecucion["duracion"])
+    if len(resultadoEjecucion["falla"]) > 0:
+      return {"resultado":"Except", "error":buscar_falla_gobstones(resultadoEjecucion["falla"], lineasAdicionales_run)}
     try:
-      salida = json.loads(salida)
+      salida = json.loads(resultadoEjecucion["salida"])
     except Exception as e:
       if (v):
         mostrar_excepcion(e)
@@ -170,35 +166,6 @@ def run_gobstones(jsonObj, v):
           if not misma_celda(columna_esperada[y], columna_obtenida[y]):
             return {"resultado":"NO"}
   return {"resultado":"OK","duracion":sum(duraciones)/len(duraciones)}
-
-def handler_timeout(s, f):
-  global proceso_en_ejecucion
-  if not (proceso_en_ejecucion is None):
-    proceso_en_ejecucion.kill()
-    proceso_en_ejecucion = None
-
-signal.signal(signal.SIGALRM, handler_timeout)
-
-def ejecutar(cmd):
-  global proceso_en_ejecucion
-  fOut = open('stdout.out','w')
-  fErr = open('stderr.out','w')
-  p = Popen(cmd, stdout=fOut, stderr=fErr, universal_newlines=True, shell=True)
-  proceso_en_ejecucion = p
-  errcode = p.wait()
-  fOut.close()
-  fErr.close()
-  stdout = ""
-  stderr = ""
-  fOut = open('stdout.out','r')
-  for line in fOut.read():
-      stdout += line
-  fOut.close()
-  fErr = open('stderr.out','r')
-  for line in fErr.read():
-      stderr += line
-  fErr.close()
-  return errcode, stdout, stderr
 
 def tablero_valido(t):
   return all(map(lambda x : x in t, ["head","width","height","board"]))

@@ -253,6 +253,7 @@ def intentoCodigo(jsonObj, verb):
       ejercicio = jsonObj['actividad']
       if actividadHabilitada(usuario, curso, ejercicio):
         jsonObj["ejercicio"] = elementoDeId(CURSOS[curso]["actividades"], ejercicio)
+        jsonObj["analisisCodigo"] = reglasDeAnalisisDeCodigo(jsonObj, CURSOS[curso])
         resultado = run_code(jsonObj, verb)
   # else: # Ejercicio libre o usuario anónimo:
   #   resultado = run_code(jsonObj)
@@ -368,3 +369,10 @@ def versionesParaMostrar(usuario, actividades, roles):
       actividadDeshabilitada["activa"] = "NO"
       lista.append(actividadDeshabilitada)
   return lista
+
+def reglasDeAnalisisDeCodigo(jsonObj, curso):
+  ejercicio = jsonObj["ejercicio"]
+  reglas = {}
+  # TODO: if "analisisCodigo" in ejercicio: ...
+  # TODO: if "analisisCodigo" in curso: ...
+  return reglas
