@@ -330,16 +330,16 @@ def linkBloquesFigus2(fecha):
     "id":"bloquesFigus2",
     "nombre":"Figus Bloques (2) (exploratorio)",
     "url":"https://reda-ar.github.io/campus/milanator/?juego=figus",
-    "visible":{"desde":fecha}
+    "visible":"NO"
   }
 
 def linkBloquesFigus3(fecha):
   return {
     "tipo":"LINK",
-    "id":"bloquesFigus3",
-    "nombre":"Figus Bloques (3) (exploratorio)",
+    "id":"bloques5Figus3",
+    "nombre":"Figu5s Bloques (3) (exploratorio)",
     "url":"https://reda-ar.github.io/campus/milanator/?juego=figus&fix=N",
-    "visible":{"desde":fecha}
+    "visible":"NO"
   }
 
 def linkBloquesFigus4(fecha):
@@ -348,7 +348,7 @@ def linkBloquesFigus4(fecha):
     "id":"bloquesFigus4",
     "nombre":"Figus Bloques (4) (exploratorio)",
     "url":"https://reda-ar.github.io/campus/milanator/?juego=figus2",
-    "visible":{"desde":fecha}
+    "visible":"NO"
   }
 
 def linkComoLaPasaste_2025_V(fecha):
