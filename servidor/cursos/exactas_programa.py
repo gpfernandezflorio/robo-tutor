@@ -169,7 +169,6 @@ def MasFunciones2025V(fecha):
     "tipo":"CUESTIONARIO",
     "id":"MasFunciones",
     "file_moodle":"exactas_programa_2025_V/Mas Funciones.xml",
-    "visible":{"desde":fecha},
     "visible":"NO"
   }
 
@@ -178,7 +177,7 @@ def OperadoresLogicos2025V(fecha):
     "tipo":"CUESTIONARIO",
     "id":"OperadoresLogicos",
     "file_moodle":"exactas_programa_2025_V/Operadores Logicos.xml",
-    "visible":"NO"
+    "visible":{"desde":fecha}
   }
 
 def figus_sin_funciones(fecha):
@@ -246,67 +245,70 @@ def figus_de_verdad_2(fecha):
     "visible":{"desde":fecha}
   }
 
-diezmil_1 = {
-  "tipo":"CODIGO",
-  "id":"diezmil_1",
-  "nombre":"Diezmil (1)",
-  "enunciado":"Sabiendo que está definida la función <code>dado(cantidadDeCaras)</code>, que al invocarla devuelve un número entre <code>0</code> y <code>cantidadDeCaras-1</code>, inclusive, implementar la función <code>tirar_cubilete()</code> que no reciba parámetros y devuelva una lista de 5 casilleros con números al azar entre 1 y 6.",
-  "aridad":{"tirar_cubilete":0},
-  "pre":"k=-1\ndef dado(cantidadDeCaras):\n  global k\n  k = (k+1) % len(tiradas)\n  return tiradas[k] % cantidadDeCaras",
-  "post":"cubilete = tirar_cubilete()",
-  "run_data":[{
-    "pre":"tiradas = [2]",
-    "assert":"len(cubilete) == 5 and all([(cubilete[i] >= 1 and cubilete[i] <= 6) for i in range(5)]) and all([cubilete[i] == cubilete[i+1] for i in range(4)])"
-  }, {
-    "pre":"tiradas = [2,5,2,5,1]",
-    "assert":"len(cubilete) == 5 and all([(cubilete[i] >= 1 and cubilete[i] <= 6) for i in range(5)])"
-  }, {
-    "pre":"tiradas = [4,3,2,1,0]",
-    "assert":"len(cubilete) == 5 and all([(cubilete[i] >= 1 and cubilete[i] <= 6) for i in range(5)]) and all([cubilete[i] != cubilete[i+1] for i in range(4)])"
-  }],
-  "visible":"NO"
-}
+def diezmil_1(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"diezmil_1",
+    "nombre":"Diezmil (1)",
+    "enunciado":"Sabiendo que está definida la función <code>dado(cantidadDeCaras)</code>, que al invocarla devuelve un número entre <code>0</code> y <code>cantidadDeCaras-1</code>, inclusive, implementar la función <code>tirar_cubilete()</code> que no reciba parámetros y devuelva una lista de 5 casilleros con números al azar entre 1 y 6.",
+    "aridad":{"tirar_cubilete":0},
+    "pre":"k=-1\ndef dado(cantidadDeCaras):\n  global k\n  k = (k+1) % len(tiradas)\n  return tiradas[k] % cantidadDeCaras",
+    "post":"cubilete = tirar_cubilete()",
+    "run_data":[{
+      "pre":"tiradas = [2]",
+      "assert":"len(cubilete) == 5 and all([(cubilete[i] >= 1 and cubilete[i] <= 6) for i in range(5)]) and all([cubilete[i] == cubilete[i+1] for i in range(4)])"
+    }, {
+      "pre":"tiradas = [2,5,2,5,1]",
+      "assert":"len(cubilete) == 5 and all([(cubilete[i] >= 1 and cubilete[i] <= 6) for i in range(5)])"
+    }, {
+      "pre":"tiradas = [4,3,2,1,0]",
+      "assert":"len(cubilete) == 5 and all([(cubilete[i] >= 1 and cubilete[i] <= 6) for i in range(5)]) and all([cubilete[i] != cubilete[i+1] for i in range(4)])"
+    }],
+    "visible":{"desde":fecha}
+  }
 
-diezmil_2 = {
-  "tipo":"CODIGO",
-  "id":"diezmil_2",
-  "nombre":"Diezmil (2)",
-  "enunciado":"Implementar la función <code>puntos_por_unos(cubilete)</code> que reciba una lista de cinco dados y devuelva el puntaje que aportan los unos que aparecen en el cubilete. Las reglas son: cada 1 suma 100 puntos, pero tres unos suman 1000 y 5 unos suman 10000. De este modo, al cubilete <code>[1,2,3,1,1]</code> le corresponden 1000 puntos, pero al cubilete <code>[1,1,6,1,1]</code> le corresponden 1100 puntos.",
-  "aridad":{"puntos_por_unos":1},
-  "run_data":[{
-    "pre":"cubilete = [1,5,5,5,5]",
-    "assert":"puntos_por_unos(cubilete) == 100 and cubilete == [1,5,5,5,5]"
-  }, {
-    "pre":"cubilete = [1,1,5,5,5]",
-    "assert":"puntos_por_unos(cubilete) == 200 and cubilete == [1,1,5,5,5]"
-  }, {
-    "pre":"cubilete = [1,1,1,5,5]",
-    "assert":"puntos_por_unos(cubilete) == 1000 and cubilete == [1,1,1,5,5]"
-  }, {
-    "pre":"cubilete = [1,1,1,1,5]",
-    "assert":"puntos_por_unos(cubilete) == 1100 and cubilete == [1,1,1,1,5]"
-  }, {
-    "pre":"cubilete = [1,1,1,1,1]",
-    "assert":"puntos_por_unos(cubilete) == 10000 and cubilete == [1,1,1,1,1]"
-  }],
-  "visible":"NO"
-}
+def diezmil_2(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"diezmil_2",
+    "nombre":"Diezmil (2)",
+    "enunciado":"Implementar la función <code>puntos_por_unos(cubilete)</code> que reciba una lista de cinco dados y devuelva el puntaje que aportan los unos que aparecen en el cubilete. Las reglas son: cada 1 suma 100 puntos, pero tres unos suman 1000 y 5 unos suman 10000. De este modo, al cubilete <code>[1,2,3,1,1]</code> le corresponden 1000 puntos, pero al cubilete <code>[1,1,6,1,1]</code> le corresponden 1100 puntos.",
+    "aridad":{"puntos_por_unos":1},
+    "run_data":[{
+      "pre":"cubilete = [1,5,5,5,5]",
+      "assert":"puntos_por_unos(cubilete) == 100 and cubilete == [1,5,5,5,5]"
+    }, {
+      "pre":"cubilete = [1,1,5,5,5]",
+      "assert":"puntos_por_unos(cubilete) == 200 and cubilete == [1,1,5,5,5]"
+    }, {
+      "pre":"cubilete = [1,1,1,5,5]",
+      "assert":"puntos_por_unos(cubilete) == 1000 and cubilete == [1,1,1,5,5]"
+    }, {
+      "pre":"cubilete = [1,1,1,1,5]",
+      "assert":"puntos_por_unos(cubilete) == 1100 and cubilete == [1,1,1,1,5]"
+    }, {
+      "pre":"cubilete = [1,1,1,1,1]",
+      "assert":"puntos_por_unos(cubilete) == 10000 and cubilete == [1,1,1,1,1]"
+    }],
+    "visible":{"desde":fecha}
+  }
 
-diezmil_3 = {
-  "tipo":"CODIGO",
-  "id":"diezmil_3",
-  "nombre":"Diezmil (3)",
-  "enunciado":"Implementar la función <code>acumular_puntajes(puntos_jugada,puntos_totales)</code>. Se espera que los argumentos <code>puntos_jugada</code> y <code>puntos_totales</code> sean listas de la misma longitud. La función debe sumar casillero a casillero ambas listas y acumular el resulado en <code>puntos_totales</code> y no debe devolver nada.",
-  "aridad":{"acumular_puntajes":2},
-  "run_data":[{
-    "pre":"jugada = [1000,50,1150,200]\ntotales = [5500,1750,2100,3500]",
-    "assert":"acumular_puntajes(jugada,totales) is None and jugada == [1000,50,1150,200] and totales == [6500,1800,3250,3700]"
-  }, {
-    "pre":"jugada = [150,250,300]\ntotales = [350,1100,2350]",
-    "assert":"acumular_puntajes(jugada,totales) is None and jugada == [150,250,300] and totales == [500,1350,2650]"
-  }],
-  "visible":"NO"
-}
+def diezmil_3(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"diezmil_3",
+    "nombre":"Diezmil (3)",
+    "enunciado":"Implementar la función <code>acumular_puntajes(puntos_jugada,puntos_totales)</code>. Se espera que los argumentos <code>puntos_jugada</code> y <code>puntos_totales</code> sean listas de la misma longitud. La función debe sumar casillero a casillero ambas listas y acumular el resulado en <code>puntos_totales</code> y no debe devolver nada.",
+    "aridad":{"acumular_puntajes":2},
+    "run_data":[{
+      "pre":"jugada = [1000,50,1150,200]\ntotales = [5500,1750,2100,3500]",
+      "assert":"acumular_puntajes(jugada,totales) is None and jugada == [1000,50,1150,200] and totales == [6500,1800,3250,3700]"
+    }, {
+      "pre":"jugada = [150,250,300]\ntotales = [350,1100,2350]",
+      "assert":"acumular_puntajes(jugada,totales) is None and jugada == [150,250,300] and totales == [500,1350,2650]"
+    }],
+    "visible":{"desde":fecha}
+  }
 
 linkEncuestaInicial_2025_V = {
   "tipo":"LINK",
@@ -396,6 +398,15 @@ def linkActividad01_2025_V(fecha):
     "visible":{"desde":fecha}
   }
 
+def linkMachete01_2025_V(fecha):
+  return {
+    "tipo":"LINK",
+    "id":"linkMachete01",
+    "nombre":"Machete Clase 01",
+    "url":"https://drive.google.com/file/d/1LvvZefcbwZafA6VDpTen5E5F20luuSEi/view?usp=drive_link",
+    "visible":{"desde":fecha}
+  }
+
 def linkParaPensar01_2025_V(fecha):
   return {
     "tipo":"LINK",
@@ -411,6 +422,33 @@ def linkNotaPenza_2025_V(fecha):
     "id":"linkNotaPenza",
     "nombre":"Nota de Adrián Paenza sobre figuritas",
     "url":"https://drive.google.com/file/d/16RFHGLYCPpMqC8keGVrPaq3DcreegTPM/view?usp=drive_link",
+    "visible":{"desde":fecha}
+  }
+
+def linkDiaposClase02_2025_V(fecha):
+  return {
+    "tipo":"LINK",
+    "id":"linkDiapos02",
+    "nombre":"Diapositivas Clase 02",
+    "url":"https://drive.google.com/file/d/1I9zwlNctbQdVsUPXMwtQSo-KZEboziZf/view?usp=drive_link",
+    "visible":{"desde":fecha}
+  }
+
+def linkActividad02_2025_V(fecha):
+  return {
+    "tipo":"LINK",
+    "id":"linkActividad02",
+    "nombre":"Actividad Clase 02",
+    "url":"https://drive.google.com/file/d/1t9wg2InlJoLh6PmtoZdUiaAZe0FLQkPx/view?usp=drive_link",
+    "visible":{"desde":fecha}
+  }
+
+def linkMachete02_2025_V(fecha):
+  return {
+    "tipo":"LINK",
+    "id":"linkMachete02",
+    "nombre":"Machete Clase 02",
+    "url":"https://drive.google.com/file/d/1mbbt4J5KxzLpDQ25V4TKz27XJlg2RyeO/view?usp=drive_link",
     "visible":{"desde":fecha}
   }
 
@@ -430,12 +468,13 @@ def clase1(fecha):
     "visible":{"desde":fecha}
   }
 
-clase2 = {
-  "tipo":"SECCION",
-  "id":"clase2",
-  "nombre":"Clase 02 - Diez mil",
-  "visible":"NO"
-}
+def clase2(fecha):
+  return {
+    "tipo":"SECCION",
+    "id":"clase2",
+    "nombre":"Clase 02 - Diez mil",
+    "visible":{"desde":fecha}
+  }
 
 actividades_2025_V = {
   "TM":[
@@ -460,13 +499,17 @@ actividades_2025_V = {
       MasFunciones2025V("26/2/2025-12:30"),
       figus_de_verdad_1("26/2/2025-12:30"),
       figus_de_verdad_2("26/2/2025-12:30"),
+      linkMachete01_2025_V("26/2/2025-12:30"),
       linkParaPensar01_2025_V("26/2/2025-12:30"),
       linkNotaPenza_2025_V("26/2/2025-12:30"),
-    clase2,
-      OperadoresLogicos2025V(""),
-      diezmil_1,
-      diezmil_2,
-      diezmil_3
+    clase2("28/2/2025-8:30"),
+      linkDiaposClase02_2025_V("28/2/2025-8:30"),
+      linkActividad02_2025_V("28/2/2025-8:30"),
+      OperadoresLogicos2025V("28/2/2025-12:30"),
+      diezmil_1("28/2/2025-12:30"),
+      diezmil_2("28/2/2025-12:30"),
+      diezmil_3("28/2/2025-12:30"),
+      linkMachete02_2025_V("28/2/2025-12:30")
   ],
   "TT":[
       linkEncuestaInicial_2025_V,
@@ -490,13 +533,17 @@ actividades_2025_V = {
       MasFunciones2025V("26/2/2025-17:00"),
       figus_de_verdad_1("26/2/2025-17:00"),
       figus_de_verdad_2("26/2/2025-17:00"),
+      linkMachete01_2025_V("26/2/2025-17:00"),
       linkParaPensar01_2025_V("26/2/2025-17:00"),
       linkNotaPenza_2025_V("26/2/2025-17:00"),
-    clase2,
-      OperadoresLogicos2025V(""),
-      diezmil_1,
-      diezmil_2,
-      diezmil_3
+    clase2("28/2/2025-13:00"),
+      linkDiaposClase02_2025_V("28/2/2025-13:00"),
+      linkActividad02_2025_V("28/2/2025-13:00"),
+      OperadoresLogicos2025V("28/2/2025-17:00"),
+      diezmil_1("28/2/2025-17:00"),
+      diezmil_2("28/2/2025-17:00"),
+      diezmil_3("28/2/2025-17:00"),
+      linkMachete02_2025_V("28/2/2025-17:00")
   ],
   "TV":[
       linkEncuestaInicial_2025_V,
@@ -520,13 +567,17 @@ actividades_2025_V = {
       MasFunciones2025V("26/2/2025-21:30"),
       figus_de_verdad_1("26/2/2025-21:30"),
       figus_de_verdad_2("26/2/2025-21:30"),
+      linkMachete01_2025_V("26/2/2025-21:30"),
       linkParaPensar01_2025_V("26/2/2025-21:30"),
       linkNotaPenza_2025_V("26/2/2025-21:30"),
-    clase2,
-      OperadoresLogicos2025V(""),
-      diezmil_1,
-      diezmil_2,
-      diezmil_3
+    clase2("28/2/2025-17:30"),
+      linkDiaposClase02_2025_V("28/2/2025-17:30"),
+      linkActividad02_2025_V("28/2/2025-17:30"),
+      OperadoresLogicos2025V("28/2/2025-21:30"),
+      diezmil_1("28/2/2025-21:30"),
+      diezmil_2("28/2/2025-21:30"),
+      diezmil_3("28/2/2025-21:30"),
+      linkMachete02_2025_V("28/2/2025-21:30")
   ]
 }
 
