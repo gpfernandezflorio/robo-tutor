@@ -42,10 +42,60 @@ def cursosDeUsuario(usuario, jsonObj):
   resultado = {}
   for curso in CURSOS_publico:
     if usuarioEnCurso(usuario, curso):
-      resultado[curso] = {"info":CURSOS_publico[curso]["info"]}
+      resultado[curso] = {
+        "info":CURSOS_publico[curso]["info"],
+        "permisos": roles_y_permisos(curso, usuario)
+      }
   if 'dataEjs' in jsonObj:
     agregarDataEjs(usuario, resultado)
   return resultado
+
+def roles_y_permisos(curso, usuario):
+  resultado = {}
+  for rol in rolesEnCurso(usuario, curso):
+    resultado[rol] = permisosRol(curso, rol)
+  return resultado
+
+'''permisos:
+  TODO: puede hacer todo excepto desmatricularse (equivalente a una lista con todos los demás, excepto SALIR)
+  VER: puede ver todo el contenido, más allá de las restricciones
+  VER_BAJOREGLAS: puede ver el contenido pero sólo si cumple las restricciones
+  EDITAR_CONTENIDO: puede editar el contenido del curso (las actividades, las secciones, etc)
+  EDITAR_ROLES: puede editar los roles existentes
+  MATRICULAR_<ROL>: puede matricular y desmatricular usuarios con el rol ROL (uno por cada rol)
+  HACER: puede realizar las actividades
+  SALIR: puede desmatricularse
+'''
+
+rolesPorDefecto = {
+  "Administrador":"TODO",
+  "Docente":["VER","EDITAR_CONTENIDO","HACER","MATRICULAR_Estudiante"],
+  "Estudiante":["VER_BAJOREGLAS","HACER"]
+}
+
+def rolesCurso(curso):
+  resultado = []
+  if curso in CURSOS:
+    curso = CURSOS[curso]
+    resultado = curso['roles'] if 'roles' in curso else rolesPorDefecto
+  return resultado
+
+def permisosRol(curso, rol):
+  resultado = []
+  roles = rolesCurso(curso)
+  if rol in roles:
+    resultado = roles[rol]
+  return resultado
+
+def tienePermisoUsuario(usuario, curso, que):
+  for rol in rolesEnCurso(usuario, curso):
+    if tienePermisoRol(rol, curso, que):
+      return True
+  return False
+
+def tienePermisoRol(rol, curso, que):
+  permisos = permisosRol(curso, rol)
+  return (permisos == "TODO" and que != "SALIR") or (permisos != "TODO" and que in permisos)
 
 CURSOS_publico = {}
 
@@ -72,7 +122,7 @@ def esconderInformacionSensibleCuestionario(cuestionario):
   return cuestionarioPublico
 
 informacionPublicaCurso = ['nombre','descripcion','anio','edicion','responsable','institucion','lenguaje','lenguaje_display']
-informacionPrivadaCurso = ['actividades','planilla'] # actividades es privada porque la trato aparte (hay que ocultar la información sensible)
+informacionPrivadaCurso = ['actividades','planilla','roles'] # actividades es privada porque la trato aparte (hay que ocultar la información sensible)
 def esconderInformacionSensibleCurso(curso):
   cursoPublico = {
     "info":{}
@@ -100,7 +150,7 @@ def cargarUsuarios(c):
     f = open(archivo, 'r')
     matricula = json.loads(f.read())
     f.close()
-    cargarUsuariosEnCurso(matricula, c)
+    cargarUsuariosEnCurso(matricula, c, rolesCurso(c))
 
 for c in CURSOS:
   CURSOS_publico[c] = esconderInformacionSensibleCurso(CURSOS[c])
@@ -145,7 +195,7 @@ def agregarDataEjs(usuario, cursos, jsonObj={}):
       if "todas_las_actividades" in CURSOS_publico[curso]:
         if not ("actividades" in cursos[curso]):
           cursos[curso]["actividades"] = []
-        cursos[curso]["actividades"] += versionesParaMostrar(usuario, CURSOS_publico[curso]["todas_las_actividades"], rolesEnCurso(usuario, curso))
+        cursos[curso]["actividades"] += versionesParaMostrar(usuario, curso)
 
 def elementoDeId(lista, id):
   for elemento in lista:
@@ -154,7 +204,7 @@ def elementoDeId(lista, id):
   return None
 
 def actividadHabilitada(usuario, curso, actividad):
-  return 'docente' in rolesEnCurso(usuario, curso) or habilitacionId(usuario, curso, actividad) == "HABILITADA"
+  return habilitacionId(usuario, curso, actividad) == "HABILITADA"
 
 # Puede devolver HABILITADA, DESHABILITADA, OCULTA o INEXISTENTE
 def habilitacionId(usuario, curso, actividad):
@@ -163,9 +213,13 @@ def habilitacionId(usuario, curso, actividad):
   actividad = elementoDeId(CURSOS_publico[curso]["todas_las_actividades"], actividad)
   if actividad is None:
     return "INEXISTENTE"
-  return habilitacion(usuario, actividad)
+  return habilitacion(usuario, curso, actividad)
 
-def habilitacion(usuario, actividad):
+def habilitacion(usuario, curso, actividad):
+  if tienePermisoUsuario(usuario, curso, "VER"):
+    if tienePermisoUsuario(usuario, curso, "HACER"):
+      return "HABILITADA"
+    return "DESHABILITADA"
   if "visible" in actividad:
     if actividad["visible"] == "NO":
       return "OCULTA"
@@ -354,12 +408,10 @@ def planillaDeCurso(curso):
       return curso['planilla']
   return None
 
-def versionesParaMostrar(usuario, actividades, roles):
-  if 'docente' in roles:
-    return actividades
+def versionesParaMostrar(usuario, curso):
   lista = []
-  for actividad in actividades:
-    estado = habilitacion(usuario, actividad)
+  for actividad in CURSOS_publico[curso]["todas_las_actividades"]:
+    estado = habilitacion(usuario, curso, actividad)
     if estado == "HABILITADA":
       lista.append(actividad)
     elif estado == "DESHABILITADA":

@@ -27,8 +27,8 @@ def matricular(nombre, curso, rol):
   else:
     CURSOS_POR_USUARIO[nombre][curso].append(rol)
 
-def cargarUsuariosEnCurso(matricula, curso):
-  for rol in ['docente','estudiante']:
+def cargarUsuariosEnCurso(matricula, curso, roles):
+  for rol in roles:
     if rol in matricula:
       for usuario in matricula[rol]:
         if not usuarioEnCurso(usuario, curso, rol):
