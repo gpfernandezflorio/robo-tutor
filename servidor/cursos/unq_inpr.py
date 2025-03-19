@@ -28,8 +28,8 @@ def agregarRojas(b,k):
   return b2
 def e(p,n): # Enemigo de Gobi en piso p de nivel n
   return {"a": p, "r": 0, "n": n, "v": 0}
-def g(): # Gobi 
-  return
+def g(z): # Gobi
+  return {"a": z, "r": 0, "n": 0, "v": 0}
 def gobiData(t,a): # Data de Gobi con t pisos totales y piso actual a
   return {"a": 0, "r": t, "n": 0, "v": a}
 def iniGobi_2_3(a,z): # Tablero inicial Gobi de 4x4x4 en piso a (con Gobi en 2-3-z)
@@ -71,7 +71,8 @@ def superGobi64_1(fecha):
     },{
       "t0":{"head":[1,0],"width":4,"height":4,"board":iniGobi_0_1(1,3)},
       "tf":{"head":[0,1],"width":4,"height":4,"board":iniGobi_0_1(3,3)}
-    }]
+    }],
+    "disponible":{"desde":fecha}
   }
 
 def superGobi64_2(fecha):
@@ -87,7 +88,8 @@ def superGobi64_2(fecha):
     },{
       "t0":{"head":[3,2],"width":6,"height":6,"board":iniGobi_2(3)},
       "tf":{"head":[3,2],"width":6,"height":6,"board":agregarRojas(iniGobi_2(3),1)}
-    }]
+    }],
+    "disponible":{"desde":fecha}
   }
 
 def gobFS_1(fecha):
@@ -136,7 +138,8 @@ def gobFS_1(fecha):
       "t0":{"head":[3,2],"width":6,"height":6,"board":iniFs},
       "tf":{"head":[],"width":6,"height":6,"board":abrirArchivosB(iniFs)}
     }],
-    "pidePrograma": True
+    "pidePrograma": True,
+    "disponible":{"desde":fecha}
   }
 
 def rutera_1(fecha):
