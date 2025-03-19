@@ -21,13 +21,15 @@ Contraseña: CLAVE
 Saludos.
 '''
 
-def main(): # Cómo usar este archivo: 
+def main(archivoUsuariosCurso): # Cómo usar este archivo: 
   # 0: Conseguir un archivo con la lista de nombres de usuarios de un curso.
-  archivoUsuariosCurso = "matricula/exactas_programa_2025_V_TM.json"
+  if not os.path.isfile(archivoUsuariosCurso):
+    print("Error: no se encuentra el archivo " + archivoUsuariosCurso)
+    return
   # 1: Ejecutar FiltrarEstudiantesExistentes para obtener en un nuevo archivo sólo los usuarios que no están en el sistema.
   if (pasosAEjecutar[1]):
     FiltrarEstudiantesExistentes(
-      archivoUsuariosCurso, # Un objeto con roles y en cada rol una lista con los nombres de los usuarios del curso que tienen ese rol. Ej: {"docente:["estudiante_fictio@gmail.com", ...], "estudiante":[...]}
+      archivoUsuariosCurso, # Un objeto con roles y en cada rol una lista con los nombres de los usuarios del curso que tienen ese rol. Ej: {"Estudiante:["estudiante_fictio@gmail.com", ...], "Docente":[...]}
       "nuevosUsuarios.json" # Una lista con los usuarios en el archivo anterior pero quitando a los usuarios que ya estaban antes en el sistema
     )
   # 2: Ejecutar GenerarClaves para obtener un nuevo archivo con las contraseñas de cada nuevo usuario.
@@ -190,10 +192,13 @@ def claveAleatoria():
     i += 1
   return clave
 
-import os, json
+import os, sys, json
 # from email.message import EmailMessage
 # import smtplib, ssl
 import random
 
 if __name__ == '__main__':
-  main()
+  if len(sys.argv) == 2:
+    main(sys.argv[1])
+  else:
+    print("Error: se espera exactamente un argumento (la ruta al archivo de matrícula)")
