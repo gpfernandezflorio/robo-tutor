@@ -237,6 +237,7 @@ def rosa_de_los_vientos(fecha):
     "id":"RosaVientos",
     "nombre":"Rosa de los vientos",
     "enunciado":"Escribir el procedimiento PonerRosaDeLosVientos que ponga un rosa de los vientos al rededor de la celda actual. Para representar una rosa de los vientos centrada en una celda hay que poner una bolita roja en cada una de las cuatro celdas lindantes.",
+    "pre":"program {PonerRosaDeLosVientos()}",
     "run_data":[{
       "t0":{"head":[1,1],"width":3,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v]]},
       "tf":{"head":[1,1],"width":3,"height":3,"board":[[v,r,v],[r,v,r],[v,r,v]]},
