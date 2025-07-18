@@ -424,7 +424,9 @@ def versionesParaMostrar(usuario, curso):
 
 def reglasDeAnalisisDeCodigo(jsonObj, curso):
   ejercicio = jsonObj["ejercicio"]
-  reglas = {}
-  # TODO: if "analisisCodigo" in ejercicio: ...
-  # TODO: if "analisisCodigo" in curso: ...
+  reglas = []
+  if "analisisCodigo" in ejercicio:
+    reglas += ejercicio["analisisCodigo"]
+  if "analisisCodigo" in curso:
+    reglas += curso["analisisCodigo"]
   return reglas

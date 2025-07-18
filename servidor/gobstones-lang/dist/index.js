@@ -389,6 +389,12 @@ class ASTNode {
     toString() {
         return showAST(this);
     }
+    tagsToString() {
+        this._tag = Symbol.keyFor(this._tag);
+        for (let c of this._children) {
+            if(c && ('tagsToString' in c)) {c.tagsToString();}
+        }
+    }
     get tag() {
         return this._tag;
     }

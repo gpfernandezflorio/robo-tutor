@@ -33,9 +33,6 @@ def run_python(jsonObj, v):
   cm = verificarCodigoMaliciosoPython(code)
   if not (cm is None):
     return {"resultado":"EVIL", "error":cm}
-  resultadoAnalisisCodigo = analizarPython(code, jsonObj["analisisCodigo"])
-  if not(resultadoAnalisisCodigo is None):
-    return resultadoAnalisisCodigo
   timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
   lineasAdicionales = 0
   codigoPre = prePython() + "\n\n"
@@ -44,6 +41,11 @@ def run_python(jsonObj, v):
   if "pre" in jsonObj["ejercicio"]:
     code = jsonObj["ejercicio"]["pre"] + "\n\n" + code
     lineasAdicionales = lineasAdicionales + jsonObj["ejercicio"]["pre"].count("\n") + 2
+  ## Código
+  resultadoAnalisisCodigo = analizarPython(code, jsonObj["analisisCodigo"])
+  if not(resultadoAnalisisCodigo is None):
+    return resultadoAnalisisCodigo
+  ## Ejecuciones
   duraciones = []
   for run in run_data:
     code_run = code + "\n"
@@ -104,9 +106,6 @@ def run_gobstones(jsonObj, v):
   code = jsonObj["src"]
   if (v):
     print(code)
-  resultadoAnalisisCodigo = analizarGobstones(code, jsonObj["analisisCodigo"])
-  if not(resultadoAnalisisCodigo is None):
-    return resultadoAnalisisCodigo
   timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
   lineasAdicionales = 0
   if "pre" in jsonObj["ejercicio"]:
@@ -116,6 +115,12 @@ def run_gobstones(jsonObj, v):
   f = open('src.txt', 'w')
   f.write(code)
   f.close()
+  resultadoAnalisisCodigo = analizarGobstones(code, jsonObj["analisisCodigo"])
+  if not(resultadoAnalisisCodigo is None):
+    if "falla" in resultadoAnalisisCodigo:
+      return {"resultado":"Except", "error":buscar_falla_gobstones(resultadoAnalisisCodigo["falla"], lineasAdicionales)}
+    return resultadoAnalisisCodigo
+  ## Ejecuciones
   duraciones = []
   for run in run_data:
     lineasAdicionales_run = lineasAdicionales

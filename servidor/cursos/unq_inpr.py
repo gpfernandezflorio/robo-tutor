@@ -258,6 +258,11 @@ CURSOS = {
     "institucion":"Universidad Nacional de Quilmes (UNQ)",
     "lenguaje":"Gobstones",
     "lenguaje_display":"none",
+    "analisisCodigo":[
+      {"key":"CMD_X_LINE"},
+      {"key":"INDENT"},
+      {"key":"NEST_CMD","max":1}
+    ],
     "actividades":[
       rosa_de_los_vientos("21/3/2025"),
       ajedrez_1("28/3/2025"),
