@@ -5,13 +5,15 @@
 
 import json
 import ast
-from functools import reduce
 from procesos import ejecutar
-from utils import algunoCumple
+from utils import algunoCumple, aplanar, mapear, singularSiEsta
 from reglas import REGLAS
 
 class Analizador(object):
   def analizarAst(self, AST, codigo, reglas):
+    cm = self.verificarCodigoMalicioso(AST, codigo)
+    if not (cm is None):
+      return {"resultado":"EVIL", "error":cm}
     for regla in reglas:
       resultado = self.analizarRegla(AST, codigo, regla)
       if not(resultado is None):
@@ -28,6 +30,10 @@ class Analizador(object):
       return None
     return {"resultado":"Calidad", "error":error}
 
+  def nodosDeTipo(self, AST, tipo):
+    return self.foldAST(lambda recs, x : aplanar(recs) + ([x] if self.esNodoDeTipo(x, tipo) else []), AST)
+  def foldAST(self, f, nodo):
+    return f(mapear(lambda x : self.foldAST(f,x), self.hijosDeNodo(nodo)), nodo)
   def nivelesAnidacionComandos(self, nodo):
     anidacionActual = 0
     hijos = self.hijosDeNodo(nodo)
@@ -43,8 +49,17 @@ class Analizador(object):
 class AnalizadorPython(Analizador):
   def obtenerAst(self, codigo):
     return astPython(codigo)
+  def verificarCodigoMalicioso(self, AST, codigo):
+    for nodo in self.nodosDeTipo(AST, ast.Name):
+      if nodo.id in ["exit","print","open"]:
+        return "No está permitido usar '" + nodo.id + "'"
+    return None
   def hijosDeNodo(self, nodo):
+    if not isinstance(nodo, ast.AST):
+      breakpoint()
     return nodo.hijos()
+  def esNodoDeTipo(self, nodo, tipo):
+    return isinstance(nodo, tipo)
   def esUnComandoCompuesto(self, nodo):
     return algunoCumple(lambda x : isinstance(nodo, x), [
       ast.For,
@@ -59,8 +74,12 @@ class AnalizadorPython(Analizador):
 class AnalizadorGobstones(Analizador):
   def obtenerAst(self, codigo):
     return astGobstones(codigo)
+  def verificarCodigoMalicioso(self, AST, codigo):
+    return None
   def hijosDeNodo(self, nodo):
     return nodo["_children"] if nodo and ("_children" in nodo) else []
+  def esNodoDeTipo(self, nodo, tipo):
+    return (nodo and ("_tag" in nodo)) and (nodo["_tag"] == tipo)
   def esUnComandoCompuesto(self, nodo):
     return (nodo and ("_tag" in nodo)) and (nodo["_tag"] in [
       "N_StmtIf",
@@ -101,21 +120,144 @@ def astPython(codigo):
     return {"falla":e}
 
 ast.AST.hijos = lambda self : []
-ast.Module.hijos = lambda self : self.body
+# mod
+ast.Module.hijos = lambda self : (self.body + self.type_ignores)
 ast.Interactive.hijos = lambda self : self.body
 ast.Expression.hijos = lambda self : [self.body]
-ast.FunctionDef.hijos = lambda self : self.body
-ast.AsyncFunctionDef.hijos = lambda self : self.body
-ast.ClassDef.hijos = lambda self : self.body
-ast.Return.hijos = lambda self : [] if (self.value is None) else [self.value]
-ast.Assign.hijos = lambda self : [self.value]
-ast.AugAssign.hijos = lambda self : [self.value]
-ast.AnnAssign.hijos = lambda self : [] if (self.value is None) else [self.value]
-ast.For.hijos = lambda self : self.body + self.orelse
-ast.AsyncFor.hijos = lambda self : self.body + self.orelse
-ast.While.hijos = lambda self : self.body + self.orelse
-ast.If.hijos = lambda self : self.body + self.orelse
-ast.With.hijos = lambda self : self.body
-ast.AsyncWith.hijos = lambda self : self.body
-ast.Raise.hijos = lambda self : [] if (self.exc is None) else [self.exc]
-ast.Try.hijos = lambda self : self.body + self.orelse + self.finalbody
+ast.FunctionType.hijos = lambda self : (self.argtypes + [self.returns])
+# stmt
+ast.FunctionDef.hijos = lambda self : (
+  hijosArgumentos(self.args) +
+  self.body +
+  self.decorator_list +
+  singularSiEsta(self.returns)
+)
+ast.AsyncFunctionDef.hijos = lambda self : (
+  hijosArgumentos(self.args) +
+  self.body +
+  self.decorator_list +
+  singularSiEsta(self.returns)
+)
+ast.ClassDef.hijos = lambda self : (
+  self.bases +
+  hijosKeywords(self.keywords) +
+  self.body +
+  self.decorator_list
+)
+ast.Return.hijos = lambda self : singularSiEsta(self.value)
+ast.Delete.hijos = lambda self : self.targets
+ast.Assign.hijos = lambda self : self.targets + [self.value]
+ast.AugAssign.hijos = lambda self : [self.target, self.operator, self.value]
+ast.AnnAssign.hijos = lambda self : ([self.target, self.annotation] +
+  singularSiEsta(self.value))
+ast.For.hijos = lambda self : ([self.target, self.iter] + self.body + self.orelse)
+ast.AsyncFor.hijos = lambda self : ([self.target, self.iter] + self.body + self.orelse)
+ast.While.hijos = lambda self : ([self.test] + self.body + self.orelse)
+ast.If.hijos = lambda self : ([self.test] + self.body + self.orelse)
+ast.With.hijos = lambda self : (hijosWithitem(self.items) + self.body)
+ast.AsyncWith.hijos = lambda self : (hijosWithitem(self.items) + self.body)
+ast.Raise.hijos = lambda self : (singularSiEsta(self.exc) + singularSiEsta(self.cause))
+ast.Try.hijos = lambda self : (self.body + self.handlers + self.orelse + self.finalbody)
+ast.Assert.hijos = lambda self : (self.test + singularSiEsta(self.msg))
+ast.Import.hijos = []
+ast.ImportFrom.hijos = []
+ast.Global.hijos = []
+ast.Nonlocal.hijos = []
+ast.Expr.hijos = lambda self : [self.value]
+ast.Pass.hijos = []
+ast.Break.hijos = []
+ast.Continue.hijos = []
+# expr
+ast.BoolOp.hijos = lambda self : ([self.op] + self.values)
+ast.NamedExpr.hijos = lambda self : [self.target, self.value]
+ast.BinOp.hijos = lambda self : [self.left, self.op, self.right]
+ast.UnaryOp.hijos = lambda self : [self.op, self.operand]
+ast.Lambda.hijos = lambda self : (hijosArgumentos(self.args) + [self.body])
+ast.IfExp.hijos = lambda self : [self.test, self.body, self.orelse]
+ast.Dict.hijos = lambda self : (self.keys + self.values)
+ast.Set.hijos = lambda self : self.elts
+ast.ListComp.hijos = lambda self : ([self.elt] + hijosComprehension(self.generators))
+ast.SetComp.hijos = lambda self : ([self.elt] + hijosComprehension(self.generators))
+ast.DictComp.hijos = lambda self : ([self.key, self.value] + hijosComprehension(self.generators))
+ast.GeneratorExp.hijos = lambda self : ([self.elt] + hijosComprehension(self.generators))
+ast.Await.hijos = lambda self : [self.value]
+ast.Yield.hijos = lambda self : singularSiEsta(self.value)
+ast.YieldFrom.hijos = lambda self : [self.value]
+ast.Compare.hijos = lambda self : ([self.left] + self.ops + self.comparators)
+ast.Call.hijos = lambda self : ([self.func] + self.args + hijosKeywords(self.keywords))
+ast.FormattedValue.hijos = lambda self : ([self.value] + singularSiEsta(self.format_spec))
+ast.JoinedStr.hijos = lambda self : self.values
+ast.Constant.hijos = lambda self : []
+ast.Attribute.hijos = lambda self : [self.value, self.ctx]
+ast.Subscript.hijos = lambda self : [self.value, self.slice, self.ctx]
+ast.Starred.hijos = lambda self : [self.value, self.ctx]
+ast.Name.hijos = lambda self : [self.ctx]
+ast.List.hijos = lambda self : self.elts + [self.ctx]
+ast.Tuple.hijos = lambda self : self.elts + [self.ctx]
+ast.Slice.hijos = lambda self : (
+  singularSiEsta(self.lower) +
+  singularSiEsta(self.upper) +
+  singularSiEsta(self.step)
+)
+# expr_context
+ast.Load.hijos = lambda self : []
+ast.Store.hijos = lambda self : []
+ast.Del.hijos = lambda self : []
+# boolop
+ast.And.hijos = lambda self : []
+ast.Or.hijos = lambda self : []
+# operator
+ast.Add.hijos = lambda self : []
+ast.Sub.hijos = lambda self : []
+ast.Mult.hijos = lambda self : []
+ast.MatMult.hijos = lambda self : []
+ast.Div.hijos = lambda self : []
+ast.Mod.hijos = lambda self : []
+ast.Pow.hijos = lambda self : []
+ast.LShift.hijos = lambda self : []
+ast.RShift.hijos = lambda self : []
+ast.BitOr.hijos = lambda self : []
+ast.BitXor.hijos = lambda self : []
+ast.BitAnd.hijos = lambda self : []
+ast.FloorDiv.hijos = lambda self : []
+# unaryop
+ast.Invert.hijos = lambda self : []
+ast.Not.hijos = lambda self : []
+ast.UAdd.hijos = lambda self : []
+ast.USub.hijos = lambda self : []
+# cmpop
+ast.Eq.hijos = lambda self : []
+ast.NotEq.hijos = lambda self : []
+ast.Lt.hijos = lambda self : []
+ast.LtE.hijos = lambda self : []
+ast.Gt.hijos = lambda self : []
+ast.GtE.hijos = lambda self : []
+ast.Is.hijos = lambda self : []
+ast.IsNot.hijos = lambda self : []
+ast.In.hijos = lambda self : []
+ast.NotIn.hijos = lambda self : []
+ast.ExceptHandler.hijos = lambda self : (singularSiEsta(self.type) + self.body)
+ast.TypeIgnore.hijos = lambda self : []
+
+def hijosArgumentos(args): # es uno
+  return (
+    hijosArgumento(args.posonlyargs) +
+    hijosArgumento(args.args) +
+    ([] if (args.vararg is None) else hijosArgumento([args.vararg])) + 
+    hijosArgumento(args.kwonlyargs) +
+    hijosArgumento(args.kw_defaults) +
+    ([] if (args.kwarg is None) else hijosArgumento([args.kwarg])) + 
+    args.defaults
+  )
+
+def hijosArgumento(args): # es una lista
+  return aplanar(mapear(lambda x : singularSiEsta(x.annotation), args))
+
+def hijosKeywords(keywords): # es una lista
+  return mapear(lambda x : x.value, keywords)
+
+def hijosWithitem(withitem): # es una lista
+  return aplanar(mapear(lambda x : ([x.context_expr] + singularSiEsta(x.optional_vars)), withitem))
+
+def hijosComprehension(comprehension): # es una lista
+  return aplanar(mapear(lambda x : ([x.target,x.iter] + x.ifs), withitem))

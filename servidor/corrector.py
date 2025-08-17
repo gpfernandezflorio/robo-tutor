@@ -30,9 +30,10 @@ def run_python(jsonObj, v):
   code = jsonObj["src"]
   if (v):
     print(code)
-  cm = verificarCodigoMaliciosoPython(code)
-  if not (cm is None):
-    return {"resultado":"EVIL", "error":cm}
+  ## Código
+  resultadoAnalisisCodigo = analizarPython(code, jsonObj["analisisCodigo"])
+  if not(resultadoAnalisisCodigo is None):
+    return resultadoAnalisisCodigo
   timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
   lineasAdicionales = 0
   codigoPre = prePython() + "\n\n"
@@ -41,10 +42,6 @@ def run_python(jsonObj, v):
   if "pre" in jsonObj["ejercicio"]:
     code = jsonObj["ejercicio"]["pre"] + "\n\n" + code
     lineasAdicionales = lineasAdicionales + jsonObj["ejercicio"]["pre"].count("\n") + 2
-  ## Código
-  resultadoAnalisisCodigo = analizarPython(code, jsonObj["analisisCodigo"])
-  if not(resultadoAnalisisCodigo is None):
-    return resultadoAnalisisCodigo
   ## Ejecuciones
   duraciones = []
   for run in run_data:
@@ -209,8 +206,11 @@ def buscar_falla_gobstones(s, n):
     if l.startswith('br [Error]: ') or l.startswith('Pr [Error]: '):
       falla = l[12:]
     elif l.startswith('    _line: '):
-      return falla + "\nLínea: " + str(int(l[11:-1]) - n)
-  print(s)
+      linea = int(l[11:-1]) - n
+      if linea > 0:
+        falla = falla + "\nLínea: " + str(linea)
+      return falla
+  # print(s)
   return falla
 
 def buscar_falla_python(s, n):
@@ -244,11 +244,6 @@ def prePython():
   return '''def secure_importer(name, globals=None, locals=None, fromlist=(), level=0):
   raise ImportError("No está permitido importar módulos")
 __builtins__.__dict__['__import__'] = secure_importer'''
-
-def verificarCodigoMaliciosoPython(codigo):
-  if "exit" in codigo:
-    return "No está permitido usar 'exit'"
-  return None
 
 def timeoutDefault():
   return 1
