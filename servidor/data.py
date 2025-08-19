@@ -12,6 +12,7 @@ from fechas import fueraDeFecha
 from cursos.unq_inpr import CURSOS as cursos_unq_inpr
 from cursos.exactas_programa import CURSOS as cursos_exactas_programa
 from cursos.taller_programacion import CURSOS as cursos_taller_programacion
+from cursos.alc import CURSOS as cursos_alc
 
 CURSOS = {}
 
@@ -23,6 +24,9 @@ for c in cursos_exactas_programa:
 
 for c in cursos_taller_programacion:
   CURSOS[c] = cursos_taller_programacion[c]
+
+for c in cursos_alc:
+  CURSOS[c] = cursos_alc[c]
 
 LOCAL_DIR = 'locales'
 if not os.path.isdir(LOCAL_DIR):
