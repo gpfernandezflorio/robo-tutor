@@ -3,6 +3,7 @@
 import os, io
 import sys
 import threading
+import ssl
 
 try: # python 2
     reload(sys)
@@ -133,6 +134,11 @@ class ServerAC(ThreadingMixIn, moduloHTTPServer):
 def run(host, port):
     global servidorAC
     servidorAC = ServerAC((host, port), HandlerAC)
+    if ("CERT" in os.environ) and ("KEY" in os.environ):
+      context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+      context.load_cert_chain(certfile=os.environ["CERT"], keyfile=os.environ["KEY"])
+      context.set_ciphers("@SECLEVEL=1:ALL")
+      servidorAC.socket = context.wrap_socket(servidorAC.socket, server_side=True)
     seguirSirviendo = True
     while(seguirSirviendo):
       try:
