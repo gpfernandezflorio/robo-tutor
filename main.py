@@ -84,4 +84,5 @@ f.close()
 
 os.chdir('servidor')
 for i in pids:
-  asyncio.run(main(i))
+  # asyncio.run(main(i))
+  os.system(py + " server.py -p" + str(PUERTO_INICIAL + i) + " &")
