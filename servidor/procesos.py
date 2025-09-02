@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 from subprocess import Popen
 import signal
 
@@ -29,11 +30,14 @@ def ejecutarConTimeout(comando, timeout):
     "duracion":duracion
   }
 
+def sacarPrivilegios():
+  os.setuid(int(os.environ['UID']) if 'UID' in os.environ else 1000)
+
 def ejecutar(cmd):
   global proceso_en_ejecucion
   fOut = open('stdout.out','w')
   fErr = open('stderr.out','w')
-  p = Popen(cmd, stdout=fOut, stderr=fErr, universal_newlines=True, shell=True)
+  p = Popen(cmd, stdout=fOut, stderr=fErr, universal_newlines=True, shell=True, preexec_fn=sacarPrivilegios)
   proceso_en_ejecucion = p
   errcode = p.wait()
   fOut.close()
