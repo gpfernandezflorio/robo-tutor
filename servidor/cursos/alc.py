@@ -6,6 +6,7 @@ traza = {
   "nombre":"5. Traza",
   "enunciado":"Desarrollar una función <code>traza(A)</code> que calcule la traza de una matriz cualquiera <i>A</i>.",
   "aridad":{"traza":1},
+  "pre":"import numpy as np",
   "run_data":[
     {"assert":"traza([[1,0,0,0,0],[0,1,0,0,0],[0,0,1,0,0],[0,0,0,1,0],[0,0,0,0,1]])==5"}
   ]
@@ -16,6 +17,7 @@ traspuesta = {
   "nombre":"6. Traspuesta",
   "enunciado":"Desarrollar una función <code>traspuesta(A)</code> que devuelva la matriz traspuesta de <i>A</i>.",
   "aridad":{"traspuesta":1},
+  "pre":"import numpy as np",
   "run_data":[
     {"assert":"traspuesta([[1,2],[3,4]])==[[1,3],[2,4]]"}
   ]
@@ -26,6 +28,7 @@ producto = {
   "nombre":"8. Producto",
   "enunciado":"Desarrollar una función <code>calcularAx(A,x)</code> que recibe una matriz <i>A</i> de tamaño <i>n × m</i> y un vector <i>x</i> de largo <i>m</i> y devuelve un vector <i>b</i> de largo <i>n</i> resultado de la multiplicación vectorial de la matriz y el vector.",
   "aridad":{"calcularAx":2},
+  "pre":"import numpy as np",
   "run_data":[
     {"assert":"calcularAx([[1,2],[3,4]],[1,1])==[3,7]"}
   ]
@@ -36,6 +39,7 @@ esDiagonalDominante = {
   "nombre":"11. Diagonalmente dominante",
   "enunciado":"Desarrollar una función <code>esDiagonalmenteDominante(A)</code> que devuelva <code>True</code> si una matriz cuadrada <i>A</i> es estrictamente diagonalmente dominante. Esto ocurre si para cada fila, el valor absoluto del elemento en la diagonal es mayor que la suma de los valores absolutos de los demás elementos en esa fila.",
   "aridad":{"esDiagonalmenteDominante":1},
+  "pre":"import numpy as np",
   "run_data":[
     {"assert":"esDiagonalmenteDominante([[10,1,1],[-2,8,1],[2,-1,-10]])"}
   ]
