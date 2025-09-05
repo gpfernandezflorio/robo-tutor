@@ -8,7 +8,7 @@ traza = {
   "aridad":{"traza":1},
   "pre":"import numpy as np",
   "run_data":[
-    {"assert":"traza([[1,0,0,0,0],[0,1,0,0,0],[0,0,1,0,0],[0,0,0,1,0],[0,0,0,0,1]])==5"}
+    {"assert":"traza(np.array([[1,0,0,0,0],[0,1,0,0,0],[0,0,1,0,0],[0,0,0,1,0],[0,0,0,0,1]]))==5"}
   ]
 }
 traspuesta = {
@@ -19,7 +19,7 @@ traspuesta = {
   "aridad":{"traspuesta":1},
   "pre":"import numpy as np",
   "run_data":[
-    {"assert":"traspuesta([[1,2],[3,4]])==[[1,3],[2,4]]"}
+    {"assert":"np.array_equal(traspuesta(np.array([[1,2],[3,4]])),np.array([[1,3],[2,4]]))"}
   ]
 }
 producto = {
@@ -30,7 +30,7 @@ producto = {
   "aridad":{"calcularAx":2},
   "pre":"import numpy as np",
   "run_data":[
-    {"assert":"calcularAx([[1,2],[3,4]],[1,1])==[3,7]"}
+    {"assert":"np.array_equal(calcularAx(np.array([[1,2],[3,4]]),np.array([1,1])),np.array([3,7]))"}
   ]
 }
 esDiagonalDominante = {
@@ -41,7 +41,7 @@ esDiagonalDominante = {
   "aridad":{"esDiagonalmenteDominante":1},
   "pre":"import numpy as np",
   "run_data":[
-    {"assert":"esDiagonalmenteDominante([[10,1,1],[-2,8,1],[2,-1,-10]])"}
+    {"assert":"esDiagonalmenteDominante(np.array([[10,1,1],[-2,8,1],[2,-1,-10]]))"}
   ]
 }
 
