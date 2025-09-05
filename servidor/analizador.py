@@ -53,6 +53,8 @@ class AnalizadorPython(Analizador):
     for nodo in self.nodosDeTipo(AST, ast.Name):
       if nodo.id in ["exit","print","open"]:
         return "No está permitido usar '" + nodo.id + "'"
+    for nodo in self.nodosDeTipo(AST, ast.Import) + self.nodosDeTipo(AST, ast.ImportFrom):
+      return "No está permitido importar módulos"
     return None
   def hijosDeNodo(self, nodo):
     if not isinstance(nodo, ast.AST):
@@ -147,7 +149,7 @@ ast.ClassDef.hijos = lambda self : (
 ast.Return.hijos = lambda self : singularSiEsta(self.value)
 ast.Delete.hijos = lambda self : self.targets
 ast.Assign.hijos = lambda self : self.targets + [self.value]
-ast.AugAssign.hijos = lambda self : [self.target, self.operator, self.value]
+ast.AugAssign.hijos = lambda self : [self.target, self.op, self.value]
 ast.AnnAssign.hijos = lambda self : ([self.target, self.annotation] +
   singularSiEsta(self.value))
 ast.For.hijos = lambda self : ([self.target, self.iter] + self.body + self.orelse)

@@ -36,9 +36,6 @@ def run_python(jsonObj, v):
     return resultadoAnalisisCodigo
   timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
   lineasAdicionales = 0
-  codigoPre = prePython() + "\n\n"
-  lineasAdicionales = codigoPre.count('\n')
-  code = codigoPre + code
   if "pre" in jsonObj["ejercicio"]:
     code = jsonObj["ejercicio"]["pre"] + "\n\n" + code
     lineasAdicionales = lineasAdicionales + jsonObj["ejercicio"]["pre"].count("\n") + 2
@@ -239,11 +236,6 @@ def mostrar_excepcion(e):
     res += "\n" + tb.tb_frame.f_code.co_filename + ":" + tb.tb_frame.f_code.co_name + " " + str(tb.tb_lineno)
     tb = tb.tb_next
   print(e)
-
-def prePython():
-  return '''def secure_importer(name, globals=None, locals=None, fromlist=(), level=0):
-  raise ImportError("No está permitido importar módulos")
-__builtins__.__dict__['__import__'] = secure_importer'''
 
 def timeoutDefault():
   return 1
