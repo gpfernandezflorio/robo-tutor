@@ -85,4 +85,4 @@ f.close()
 os.chdir('servidor')
 for i in pids:
   # asyncio.run(main(i))
-  os.system(py + " server.py -p" + str(PUERTO_INICIAL + i) + " &")
+  os.system(py + " server.py -p" + str(PUERTO_INICIAL + i)) # OJO: ahora sólo puedo levantar uno a la vez porque se cuelga acá hasta que termine (asumo que en pids viene sólo uno)
