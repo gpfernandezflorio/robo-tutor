@@ -32,7 +32,7 @@ LOCAL_DIR = 'locales'
 if not os.path.isdir(LOCAL_DIR):
   os.mkdir(LOCAL_DIR)
 
-def dame_cursos(jsonObj):
+def dame_cursos(jsonObj, verb):
   respuesta = {'resultado':"Falla"}
   if 'usuario' in jsonObj and 'contrasenia' in jsonObj:
     usuario = jsonObj['usuario']

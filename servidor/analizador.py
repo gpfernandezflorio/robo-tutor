@@ -59,7 +59,7 @@ class AnalizadorPython(Analizador):
   def hijosDeNodo(self, nodo):
     if not isinstance(nodo, ast.AST):
       breakpoint()
-    return nodo.hijos()
+    return HIJOS[type(nodo).__name__](nodo)
   def esNodoDeTipo(self, nodo, tipo):
     return isinstance(nodo, tipo)
   def esUnComandoCompuesto(self, nodo):
@@ -121,125 +121,217 @@ def astPython(codigo):
   except e:
     return {"falla":e}
 
-ast.AST.hijos = lambda self : []
-# mod
-ast.Module.hijos = lambda self : (self.body + self.type_ignores)
-ast.Interactive.hijos = lambda self : self.body
-ast.Expression.hijos = lambda self : [self.body]
-ast.FunctionType.hijos = lambda self : (self.argtypes + [self.returns])
-# stmt
-ast.FunctionDef.hijos = lambda self : (
-  hijosArgumentos(self.args) +
-  self.body +
-  self.decorator_list +
-  singularSiEsta(self.returns)
-)
-ast.AsyncFunctionDef.hijos = lambda self : (
-  hijosArgumentos(self.args) +
-  self.body +
-  self.decorator_list +
-  singularSiEsta(self.returns)
-)
-ast.ClassDef.hijos = lambda self : (
-  self.bases +
-  hijosKeywords(self.keywords) +
-  self.body +
-  self.decorator_list
-)
-ast.Return.hijos = lambda self : singularSiEsta(self.value)
-ast.Delete.hijos = lambda self : self.targets
-ast.Assign.hijos = lambda self : self.targets + [self.value]
-ast.AugAssign.hijos = lambda self : [self.target, self.op, self.value]
-ast.AnnAssign.hijos = lambda self : ([self.target, self.annotation] +
-  singularSiEsta(self.value))
-ast.For.hijos = lambda self : ([self.target, self.iter] + self.body + self.orelse)
-ast.AsyncFor.hijos = lambda self : ([self.target, self.iter] + self.body + self.orelse)
-ast.While.hijos = lambda self : ([self.test] + self.body + self.orelse)
-ast.If.hijos = lambda self : ([self.test] + self.body + self.orelse)
-ast.With.hijos = lambda self : (hijosWithitem(self.items) + self.body)
-ast.AsyncWith.hijos = lambda self : (hijosWithitem(self.items) + self.body)
-ast.Raise.hijos = lambda self : (singularSiEsta(self.exc) + singularSiEsta(self.cause))
-ast.Try.hijos = lambda self : (self.body + self.handlers + self.orelse + self.finalbody)
-ast.Assert.hijos = lambda self : (self.test + singularSiEsta(self.msg))
-ast.Import.hijos = lambda self : []
-ast.ImportFrom.hijos = lambda self : []
-ast.Global.hijos = lambda self : []
-ast.Nonlocal.hijos = lambda self : []
-ast.Expr.hijos = lambda self : [self.value]
-ast.Pass.hijos = lambda self : []
-ast.Break.hijos = lambda self : []
-ast.Continue.hijos = lambda self : []
-# expr
-ast.BoolOp.hijos = lambda self : ([self.op] + self.values)
-ast.NamedExpr.hijos = lambda self : [self.target, self.value]
-ast.BinOp.hijos = lambda self : [self.left, self.op, self.right]
-ast.UnaryOp.hijos = lambda self : [self.op, self.operand]
-ast.Lambda.hijos = lambda self : (hijosArgumentos(self.args) + [self.body])
-ast.IfExp.hijos = lambda self : [self.test, self.body, self.orelse]
-ast.Dict.hijos = lambda self : (self.keys + self.values)
-ast.Set.hijos = lambda self : self.elts
-ast.ListComp.hijos = lambda self : ([self.elt] + hijosComprehension(self.generators))
-ast.SetComp.hijos = lambda self : ([self.elt] + hijosComprehension(self.generators))
-ast.DictComp.hijos = lambda self : ([self.key, self.value] + hijosComprehension(self.generators))
-ast.GeneratorExp.hijos = lambda self : ([self.elt] + hijosComprehension(self.generators))
-ast.Await.hijos = lambda self : [self.value]
-ast.Yield.hijos = lambda self : singularSiEsta(self.value)
-ast.YieldFrom.hijos = lambda self : [self.value]
-ast.Compare.hijos = lambda self : ([self.left] + self.ops + self.comparators)
-ast.Call.hijos = lambda self : ([self.func] + self.args + hijosKeywords(self.keywords))
-ast.FormattedValue.hijos = lambda self : ([self.value] + singularSiEsta(self.format_spec))
-ast.JoinedStr.hijos = lambda self : self.values
-ast.Constant.hijos = lambda self : []
-ast.Attribute.hijos = lambda self : [self.value, self.ctx]
-ast.Subscript.hijos = lambda self : [self.value, self.slice, self.ctx]
-ast.Starred.hijos = lambda self : [self.value, self.ctx]
-ast.Name.hijos = lambda self : [self.ctx]
-ast.List.hijos = lambda self : self.elts + [self.ctx]
-ast.Tuple.hijos = lambda self : self.elts + [self.ctx]
-ast.Slice.hijos = lambda self : (
-  singularSiEsta(self.lower) +
-  singularSiEsta(self.upper) +
-  singularSiEsta(self.step)
-)
-# expr_context
-ast.Load.hijos = lambda self : []
-ast.Store.hijos = lambda self : []
-ast.Del.hijos = lambda self : []
-# boolop
-ast.And.hijos = lambda self : []
-ast.Or.hijos = lambda self : []
-# operator
-ast.Add.hijos = lambda self : []
-ast.Sub.hijos = lambda self : []
-ast.Mult.hijos = lambda self : []
-ast.MatMult.hijos = lambda self : []
-ast.Div.hijos = lambda self : []
-ast.Mod.hijos = lambda self : []
-ast.Pow.hijos = lambda self : []
-ast.LShift.hijos = lambda self : []
-ast.RShift.hijos = lambda self : []
-ast.BitOr.hijos = lambda self : []
-ast.BitXor.hijos = lambda self : []
-ast.BitAnd.hijos = lambda self : []
-ast.FloorDiv.hijos = lambda self : []
-# unaryop
-ast.Invert.hijos = lambda self : []
-ast.Not.hijos = lambda self : []
-ast.UAdd.hijos = lambda self : []
-ast.USub.hijos = lambda self : []
-# cmpop
-ast.Eq.hijos = lambda self : []
-ast.NotEq.hijos = lambda self : []
-ast.Lt.hijos = lambda self : []
-ast.LtE.hijos = lambda self : []
-ast.Gt.hijos = lambda self : []
-ast.GtE.hijos = lambda self : []
-ast.Is.hijos = lambda self : []
-ast.IsNot.hijos = lambda self : []
-ast.In.hijos = lambda self : []
-ast.NotIn.hijos = lambda self : []
-ast.ExceptHandler.hijos = lambda self : (singularSiEsta(self.type) + self.body)
-ast.TypeIgnore.hijos = lambda self : []
+HIJOS = {
+  "AST": lambda self : []
+  # mod
+  ,
+  "Module": lambda self : (self.body + self.type_ignores)
+  ,
+  "Interactive": lambda self : self.body
+  ,
+  "Expression": lambda self : [self.body]
+  ,
+  "FunctionType": lambda self : (self.argtypes + [self.returns])
+  # stmt
+  ,
+  "FunctionDef": lambda self : (
+    hijosArgumentos(self.args) +
+    self.body +
+    self.decorator_list +
+    singularSiEsta(self.returns)
+  )
+  ,
+  "AsyncFunctionDef": lambda self : (
+    hijosArgumentos(self.args) +
+    self.body +
+    self.decorator_list +
+    singularSiEsta(self.returns)
+  )
+  ,
+  "ClassDef": lambda self : (
+    self.bases +
+    hijosKeywords(self.keywords) +
+    self.body +
+    self.decorator_list
+  )
+  ,
+  "Return": lambda self : singularSiEsta(self.value)
+  ,
+  "Delete": lambda self : self.targets
+  ,
+  "Assign": lambda self : self.targets + [self.value]
+  ,
+  "AugAssign": lambda self : [self.target, self.op, self.value]
+  ,
+  "AnnAssign": lambda self : ([self.target, self.annotation] +
+    singularSiEsta(self.value))
+  ,
+  "For": lambda self : ([self.target, self.iter] + self.body + self.orelse)
+  ,
+  "AsyncFor": lambda self : ([self.target, self.iter] + self.body + self.orelse)
+  ,
+  "While": lambda self : ([self.test] + self.body + self.orelse)
+  ,
+  "If": lambda self : ([self.test] + self.body + self.orelse)
+  ,
+  "With": lambda self : (hijosWithitem(self.items) + self.body)
+  ,
+  "AsyncWith": lambda self : (hijosWithitem(self.items) + self.body)
+  ,
+  "Raise": lambda self : (singularSiEsta(self.exc) + singularSiEsta(self.cause))
+  ,
+  "Try": lambda self : (self.body + self.handlers + self.orelse + self.finalbody)
+  ,
+  "Assert": lambda self : (self.test + singularSiEsta(self.msg))
+  ,
+  "Import": lambda self : []
+  ,
+  "ImportFrom": lambda self : []
+  ,
+  "Global": lambda self : []
+  ,
+  "Nonlocal": lambda self : []
+  ,
+  "Expr": lambda self : [self.value]
+  ,
+  "Pass": lambda self : []
+  ,
+  "Break": lambda self : []
+  ,
+  "Continue": lambda self : []
+  # expr
+  ,
+  "BoolOp": lambda self : ([self.op] + self.values)
+  ,
+  "NamedExpr": lambda self : [self.target, self.value]
+  ,
+  "BinOp": lambda self : [self.left, self.op, self.right]
+  ,
+  "UnaryOp": lambda self : [self.op, self.operand]
+  ,
+  "Lambda": lambda self : (hijosArgumentos(self.args) + [self.body])
+  ,
+  "IfExp": lambda self : [self.test, self.body, self.orelse]
+  ,
+  "Dict": lambda self : (self.keys + self.values)
+  ,
+  "Set": lambda self : self.elts
+  ,
+  "ListComp": lambda self : ([self.elt] + hijosComprehension(self.generators))
+  ,
+  "SetComp": lambda self : ([self.elt] + hijosComprehension(self.generators))
+  ,
+  "DictComp": lambda self : ([self.key, self.value] + hijosComprehension(self.generators))
+  ,
+  "GeneratorExp": lambda self : ([self.elt] + hijosComprehension(self.generators))
+  ,
+  "Await": lambda self : [self.value]
+  ,
+  "Yield": lambda self : singularSiEsta(self.value)
+  ,
+  "YieldFrom": lambda self : [self.value]
+  ,
+  "Compare": lambda self : ([self.left] + self.ops + self.comparators)
+  ,
+  "Call": lambda self : ([self.func] + self.args + hijosKeywords(self.keywords))
+  ,
+  "FormattedValue": lambda self : ([self.value] + singularSiEsta(self.format_spec))
+  ,
+  "JoinedStr": lambda self : self.values
+  ,
+  "Constant": lambda self : []
+  ,
+  "Attribute": lambda self : [self.value, self.ctx]
+  ,
+  "Subscript": lambda self : [self.value, self.slice, self.ctx]
+  ,
+  "Starred": lambda self : [self.value, self.ctx]
+  ,
+  "Name": lambda self : [self.ctx]
+  ,
+  "List": lambda self : self.elts + [self.ctx]
+  ,
+  "Tuple": lambda self : self.elts + [self.ctx]
+  ,
+  "Slice": lambda self : (
+    singularSiEsta(self.lower) +
+    singularSiEsta(self.upper) +
+    singularSiEsta(self.step)
+  )
+  # expr_context
+  ,
+  "Load": lambda self : []
+  ,
+  "Store": lambda self : []
+  ,
+  "Del": lambda self : []
+  # boolop
+  ,
+  "And": lambda self : []
+  ,
+  "Or": lambda self : []
+  # operator
+  ,
+  "Add": lambda self : []
+  ,
+  "Sub": lambda self : []
+  ,
+  "Mult": lambda self : []
+  ,
+  "MatMult": lambda self : []
+  ,
+  "Div": lambda self : []
+  ,
+  "Mod": lambda self : []
+  ,
+  "Pow": lambda self : []
+  ,
+  "LShift": lambda self : []
+  ,
+  "RShift": lambda self : []
+  ,
+  "BitOr": lambda self : []
+  ,
+  "BitXor": lambda self : []
+  ,
+  "BitAnd": lambda self : []
+  ,
+  "FloorDiv": lambda self : []
+  # unaryop
+  ,
+  "Invert": lambda self : []
+  ,
+  "Not": lambda self : []
+  ,
+  "UAdd": lambda self : []
+  ,
+  "USub": lambda self : []
+  # cmpop
+  ,
+  "Eq": lambda self : []
+  ,
+  "NotEq": lambda self : []
+  ,
+  "Lt": lambda self : []
+  ,
+  "LtE": lambda self : []
+  ,
+  "Gt": lambda self : []
+  ,
+  "GtE": lambda self : []
+  ,
+  "Is": lambda self : []
+  ,
+  "IsNot": lambda self : []
+  ,
+  "In": lambda self : []
+  ,
+  "NotIn": lambda self : []
+  ,
+  "ExceptHandler": lambda self : (singularSiEsta(self.type) + self.body)
+  ,
+  "TypeIgnore": lambda self : []
+}
 
 def hijosArgumentos(args): # es uno
   return (
