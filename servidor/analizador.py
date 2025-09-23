@@ -8,6 +8,7 @@ import ast
 from procesos import ejecutar
 from utils import algunoCumple, aplanar, mapear, singularSiEsta
 from reglas import REGLAS
+# from corrector import mostrar_excepcion
 
 class Analizador(object):
   def analizarAst(self, AST, codigo, reglas):
@@ -97,7 +98,8 @@ analizadorGobstones = AnalizadorGobstones()
 
 def analizar(analizador, codigo, reglas):
   AST = analizador.obtenerAst(codigo)
-  if "falla" in AST:
+  if "error" in AST:
+    AST["resultado"] = "Except"
     return AST
   return analizador.analizarAst(AST["ast"], codigo, reglas)
 
@@ -110,7 +112,7 @@ def analizarPython(codigo, reglas):
 def astGobstones(codigo):
   errcode, salida, falla = ejecutar("node gobstones-lang/dist/gobstones-lang parse -l es -i src.txt")
   if len(falla) > 0:
-    return {"falla":falla}
+    return {"error":falla}
   AST = json.loads(json.loads(salida))
   return {"ast":AST}
 
@@ -118,8 +120,9 @@ def astPython(codigo):
   try:
     AST = ast.parse(codigo)
     return {"ast":AST} # TODO
-  except e:
-    return {"falla":e}
+  except Exception as e:
+    # return {"error":mostrar_excepcion(e)}
+    return {"error":str(e).replace("<unknown>, ","").replace("line","línea")}
 
 HIJOS = {
   "AST": lambda self : []
