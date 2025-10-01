@@ -14,9 +14,9 @@ except: # python 2
     moduloHTTPRequest = BaseHTTPServer.BaseHTTPRequestHandler
     from SocketServer import ThreadingMixIn
 
-from corrector import mostrar_excepcion
+from utils import mostrar_excepcion, texto_excepcion
 
-CONFIG = {}
+CONFIG = {"DATA":{}}
 
 class HandlerAC(moduloHTTPRequest):
   def _set_response(self, n=200, headers={'Content-type':'text/html'}):
@@ -34,45 +34,63 @@ class HandlerAC(moduloHTTPRequest):
     self.send_header("Access-Control-Allow-Headers", "Content-Type")
 
   def do_OPTIONS(self):
+    CONFIG["DATA"] = {"metodo":"OPTIONS","path":self.path}
     self.send_response(200, "ok")
     self.cors_headers()
     self.end_headers()
 
   def do_GET(self):
-    ruta = self.path.split("?")[0]
-    for msg in CONFIG["msgs"]["GET"]:
-      if (ruta == "/" + msg):
-        self.responder(CONFIG["msgs"]["GET"][msg](CONFIG["verb"]))
-        return
-    for msg in CONFIG["msgs"]["GET_STARTS"]:
-      if (ruta.startswith("/" + msg + "/")):
-        self.responder(CONFIG["msgs"]["GET_STARTS"][msg](ruta[2+len(msg):]))
-        return
-    for msg in CONFIG["msgs"]["FILE"]:
-      if (ruta == "/" + msg):
-        self.archivoStatico(CONFIG["msgs"]["FILE"][msg])
-        return
-    for msg in CONFIG["msgs"]["FILE_STARTS"]:
-      if (ruta.startswith("/" + msg + "/")):
-        self.archivoStatico(CONFIG["msgs"]["FILE_STARTS"][msg](ruta[2+len(msg):]))
-        return
-    self.error("[GET] Ruta {} inválida".format(self.path))
+    CONFIG["DATA"] = {"metodo":"GET","path":self.path}
+    try:
+      ruta = self.path.split("?")[0]
+      for msg in CONFIG["msgs"]["GET"]:
+        if (ruta == "/" + msg):
+          self.responder(CONFIG["msgs"]["GET"][msg](CONFIG["verb"]))
+          return
+      for msg in CONFIG["msgs"]["GET_STARTS"]:
+        if (ruta.startswith("/" + msg + "/")):
+          self.responder(CONFIG["msgs"]["GET_STARTS"][msg](ruta[2+len(msg):]))
+          return
+      for msg in CONFIG["msgs"]["FILE"]:
+        if (ruta == "/" + msg):
+          self.archivoStatico(CONFIG["msgs"]["FILE"][msg])
+          return
+      for msg in CONFIG["msgs"]["FILE_STARTS"]:
+        if (ruta.startswith("/" + msg + "/")):
+          self.archivoStatico(CONFIG["msgs"]["FILE_STARTS"][msg](ruta[2+len(msg):]))
+          return
+      self.error("[GET] Ruta {} inválida".format(self.path))
+    except Exception as e:
+      CONFIG["DATA"]["e"] = texto_excepcion(e)
+      CONFIG["fail"](CONFIG["DATA"])
 
   def do_PUT(self):
-    content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
-    put_data = self.rfile.read(content_length).decode('utf-8') # <--- Gets the data itself
-    jsonObject = json.loads(put_data)
-    self.error("[PUT] Ruta {} inválida".format(self.path))
+    CONFIG["DATA"] = {"metodo":"PUT","path":self.path}
+    try:
+      content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
+      put_data = self.rfile.read(content_length).decode('utf-8') # <--- Gets the data itself
+      jsonObject = json.loads(put_data)
+      CONFIG["DATA"]["json"] = jsonObject
+      self.error("[PUT] Ruta {} inválida".format(self.path))
+    except Exception as e:
+      CONFIG["DATA"]["e"] = texto_excepcion(e)
+      CONFIG["fail"](CONFIG["DATA"])
 
   def do_POST(self):
-    content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
-    post_data = self.rfile.read(content_length).decode('utf-8') # <--- Gets the data itself
-    jsonObject = json.loads(post_data)
-    for msg in CONFIG["msgs"]["POST"]:
-      if (self.path == "/" + msg):
-        self.responder(CONFIG["msgs"]["POST"][msg](jsonObject, CONFIG["verb"]))
-        return
-    self.error("[POST] Ruta {} inválida".format(self.path))
+    CONFIG["DATA"] = {"metodo":"POST","path":self.path}
+    try:
+      content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
+      post_data = self.rfile.read(content_length).decode('utf-8') # <--- Gets the data itself
+      jsonObject = json.loads(post_data)
+      CONFIG["DATA"]["json"] = jsonObject
+      for msg in CONFIG["msgs"]["POST"]:
+        if (self.path == "/" + msg):
+          self.responder(CONFIG["msgs"]["POST"][msg](jsonObject, CONFIG["verb"]))
+          return
+      self.error("[POST] Ruta {} inválida".format(self.path))
+    except Exception as e:
+      CONFIG["DATA"]["e"] = texto_excepcion(e)
+      CONFIG["fail"](CONFIG["DATA"])
 
   def error(self, msg):
     print(msg)
@@ -102,11 +120,12 @@ class ServerAC(ThreadingMixIn, moduloHTTPServer):
         No further content needed, don't touch this. """
 
 class Servidor(object):
-  def run(self, host, port, msgs, verb):
+  def run(self, host, port, msgs, failCallback, verb):
     for k in ["GET","GET_STARTS","FILE","FILE_STARTS","POST","PUT"]:
       if not (k in msgs):
         msgs[k] = {}
     CONFIG["msgs"] = msgs
+    CONFIG["fail"] = failCallback
     CONFIG["verb"] = verb
     self.servidor = ServerAC((host, port), HandlerAC)
     if ("CERT" in os.environ) and ("KEY" in os.environ):

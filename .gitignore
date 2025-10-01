@@ -7,3 +7,4 @@ info.json
 local.csv
 stderr.out
 stdout.out
+servidor/FAIL/*

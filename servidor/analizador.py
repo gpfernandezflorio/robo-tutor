@@ -8,7 +8,6 @@ import ast
 from procesos import ejecutar
 from utils import algunoCumple, aplanar, mapear, singularSiEsta
 from reglas import REGLAS
-# from corrector import mostrar_excepcion
 
 class Analizador(object):
   def analizarAst(self, AST, codigo, reglas):
@@ -121,7 +120,6 @@ def astPython(codigo):
     AST = ast.parse(codigo)
     return {"ast":AST} # TODO
   except Exception as e:
-    # return {"error":mostrar_excepcion(e)}
     return {"error":str(e).replace("<unknown>, ","").replace("line","línea")}
 
 HIJOS = {

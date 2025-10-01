@@ -3,6 +3,7 @@
 import json
 from analizador import analizarPython, analizarGobstones
 from procesos import ejecutarConTimeout
+from utils import mostrar_excepcion
 
 def run_code(jsonObj, v):
   if (not ("src" in jsonObj)):
@@ -213,6 +214,7 @@ def buscar_falla_gobstones(s, n):
 def buscar_falla_python(s, n):
   falla = "?"
   linea = None
+  tb = []
   for l in s.split('\n'):
     if l.startswith('  File "'):
       inicio = l.find('src.py", line ')
@@ -222,20 +224,16 @@ def buscar_falla_python(s, n):
         nlinea = int(l[inicio:fin] if fin > 0 else l[inicio:])
         if nlinea > n:
           linea = str(nlinea - n)
+          if fin > 0 and not ("<module>" in l[fin:]):
+            tb.insert(0, "\n > " + l[fin + 5:] + " (línea " + linea + ")")
     if not (l.startswith('Traceback') or l.startswith('  ')):
       falla = l
       if not (linea is None):
         falla = falla + "\nLínea: " + linea
+        if len(tb) > 1:
+          falla = falla + "\n\nLlamados:" + "".join(tb)
       return falla
   return falla
-
-def mostrar_excepcion(e):
-  res = str(e)
-  tb = e.__traceback__
-  while not (tb is None):
-    res += "\n" + tb.tb_frame.f_code.co_filename + ":" + tb.tb_frame.f_code.co_name + " " + str(tb.tb_lineno)
-    tb = tb.tb_next
-  print(e)
 
 def timeoutDefault():
   return 1

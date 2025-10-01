@@ -4,9 +4,10 @@ import io, os, json
 import datetime
 import requests
 from users import loginValido, cargarUsuariosEnCurso, usuarioEnCurso, cursosUsuario, rolesEnCurso
-from corrector import run_code, timeoutDefault, mostrar_excepcion
+from corrector import run_code, timeoutDefault
 from cursos.cursos import cargarCuestionarioMoodle, organizarPreguntasYRespuestas
 from fechas import fueraDeFecha
+from utils import texto_excepcion, mostrar_excepcion, failCallback
 
 # CURSOS:
 from cursos.unq_inpr import CURSOS as cursos_unq_inpr
@@ -387,9 +388,15 @@ def submit(url, data, dni, v):
   try:
     requests.post(url, data = data)
   except Exception as e:
+    failCallback({
+      "metodo":"SUBMIT",
+      "data":data,
+      "url":url,
+      "e":texto_excepcion(e)
+    })
     if (v):
+      print("ERROR " + dni)
       mostrar_excepcion(e)
-    print("ERROR " + dni)
 
 def guardarLocal(s, curso):
   archivo = os.path.join(LOCAL_DIR, curso + ".csv")
