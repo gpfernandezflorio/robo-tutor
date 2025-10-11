@@ -32,10 +32,10 @@ def mostrar_excepcion(e):
 
 carpetaFallos = "FAIL"
 
-def failCallback(data):
+def failCallback(data,FILENAME="r"):
   if not os.path.isdir(carpetaFallos):
       os.mkdir(carpetaFallos)
-  nombreArchivo = lambda x : os.path.join(carpetaFallos, "r" + str(x) + ".json")
+  nombreArchivo = lambda x : os.path.join(carpetaFallos, FILENAME + "_" + str(x) + ".json")
   i=1
   while os.path.isfile(nombreArchivo(i)):
       i += 1
