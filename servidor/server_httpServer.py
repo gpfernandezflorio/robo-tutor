@@ -69,7 +69,17 @@ class HandlerAC(moduloHTTPRequest):
     try:
       content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
       put_data = self.rfile.read(content_length).decode('utf-8') # <--- Gets the data itself
+    except Exception as e:
+      CONFIG["DATA"]["e"] = texto_excepcion(e)
+      CONFIG["fail"](CONFIG["DATA"],"_readData")
+      return
+    try:
       jsonObject = json.loads(put_data)
+    except Exception as e:
+      CONFIG["DATA"]["e"] = texto_excepcion(e)
+      CONFIG["fail"](CONFIG["DATA"],"_loadJson")
+      return
+    try:
       CONFIG["DATA"]["json"] = jsonObject
       self.error("[PUT] Ruta {} inválida".format(self.path))
     except Exception as e:
@@ -81,7 +91,17 @@ class HandlerAC(moduloHTTPRequest):
     try:
       content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
       post_data = self.rfile.read(content_length).decode('utf-8') # <--- Gets the data itself
+    except Exception as e:
+      CONFIG["DATA"]["e"] = texto_excepcion(e)
+      CONFIG["fail"](CONFIG["DATA"],"_readData")
+      return
+    try:
       jsonObject = json.loads(post_data)
+    except Exception as e:
+      CONFIG["DATA"]["e"] = texto_excepcion(e)
+      CONFIG["fail"](CONFIG["DATA"],"_loadJson")
+      return
+    try:
       CONFIG["DATA"]["json"] = jsonObject
       for msg in CONFIG["msgs"]["POST"]:
         if (self.path == "/" + msg):
