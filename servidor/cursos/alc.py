@@ -264,7 +264,7 @@ def norma(x,p):\n\
   "disponible":{"desde":fechas["3"]}
 }
 
-normaliza = { # OJO: Agregar la definición de norma al pre
+normaliza = {
   "tipo":"CODIGO",
   "id":"normaliza",
   "nombre":"normaliza",
@@ -276,8 +276,13 @@ def normaliza(X, p):\n\
   \"\"\"\n",
   "aridad":{"normaliza":2},
   "pre":"import numpy as np",
+  "post":"\n\n\
+def norma(x,p):\n\
+  return np.power(sum(np.power(x,p)),1/p)\n\n",
   "run_data":[
-    # FALTAN TESTS (ver nota en el doc)!
+    {"assert":"all([np.allclose(norma(x,2),1) for x in normaliza([np.array([1]*k) for k in range(1,11)],2)])"},
+    {"assert":"all([np.allclose(norma(x,2),1) for x in normaliza([np.array([1]*k) for k in range(2,11)],1)])"},
+    {"assert":"all([np.allclose(norma(x,'inf'),1) for x in normaliza([np.random.rand(k) for k in range(1,11)],'inf')])"}
   ],
   "disponible":{"desde":fechas["3"]}
 }
@@ -334,7 +339,7 @@ def normaExacta(A,p=[1,'inf']):\n\
   "disponible":{"desde":fechas["3"]}
 }
 
-condMC = { # OJO: Agregar la definición de normaMatMC al pre
+condMC = {
   "tipo":"CODIGO",
   "id":"condMC",
   "nombre":"condMC",
@@ -346,6 +351,16 @@ def condMC(A, p):\n\
   \"\"\"\n",
   "aridad":{"condMC":2},
   "pre":"import numpy as np",
+  "post":"\n\n\
+def normaMatMC(A,q,p,Np):\n\
+    R = np.random.randn(A.shape[0], Np)\n\
+    R = R / np.linalg.norm(R, axis=0, ord=p)\n\
+    normas = A @ R\n\
+    normas_q = np.linalg.norm(normas, axis=0, ord=q)\n\
+    res = np.max(normas_q)\n\
+    max_vector_idx = np.argmax(normas_q)\n\
+    max_vector = R[:, max_vector_idx]\n\
+    return res, max_vector\n\n"
   "run_data":[
     {"pre":"\
 A = np.array([[1,1],[0,1]])\n\
@@ -365,7 +380,7 @@ condA = condMC(A,2,10000)\
   "disponible":{"desde":fechas["3"]}
 }
 
-condExacto = { # OJO: Agregar la definición de normaExacta al pre
+condExacto = {
   "tipo":"CODIGO",
   "id":"condExacto",
   "nombre":"condExacto",
@@ -377,6 +392,12 @@ def condExacto(A, p):\n\
   \"\"\"\n",
   "aridad":{"condExacto":2},
   "pre":"import numpy as np",
+  "post":"\n\n\
+def normaExacta(A,p=[1, 'inf']):\n\
+    norma_1 = np.linalg.norm(A, ord=1)\n\
+    norma_inf = np.linalg.norm(A, ord=np.inf)\n\
+    res = [norma_1, norma_inf]\n\
+    return res\n\n"
   "run_data":[
     {"pre":"\
 A = np.random.rand(10,10)\n\
@@ -605,7 +626,7 @@ CURSOS = {
       # esDiagonalDominante,
       # etiqueta("labo1","Labo 01 (" + fechas["1"] + ")"),
       etiqueta("labo1","Labo 01"),
-        error,
+        # error,
         error_relativo,
         matricesIguales,
       # etiqueta("labo2","Labo 02 (" + fechas["2"] + ")"),
