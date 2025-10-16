@@ -360,7 +360,7 @@ def normaMatMC(A,q,p,Np):\n\
     res = np.max(normas_q)\n\
     max_vector_idx = np.argmax(normas_q)\n\
     max_vector = R[:, max_vector_idx]\n\
-    return res, max_vector\n\n"
+    return res, max_vector\n\n",
   "run_data":[
     {"pre":"\
 A = np.array([[1,1],[0,1]])\n\
@@ -397,7 +397,7 @@ def normaExacta(A,p=[1, 'inf']):\n\
     norma_1 = np.linalg.norm(A, ord=1)\n\
     norma_inf = np.linalg.norm(A, ord=np.inf)\n\
     res = [norma_1, norma_inf]\n\
-    return res\n\n"
+    return res\n\n",
   "run_data":[
     {"pre":"\
 A = np.random.rand(10,10)\n\
