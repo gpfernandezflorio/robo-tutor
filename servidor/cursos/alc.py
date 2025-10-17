@@ -165,7 +165,7 @@ rota_y_escala = {
   "nombre":"rota_y_escala",
   "enunciado":"Implementar la función <code>rota_y_escala</code> que reciba un ángulo <code>theta</code> y una tira de números <code>s</code>, y retorne una matriz de 2 x 2 que rota el vector en un ángulo <code>theta</code> y luego lo escala en un factor <code>s</code>.",
   "base":"\
-def rota_y_escala(theta,s)\n\
+def rota_y_escala(theta,s):\n\
   \"\"\"\n\
   % Recibe un ángulo theta y una tira de números s, y retorna una matriz de 2 x 2 que rota el vector en un ángulo theta y luego lo escala en un factor s\n\
   \"\"\"\n",
@@ -185,7 +185,7 @@ afin = {
   "nombre":"afin",
   "enunciado":"Implementar la función <code>afin</code> que reciba un ángulo <code>theta</code>, una tira de números <code>s</code> (en R<sup>2</sup>), y un vector <code>b</code> en (R<sup>2</sup>) y retorne una matriz de 3 x 3 que rota el vector en un ángulo <code>theta</code>, luego lo escala en un factor <code>s</code> y por último lo muevo en un valor fijo <code>b</code>.",
   "base":"\
-def afin(theta,s,b)\n\
+def afin(theta,s,b):\n\
   \"\"\"\n\
   % Recibe un ángulo theta, una tira de números s (en R2), y un vector b en (R2) y retorna una matriz de 3 x 3 que rota el vector en un ángulo theta, luego lo escala en un factor s y por último lo muevo en un valor fijo b\n\
   \"\"\"\n",
@@ -220,7 +220,7 @@ trans_afin = {
   "nombre":"trans_afin",
   "enunciado":"Implementar la función <code>trans_afin</code> que reciba un vector <code>v</code> (en R<sup>2</sup>), un ángulo <code>theta</code>, una tira de números <code>s</code> (en R<sup>2</sup>), y un vector <code>b</code> en (R<sup>2</sup>) y retorne el vector <code>w</code> resultante de aplicar la transformacion afin a <code>v</code>.",
   "base":"\
-def trans_afin(v,theta,s,b)\n\
+def trans_afin(v,theta,s,b):\n\
   \"\"\"\n\
   % Recibe un vector v (en R2), un ángulo theta, una tira de números s (en R2), y un vector b en (R2) y retorna el vector w resultante de aplicar la transformacion afin a v\n\
   \"\"\"\n",
@@ -351,7 +351,7 @@ def condMC(A, p):\n\
   \"\"\"\n",
   "aridad":{"condMC":2},
   "pre":"import numpy as np",
-  "post":"\n\n\
+  "post":"\
 def normaMatMC(A,q,p,Np):\n\
     R = np.random.randn(A.shape[0], Np)\n\
     R = R / np.linalg.norm(R, axis=0, ord=p)\n\
@@ -362,20 +362,18 @@ def normaMatMC(A,q,p,Np):\n\
     max_vector = R[:, max_vector_idx]\n\
     return res, max_vector\n\n",
   "run_data":[
-    {"pre":"\
+    {"post":"\
 A = np.array([[1,1],[0,1]])\n\
 A_ = np.linalg.solve(A,np.eye(A.shape[0]))\n\
 normaA = normaMatMC(A,2,2,10000)\n\
 normaA_ = normaMatMC(A_,2,2,10000)\n\
-condA = condMC(A,2,10000)\
-","assert":"np.allclose(normaA[0]*normaA_[0],condA,atol=1e-3)"},
-    {"pre":"\
+","assert":"np.allclose(normaA[0]*normaA_[0],condMC(A,2,10000),atol=1e-3)"},
+    {"post":"\
 A = np.array([[3,2],[4,1]])\n\
 A_ = np.linalg.solve(A,np.eye(A.shape[0]))\n\
 normaA = normaMatMC(A,2,2,10000)\n\
 normaA_ = normaMatMC(A_,2,2,10000)\n\
-condA = condMC(A,2,10000)\
-","assert":"np.allclose(normaA[0]*normaA_[0],condA,atol=1e-3)"}
+","assert":"np.allclose(normaA[0]*normaA_[0],condMC(A,2,10000),atol=1e-3)"}
   ],
   "disponible":{"desde":fechas["3"]}
 }
@@ -392,26 +390,26 @@ def condExacto(A, p):\n\
   \"\"\"\n",
   "aridad":{"condExacto":2},
   "pre":"import numpy as np",
-  "post":"\n\n\
+  "post":"\
 def normaExacta(A,p=[1, 'inf']):\n\
     norma_1 = np.linalg.norm(A, ord=1)\n\
     norma_inf = np.linalg.norm(A, ord=np.inf)\n\
     res = [norma_1, norma_inf]\n\
     return res\n\n",
   "run_data":[
-    {"pre":"\
+    {"post":"\
 A = np.random.rand(10,10)\n\
 A_ = np.linalg.solve(A,np.eye(A.shape[0]))\n\
 normaA = normaExacta(A,1)\n\
 normaA_ = normaExacta(A_,1)\n\
-condA = condExacta(A,1)\
+condA = condExacto(A,1)\
 ","assert":"np.allclose(normaA*normaA_,condA)"},
-    {"pre":"\
+    {"post":"\
 A = np.random.rand(10,10)\n\
 A_ = np.linalg.solve(A,np.eye(A.shape[0]))\n\
 normaA = normaExacta(A,'inf')\n\
 normaA_ = normaExacta(A_,'inf')\n\
-condA = condExacta(A,'inf')\
+condA = condExacto(A,'inf')\
 ","assert":"np.allclose(normaA*normaA_,condA)"}
   ],
   "disponible":{"desde":fechas["3"]}
@@ -476,22 +474,22 @@ A2 = np.array([[3,2,1],[0,2,1],[0,0,1]])\n\
 A3 = np.array([[1,-1,1],[0,1,-1],[0,0,1]])\
   ",
   "run_data":[
-    { "pre":"b = np.array([1,1,1])",
+    { "post":"b = np.array([1,1,1])",
       "assert":"np.allclose(res_tri(A1,b),np.array([1,0,0]))"
     },
-    { "pre":"b = np.array([0,1,0])",
+    { "post":"b = np.array([0,1,0])",
       "assert":"np.allclose(res_tri(A1,b),np.array([0,1,-1]))"
     },
-    { "pre":"b = np.array([-1,1,-1])",
+    { "post":"b = np.array([-1,1,-1])",
       "assert":"np.allclose(res_tri(A1,b),np.array([-1,2,-2]))"
     },
-    { "pre":"b = np.array([-1,1,-1])",
+    { "post":"b = np.array([-1,1,-1])",
       "assert":"np.allclose(res_tri(A1,b,inferior=False),np.array([-1,1,-1]))"
     },
-    { "pre":"b = np.array([3,2,1])",
+    { "post":"b = np.array([3,2,1])",
       "assert":"np.allclose(res_tri(A2,b,inferior=False),np.array([1/3,1/2,1]))"
     },
-    { "pre":"b = np.array([1,0,1])",
+    { "post":"b = np.array([1,0,1])",
       "assert":"np.allclose(res_tri(A3,b,inferior=False),np.array([1,1,1]))"
     }
   ],
@@ -512,7 +510,7 @@ def inversa(A):\n\
   "aridad":{"inversa":1},
   "pre":"import numpy as np",
   "run_data":[
-    {"pre":"\
+    {"post":"\
 asserts = []\n\
 ntest = 10\n\
 iter = 0\n\
@@ -523,7 +521,7 @@ while iter < ntest:\n\
         asserts.append(np.allclose(np.linalg.inv(A),A_))\n\
         iter += 1\
     ","assert":"all(asserts)"},
-    { "pre":"A = np.array([[1,2,3],[4,5,6],[7,8,9]])",
+    { "post":"A = np.array([[1,2,3],[4,5,6],[7,8,9]])",
       "assert":"assert(inversa(A) is None)"
     }
   ],
@@ -578,20 +576,20 @@ def esSDP(A,atol=1e-8):\n\
   "aridad":{"esSDP":2},
   "pre":"import numpy as np",
   "run_data":[
-    {"pre":"\
+    {"post":"\
 L0 = np.array([[1,0,0],[1,1,0],[1,1,1]])\n\
 D0 = np.diag([1,1,1])\n\
 A = L0 @ D0 @ L0.T\
     ","assert":"esSDP(A)"},
-    {"pre":"\
+    {"post":"\
 D0 = np.diag([1,-1,1])\n\
 A = L0 @ D0 @ L0.T\
     ","assert":"not esSDP(A)"},
-    {"pre":"\
+    {"post":"\
 D0 = np.diag([1,1,1e-16])\n\
 A = L0 @ D0 @ L0.T\
     ","assert":"not esSDP(A)"},
-    {"pre":"\
+    {"post":"\
 L0 = np.array([[1,0,0],[1,1,0],[1,1,1]])\n\
 D0 = np.diag([1,1,1])\n\
 V0 = np.array([[1,0,0],[1,1,0],[1,1+1e-10,1]]).T\n\

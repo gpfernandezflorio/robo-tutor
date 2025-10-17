@@ -28,26 +28,32 @@ def run_python(jsonObj, v):
   run_data = jsonObj["ejercicio"]["run_data"] if "run_data" in jsonObj["ejercicio"] else {}
   if (type(run_data) != type([])):
     run_data = [run_data]
-  code = jsonObj["src"]
+  code = {
+    "pre":"",
+    "src":jsonObj["src"]
+  }
   if (v):
-    print(code)
+    print(code["src"])
   ## Código
-  resultadoAnalisisCodigo = analizarPython(code, jsonObj["analisisCodigo"])
+  resultadoAnalisisCodigo = analizarPython(code["src"], jsonObj["analisisCodigo"])
   if not(resultadoAnalisisCodigo is None):
     return resultadoAnalisisCodigo
   timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
   lineasAdicionales = 0
   if "pre" in jsonObj["ejercicio"]:
-    code = jsonObj["ejercicio"]["pre"] + "\n\n" + code
-    lineasAdicionales = lineasAdicionales + jsonObj["ejercicio"]["pre"].count("\n") + 2
+    code["pre"] = jsonObj["ejercicio"]["pre"] + "\n"
+    lineasAdicionales = lineasAdicionales + jsonObj["ejercicio"]["pre"].count("\n") + 1
   ## Ejecuciones
   duraciones = []
   for run in run_data:
-    code_run = code + "\n"
+    code_run = {
+      "pre":code["pre"],
+      "post":"\n"
+    }
     lineasAdicionales_run = lineasAdicionales
     ## Inicialización
     if "pre" in run:
-      code_run = run["pre"] + "\n\n" + code_run
+      code_run["pre"] = code_run["pre"] + "\n\n" + run["pre"]
       lineasAdicionales_run = lineasAdicionales_run + run["pre"].count("\n") + 2
     ## Variables definidas
     defs = []
@@ -58,7 +64,7 @@ def run_python(jsonObj, v):
     if (type(defs) != type([])):
       defs = [defs]
     for d in defs:
-      code_run = code_run + "\ntry:\n  eval('" + d + "')\nexcept Exception as e:\n  print('DEF " + d + "')\n  exit(1)"
+      code_run["post"] += "\ntry:\n  eval('" + d + "')\nexcept Exception as e:\n  print('DEF " + d + "')\n  exit(1)"
     ## Aridad de funciones correcta
     aridad = None
     if "aridad" in run:
@@ -66,21 +72,23 @@ def run_python(jsonObj, v):
     elif "aridad" in jsonObj["ejercicio"]:
       aridad = jsonObj["ejercicio"]["aridad"]
     if not (aridad is None):
-      code_run = "import inspect\n\n" + code_run
+      code_run["pre"] = "import inspect\n\n" + code_run["pre"]
       lineasAdicionales_run = lineasAdicionales_run + 2
       for f in aridad:
         verificacion_aridad = "\n\n" + "try:\n  args = len(inspect.getfullargspec(eval('" + f + "')).args)\n  if (args != " + str(aridad[f]) + "):\n    print('ARGS " + f + " ' + str(args) + ' [" + str(aridad[f]) + "]')\n    exit(1)\nexcept NameError as e:\n  print('DEF " + f + "')\n  exit(1)\nexcept Exception as e:\n  print('ARGS Err')\n  print(e)\n  exit(1)"
-        code_run = code_run + verificacion_aridad
+        code_run["post"] += verificacion_aridad
     ## Resultado
     if "post" in jsonObj["ejercicio"]:
-      code_run = code_run + "\n\n" + jsonObj["ejercicio"]["post"]
+      code_run["post"] += "\n\n" + jsonObj["ejercicio"]["post"]
     if "post" in run:
-      code_run = code_run + "\n\n" + run["post"]
+      code_run["post"] += "\n\n" + run["post"]
     if "assert" in run:
-      code_run = code_run + "\n\n" + "if (" + run["assert"] + "):\n  exit(0)\nelse:\n  exit(1)"
+      code_run["post"] += "\n\n" + "if (" + run["assert"] + "):\n  exit(0)\nelse:\n  exit(1)"
     ## Ejecución del código entregado
+    code_run["pre"] += "\n\n"
+    lineasAdicionales_run = lineasAdicionales_run + 2
     f = open('src.py', 'w')
-    f.write(code_run)
+    f.write(code_run["pre"] + code["src"] + code_run["post"])
     f.close()
     resultadoEjecucion = ejecutarConTimeout("python3 src.py", timeout)
     if resultadoEjecucion["resultado"] == "TIMEOUT":
@@ -89,7 +97,9 @@ def run_python(jsonObj, v):
     if len(resultadoEjecucion["falla"]) > 0:
       if (v):
         print(resultadoEjecucion["falla"])
-      return {"resultado":"Except", "error":buscar_falla_python(resultadoEjecucion["falla"], lineasAdicionales_run)}
+      fallaReal = buscar_falla_python(resultadoEjecucion["falla"], lineasAdicionales_run, len(code["src"].split("\n")))
+      if not (fallaReal is None):
+        return {"resultado":"Except", "error":fallaReal}
     if resultadoEjecucion["errcode"] != 0:
       return {"resultado":"NO"}
   return {"resultado":"OK","duracion":sum(duraciones)/len(duraciones)}
@@ -211,8 +221,8 @@ def buscar_falla_gobstones(s, n):
   # print(s)
   return falla
 
-def buscar_falla_python(s, n):
-  falla = "?"
+def buscar_falla_python(s, n, m):
+  falla = None
   linea = None
   tb = []
   for l in s.split('\n'):
@@ -223,17 +233,22 @@ def buscar_falla_python(s, n):
         fin = l.find(",", inicio)
         nlinea = int(l[inicio:fin] if fin > 0 else l[inicio:])
         if nlinea > n:
-          linea = str(nlinea - n)
+          linea = nlinea - n
           if fin > 0 and not ("<module>" in l[fin:]):
-            tb.insert(0, "\n > " + l[fin + 5:] + " (línea " + linea + ")")
-    if not (l.startswith('Traceback') or l.startswith('  ')):
+            tb.insert(0, "\n > " + l[fin + 5:] + " (línea " + str(linea) + ")")
+    if not esLineaIgnorable(l):
       falla = l
       if not (linea is None):
-        falla = falla + "\nLínea: " + linea
+        if linea > m: # la falla está en el código que ejecuta el test!
+          return "No se pueden correr los tests"
+        falla = falla + "\nLínea: " + str(linea)
         if len(tb) > 1:
           falla = falla + "\n\nLlamados:" + "".join(tb)
       return falla
   return falla
+
+def esLineaIgnorable(l):
+  return l.startswith('Traceback') or l.startswith('  ') or l.startswith('/') or 'src.py' in l or len(l) < 2
 
 def timeoutDefault():
   return 1
