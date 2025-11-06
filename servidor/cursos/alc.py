@@ -660,5 +660,66 @@ CURSOS = {
         "duracion":"1460244707"
       }
     }
+  },
+  "alc":{
+    "nombre":"Álgebra Lineal Computacional - FCEN-UBA (2025 - 2C)",
+    "anio":"2025",
+    "edicion":"Segundo Cuatrimestre",
+    "descripcion":"Curso correspondiente a la materia Álgebra Lineal Computacional de la Facultad de Ciencias Exactas y Naturales (FCEyN), UBA",
+    "responsable":{
+      "nombre":"Equipo de ALC",
+      "contacto":"? (AT) ?"
+    },
+    "institucion":"Facultad de Ciencias Exactas y Naturales (FCEyN) - UBA",
+    "lenguaje":"Python",
+    "lenguaje_display":"none",
+    # "analisisCodigo":[
+    #   {"key":"CMD_X_LINE"},
+    #   {"key":"INDENT"},
+    #   {"key":"NEST_CMD","max":1}
+    # ],
+    "actividades":[
+      # traza,
+      # traspuesta,
+      # producto,
+      # esDiagonalDominante,
+      # etiqueta("labo1","Labo 01 (" + fechas["1"] + ")"),
+      etiqueta("labo1","Labo 01"),
+        # error,
+        error_relativo,
+        matricesIguales,
+      # etiqueta("labo2","Labo 02 (" + fechas["2"] + ")"),
+      etiqueta("labo2","Labo 02"),
+        rota,
+        escala,
+        rota_y_escala,
+        afin,
+        trans_afin,
+      # etiqueta("labo3","Labo 03 (" + fechas["3"] + ")"),
+      etiqueta("labo3","Labo 03"),
+        norma,
+        normaliza,
+        normaMatMC,
+        normaExacta,
+        condMC,
+        condExacto,
+      # etiqueta("labo4","Labo 04 (" + fechas["4"] + ")"),
+      etiqueta("labo4","Labo 04"),
+        calculaLU,
+        res_tri,
+        inversa,
+        calculaLDV,
+        esSDP
+    ],
+    "planilla":{
+      "url":"1FAIpQLSfijJIbAFHK5BNEJhi31q1kXa3Z_LuLdiZjz7_O9N4SGu58WA",
+      "campos":{
+        "usuario":"9867257",
+        "actividad":"1165966175",
+        "respuesta":"1778184894",
+        "resultado":"1496208069",
+        "duracion":"1460244707"
+      }
+    }
   }
 }
