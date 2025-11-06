@@ -661,7 +661,7 @@ CURSOS = {
       }
     }
   },
-  "alc":{
+  "alc_2025_c2":{
     "nombre":"Álgebra Lineal Computacional - FCEN-UBA (2025 - 2C)",
     "anio":"2025",
     "edicion":"Segundo Cuatrimestre",
