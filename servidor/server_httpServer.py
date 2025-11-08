@@ -64,6 +64,7 @@ class HandlerAC(moduloHTTPRequest):
       CONFIG["DATA"]["e"] = texto_excepcion(e)
       CONFIG["fail"](CONFIG["DATA"])
       print(CONFIG["DATA"]["e"])
+      self.responder({'resultado':"SERVER_BUG"})
 
   def do_PUT(self):
     CONFIG["DATA"] = {"metodo":"PUT","path":self.path}
@@ -74,6 +75,7 @@ class HandlerAC(moduloHTTPRequest):
       CONFIG["DATA"]["e"] = texto_excepcion(e)
       CONFIG["fail"](CONFIG["DATA"],"_readData")
       print(CONFIG["DATA"]["e"])
+      self.responder({'resultado':"SERVER_BUG"})
       return
     try:
       jsonObject = json.loads(put_data)
@@ -81,6 +83,7 @@ class HandlerAC(moduloHTTPRequest):
       CONFIG["DATA"]["e"] = texto_excepcion(e)
       CONFIG["fail"](CONFIG["DATA"],"_loadJson")
       print(CONFIG["DATA"]["e"])
+      self.responder({'resultado':"SERVER_BUG"})
       return
     try:
       CONFIG["DATA"]["json"] = jsonObject
@@ -89,6 +92,7 @@ class HandlerAC(moduloHTTPRequest):
       CONFIG["DATA"]["e"] = texto_excepcion(e)
       CONFIG["fail"](CONFIG["DATA"])
       print(CONFIG["DATA"]["e"])
+      self.responder({'resultado':"SERVER_BUG"})
 
   def do_POST(self):
     CONFIG["DATA"] = {"metodo":"POST","path":self.path}
@@ -99,6 +103,7 @@ class HandlerAC(moduloHTTPRequest):
       CONFIG["DATA"]["e"] = texto_excepcion(e)
       CONFIG["fail"](CONFIG["DATA"],"_readData")
       print(CONFIG["DATA"]["e"])
+      self.responder({'resultado':"SERVER_BUG"})
       return
     try:
       jsonObject = json.loads(post_data)
@@ -106,6 +111,7 @@ class HandlerAC(moduloHTTPRequest):
       CONFIG["DATA"]["e"] = texto_excepcion(e)
       CONFIG["fail"](CONFIG["DATA"],"_loadJson")
       print(CONFIG["DATA"]["e"])
+      self.responder({'resultado':"SERVER_BUG"})
       return
     try:
       CONFIG["DATA"]["json"] = jsonObject
@@ -118,6 +124,7 @@ class HandlerAC(moduloHTTPRequest):
       CONFIG["DATA"]["e"] = texto_excepcion(e)
       CONFIG["fail"](CONFIG["DATA"])
       print(CONFIG["DATA"]["e"])
+      self.responder({'resultado':"SERVER_BUG"})
 
   def error(self, msg):
     print(msg)
