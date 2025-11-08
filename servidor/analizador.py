@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Documentación de la clase ast de Python: https://docs.python.org/es/3.9/library/ast.html
+# Documentación de la clase ast de Python: https://docs.python.org/es/3.12/library/ast.html
 # Definición de la clase ASTNode de Gobstones: https://github.com/gobstones/gobstones-parser/blob/main/src/parser/ast.ts
 
 import json
@@ -139,21 +139,24 @@ HIJOS = {
     hijosArgumentos(self.args) +
     self.body +
     self.decorator_list +
-    singularSiEsta(self.returns)
+    singularSiEsta(self.returns) +
+    self.type_params
   )
   ,
   "AsyncFunctionDef": lambda self : (
     hijosArgumentos(self.args) +
     self.body +
     self.decorator_list +
-    singularSiEsta(self.returns)
+    singularSiEsta(self.returns) +
+    self.type_params
   )
   ,
   "ClassDef": lambda self : (
     self.bases +
     hijosKeywords(self.keywords) +
     self.body +
-    self.decorator_list
+    self.decorator_list +
+    self.type_params
   )
   ,
   "Return": lambda self : singularSiEsta(self.value)
@@ -161,6 +164,8 @@ HIJOS = {
   "Delete": lambda self : self.targets
   ,
   "Assign": lambda self : self.targets + [self.value]
+  ,
+  "TypeAlias": lambda self : [self.name,self.value] + self.type_params
   ,
   "AugAssign": lambda self : [self.target, self.op, self.value]
   ,
@@ -179,11 +184,15 @@ HIJOS = {
   ,
   "AsyncWith": lambda self : (hijosWithitem(self.items) + self.body)
   ,
+  "Match": lambda self : ([self.subject] + hijosMatchCase(self.cases))
+  ,
   "Raise": lambda self : (singularSiEsta(self.exc) + singularSiEsta(self.cause))
   ,
   "Try": lambda self : (self.body + self.handlers + self.orelse + self.finalbody)
   ,
-  "Assert": lambda self : (self.test + singularSiEsta(self.msg))
+  "TryStar": lambda self : (self.body + self.handlers + self.orelse + self.finalbody)
+  ,
+  "Assert": lambda self : ([self.test] + singularSiEsta(self.msg))
   ,
   "Import": lambda self : []
   ,
@@ -331,7 +340,29 @@ HIJOS = {
   ,
   "ExceptHandler": lambda self : (singularSiEsta(self.type) + self.body)
   ,
+  "MatchValue": lambda self : [self.value]
+  ,
+  "MatchSingleton": lambda self : []
+  ,
+  "MatchSequence": lambda self : self.patterns
+  ,
+  "MatchMapping": lambda self : self.keys + self.patterns
+  ,
+  "MatchClass": lambda self : [self.cls] + self.patterns + self.kwd_patterns
+  ,
+  "MatchStar": lambda self : []
+  ,
+  "MatchAs": lambda self : singularSiEsta(self.pattern)
+  ,
+  "MatchOr": lambda self : self.patterns
+  ,
   "TypeIgnore": lambda self : []
+  ,
+  "TypeVar": lambda self : singularSiEsta(self.bound)
+  ,
+  "ParamSpec": lambda self : []
+  ,
+  "TypeVarTuple": lambda self : []
 }
 
 def hijosArgumentos(args): # es uno
@@ -356,3 +387,6 @@ def hijosWithitem(withitem): # es una lista
 
 def hijosComprehension(comprehension): # es una lista
   return aplanar(mapear(lambda x : ([x.target,x.iter] + x.ifs), comprehension))
+
+def hijosMatchCase(cases): # es una lista
+  return aplanar(mapear(lambda x : ([x.pattern] + x.body + singularSiEsta(x.guard)), cases))

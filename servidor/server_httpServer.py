@@ -63,6 +63,7 @@ class HandlerAC(moduloHTTPRequest):
     except Exception as e:
       CONFIG["DATA"]["e"] = texto_excepcion(e)
       CONFIG["fail"](CONFIG["DATA"])
+      print(CONFIG["DATA"]["e"])
 
   def do_PUT(self):
     CONFIG["DATA"] = {"metodo":"PUT","path":self.path}
@@ -72,12 +73,14 @@ class HandlerAC(moduloHTTPRequest):
     except Exception as e:
       CONFIG["DATA"]["e"] = texto_excepcion(e)
       CONFIG["fail"](CONFIG["DATA"],"_readData")
+      print(CONFIG["DATA"]["e"])
       return
     try:
       jsonObject = json.loads(put_data)
     except Exception as e:
       CONFIG["DATA"]["e"] = texto_excepcion(e)
       CONFIG["fail"](CONFIG["DATA"],"_loadJson")
+      print(CONFIG["DATA"]["e"])
       return
     try:
       CONFIG["DATA"]["json"] = jsonObject
@@ -85,6 +88,7 @@ class HandlerAC(moduloHTTPRequest):
     except Exception as e:
       CONFIG["DATA"]["e"] = texto_excepcion(e)
       CONFIG["fail"](CONFIG["DATA"])
+      print(CONFIG["DATA"]["e"])
 
   def do_POST(self):
     CONFIG["DATA"] = {"metodo":"POST","path":self.path}
@@ -94,12 +98,14 @@ class HandlerAC(moduloHTTPRequest):
     except Exception as e:
       CONFIG["DATA"]["e"] = texto_excepcion(e)
       CONFIG["fail"](CONFIG["DATA"],"_readData")
+      print(CONFIG["DATA"]["e"])
       return
     try:
       jsonObject = json.loads(post_data)
     except Exception as e:
       CONFIG["DATA"]["e"] = texto_excepcion(e)
       CONFIG["fail"](CONFIG["DATA"],"_loadJson")
+      print(CONFIG["DATA"]["e"])
       return
     try:
       CONFIG["DATA"]["json"] = jsonObject
@@ -111,6 +117,7 @@ class HandlerAC(moduloHTTPRequest):
     except Exception as e:
       CONFIG["DATA"]["e"] = texto_excepcion(e)
       CONFIG["fail"](CONFIG["DATA"])
+      print(CONFIG["DATA"]["e"])
 
   def error(self, msg):
     print(msg)
