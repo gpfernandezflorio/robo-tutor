@@ -355,4 +355,4 @@ def hijosWithitem(withitem): # es una lista
   return aplanar(mapear(lambda x : ([x.context_expr] + singularSiEsta(x.optional_vars)), withitem))
 
 def hijosComprehension(comprehension): # es una lista
-  return aplanar(mapear(lambda x : ([x.target,x.iter] + x.ifs), withitem))
+  return aplanar(mapear(lambda x : ([x.target,x.iter] + x.ifs), comprehension))
