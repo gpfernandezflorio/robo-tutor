@@ -133,10 +133,7 @@ class HandlerAC(moduloHTTPRequest):
   def responder(self, jsonObject):
     self._set_response(200, {'Content-Type': 'application/json'})
     datos = json.dumps(jsonObject, ensure_ascii=False)
-    try: # python 3
-      self.wfile.write(bytes(datos, 'utf-8'))
-    except: # python 2
-      self.wfile.write(datos.decode())
+    self.wfile.write(bytes(datos, 'utf-8'))
 
   def archivoStatico(self, ruta):
     if (os.path.isfile(ruta)):

@@ -33,6 +33,8 @@ def mostrar_excepcion(e):
 carpetaFallos = "FAIL"
 
 def failCallback(data,FILENAME="r"):
+  if FILENAME in ["_loadJson","_readData"]:
+    return # No vale la pena registrarlos
   if not os.path.isdir(carpetaFallos):
       os.mkdir(carpetaFallos)
   nombreArchivo = lambda x : os.path.join(carpetaFallos, FILENAME + "_" + str(x) + ".json")
