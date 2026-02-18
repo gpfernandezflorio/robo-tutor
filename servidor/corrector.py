@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import json
-from analizador import analizarPython, analizarGobstones
+from analizador import analizarPython, analizarGobstones, EvitarCódigoMalicioso
 from procesos import ejecutarConTimeout
 from utils import mostrar_excepcion
+
+EvitarCódigoMalicioso()
 
 def run_code(jsonObj, v):
   if (not ("src" in jsonObj)):

@@ -9,11 +9,28 @@ from procesos import ejecutar
 from utils import algunoCumple, aplanar, mapear, singularSiEsta
 from reglas import REGLAS
 
+evitandoCódigoMalicioso = False
+
+import sys
+versionDePython = sys.version_info
+if versionDePython.major != 3 or versionDePython.minor != 12:
+  print("ERROR: este script lo tenés que correr con python 3.12")
+  exit()
+
+def EvitarCódigoMalicioso():
+  global evitandoCódigoMalicioso
+  evitandoCódigoMalicioso = True
+
+def PermitirCódigoMalicioso():
+  global evitandoCódigoMalicioso
+  evitandoCódigoMalicioso = False
+
 class Analizador(object):
   def analizarAst(self, AST, codigo, reglas):
-    cm = self.verificarCodigoMalicioso(AST, codigo)
-    if not (cm is None):
-      return {"resultado":"EVIL", "error":cm}
+    if evitandoCódigoMalicioso:
+      cm = self.verificarCodigoMalicioso(AST, codigo)
+      if not (cm is None):
+        return {"resultado":"EVIL", "error":cm}
     for regla in reglas:
       resultado = self.analizarRegla(AST, codigo, regla)
       if not(resultado is None):
