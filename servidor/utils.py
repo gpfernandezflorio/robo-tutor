@@ -1,4 +1,8 @@
 import os, io, json
+import requests
+
+URL_FORM_AVISOS = "1FAIpQLSf1kS-KBU5lDGZ2LsXUYOjBz5TCm39ngQASMsco2MNKWqAgBQ"
+CAMPO_FORM_AVISOS = "370539263"
 
 def mapear(f, l):
   return list(map(f, l))
@@ -32,15 +36,18 @@ def mostrar_excepcion(e):
 
 carpetaFallos = "FAIL"
 
-def failCallback(data,FILENAME="r"):
+def failCallback(dataFile,FILENAME="r"):
   if FILENAME in ["_loadJson","_readData"]:
     return # No vale la pena registrarlos
   if not os.path.isdir(carpetaFallos):
-      os.mkdir(carpetaFallos)
+    os.mkdir(carpetaFallos)
   nombreArchivo = lambda x : os.path.join(carpetaFallos, FILENAME + "_" + str(x) + ".json")
   i=1
   while os.path.isfile(nombreArchivo(i)):
-      i += 1
+    i += 1
   f = io.open(nombreArchivo(i), mode='w', encoding='utf-8')
-  f.write(json.dumps(data))
+  f.write(json.dumps(dataFile))
   f.close()
+  dataForm = {}
+  dataForm["entry." + CAMPO_FORM_AVISOS] = "[RT] bug " + str(i) + ((": " + dataFile["e"]) if ("e" in dataFile) else ".") + (("\n\nReportado por: " + dataFile["json"]["usuario"]) if (("json" in dataFile) and ("usuario" in dataFile["json"])) else "")
+  requests.post("https://docs.google.com/forms/d/e/" + URL_FORM_AVISOS + "/formResponse", data = dataForm)
