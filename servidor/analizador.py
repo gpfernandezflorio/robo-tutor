@@ -63,15 +63,34 @@ class Analizador(object):
       anidacionActual = anidacionActual + 1
     return anidacionActual
 
+def buscarNodoDeNombreEnAST(analizador, AST, nombre):
+  for nodo in analizador.nodosDeTipo(AST, ast.Name):
+    if nodo.id == nombre:
+      return "No está permitido usar '" + nodo.id + "'"
+  return None
+
+def buscarNodoImportEnAST(analizador, AST):
+  for nodo in analizador.nodosDeTipo(AST, ast.Import) + analizador.nodosDeTipo(AST, ast.ImportFrom):
+    return "No está permitido importar módulos"
+  return None
+
+reglasCódigoMalicioso = {
+  "EXIT":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "exit"),
+  "PRINT":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "print"),
+  "OPEN":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "open"),
+  "IMPORT":lambda analizador, AST : buscarNodoImportEnAST(analizador, AST)
+}
+
 class AnalizadorPython(Analizador):
+  def __init__(self, malicioso=["EXIT","PRINT","OPEN","IMPORT"]):
+    self.reglasCódigoMalicioso = malicioso
   def obtenerAst(self, codigo):
     return astPython(codigo)
   def verificarCodigoMalicioso(self, AST, codigo):
-    for nodo in self.nodosDeTipo(AST, ast.Name):
-      if nodo.id in ["exit","print","open"]:
-        return "No está permitido usar '" + nodo.id + "'"
-    for nodo in self.nodosDeTipo(AST, ast.Import) + self.nodosDeTipo(AST, ast.ImportFrom):
-      return "No está permitido importar módulos"
+    for regla in self.reglasCódigoMalicioso:
+      resultado = reglasCódigoMalicioso[regla](self, AST)
+      if not (resultado is None):
+        return resultado
     return None
   def hijosDeNodo(self, nodo):
     if not isinstance(nodo, ast.AST):
