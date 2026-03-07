@@ -17,6 +17,8 @@
 
 5. Instalar `ghci`
 
+    `sudo apt install ghc`
+
 ### INSTRUCCIONES
 1. Clonar este repositorio.
 

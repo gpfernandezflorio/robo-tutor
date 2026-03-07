@@ -323,23 +323,23 @@ def buscar_falla_python(s, n, m):
 
 def AdaptarResultadoHaskell(resultadoOriginal, n, m, aridad):
   falla = None
-  fallaOriginal = resultadoOriginal["falla"]
-  resultadoOriginal["falla"] = ""
   i = 0
-  for l in fallaOriginal.split('\n'):
-    if l == '*** Exception: ExitFailure 1': # No es una falla, es que falló un test
-      resultadoOriginal["errcode"] = 1
-      break
-    elif esFallaDeAridad(l, aridad): # Falló al intentar deducir el tipo de una expresión
-      resultadoOriginal["errcode"] = 1
-      break
-    elif l.startswith('*** Exception: src.hs:'):
-      falla = procesarErrorHaskell(l,22,n,m,fallaOriginal.split('\n')[i+1:])
-      break
-    elif l.startswith('src.hs:'):
-      falla = procesarErrorHaskell(l,7,n,m,fallaOriginal.split('\n')[i+1:])
-      break
-    i+=1
+  todasLasLineas = resultadoOriginal["falla"].split('\n')
+  resultadoOriginal["falla"] = ""
+  if hayFallaDeAridad(todasLasLineas, aridad): # Falló al intentar deducir el tipo de una expresión
+    resultadoOriginal["errcode"] = 1
+  else:
+    for l in todasLasLineas:
+      if l == '*** Exception: ExitFailure 1': # No es una falla, es que falló un test
+        resultadoOriginal["errcode"] = 1
+        break
+      elif l.startswith('*** Exception: src.hs:'):
+        falla = procesarErrorHaskell(l,22,n,m,todasLasLineas[i+1:])
+        break
+      elif l.startswith('src.hs:'):
+        falla = procesarErrorHaskell(l,7,n,m,todasLasLineas[i+1:])
+        break
+      i+=1
   if not (falla is None):
     resultadoOriginal["falla"] = falla
   return resultadoOriginal
@@ -367,6 +367,12 @@ def limpiarLíneaHaskell(l):
   if iSrc < 0:
     iSrc = l.find('src.hs')
   return l[0:(len(l) if iSrc < 0 else iSrc)].strip()
+
+def hayFallaDeAridad(ls, aridad):
+  for l in ls:
+    if esFallaDeAridad(l, aridad):
+      return True
+  return False
 
 def esFallaDeAridad(l, aridad):
   if not (aridad is None):
