@@ -135,19 +135,47 @@ def esconderInformacionSensibleCurso(curso):
   for k in curso:
     if k in informacionPublicaCurso:
       cursoPublico["info"][k] = curso[k]
-  cursoPublico["todas_las_actividades"] = []
+  cursoPublico["actividades"] = []
+  cursoPublico["actividades_por_id"] = {}
+  curso["actividades_por_id"] = {}
   if "actividades" in curso:
     for actividad in curso["actividades"]:
-      if actividad["tipo"] == "CODIGO":
-        cursoPublico["todas_las_actividades"].append(esconderInformacionSensibleEjercicio(actividad))
-      elif actividad["tipo"] == "CUESTIONARIO":
-        if "file_moodle" in actividad:
-          cargarCuestionarioMoodle(actividad)
-        organizarPreguntasYRespuestas(actividad)
-        cursoPublico["todas_las_actividades"].append(esconderInformacionSensibleCuestionario(actividad))
-      else: # LINK o SECCION
-        cursoPublico["todas_las_actividades"].append(actividad)
+      RegistrarActividadPorId(curso, actividad)
+    for actividad in listadoDeActividadesTrasEsconderInformaciónSensible(curso["actividades"]):
+      cursoPublico["actividades"].append(actividad)
+      RegistrarActividadPorId(cursoPublico, actividad)
   return cursoPublico
+
+def RegistrarActividadPorId(curso, actividad):
+  curso["actividades_por_id"][actividad["id"]] = actividad
+  if "actividades" in actividad:
+    for actividadInterna in actividad["actividades"]:
+      RegistrarActividadPorId(curso, actividadInterna)
+
+def listadoDeActividadesTrasEsconderInformaciónSensible(listadoDeActividadesOriginal):
+  resultado = []
+  for actividad in listadoDeActividadesOriginal:
+    if actividad["tipo"] == "CODIGO":
+      resultado.append(esconderInformacionSensibleEjercicio(actividad))
+    elif actividad["tipo"] == "CUESTIONARIO":
+      if "file_moodle" in actividad:
+        cargarCuestionarioMoodle(actividad)
+      organizarPreguntasYRespuestas(actividad)
+      resultado.append(esconderInformacionSensibleCuestionario(actividad))
+    elif actividad["tipo"] == "SECCION":
+      resultado.append(esconderInformacionSensibleSección(actividad))
+    else: # LINK
+      resultado.append(actividad)
+  return resultado
+
+def esconderInformacionSensibleSección(sección):
+  secciónPública = {}
+  for k in sección:
+    if k != "actividades": # Todo es público pero a las actividades las trato aparte
+      secciónPública[k] = sección[k]
+  if "actividades" in sección:
+    secciónPública["actividades"] = listadoDeActividadesTrasEsconderInformaciónSensible(sección["actividades"])
+  return secciónPública
 
 def cargarUsuarios(c):
   archivo = f"matricula/{c}.json"
@@ -189,36 +217,24 @@ def agregarDataEjs(usuario, cursos, jsonObj={}):
   if "actividad" in jsonObj:
     # Ya verifiqué que la actividad está habilitada
     for curso in cursos:
-      if "todas_las_actividades" in CURSOS_publico[curso]:
-        ej = elementoDeId(CURSOS_publico[curso]["todas_las_actividades"], jsonObj["actividad"])
-        if not (ej is None):
-          if not ("actividades" in cursos[curso]):
-            cursos[curso]["actividades"] = []
-          cursos[curso]["actividades"].append(ej)
-  else:
-    for curso in cursos:
-      if "todas_las_actividades" in CURSOS_publico[curso]:
+      if jsonObj["actividad"] in CURSOS_publico[curso]["actividades_por_id"]:
         if not ("actividades" in cursos[curso]):
           cursos[curso]["actividades"] = []
-        cursos[curso]["actividades"] += versionesParaMostrar(usuario, curso)
-
-def elementoDeId(lista, id):
-  for elemento in lista:
-    if elemento["id"] == id:
-      return elemento
-  return None
+        cursos[curso]["actividades"].append(CURSOS_publico[curso]["actividades_por_id"][jsonObj["actividad"]])
+  else:
+    for curso in cursos:
+      if not ("actividades" in cursos[curso]):
+        cursos[curso]["actividades"] = []
+      cursos[curso]["actividades"] += versionesParaMostrar(usuario, curso)
 
 def actividadHabilitada(usuario, curso, actividad):
   return habilitacionId(usuario, curso, actividad) == "HABILITADA"
 
 # Puede devolver HABILITADA, DESHABILITADA, OCULTA o INEXISTENTE
 def habilitacionId(usuario, curso, actividad):
-  if curso is None or not (curso in CURSOS_publico):
+  if (curso is None) or (not (curso in CURSOS_publico)) or (not (actividad in CURSOS_publico[curso]["actividades_por_id"])):
     return "INEXISTENTE"
-  actividad = elementoDeId(CURSOS_publico[curso]["todas_las_actividades"], actividad)
-  if actividad is None:
-    return "INEXISTENTE"
-  return habilitacion(usuario, curso, actividad)
+  return habilitacion(usuario, curso, CURSOS_publico[curso]["actividades_por_id"][actividad])
 
 def habilitacion(usuario, curso, actividad):
   if tienePermisoUsuario(usuario, curso, "VER"):
@@ -268,14 +284,13 @@ def dame_data_cuestionario(ruta):
     curso = data[0]
     if curso in CURSOS_publico:
       curso = CURSOS_publico[curso]
-      if "todas_las_actividades" in curso:
-        cuestionario = elementoDeId(curso["todas_las_actividades"], data[1])
-        if not (cuestionario is None):
-          respuesta["resultado"] = "OK"
-          respuesta["cuestionario"] = {
-            "nombre": cuestionario["nombre"],
-            "preguntas": cuestionario["solo_preguntas"]
-          }
+      if data[1] in curso["actividades_por_id"]:
+        cuestionario = curso["actividades_por_id"][data[1]]
+        respuesta["resultado"] = "OK"
+        respuesta["cuestionario"] = {
+          "nombre": cuestionario["nombre"],
+          "preguntas": cuestionario["solo_preguntas"]
+        }
   return respuesta
 
 def respuestaCuestionario(jsonObj, verb):
@@ -287,7 +302,7 @@ def respuestaCuestionario(jsonObj, verb):
     if loginValido(usuario, contrasenia, curso):
       cuestionario = jsonObj['actividad']
       if actividadHabilitada(usuario, curso, cuestionario):
-        cuestionario = elementoDeId(CURSOS[curso]["actividades"], cuestionario)
+        cuestionario = CURSOS[curso]["actividades_por_id"][cuestionario]
         nPregunta = jsonObj['nPregunta']
         if "preguntas" in cuestionario and nPregunta < len(cuestionario["preguntas"]):
           pregunta = cuestionario["preguntas"][nPregunta]
@@ -311,7 +326,7 @@ def intentoCodigo(jsonObj, verb):
     if loginValido(usuario, contrasenia, curso):
       ejercicio = jsonObj['actividad']
       if actividadHabilitada(usuario, curso, ejercicio):
-        jsonObj["ejercicio"] = elementoDeId(CURSOS[curso]["actividades"], ejercicio)
+        jsonObj["ejercicio"] = CURSOS[curso]["actividades_por_id"][ejercicio]
         jsonObj["analisisCodigo"] = reglasDeAnalisisDeCodigo(jsonObj, CURSOS[curso])
         resultado = run_code(jsonObj, verb)
   # else: # Ejercicio libre o usuario anónimo:
@@ -420,18 +435,39 @@ def planillaDeCurso(curso):
   return None
 
 def versionesParaMostrar(usuario, curso):
+  return versiónParaMostrar_lista(usuario, curso, CURSOS_publico[curso]["actividades"])
+
+def versiónParaMostrar_lista(usuario, curso, listaOriginal):
   lista = []
-  for actividad in CURSOS_publico[curso]["todas_las_actividades"]:
-    estado = habilitacion(usuario, curso, actividad)
-    if estado == "HABILITADA":
-      lista.append(actividad)
-    elif estado == "DESHABILITADA":
-      actividadDeshabilitada = {}
-      for k in ['tipo','id','nombre','disponible']:
-        actividadDeshabilitada[k] = actividad[k]
-      actividadDeshabilitada["activa"] = "NO"
-      lista.append(actividadDeshabilitada)
+  for actividad in listaOriginal:
+    actividadHabilitada = versiónParaMostrar(usuario, curso, actividad)
+    if not (actividadHabilitada is None):
+      lista.append(actividadHabilitada)
   return lista
+
+def versiónParaMostrar(usuario, curso, actividad):
+  estado = habilitacion(usuario, curso, actividad)
+  if estado == "HABILITADA":
+    if actividad['tipo'] == "SECCION":
+      return versiónParaMostrar_sección(usuario, curso, actividad)
+    return actividad
+  elif estado == "DESHABILITADA":
+    actividadDeshabilitada = {}
+    for k in ['tipo','id','nombre','disponible']:
+      actividadDeshabilitada[k] = actividad[k]
+    actividadDeshabilitada["activa"] = "NO"
+    return actividadDeshabilitada
+  return None
+
+def versiónParaMostrar_sección(usuario, curso, sección):
+  if not ("actividades" in sección):
+    return sección
+  actividadHabilitada = {}
+  for k in sección:
+    if k != "actividades": # Todo es público pero a las actividades las trato aparte
+      actividadHabilitada[k] = sección[k]
+  actividadHabilitada["actividades"] = versiónParaMostrar_lista(usuario, curso, sección["actividades"])
+  return actividadHabilitada
 
 def reglasDeAnalisisDeCodigo(jsonObj, curso):
   ejercicio = jsonObj["ejercicio"]

@@ -298,7 +298,7 @@ def diezmil_3(fecha):
     "tipo":"CODIGO",
     "id":"diezmil_3",
     "nombre":"Diezmil (3)",
-    "enunciado":"Implementar la función <code>acumular_puntajes(puntos_jugada,puntos_totales)</code>. Se espera que los argumentos <code>puntos_jugada</code> y <code>puntos_totales</code> sean listas de la misma longitud. La función debe sumar casillero a casillero ambas listas y acumular el resulado en <code>puntos_totales</code> y no debe devolver nada.",
+    "enunciado":"Implementar la función <code>acumular_puntajes(puntos_jugada,puntos_totales)</code>. Se espera que los argumentos <code>puntos_jugada</code> y <code>puntos_totales</code> sean listas de la misma longitud. La función debe sumar casillero a casillero ambas listas y acumular el resultado en <code>puntos_totales</code> y no debe devolver nada.",
     "aridad":{"acumular_puntajes":2},
     "run_data":[{
       "pre":"jugada = [1000,50,1150,200]\ntotales = [5500,1750,2100,3500]",
@@ -452,132 +452,82 @@ def linkMachete02_2025_V(fecha):
     "visible":{"desde":fecha}
   }
 
-def clase0(fecha):
+def clase0(fechaInicio, fechaFin):
   return {
     "tipo":"SECCION",
     "id":"clase0",
     "nombre":"Clase 00 - Introducción",
-    "visible":{"desde":fecha}
+    "visible":{"desde":fechaInicio},
+    "actividades":[
+      linkBloquesFigus1(fechaInicio),
+      linkBloquesFigus2(fechaInicio),
+      linkBloquesFigus3(fechaInicio),
+      linkBloquesFigus4(fechaInicio),
+      linkComoLaPasaste_2025_V(fechaFin),
+      linkDiaposClase00_2025_V(fechaInicio),
+      AsignacionesYListas2025V(fechaFin),
+      ListasYFigus2025V(fechaFin),
+      CiclosYFigus2025V(fechaFin),
+      figus_sin_funciones(fechaFin),
+      linkMachete00_2025_V(fechaFin)
+    ]
   }
 
-def clase1(fecha):
+def clase1(fechaInicio, fechaFin):
   return {
     "tipo":"SECCION",
     "id":"clase1",
     "nombre":"Clase 01 - Figuritas",
-    "visible":{"desde":fecha}
+    "visible":{"desde":fechaInicio},
+    "actividades":[
+      linkDiaposClase01_2025_V(fechaInicio),
+      linkActividad01_2025_V(fechaInicio),
+      CiclosYCondiciones2025V(fechaFin),
+      Funciones2025V(fechaFin),
+      MasFunciones2025V(fechaFin),
+      figus_de_verdad_1(fechaFin),
+      figus_de_verdad_2(fechaFin),
+      linkMachete01_2025_V(fechaFin),
+      linkParaPensar01_2025_V(fechaFin),
+      linkNotaPenza_2025_V(fechaFin)
+    ]
   }
 
-def clase2(fecha):
+def clase2(fechaInicio, fechaFin):
   return {
     "tipo":"SECCION",
     "id":"clase2",
     "nombre":"Clase 02 - Diez mil",
-    "visible":{"desde":fecha}
+    "visible":{"desde":fechaInicio},
+    "actividades":[
+      linkDiaposClase02_2025_V(fechaInicio),
+      linkActividad02_2025_V(fechaInicio),
+      OperadoresLogicos2025V(fechaFin),
+      diezmil_1(fechaFin),
+      diezmil_2(fechaFin),
+      diezmil_3(fechaFin),
+      linkMachete02_2025_V(fechaFin)
+    ]
   }
 
 actividades_2025_V = {
   "TM":[
-      linkEncuestaInicial_2025_V,
-    clase0("24/2/2025-8:30"),
-      linkBloquesFigus1("24/2/2025-8:30"),
-      linkBloquesFigus2("24/2/2025-8:30"),
-      linkBloquesFigus3("24/2/2025-8:30"),
-      linkBloquesFigus4("24/2/2025-8:30"),
-      linkComoLaPasaste_2025_V("24/2/2025-12:30"),
-      linkDiaposClase00_2025_V("24/2/2025-8:30"),
-      AsignacionesYListas2025V("24/2/2025-12:30"),
-      ListasYFigus2025V("24/2/2025-12:30"),
-      CiclosYFigus2025V("24/2/2025-12:30"),
-      figus_sin_funciones("24/2/2025-12:30"),
-      linkMachete00_2025_V("24/2/2025-12:30"),
-    clase1("26/2/2025-8:30"),
-      linkDiaposClase01_2025_V("26/2/2025-8:30"),
-      linkActividad01_2025_V("26/2/2025-8:30"),
-      CiclosYCondiciones2025V("26/2/2025-12:30"),
-      Funciones2025V("26/2/2025-12:30"),
-      MasFunciones2025V("26/2/2025-12:30"),
-      figus_de_verdad_1("26/2/2025-12:30"),
-      figus_de_verdad_2("26/2/2025-12:30"),
-      linkMachete01_2025_V("26/2/2025-12:30"),
-      linkParaPensar01_2025_V("26/2/2025-12:30"),
-      linkNotaPenza_2025_V("26/2/2025-12:30"),
-    clase2("28/2/2025-8:30"),
-      linkDiaposClase02_2025_V("28/2/2025-8:30"),
-      linkActividad02_2025_V("28/2/2025-8:30"),
-      OperadoresLogicos2025V("28/2/2025-12:30"),
-      diezmil_1("28/2/2025-12:30"),
-      diezmil_2("28/2/2025-12:30"),
-      diezmil_3("28/2/2025-12:30"),
-      linkMachete02_2025_V("28/2/2025-12:30")
+    linkEncuestaInicial_2025_V,
+    clase0("24/2/2025-8:30","24/2/2025-12:30"),
+    clase1("26/2/2025-8:30","26/2/2025-12:30"),
+    clase2("28/2/2025-8:30","28/2/2025-12:30")
   ],
   "TT":[
-      linkEncuestaInicial_2025_V,
-    clase0("24/2/2025-13:00"),
-      linkBloquesFigus1("24/2/2025-13:00"),
-      linkBloquesFigus2("24/2/2025-13:00"),
-      linkBloquesFigus3("24/2/2025-13:00"),
-      linkBloquesFigus4("24/2/2025-13:00"),
-      linkComoLaPasaste_2025_V("24/2/2025-17:00"),
-      linkDiaposClase00_2025_V("24/2/2025-13:00"),
-      AsignacionesYListas2025V("24/2/2025-17:00"),
-      ListasYFigus2025V("24/2/2025-17:00"),
-      CiclosYFigus2025V("24/2/2025-17:00"),
-      figus_sin_funciones("24/2/2025-17:00"),
-      linkMachete00_2025_V("24/2/2025-17:00"),
-    clase1("26/2/2025-13:00"),
-      linkDiaposClase01_2025_V("26/2/2025-13:00"),
-      linkActividad01_2025_V("26/2/2025-13:00"),
-      CiclosYCondiciones2025V("26/2/2025-17:00"),
-      Funciones2025V("26/2/2025-17:00"),
-      MasFunciones2025V("26/2/2025-17:00"),
-      figus_de_verdad_1("26/2/2025-17:00"),
-      figus_de_verdad_2("26/2/2025-17:00"),
-      linkMachete01_2025_V("26/2/2025-17:00"),
-      linkParaPensar01_2025_V("26/2/2025-17:00"),
-      linkNotaPenza_2025_V("26/2/2025-17:00"),
-    clase2("28/2/2025-13:00"),
-      linkDiaposClase02_2025_V("28/2/2025-13:00"),
-      linkActividad02_2025_V("28/2/2025-13:00"),
-      OperadoresLogicos2025V("28/2/2025-17:00"),
-      diezmil_1("28/2/2025-17:00"),
-      diezmil_2("28/2/2025-17:00"),
-      diezmil_3("28/2/2025-17:00"),
-      linkMachete02_2025_V("28/2/2025-17:00")
+    linkEncuestaInicial_2025_V,
+    clase0("24/2/2025-13:00","24/2/2025-17:00"),
+    clase1("26/2/2025-13:00","26/2/2025-17:00"),
+    clase2("28/2/2025-13:00","28/2/2025-17:00")
   ],
   "TV":[
-      linkEncuestaInicial_2025_V,
-    clase0("24/2/2025-17:30"),
-      linkBloquesFigus1("24/2/2025-17:30"),
-      linkBloquesFigus2("24/2/2025-17:30"),
-      linkBloquesFigus3("24/2/2025-17:30"),
-      linkBloquesFigus4("24/2/2025-17:30"),
-      linkComoLaPasaste_2025_V("24/2/2025-21:30"),
-      linkDiaposClase00_2025_V("24/2/2025-17:30"),
-      AsignacionesYListas2025V("24/2/2025-21:30"),
-      ListasYFigus2025V("24/2/2025-21:30"),
-      CiclosYFigus2025V("24/2/2025-21:30"),
-      figus_sin_funciones("24/2/2025-21:30"),
-      linkMachete00_2025_V("24/2/2025-21:30"),
-    clase1("26/2/2025-17:30"),
-      linkDiaposClase01_2025_V("26/2/2025-17:30"),
-      linkActividad01_2025_V("26/2/2025-17:30"),
-      CiclosYCondiciones2025V("26/2/2025-21:30"),
-      Funciones2025V("26/2/2025-21:30"),
-      MasFunciones2025V("26/2/2025-21:30"),
-      figus_de_verdad_1("26/2/2025-21:30"),
-      figus_de_verdad_2("26/2/2025-21:30"),
-      linkMachete01_2025_V("26/2/2025-21:30"),
-      linkParaPensar01_2025_V("26/2/2025-21:30"),
-      linkNotaPenza_2025_V("26/2/2025-21:30"),
-    clase2("28/2/2025-17:30"),
-      linkDiaposClase02_2025_V("28/2/2025-17:30"),
-      linkActividad02_2025_V("28/2/2025-17:30"),
-      OperadoresLogicos2025V("28/2/2025-21:30"),
-      diezmil_1("28/2/2025-21:30"),
-      diezmil_2("28/2/2025-21:30"),
-      diezmil_3("28/2/2025-21:30"),
-      linkMachete02_2025_V("28/2/2025-21:30")
+    linkEncuestaInicial_2025_V,
+    clase0("24/2/2025-17:30","24/2/2025-21:30"),
+    clase1("26/2/2025-17:30","26/2/2025-21:30"),
+    clase2("28/2/2025-17:30","28/2/2025-21:30")
   ]
 }
 
