@@ -124,8 +124,8 @@ def run_gobstones(jsonObj, v):
   f.close()
   resultadoAnalisisCodigo = analizarGobstones(code, jsonObj["analisisCodigo"])
   if not(resultadoAnalisisCodigo is None):
-    if "falla" in resultadoAnalisisCodigo:
-      return {"resultado":"Except", "error":buscar_falla_gobstones(resultadoAnalisisCodigo["falla"], lineasAdicionales)}
+    if "error" in resultadoAnalisisCodigo:
+      return {"resultado":"Except", "error":buscar_falla_gobstones(resultadoAnalisisCodigo["error"], lineasAdicionales)}
     return resultadoAnalisisCodigo
   ## Ejecuciones
   duraciones = []
