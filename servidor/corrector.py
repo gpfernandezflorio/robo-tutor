@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json
-from analizador import analizarPython, analizarGobstones, EvitarCódigoMalicioso
+from analizador import analizarPython, analizarGobstones, analizarHaskell, EvitarCódigoMalicioso
 from procesos import ejecutarConTimeout
 from utils import mostrar_excepcion
 
@@ -18,6 +18,8 @@ def run_code(jsonObj, v):
     return {"resultado":"Error", "error":"Falta lenguaje"}
   if (jsonObj["lenguaje"] == "Python"):
     resultado = run_python(jsonObj, v)
+  elif (jsonObj["lenguaje"] == "Haskell"):
+    resultado = run_haskell(jsonObj, v)
   elif (jsonObj["lenguaje"] == "Gobstones"):
     resultado = run_gobstones(jsonObj, v)
   else:
@@ -102,6 +104,76 @@ def run_python(jsonObj, v):
       fallaReal = buscar_falla_python(resultadoEjecucion["falla"], lineasAdicionales_run, len(code["src"].split("\n")))
       if not (fallaReal is None):
         return {"resultado":"Except", "error":fallaReal}
+    if resultadoEjecucion["errcode"] != 0:
+      return {"resultado":"NO"}
+  return {"resultado":"OK","duracion":sum(duraciones)/len(duraciones)}
+
+def run_haskell(jsonObj, v):
+  run_data = jsonObj["ejercicio"]["run_data"] if "run_data" in jsonObj["ejercicio"] else {}
+  if (type(run_data) != type([])):
+    run_data = [run_data]
+  code = {
+    "pre":"import System.Exit\n\n",
+    "src":jsonObj["src"]
+  }
+  if (v):
+    print(code["src"])
+  ## Código
+  resultadoAnalisisCodigo = None # TODO: analizarHaskell(code["src"], jsonObj["analisisCodigo"])
+  if not(resultadoAnalisisCodigo is None):
+    return resultadoAnalisisCodigo
+  timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
+  lineasAdicionales = 2
+  if "pre" in jsonObj["ejercicio"]:
+    code["pre"] = jsonObj["ejercicio"]["pre"] + "\n"
+    lineasAdicionales = lineasAdicionales + jsonObj["ejercicio"]["pre"].count("\n") + 1
+  ## Ejecuciones
+  duraciones = []
+  for run in run_data:
+    code_run = {
+      "pre":code["pre"],
+      "post":"\n"
+    }
+    lineasAdicionales_run = lineasAdicionales
+    ## Inicialización
+    if "pre" in run:
+      code_run["pre"] = code_run["pre"] + "\n\n" + run["pre"]
+      lineasAdicionales_run = lineasAdicionales_run + run["pre"].count("\n") + 2
+    ## Aridad de funciones correcta
+    aridad = None
+    if "aridad" in run:
+      aridad = run["aridad"]
+    elif "aridad" in jsonObj["ejercicio"]:
+      aridad = jsonObj["ejercicio"]["aridad"]
+    verificacion_aridad = ""
+    if not (aridad is None):
+      code_run["pre"] = "import Data.Typeable\n" + code_run["pre"]
+      lineasAdicionales_run = lineasAdicionales_run + 1
+      for f in aridad:
+        verificacion_aridad += '\n  if (((show . typeOf) ' + f + ') /= "' + aridad[f].replace("String","[Char]") + '")\n    then do\n      exitWith (ExitFailure 1)\n    else do\n      return ()'
+    ## Resultado
+    if "post" in jsonObj["ejercicio"]:
+      code_run["post"] += "\n\n" + jsonObj["ejercicio"]["post"]
+    if "post" in run:
+      code_run["post"] += "\n\n" + run["post"]
+    if "assert" in run:
+      code_run["post"] += "\n\nmain :: IO ()\nmain = do" + verificacion_aridad + "\n  if (" + run["assert"] + ")\n    then do\n      exitSuccess\n    else do\n      exitWith (ExitFailure 1)"
+    ## Ejecución del código entregado
+    code_run["pre"] += "\n\n"
+    lineasAdicionales_run = lineasAdicionales_run + 2
+    f = open('src.hs', 'w')
+    f.write(code_run["pre"] + code["src"] + code_run["post"])
+    f.close()
+    resultadoEjecucion = ejecutarConTimeout("echo 'main' | ghci -v0 src.hs", timeout)
+    if resultadoEjecucion["resultado"] == "TIMEOUT":
+      return {"resultado":"Except", "error":"La ejecución demoró más de lo permitido"}
+    duraciones.append(resultadoEjecucion["duracion"])
+    # Haskell siempre devuelve errcode 0 y manda el verdadero exitcode a través del campo 'falla'
+    AdaptarResultadoHaskell(resultadoEjecucion, lineasAdicionales_run, len(code["src"].split("\n")), aridad)
+    if len(resultadoEjecucion["falla"]) > 0:
+      if (v):
+        print(resultadoEjecucion["falla"])
+      return {"resultado":"Except", "error":resultadoEjecucion["falla"]}
     if resultadoEjecucion["errcode"] != 0:
       return {"resultado":"NO"}
   return {"resultado":"OK","duracion":sum(duraciones)/len(duraciones)}
@@ -248,6 +320,73 @@ def buscar_falla_python(s, n, m):
           falla = falla + "\n\nLlamados:" + "".join(tb)
       return falla
   return falla
+
+def AdaptarResultadoHaskell(resultadoOriginal, n, m, aridad):
+  falla = None
+  fallaOriginal = resultadoOriginal["falla"]
+  resultadoOriginal["falla"] = ""
+  i = 0
+  for l in fallaOriginal.split('\n'):
+    if l == '*** Exception: ExitFailure 1': # No es una falla, es que falló un test
+      resultadoOriginal["errcode"] = 1
+      break
+    elif esFallaDeAridad(l, aridad): # Falló al intentar deducir el tipo de una expresión
+      resultadoOriginal["errcode"] = 1
+      break
+    elif l.startswith('*** Exception: src.hs:'):
+      falla = procesarErrorHaskell(l,22,n,m,fallaOriginal.split('\n')[i+1:])
+      break
+    elif l.startswith('src.hs:'):
+      falla = procesarErrorHaskell(l,7,n,m,fallaOriginal.split('\n')[i+1:])
+      break
+    i+=1
+  if not (falla is None):
+    resultadoOriginal["falla"] = falla
+  return resultadoOriginal
+
+def procesarErrorHaskell(l,inicio,n,m,otrasLíneas):
+  linea = None
+  fin = l.find(": ", inicio)
+  nlinea = nLineaHaskell(l, inicio, fin)
+  if nlinea > n:
+    linea = nlinea - n
+    if linea > m: # la falla está en el código que ejecuta el test (y no es por la aridad)!
+      return "No se pueden correr los tests"
+  falla = l[fin+2:] if fin > 0 else "Error desconocido"
+  if falla == "error:":
+    i=0
+    while (i < len(otrasLíneas)) and (otrasLíneas[i] != "  |"):
+      falla += " " + limpiarLíneaHaskell(otrasLíneas[i])
+      i += 1
+  if not (linea is None):
+    falla = falla + "\nLínea: " + str(linea)
+  return falla.replace("•","\n•")
+
+def limpiarLíneaHaskell(l):
+  iSrc = l.find('at src.hs')
+  if iSrc < 0:
+    iSrc = l.find('src.hs')
+  return l[0:(len(l) if iSrc < 0 else iSrc)].strip()
+
+def esFallaDeAridad(l, aridad):
+  if not (aridad is None):
+    for f in aridad:
+      if l.startswith('      In the expression: ((show . typeOf) ' + f + ') /= "') or \
+        l.endswith(': error: Variable not in scope: ' + f):
+          return True
+  return False
+
+def nLineaHaskell(l, i, f):
+  if f > i:
+    sl = l[i:f]
+    dp = sl.find(":")
+    if dp > 0:
+      return int(sl[:dp])
+    if sl.startswith("("):
+      c = sl.find(",")
+      if c > 0:
+        return int(sl[1:c])
+  return -1
 
 def esLineaIgnorable(l):
   return l.startswith('Traceback') or l.startswith('  ') or l.startswith('/') or 'src.py' in l or len(l) < 2

@@ -15,6 +15,8 @@
 
     `pip install --break-system-packages load_dotenv`
 
+5. Instalar `ghci`
+
 ### INSTRUCCIONES
 1. Clonar este repositorio.
 

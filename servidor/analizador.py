@@ -131,6 +131,9 @@ analizadorPython = AnalizadorPython()
 
 analizadorGobstones = AnalizadorGobstones()
 
+# TODO:
+# analizadorHaskell = AnalizadorHaskell()
+
 def analizar(analizador, codigo, reglas):
   AST = analizador.obtenerAst(codigo)
   if "error" in AST:
@@ -143,6 +146,9 @@ def analizarGobstones(codigo, reglas):
 
 def analizarPython(codigo, reglas):
   return analizar(analizadorPython, codigo, reglas)
+
+def analizarHaskell(codigo, reglas):
+  return analizar(analizadorHaskell, codigo, reglas)
 
 def astGobstones(codigo):
   errcode, salida, falla = ejecutar("node gobstones-lang/dist/gobstones-lang parse -l es -i src.txt")

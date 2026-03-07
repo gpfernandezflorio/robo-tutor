@@ -14,6 +14,7 @@ from cursos.unq_inpr import CURSOS as cursos_unq_inpr
 from cursos.exactas_programa import CURSOS as cursos_exactas_programa
 from cursos.taller_programacion import CURSOS as cursos_taller_programacion
 from cursos.alc import CURSOS as cursos_alc
+from cursos.dc_ip import CURSOS as dc_ip
 
 CURSOS = {}
 
@@ -28,6 +29,9 @@ for c in cursos_taller_programacion:
 
 for c in cursos_alc:
   CURSOS[c] = cursos_alc[c]
+
+for c in dc_ip:
+  CURSOS[c] = dc_ip[c]
 
 LOCAL_DIR = 'locales'
 if not os.path.isdir(LOCAL_DIR):
@@ -105,7 +109,7 @@ def tienePermisoRol(rol, curso, que):
 CURSOS_publico = {}
 
 informacionPrivadaEjercicio = ["pre","run_data","aridad","timeout"]
-informacionPublicaEjercicio = ["id","nombre","visible","disponible",
+informacionPublicaEjercicio = ["id","nombre","visible","disponible","lenguaje",
   "enunciado","base","pidePrograma"] # pidePrograma es público porque lo usa el cliente para armar el mensaje de error
 def esconderInformacionSensibleEjercicio(ejercicio):
   ejercicioPublico = {"tipo":"CODIGO"}
