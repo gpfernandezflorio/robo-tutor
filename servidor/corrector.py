@@ -125,7 +125,7 @@ def run_haskell(jsonObj, v):
   timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
   lineasAdicionales = 2
   if "pre" in jsonObj["ejercicio"]:
-    code["pre"] = jsonObj["ejercicio"]["pre"] + "\n"
+    code["pre"] += jsonObj["ejercicio"]["pre"] + "\n"
     lineasAdicionales = lineasAdicionales + jsonObj["ejercicio"]["pre"].count("\n") + 1
   ## Ejecuciones
   duraciones = []
@@ -369,18 +369,37 @@ def limpiarLíneaHaskell(l):
   return l[0:(len(l) if iSrc < 0 else iSrc)].strip()
 
 def hayFallaDeAridad(ls, aridad):
+  i=1
   for l in ls:
-    if esFallaDeAridad(l, aridad):
+    if esFallaDeAridad(l, aridad, ls[i:]):
       return True
+    i+=1
   return False
 
-def esFallaDeAridad(l, aridad):
+def esFallaDeAridad(l, aridad, siguientes):
   if not (aridad is None):
     for f in aridad:
       if l.startswith('      In the expression: ((show . typeOf) ' + f + ') /= "') or \
-        l.endswith(': error: Variable not in scope: ' + f):
+        l.endswith(': error: Variable not in scope: ' + f) or \
+        esFallaDeAridadCon(l, f, siguientes):
           return True
   return False
+
+def esFallaDeAridadCon(l, f, siguientes):
+  líneaReconstruida = l
+  espacios = cantidadDeEspacios(l)
+  i=0
+  while len(siguientes) > i and cantidadDeEspacios(siguientes[i]) > espacios:
+    espacios = cantidadDeEspacios(siguientes[i])
+    líneaReconstruida += siguientes[i][espacios-1:]
+    i += 1
+  return líneaReconstruida.startswith('      In the expression: ((show . typeOf) ' + f + ') /= "')
+
+def cantidadDeEspacios(s):
+  i=0
+  while i < len(s) and s[i] == ' ':
+    i += 1
+  return i
 
 def nLineaHaskell(l, i, f):
   if f > i:
