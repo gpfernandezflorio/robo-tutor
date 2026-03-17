@@ -4,6 +4,7 @@ v = {"a": 0, "n": 0, "r": 0, "v": 0} # Celda vacía
 r = {"a": 0, "n": 0, "r": 1, "v": 0} # Celda con una roja
 a = {"a": 1, "n": 0, "r": 0, "v": 0} # Celda con una azul
 g = {"a": 0, "n": 0, "r": 0, "v": 1} # Celda con una verde (no puedo usar 'v' porque ya la usé para la celda vacía)
+n = {"a": 0, "n": 1, "r": 0, "v": 0} # Celda con una negra
 g2 = {"a": 0, "n": 0, "r": 0, "v": 2} # Celda con dos bolitas verdes
 def c(a,n,r,v): # celda con ...
   return {"a": a, "n": n, "r": r, "v": v}
@@ -56,6 +57,11 @@ def iniGobi_2(a): # Tablero inicial Gobi de 6x6x4 en piso a (sin Gobi, sólo ene
     Cada personaje se representa en un celda con tantas bolitas azules como el piso en el que se encuentra.
     La cantidad de bolitas negras determina el personaje. Si es 0 es Gobi si no, un enemigo cuyo nivel es la cantidad de bolitas negras y su color es ese número módulo 4.
 '''
+
+enPapel = '<span style="color:red;font-weight:bold;">EN PAPEL</span>'
+def código(c):
+  return '<div style="background-color:#eee;border:solid 2px black;padding:3px;font-weight:bold;"><code>' + c + '</code></div>'
+
 def superGobi64_1(fecha):
   return {
     "tipo":"CODIGO",
@@ -307,14 +313,10 @@ def rtas1_5(correcta, devoluciones):
   for i in range(5):
     resultado.append({
       "texto":"<p>" + textos1_5[i] + "</p>",
-      "devolucion":devoluciones[i],
+      # "devolucion":devoluciones[i],
       "puntaje":"1" if (i+1)==correcta else "0"
     })
   return resultado
-
-enPapel = '<span style="color:red;font-weight:bold;">EN PAPEL</span>'
-def código(c):
-  return '<div style="background-color:#eee;border:solid 2px black;padding:3px;font-weight:bold;"><code>' + c + '</code></div>'
 
 def guia1_ej5(fecha):
   return {
@@ -324,7 +326,7 @@ def guia1_ej5(fecha):
     "preguntas":[{
       "tipo":"SOLO_TEXTO",
       "titulo":"Enunciado",
-      "pregunta":enPapel+" Dado el siguiente programa:"+código("program {<br>&nbsp;&nbsp;Poner(Verde)<br>&nbsp;&nbsp;Sacar(Verde)<br>&nbsp;&nbsp;Poner(Azul)<br>&nbsp;&nbsp;Poner(Rojo)<br>}")+"Diversos estudiantes realizaron propuestas para redactar su propósito, y también un profesor realizó explicaciones sobre cada una de estas propuestas. Asociar cada propuesta de propósito para el mismo (indicadas con las letras A, B, etc.) con la explicación que resulta correcta para dicha propuesta (indicadas con los números 1, 2, etc.)"
+      "pregunta":enPapel+" Dado el siguiente programa:"+código("program {<br>&nbsp;&nbsp;Poner(Verde)<br>&nbsp;&nbsp;Sacar(Verde)<br>&nbsp;&nbsp;Poner(Azul)<br>&nbsp;&nbsp;Poner(Rojo)<br>}")+"Diversos estudiantes realizaron propuestas para redactar su propósito, y también un profesor realizó explicaciones sobre cada una de estas propuestas. Asociar cada propuesta de propósito para el mismo (indicadas con las letras A, B, etc.) con la explicación que resulta correcta para dicha propuesta (indicadas con los números 1, 2, etc.)."
     },{
       "tipo":"OPCION_MULTIPLE",
       "titulo":"A",
@@ -391,6 +393,102 @@ def guia1_ej6b(fecha):
     "disponible":{"desde":fecha}
   }
 
+textos1_8 = [
+  "(1) Es una precondición incorrecta, pues al no establecer dónde debe ubicarse el cabezal hay tableros de ese tamaño que no sirven.",
+  "(2) Es una precondición correcta, pues establece las condiciones mínimas necesarias para que el programa funcione, y define con precisión el conjunto de tableros iniciales que sirven.",
+  "(3) Es otra forma de enunciar correctamente la precondición: todos los tableros del conjunto que la satisfacen sirven, y todos los que no la satisfacen no sirven. Sin embargo, especificar las dimensiones del tablero es innecesario, pues son las distancias a los bordes lo relevante para que el programa no falle.",
+  "(4) Es una precondición correcta pero insuficiente, pues todos los tableros que la satisfacen sirven, pero hay muchos tableros que sirven que no la satisfacen.",
+  "(5) Es una precondición insuficiente, pues es demasiado vaga y no permite determinar cuáles son los tableros que sirven.",
+  "(6) No es una precondición, sino una aclaración. Una precondición debe hablar sobre los tableros iniciales y no sobre el dominio del problema.",
+  "(7) No es una precondición, sino una explicación de la tarea. Una precondición debe hablar sobre los tableros iniciales y no sobre las características de lo que se va a realizar."
+]
+
+def rtas1_8(correcta, devoluciones):
+  resultado = []
+  for i in range(7):
+    resultado.append({
+      "texto":"<p>" + textos1_8[i] + "</p>",
+      # "devolucion":devoluciones[i],
+      "puntaje":"1" if (i+1)==correcta else "0"
+    })
+  return resultado
+
+def guia1_ej8(fecha):
+  return {
+    "tipo":"CUESTIONARIO",
+    "id":"guia1_ej8",
+    "nombre":"8. Analizando precondiciones",
+    "preguntas":[{
+      "tipo":"SOLO_TEXTO",
+      "titulo":"Enunciado",
+      "pregunta":enPapel+" La solución propuesta por diversos estudiantes para el punto c. del ejercicio anterior (Poner un rectángulo de bolitas Negras cuyo tamaño sea 3 filas y 5 columnas, centrado en la celda actual.) fue corregida por los docentes. Sin embargo, las correcciones se mezclaron, y hay que juntar cada corrección con su precondición correspondiente."
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"A",
+      "pregunta":"Debe haber al menos una celda al Norte y otra al Sur, y dos celdas al Este y otras dos al Oeste de la celda actual.",
+      "respuestas":rtas1_8(2, ["","","","","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"B",
+      "pregunta":"El rectángulo va a representar a una ventana en el dibujo de una casa.",
+      "respuestas":rtas1_8(6, ["","","","","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"C",
+      "pregunta":"El tablero debe tener 3 o más filas, y 5 o más columnas, y el cabezal debe estar al menos a una celda de distancia de los bordes Norte y Sur, y a dos celdas de distancia de los bordes Este y Oeste.",
+      "respuestas":rtas1_8(3, ["","","","","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"D",
+      "pregunta":"Debe haber lugar suficiente en las direcciones adecuadas.",
+      "respuestas":rtas1_8(5, ["","","","","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"E",
+      "pregunta":"Se van a colocar 35 bolitas de color Negro.",
+      "respuestas":rtas1_8(7, ["","","","","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"F",
+      "pregunta":"El tablero debe tener 3 filas y 5 columnas y el cabezal estar ubicado en el centro del mismo.",
+      "respuestas":rtas1_8(4, ["","","","","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"G",
+      "pregunta":"El tablero debe ser de 3 filas por 5 columnas.",
+      "respuestas":rtas1_8(1, ["","","","","","",""])
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia1_ej10(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia1_ej10",
+    "nombre":"10. Arcoiris",
+    "enunciado":enPapel+" Escribir un programa que ponga un \"arco iris\", poniendo una bolita Azul en la celda actual, una Negra en la celda siguiente al Este, una Roja en la siguiente al Este, y una Verde en la siguiente al Este, dejando el cabezal en la celda inicial.",
+    "pidePrograma": True,
+    "run_data":[{
+      "t0":{"head":[1,1],"width":6,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v],[v,v,v],[v,v,v],[v,v,v]]},
+      "tf":{"head":[1,1],"width":6,"height":3,"board":[[v,v,v],[v,a,v],[v,n,v],[v,r,v],[v,g,v],[v,v,v]]},
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia1_ej11(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia1_ej11",
+    "nombre":"11. Sacando un cuadrado",
+    "enunciado":"Escriba un programa que saque del tablero un cuadrado multicolor de dos celdas de lado, donde la celda actual representa el vértice inferior izquierdo del mismo. Recuerde escribir primero el contrato del programa, y luego el código. Considere las siguientes preguntas como guía para escribir su programa:<br>&nbsp;a. ¿Qué hace el programa? (Determina el propósito del programa)<br>&nbsp;b. ¿Cuándo funciona tal cual se espera? (Determina la precondición del programa)<br>&nbsp;c. ¿Cómo lo hace? (Determina el código del programa)",
+    "pidePrograma": True,
+    "run_data":[{
+      "t0":{"head":[1,1],"width":4,"height":4,"board":[[v,v,v,v],[v,c(1,1,1,1),c(1,1,1,1),v],[v,c(1,1,1,1),c(1,1,1,1),v],[v,v,v,v]]},
+      "tf":{"head":[1,1],"width":4,"height":4,"board":[[v,v,v,v],[v,v,v,v],[v,v,v,v],[v,v,v,v]]},
+    }],
+    "disponible":{"desde":fecha}
+  }
+
 def guia1(fechaInicio):
   return {
     "tipo":"SECCION",
@@ -398,13 +496,190 @@ def guia1(fechaInicio):
     "nombre":"Práctica 1 - Programas y Contratos",
     "disponible":{"desde":fechaInicio},
     "actividades":[
+      linkGuía(1, 38997, "25/P1.%20Programas%20y%20Contratos.pdf"),
       guia1_ej1(fechaInicio),
       guia1_ej2(fechaInicio),
       guia1_ej3(fechaInicio),
       guia1_ej5(fechaInicio),
       guia1_ej6a(fechaInicio),
-      guia1_ej6b(fechaInicio)
+      guia1_ej6b(fechaInicio),
+      guia1_ej8(fechaInicio),
+      guia1_ej10(fechaInicio),
+      guia1_ej11(fechaInicio)
     ]
+  }
+
+def guia2(fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guia2",
+    "nombre":"Práctica 2 - Procedimientos y estrategia de solución",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía(2, 39015, "22/P2.%20Procedimientos%20y%20Estrategias%20de%20Solucio%CC%81n.pdf"),
+    ]
+  }
+
+def guia3(fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guia3",
+    "nombre":"Práctica 3 - Repeticiones Simples",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía(3, 39034, "23/P3.%20Repeticiones%20Simples.pdf"),
+    ]
+  }
+
+def guia4(fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guia4",
+    "nombre":"Práctica 4 - Programas y Contratos",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía(4, 39050, "21/P4.%20Para%CC%81metros.pdf"),
+    ]
+  }
+
+def guia5(fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guia5",
+    "nombre":"Práctica 5 - Expresiones y Tipos",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía(5, 39068, "18/P5.%20Expresiones%20y%20tipos.pdf"),
+    ]
+  }
+
+def guia6(fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guia6",
+    "nombre":"Práctica 6 - Alternativas Condicionales",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía(6, 39086, "25/P6.%20Alternativas%20Condicionales.pdf"),
+    ]
+  }
+
+def guia7(fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guia7",
+    "nombre":"Práctica 7 - Funciones Simples",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía(7, 39099, "23/P7.%20Funciones%20simples.pdf"),
+    ]
+  }
+
+def guia8(fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guia8",
+    "nombre":"Práctica 8 - Repetición Condicional y Recorridos",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía(8, 39117, "19/P8.%20Repetici%C3%B3n%20condicional%2C%20recorridos.pdf"),
+    ]
+  }
+
+def guia9(fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guia9",
+    "nombre":"Práctica 9 - Variables y Funciones con Procesamiento",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía(9, 39139, "18/P9.%20Variables%20y%20Funciones%20con%20Procesamiento.pdf"),
+    ]
+  }
+
+def guiaI1(fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guiaI1",
+    "nombre":"Práctica integradora de Recorridos",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía("I1", 39223, "7/Gobs-Man%20%28Recorridos%29.pdf"),
+    ]
+  }
+
+def guiaI2(fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guiaI2",
+    "nombre":"Práctica integradora de Funciones Simples y Con Procesamiento, Alternativa de Expresiones y Variables",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía("I2", 39222, "4/Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf"),
+    ]
+  }
+
+def guia10(fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guia10",
+    "nombre":"Práctica 10 - Tipos de Datos Personalizados",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía(10, 39158, "19/P10.%20Tipos%20Personalizado.pdf"),
+    ]
+  }
+
+def guia11(fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guia11",
+    "nombre":"Práctica 11 - Listas",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía(11, 39180, "11/P11.%20Listas.pdf"),
+    ]
+  }
+
+def guiaI3(fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guiaI3",
+    "nombre":"Ejercicios Integradores",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía("I3", 39230, "8/Pr%C3%A1ctica%2011%20-%20Ejercicios%20Integradores%20%5B2023-11-06%5D.pdf"),
+    ]
+  }
+
+def guiaI4(fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guiaI4",
+    "nombre":"Práctica integradora de Registros y Listas",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía("I4", 39229, "3/Comidas%20Gobianas%20%5B2023-11-06%5D.pdf"),
+    ]
+  }
+
+def guiaI5(fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guiaI5",
+    "nombre":"Compumundo Hiper Mega Red",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía("I5", 39228, "2/Compumundo%20Hiper%20Mega%20Red%20%5B2023-11-06%5D.pdf"),
+    ]
+  }
+
+def linkGuía(n, mId, l):
+  return {
+    "tipo":"LINK",
+    "id":"linkGuia" + str(n),
+    "nombre":"Guía en pdf",
+    "url":"https://aulas.gobstones.org/pluginfile.php/" + str(mId) + "/mod_resource/content/" + l
   }
 
 CURSOS = {
@@ -426,7 +701,22 @@ CURSOS = {
       {"key":"NEST_CMD","max":1}
     ],
     "actividades":[
-      guia1("16/3/2026-8:00")
+      guia1("16/3/2026-8:00"),
+      guia2("23/3/2026-8:00"),
+      guia3("30/3/2026-8:00"),
+      guia4("30/3/2026-8:00"),
+      guia5("6/4/2026-8:00"),
+      guia6("13/4/2026-8:00"),
+      guia7("13/4/2026-8:00"),
+      guia8("20/4/2026-8:00"),
+      guia9("27/4/2026-8:00"),
+      guiaI1("4/5/2026-8:00"),
+      guiaI2("4/5/2026-8:00"),
+      guia10("11/5/2026-8:00"),
+      guia11("18/5/2026-8:00"),
+      guiaI3("1/6/2026-8:00"),
+      guiaI4("1/6/2026-8:00"),
+      guiaI5("1/6/2026-8:00")
     ],
     "planilla":{
       "url":"1FAIpQLScBYC_P5dbFA0v9e-GDTw65KMFn5PIM9IX0jZmHSTUXdyW5oA",
