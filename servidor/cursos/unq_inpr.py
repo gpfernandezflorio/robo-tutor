@@ -1,41 +1,45 @@
 # -*- coding: utf-8 -*-
 
-v = {"a": 0, "r": 0, "n": 0, "v": 0} # Celda vacía
-r = {"a": 0, "r": 1, "n": 0, "v": 0} # Celda con una roja
-a = {"a": 1, "r": 0, "n": 0, "v": 0} # Celda con una azul
+v = {"a": 0, "n": 0, "r": 0, "v": 0} # Celda vacía
+r = {"a": 0, "n": 0, "r": 1, "v": 0} # Celda con una roja
+a = {"a": 1, "n": 0, "r": 0, "v": 0} # Celda con una azul
+g = {"a": 0, "n": 0, "r": 0, "v": 1} # Celda con una verde (no puedo usar 'v' porque ya la usé para la celda vacía)
+g2 = {"a": 0, "n": 0, "r": 0, "v": 2} # Celda con dos bolitas verdes
+def c(a,n,r,v): # celda con ...
+  return {"a": a, "n": n, "r": r, "v": v}
 def rs(x): # Celda con varias rojas
-  return {"a": 0, "r": x, "n": 0, "v": 0}
+  return c(0,0,x,0)
 def ns(x): # Celda con varias negras
-  return {"a": 0, "r": 0, "n": x, "v": 0}
+  return c(0,x,0,0)
 def ed(h,d=0,a=0): # Edificio con h pisos, d departamentos por piso y a ambientes por departamento
-  return {"a": 0, "r": h, "n": 0, "v": 1}
+  return c(0,0,h,1)
 def rt(l): # Ruta con l lomos de burro
-  return {"a": 0, "r": 1, "n": 0, "v": 2*l}
+  return c(0,0,1,2*l)
 def duplicarTablero(b):
-  return list(map(lambda c: duplicarColumna(c), b))
-def duplicarColumna(c):
-  return list(map(lambda x: {"a": x["a"], "r": x["r"], "n": x["n"], "v": x["v"]}, c))
+  return list(map(lambda col: duplicarColumna(col), b))
+def duplicarColumna(col):
+  return list(map(lambda x: c(x["a"], x["n"], x["r"], x["v"]), col))
 def fs(h,a): # Carpeta del FS con h hermanas siguientes y a archivos
-  return {"a": h+1, "r": a, "n": 0, "v": 0}
+  return c(h+1,0,a,0)
 def abrirArchivosB(b):
-  return list(map(abrirArchivosC, b))
-def abrirArchivosC(c):
-  return list(map(lambda x: {"a": x["a"], "r": x["r"], "n": 0, "v": x["r"]}, c))
+  return list(map(abrirArchivosCol, b))
+def abrirArchivosCol(col):
+  return list(map(lambda x: c(x["a"], 0, x["r"], x["r"]), col))
 iniFs = [[v,v,v,v,v,fs(0,2)],[fs(0,2),fs(1,3),v,v,fs(2,1),fs(3,4)],[v,fs(0,3),fs(0,8),fs(1,3),fs(2,4),fs(0,2)],[v,fs(0,4),v,fs(0,2),v,v],[v,v,fs(0,1),fs(1,4),v,v],[v,v,v,v,v,v]]
 def agregarRojas(b,k):
   b2 = duplicarTablero(b)
   b2[3][2]["r"] = b2[3][2]["r"] + k
   return b2
 def e(p,n): # Enemigo de Gobi en piso p de nivel n
-  return {"a": p, "r": 0, "n": n, "v": 0}
-def g(z): # Gobi
-  return {"a": z, "r": 0, "n": 0, "v": 0}
+  return c(p,n,0,0)
+def gobi(z): # Gobi
+  return c(z,0,0,0)
 def gobiData(t,a): # Data de Gobi con t pisos totales y piso actual a
-  return {"a": 0, "r": t, "n": 0, "v": a}
+  return c(0,0,t,a)
 def iniGobi_2_3(a,z): # Tablero inicial Gobi de 4x4x4 en piso a (con Gobi en 2-3-z)
-  return [[gobiData(4,a),v,v,v],[v,v,v,v],[v,v,v,g(z)],[v,v,v,v]]
+  return [[gobiData(4,a),v,v,v],[v,v,v,v],[v,v,v,gobi(z)],[v,v,v,v]]
 def iniGobi_0_1(a,z): # Tablero inicial Gobi de 4x4x4 en piso a (con Gobi en 0-1-z)
-  return [[gobiData(4,a),g(z),v,v],[v,v,v,v],[v,v,v,v],[v,v,v,v]]
+  return [[gobiData(4,a),gobi(z),v,v],[v,v,v,v],[v,v,v,v],[v,v,v,v]]
 def iniGobi_2(a): # Tablero inicial Gobi de 6x6x4 en piso a (sin Gobi, sólo enemigos)
   return [[gobiData(4,a),v,e(2,1),v,e(3,7),v],[v,v,e(2,5),v,e(2,8),e(3,6)],[v,e(2,4),v,e(2,4),e(3,4),v],[e(3,6),e(2,6),e(2,2),e(2,5),e(3,10),e(2,3)],[v,v,e(2,4),e(2,1),e(3,5),v],[v,v,e(2,3),e(3,6),e(2,8),e(3,5)]]
 
@@ -245,10 +249,168 @@ def rosa_de_los_vientos(fecha):
     "disponible":{"desde":fecha}
   }
 
+def guia1_ej1(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia1_ej1",
+    "nombre":"1. Reemplazando bolitas",
+    "enunciado":["Escribir un programa que reemplace",{"tex":"^1"}," una bolita de color Roja con otra de color Verde en la celda actual.<br><br>1: Por reemplazo nos referimos al efecto observado, aunque no exista ningún comando para hacer reemplazos directamente"],
+    "pidePrograma": True,
+    "run_data":[{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,r,v],[v,a,v]]},
+      "tf":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,g,v],[v,a,v]]},
+    },{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,c(4,5,3,2),v],[v,a,v]]},
+      "tf":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,c(4,5,2,3),v],[v,a,v]]},
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia1_ej2(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia1_ej2",
+    "nombre":"2. Moviendo bolitas",
+    "enunciado":["Escribir un programa que mueva",{"tex":"^2"}," una bolita de color Negro de la celda actual a la celda vecina al Este, dejando el cabezal en la celda lindante al Este.<br><br>2: Nuevamente nos referimos al efecto observado."],
+    "pidePrograma": True,
+    "run_data":[{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,c(4,5,3,2),a],[v,c(4,5,3,2),v]]},
+      "tf":{"head":[2,1],"width":3,"height":3,"board":[[r,v,v],[v,c(4,4,3,2),a],[v,c(4,6,3,2),v]]},
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia1_ej3(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia1_ej3",
+    "nombre":"3. Poniendo en vecinas",
+    "enunciado":["Escribir un programa que ponga una bolita de color Azul en la celda vecina al Norte de la actual",{"tex":"^3"},"<br><br>3: ¿Qué sucede sí no aclaramos la posición final del cabezal? Debería quedar en la misma celda que donde comenzó."],
+    "pidePrograma": True,
+    "run_data":[{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,c(4,5,3,2),c(4,5,3,2)],[v,a,v]]},
+      "tf":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,c(4,5,3,2),c(5,5,3,2)],[v,a,v]]},
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+textos1_5 = [
+  "(1) No es un propósito, sino una descripción del funcionamiento. Para ser un propósito no debe preocuparse de los estados intermedios, solamente de la transformación final.",
+  "(2) Es un propósito incompleto ya que no establece los colores de las bolitas que se agregan. El propósito debe establecer con precisión la transformación esperada.",
+  "(3) Es una enunciación correcta del propósito. El orden en que se agregan las bolitas es irrelevante, siempre que la celda actual finalice con una más de cada uno de los colores indicados.",
+  "(4) Es un propósito incompleto, ya que no establece dónde se agregan las bolitas en cuestión. El propósito debe establecer con precisión la transformación esperada.",
+  "(5) Es una forma incorrecta de indicar la transformación esperada. Utiliza un lenguaje que sugiere un pensamiento operacional (o sea, centrado en las acciones individuales antes que en la transformación esperada)."
+]
+
+def rtas1_5(correcta, devoluciones):
+  resultado = []
+  for i in range(5):
+    resultado.append({
+      "texto":"<p>" + textos1_5[i] + "</p>",
+      "devolucion":devoluciones[i],
+      "puntaje":"1" if (i+1)==correcta else "0"
+    })
+  return resultado
+
+enPapel = '<span style="color:red;font-weight:bold;">EN PAPEL</span>'
+def código(c):
+  return '<div style="background-color:#eee;border:solid 2px black;padding:3px;font-weight:bold;"><code>' + c + '</code></div>'
+
+def guia1_ej5(fecha):
+  return {
+    "tipo":"CUESTIONARIO",
+    "id":"guia1_ej5",
+    "nombre":"5. Analizando propósitos",
+    "preguntas":[{
+      "tipo":"SOLO_TEXTO",
+      "titulo":"Enunciado",
+      "pregunta":enPapel+" Dado el siguiente programa:"+código("program {<br>&nbsp;&nbsp;Poner(Verde)<br>&nbsp;&nbsp;Sacar(Verde)<br>&nbsp;&nbsp;Poner(Azul)<br>&nbsp;&nbsp;Poner(Rojo)<br>}")+"Diversos estudiantes realizaron propuestas para redactar su propósito, y también un profesor realizó explicaciones sobre cada una de estas propuestas. Asociar cada propuesta de propósito para el mismo (indicadas con las letras A, B, etc.) con la explicación que resulta correcta para dicha propuesta (indicadas con los números 1, 2, etc.)"
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"A",
+      "pregunta":"Poner una bolita azul y luego una roja en la celda actual.",
+      "respuestas":rtas1_5(5, ["","","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"B",
+      "pregunta":"Agregar una bolita azul y una roja.",
+      "respuestas":rtas1_5(4, ["","","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"C",
+      "pregunta":"Pone una bolita verde y luego la saca, para a continuación poner una bolita azul y una roja.",
+      "respuestas":rtas1_5(1, ["","","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"D",
+      "pregunta":"Agregar una bolita roja y una bolita azul en la celda actual.",
+      "respuestas":rtas1_5(3, ["","","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"E",
+      "pregunta":"Agregar dos bolitas en la celda actual.",
+      "respuestas":rtas1_5(2, ["","","","",""])
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia1_ej6a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia1_ej6a",
+    "nombre":"6. Cuadrados verdes (a)",
+    "enunciado":["Escribir el siguiente programa:<br>uno que ponga un cuadrado",{"tex":"^4"}," de tamaño 3 con bolitas de color verde, con centro en la celda inicial (dejando el cabezal en dicha celda al finalizar).<br><br>4: Un cuadrado consiste en una secuencia de celdas que tienen al menos una bolita de un determinado color, y que se extienden de forma vertical la misma cantidad de celdas que en horizontal."],
+    "pidePrograma": True,
+    "run_data":[{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v]]},
+      "tf":{"head":[1,1],"width":3,"height":3,"board":[[g,g,g],[g,g,g],[g,g,g]]},
+    },{
+      "t0":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,v,v,v],[a,v,v,v],[v,v,v,v]]},
+      "tf":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,g,g,g],[a,g,g,g],[v,g,g,g]]},
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia1_ej6b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia1_ej6b",
+    "nombre":"6. Cuadrados verdes (b)",
+    "enunciado":"Escribir el siguiente programa:<br>uno que saque un cuadrado de tamaño 3 con bolitas de color verde (saca una bolita de cada celda), siendo la celda inicial el centro del cuadrado, dejando el cabezal en dicha celda al finalizar.",
+    "pidePrograma": True,
+    "run_data":[{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[g,g,g],[g,g,g],[g,g,g]]},
+      "tf":{"head":[1,1],"width":3,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v]]},
+    },{
+      "t0":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,g,g,g],[a,g,g,g],[v,g,g,g]]},
+      "tf":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,v,v,v],[a,v,v,v],[v,v,v,v]]},
+    },{
+      "t0":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,g,g2,g],[a,g,g,g],[v,g,g,g2]]},
+      "tf":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,v,g, v],[a,v,v,v],[v,v,v,g]]},
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia1(fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guia1",
+    "nombre":"Práctica 1 - Programas y Contratos",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      guia1_ej1(fechaInicio),
+      guia1_ej2(fechaInicio),
+      guia1_ej3(fechaInicio),
+      guia1_ej5(fechaInicio),
+      guia1_ej6a(fechaInicio),
+      guia1_ej6b(fechaInicio)
+    ]
+  }
+
 CURSOS = {
-  "inpr_unq_2025_s1":{
-    "nombre":"Introducción a la Programación - UNQ (2025s1)",
-    "anio":"2025",
+  "inpr_unq_2026_s1":{
+    "nombre":"Introducción a la Programación - UNQ (2026s1)",
+    "anio":"2026",
     "edicion":"Primer Semestre",
     "descripcion":"Curso correspondiente a la materia Introducción a la Programación para las carreras Licenciatura en Informática, Tecnicatura en Programación Informática y Licenciatura en Bioinformática de la Universidad Nacional de Quilmes",
     "responsable":{
@@ -259,23 +421,15 @@ CURSOS = {
     "lenguaje":"Gobstones",
     "lenguaje_display":"none",
     "analisisCodigo":[
-      {"key":"CMD_X_LINE"},
-      {"key":"INDENT"},
+      # {"key":"CMD_X_LINE"},
+      # {"key":"INDENT"},
       {"key":"NEST_CMD","max":1}
     ],
     "actividades":[
-      rosa_de_los_vientos("21/3/2025"),
-      ajedrez_1("28/3/2025"),
-      escalera_1("4/4/2025"),
-      mayusculas_recargado("11/4/2025"),
-      rutera_1("18/4/2025"),
-      rutera_2("18/4/2025"),
-      superGobi64_1("25/4/2025"),
-      gobFS_1("2/5/2025"),
-      superGobi64_2("9/5/2025")
+      guia1("16/3/2026-8:00")
     ],
     "planilla":{
-      "url":"1FAIpQLSeJRA1urVZ81AhWS73Z66G0p_hAujXLR6hirdc3cVq3LuKAtw",
+      "url":"1FAIpQLScBYC_P5dbFA0v9e-GDTw65KMFn5PIM9IX0jZmHSTUXdyW5oA",
       "campos":{
         "usuario":"9867257",
         "actividad":"1165966175",
@@ -285,6 +439,46 @@ CURSOS = {
       }
     }
   }
+  # ,
+  # "inpr_unq_2025_s1":{
+  #   "nombre":"Introducción a la Programación - UNQ (2025s1)",
+  #   "anio":"2025",
+  #   "edicion":"Primer Semestre",
+  #   "descripcion":"Curso correspondiente a la materia Introducción a la Programación para las carreras Licenciatura en Informática, Tecnicatura en Programación Informática y Licenciatura en Bioinformática de la Universidad Nacional de Quilmes",
+  #   "responsable":{
+  #     "nombre":"Equipo de Intro",
+  #     "contacto":"tpi-doc-inpr (AT) listas.unq.edu.ar"
+  #   },
+  #   "institucion":"Universidad Nacional de Quilmes (UNQ)",
+  #   "lenguaje":"Gobstones",
+  #   "lenguaje_display":"none",
+  #   "analisisCodigo":[
+  #     {"key":"CMD_X_LINE"},
+  #     {"key":"INDENT"},
+  #     {"key":"NEST_CMD","max":1}
+  #   ],
+  #   "actividades":[
+  #     rosa_de_los_vientos("21/3/2025"),
+  #     ajedrez_1("28/3/2025"),
+  #     escalera_1("4/4/2025"),
+  #     mayusculas_recargado("11/4/2025"),
+  #     rutera_1("18/4/2025"),
+  #     rutera_2("18/4/2025"),
+  #     superGobi64_1("25/4/2025"),
+  #     gobFS_1("2/5/2025"),
+  #     superGobi64_2("9/5/2025")
+  #   ],
+  #  "planilla":{
+  #    "url":"1FAIpQLSeJRA1urVZ81AhWS73Z66G0p_hAujXLR6hirdc3cVq3LuKAtw",
+  #    "campos":{
+  #      "usuario":"9867257",
+  #      "actividad":"1165966175",
+  #      "respuesta":"1778184894",
+  #      "resultado":"1496208069",
+  #      "duracion":"1460244707"
+  #    }
+  #  }
+  # }
   # ,
   # "inpr_unq_2023_s1":{
   #   "nombre":"Introducción a la Programación - UNQ (2023s1)",
