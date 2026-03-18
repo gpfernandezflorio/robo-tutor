@@ -5,7 +5,6 @@ r = {"a": 0, "n": 0, "r": 1, "v": 0} # Celda con una roja
 a = {"a": 1, "n": 0, "r": 0, "v": 0} # Celda con una azul
 g = {"a": 0, "n": 0, "r": 0, "v": 1} # Celda con una verde (no puedo usar 'v' porque ya la usé para la celda vacía)
 n = {"a": 0, "n": 1, "r": 0, "v": 0} # Celda con una negra
-g2 = {"a": 0, "n": 0, "r": 0, "v": 2} # Celda con dos bolitas verdes
 def c(a,n,r,v): # celda con ...
   return {"a": a, "n": n, "r": r, "v": v}
 def rs(x): # Celda con varias rojas
@@ -58,7 +57,11 @@ def iniGobi_2(a): # Tablero inicial Gobi de 6x6x4 en piso a (sin Gobi, sólo ene
     La cantidad de bolitas negras determina el personaje. Si es 0 es Gobi si no, un enemigo cuyo nivel es la cantidad de bolitas negras y su color es ese número módulo 4.
 '''
 
-enPapel = '<span style="color:red;font-weight:bold;">EN PAPEL</span>'
+def resaltado(texto):
+  return '<span style="color:red;font-weight:bold;">' + texto + '</span>'
+enPapel = resaltado("EN PAPEL")
+importante = resaltado("Importante")
+
 def código(c):
   return '<div style="background-color:#eee;border:solid 2px black;padding:3px;font-weight:bold;"><code>' + c + '</code></div>'
 
@@ -246,7 +249,7 @@ def rosa_de_los_vientos(fecha):
     "tipo":"CODIGO",
     "id":"RosaVientos",
     "nombre":"Rosa de los vientos",
-    "enunciado":"Escribir el procedimiento PonerRosaDeLosVientos que ponga un rosa de los vientos al rededor de la celda actual. Para representar una rosa de los vientos centrada en una celda hay que poner una bolita roja en cada una de las cuatro celdas lindantes.",
+    "enunciado":"Escribir el procedimiento PonerRosaDeLosVientos que ponga una rosa de los vientos al rededor de la celda actual. Para representar una rosa de los vientos centrada en una celda hay que poner una bolita roja en cada una de las cuatro celdas lindantes.",
     "pre":"program {PonerRosaDeLosVientos()}",
     "run_data":[{
       "t0":{"head":[1,1],"width":3,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v]]},
@@ -374,6 +377,7 @@ def guia1_ej6a(fecha):
   }
 
 def guia1_ej6b(fecha):
+  b = c(0,0,0,2) # Celda con dos bolitas verdes
   return {
     "tipo":"CODIGO",
     "id":"guia1_ej6b",
@@ -387,8 +391,8 @@ def guia1_ej6b(fecha):
       "t0":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,g,g,g],[a,g,g,g],[v,g,g,g]]},
       "tf":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,v,v,v],[a,v,v,v],[v,v,v,v]]},
     },{
-      "t0":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,g,g2,g],[a,g,g,g],[v,g,g,g2]]},
-      "tf":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,v,g, v],[a,v,v,v],[v,v,v,g]]},
+      "t0":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,g,b,g],[a,g,g,g],[v,g,g,b]]},
+      "tf":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,v,g,v],[a,v,v,v],[v,v,v,g]]},
     }],
     "disponible":{"desde":fecha}
   }
@@ -476,6 +480,7 @@ def guia1_ej10(fecha):
   }
 
 def guia1_ej11(fecha):
+  u = c(1,1,1,1) # Celda con una de cada color
   return {
     "tipo":"CODIGO",
     "id":"guia1_ej11",
@@ -483,7 +488,7 @@ def guia1_ej11(fecha):
     "enunciado":"Escriba un programa que saque del tablero un cuadrado multicolor de dos celdas de lado, donde la celda actual representa el vértice inferior izquierdo del mismo. Recuerde escribir primero el contrato del programa, y luego el código. Considere las siguientes preguntas como guía para escribir su programa:<br>&nbsp;a. ¿Qué hace el programa? (Determina el propósito del programa)<br>&nbsp;b. ¿Cuándo funciona tal cual se espera? (Determina la precondición del programa)<br>&nbsp;c. ¿Cómo lo hace? (Determina el código del programa)",
     "pidePrograma": True,
     "run_data":[{
-      "t0":{"head":[1,1],"width":4,"height":4,"board":[[v,v,v,v],[v,c(1,1,1,1),c(1,1,1,1),v],[v,c(1,1,1,1),c(1,1,1,1),v],[v,v,v,v]]},
+      "t0":{"head":[1,1],"width":4,"height":4,"board":[[v,v,v,v],[v,u,u,v],[v,u,u,v],[v,v,v,v]]},
       "tf":{"head":[1,1],"width":4,"height":4,"board":[[v,v,v,v],[v,v,v,v],[v,v,v,v],[v,v,v,v]]},
     }],
     "disponible":{"desde":fecha}
@@ -509,6 +514,54 @@ def guia1(fechaInicio):
     ]
   }
 
+def guia2_ej2a(fecha):
+  b = c(0,1,1,0) # Celda con una negra y una roja
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej2a",
+    "nombre":"2. Por arriba (a)",
+    "enunciado":"Escribir un procedimiento DibujarRectánguloRojoYNegroDe5x3() cuyo contrato es el siguiente:"+código("procedure DibujarRectánguloRojoYNegroDe5x3()<br>&nbsp;/*<br>&nbsp;&nbsp;PROPÓSITO: Poner un rectángulo sólido de 5 celdas de ancho y 3 celdas de alto. Desde la celda actual hacia el Este y hacia el Norte.<br>&nbsp;&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;&nbsp;* Hay al menos 4 celdas al Este y 2 celdas al Norte de la celda actual.<br>&nbsp;&nbsp;&nbsp;* Las celdas contenidas en el rectángulo de 5x3 desde la celda actual hacia el Este y hacia el Norte están vacías.<br>&nbsp;*/")+importante+" La metodología a seguir que se debe aplicar es la siguiente. En primer lugar, pensar una estrategia; se sugiere pensar una estrategia que involucre poner líneas de 5 celdas de ancho. Luego se debe definir primero el contrato de un procedimiento llamado <code>DibujarLíneaRojaYNegraDeTamaño5HaciaElEste()</code> que exprese la subtarea sugerida. Para completar el ejercicio, se debe utilizar este procedimiento auxiliar en la codificación del procedimiento pedido, <code>DibujarRectánguloRojoYNegroDe5x3()</code>. El código del procedimiento auxiliar no es parte de este inciso, sino del siguiente.<br><br><b>Nota</b>: no incluir la definición del procedimiento <code>DibujarLíneaRojaYNegraDeTamaño5HaciaElEste()</code> al enviar este ejercicio.",
+    "pre":"program{ DibujarRectánguloRojoYNegroDe5x3() }\nprocedure DibujarLíneaRojaYNegraDeTamaño5HaciaElEste() {\n  repeat(4){Poner(Rojo) Poner(Negro) Mover(Este)}\n  Poner(Rojo) Poner(Negro)\n  repeat(4) {Mover(Oeste)}}",
+    "base":"procedure DibujarRectánguloRojoYNegroDe5x3() {\n  /*\n  PROPÓSITO: Poner un rectángulo sólido de 5 celdas de ancho y 3\n   celdas de alto. Desde la celda actual hacia el Este y hacia el Norte.\n  PRECONDICIONES:\n   * Hay al menos 4 celdas al Este y 2 celdas al Norte de la celda\n    actual.\n   * Las celdas contenidas en el rectángulo de 5x3 desde la celda\n    actual hacia el Este y hacia el Norte están vacías.\n  */\n  ",
+    "run_data":[{
+      "t0":{"head":[1,1],"width":7,"height":5,"board":[[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v]]},
+      "tf":{"head":[1,1],"width":7,"height":5,"board":[[v,v,v,v,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,v,v,v,v]]},
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej2b(fecha):
+  b = c(0,1,1,0) # Celda con una negra y una roja
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej2b",
+    "nombre":"2. Por arriba (b)",
+    "enunciado":"Escribir el procedimiento <code>DibujarLíneaRojaYNegraDeTamaño5HaciaElEste()</code> que quedó pendiente del ítem anterior.<br>"+importante+" Para ello, se debe seguir la misma metodología que en el caso anterior: en primer lugar pensar una estrategia, luego definir los contratos de los procedimientos que expresan las subtareas, y por último codificar el procedimiento pedido usando dichas subtareas (sin su código). Se sugiere que la estrategia involucre a subtareas llamadas <code>PonerUnaNegraYUnaRoja()</code> y <code>Mover4VecesAlOeste()</code>.<br><br><b>Nota</b>: no incluir las definiciones de los procedimientos <code>PonerUnaNegraYUnaRoja()</code> y <code>Mover4VecesAlOeste()</code> al enviar este ejercicio.",
+    "pre":"program{ DibujarRectánguloRojoYNegroDe5x3() }\nprocedure DibujarRectánguloRojoYNegroDe5x3() {\n  repeat(2){DibujarLíneaRojaYNegraDeTamaño5HaciaElEste() Mover(Norte)}\n  DibujarLíneaRojaYNegraDeTamaño5HaciaElEste()\n  repeat(2) {Mover(Sur)}}\nprocedure PonerUnaNegraYUnaRoja() {Poner(Negro) Poner(Rojo)}\nprocedure Mover4VecesAlOeste() {repeat(4) {Mover(Oeste)}}",
+    "base":"procedure DibujarLíneaRojaYNegraDeTamaño5HaciaElEste() {\n  /*\n  PROPÓSITO: ...\n  PRECONDICIONES: ...\n  */\n  ",
+    "run_data":[{
+      "t0":{"head":[1,1],"width":7,"height":5,"board":[[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v]]},
+      "tf":{"head":[1,1],"width":7,"height":5,"board":[[v,v,v,v,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,v,v,v,v]]},
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej2c(fecha):
+  b = c(0,1,1,0) # Celda con una negra y una roja
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej2c",
+    "nombre":"2. Por arriba (c)",
+    "enunciado":"Escribir los procedimientos <code>PonerUnaNegraYUnaRoja()</code> y <code>Mover4VecesAlOeste()</code> que quedaron pendientes del ejercicio anterior. En este caso, los procedimientos se pueden expresar fácilmente utilizando comandos primitivos, por lo que no es necesario comenzar pensando en posibles subtareas.",
+    "pre":"program{ DibujarRectánguloRojoYNegroDe5x3() }\nprocedure DibujarRectánguloRojoYNegroDe5x3() {\n  repeat(2){DibujarLíneaRojaYNegraDeTamaño5HaciaElEste() Mover(Norte)}\n  DibujarLíneaRojaYNegraDeTamaño5HaciaElEste()\n  repeat(2) {Mover(Sur)}}\nprocedure DibujarLíneaRojaYNegraDeTamaño5HaciaElEste() {\n  repeat(4) {PonerUnaNegraYUnaRoja() Mover(Este)}\n  PonerUnaNegraYUnaRoja()\n  Mover4VecesAlOeste()\n}",
+    "base":"procedure PonerUnaNegraYUnaRoja() {\n  /*\n  PROPÓSITO: ...\n  PRECONDICIONES: ...\n  */\n  \n\nprocedure Mover4VecesAlOeste() {\n  /*\n  PROPÓSITO: ...\n  PRECONDICIONES: ...\n  */\n  ",
+    "run_data":[{
+      "t0":{"head":[1,1],"width":7,"height":5,"board":[[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v]]},
+      "tf":{"head":[1,1],"width":7,"height":5,"board":[[v,v,v,v,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,v,v,v,v]]},
+    }],
+    "disponible":{"desde":fecha}
+  }
+
 def guia2(fechaInicio):
   return {
     "tipo":"SECCION",
@@ -517,6 +570,9 @@ def guia2(fechaInicio):
     "disponible":{"desde":fechaInicio},
     "actividades":[
       linkGuía(2, 39015, "22/P2.%20Procedimientos%20y%20Estrategias%20de%20Solucio%CC%81n.pdf"),
+      guia2_ej2a(fechaInicio),
+      guia2_ej2b(fechaInicio),
+      guia2_ej2c(fechaInicio)
     ]
   }
 
