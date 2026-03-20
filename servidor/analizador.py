@@ -49,6 +49,8 @@ class Analizador(object):
 
   def nodosDeTipo(self, AST, tipo):
     return self.foldAST(lambda recs, x : aplanar(recs) + ([x] if self.esNodoDeTipo(x, tipo) else []), AST)
+  def hayNodoDeTipo(self, AST, tipo):
+    return self.foldAST(lambda recs, x : any(recs) or self.esNodoDeTipo(x, tipo), AST)
   def foldAST(self, f, nodo):
     return f(mapear(lambda x : self.foldAST(f,x), self.hijosDeNodo(nodo)), nodo)
   def nivelesAnidacionComandos(self, nodo):
@@ -108,6 +110,8 @@ class AnalizadorPython(Analizador):
       ast.AsyncWith,
       ast.Try
     ])
+  def hayRepeticiónSimple(self, AST):
+    return False # No hay repetición simple en Python
 
 class AnalizadorGobstones(Analizador):
   def obtenerAst(self, codigo):
@@ -126,6 +130,8 @@ class AnalizadorGobstones(Analizador):
       "N_StmtWhile",
       "N_StmtSwitch"
     ])
+  def hayRepeticiónSimple(self, AST):
+    return self.hayNodoDeTipo(AST, "N_StmtRepeat")
 
 analizadorPython = AnalizadorPython()
 

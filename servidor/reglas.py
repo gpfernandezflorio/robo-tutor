@@ -20,3 +20,16 @@ REGLAS = {
   "CMD_X_LINE":reglaUnComandoPorLinea,
   "INDENT":reglaIndentacion
 }
+
+conceptos = [
+  [ "REP_SIMPLE",
+    (lambda analizador, AST, codigo, regla : (analizador.hayRepeticiónSimple(AST))),
+    "No está permitido usar repetición simple"
+  ]
+]
+
+def reglaConcepto(concepto, analizador, AST, codigo, regla):
+  return concepto[2] if concepto[1](analizador, AST, codigo, regla) else None
+
+for concepto in conceptos:
+  REGLAS["CONCEPT_" + concepto[0]] = lambda analizador, AST, codigo, regla : reglaConcepto(concepto, analizador, AST, codigo, regla)
