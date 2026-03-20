@@ -7,10 +7,14 @@ g = {"a": 0, "n": 0, "r": 0, "v": 1} # Celda con una verde (no puedo usar 'v' po
 n = {"a": 0, "n": 1, "r": 0, "v": 0} # Celda con una negra
 def c(a,n,r,v): # celda con ...
   return {"a": a, "n": n, "r": r, "v": v}
-def rs(x): # Celda con varias rojas
-  return c(0,0,x,0)
+def a_s(x): # Celda con varias azules
+  return c(x,0,0,0)
 def ns(x): # Celda con varias negras
   return c(0,x,0,0)
+def rs(x): # Celda con varias rojas
+  return c(0,0,x,0)
+def gs(x): # Celda con varias verdes
+  return c(0,0,0,x)
 def ed(h,d=0,a=0): # Edificio con h pisos, d departamentos por piso y a ambientes por departamento
   return c(0,0,h,1)
 def rt(l): # Ruta con l lomos de burro
@@ -57,6 +61,8 @@ def iniGobi_2(a): # Tablero inicial Gobi de 6x6x4 en piso a (sin Gobi, sólo ene
     La cantidad de bolitas negras determina el personaje. Si es 0 es Gobi si no, un enemigo cuyo nivel es la cantidad de bolitas negras y su color es ese número módulo 4.
 '''
 
+def ayuda(texto):
+  return '<span style="color:blue;font-weight:bold;">' + texto + '</span>'
 def resaltado(texto):
   return '<span style="color:red;font-weight:bold;">' + texto + '</span>'
 enPapel = resaltado("EN PAPEL")
@@ -164,10 +170,10 @@ def rutera_1(fecha):
     "pre":"program{ConstruirSegmentoDeRuta()}function hayEdificioAl_(d) {h := False;if (puedeMover(d)) {Mover(d)h := hayBolitas(Negro)}return (h)}",
     "run_data":[{
       "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
-      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]}
     },{
       "t0":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[v,ns(2)],[ns(2),ns(2)]]},
-      "tf":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[rt(1),ns(2)],[ns(2),ns(2)]]},
+      "tf":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[rt(1),ns(2)],[ns(2),ns(2)]]}
     }],
     "disponible":{"desde":fecha}
   }
@@ -181,19 +187,19 @@ def rutera_2(fecha):
     "pre":"program{ConstruirSegmentoDeRuta()}function cantidadDeEdificiosAl_(d){h := 0;if (puedeMover(d)) {Mover(d)h := nroBolitas(Negro)}return(h)}",
     "run_data":[{
       "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
-      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]}
     },{
       "t0":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[v,ns(1)],[v,ns(2)]]},
-      "tf":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[r,ns(1)],[v,ns(2)]]},
+      "tf":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[r,ns(1)],[v,ns(2)]]}
     },{
       "t0":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[v,v],[ns(1),ns(2)]]},
-      "tf":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[r,v],[ns(1),ns(2)]]},
+      "tf":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[r,v],[ns(1),ns(2)]]}
     },{
       "t0":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[v,ns(1)],[ns(1),ns(2)]]},
-      "tf":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[rt(1),ns(1)],[ns(1),ns(2)]]},
+      "tf":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[rt(1),ns(1)],[ns(1),ns(2)]]}
     },{
       "t0":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[v,ns(2)],[ns(2),ns(2)]]},
-      "tf":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[rt(2),ns(2)],[ns(2),ns(2)]]},
+      "tf":{"head":[1,0],"width":3,"height":2,"board":[[v,v],[rt(2),ns(2)],[ns(2),ns(2)]]}
     }],
     "disponible":{"desde":fecha}
   }
@@ -207,10 +213,10 @@ def mayusculas_recargado(fecha):
     "pre":"program {PasarPalabraActualAMayúsculas()}",
     "run_data":[{
       "t0":{"head":[1,0],"width":4,"height":2,"board":[[v,v],[rs(2),v],[ns(103),v],[ns(98),v]]},
-      "tf":{"head":[1,0],"width":4,"height":2,"board":[[v,v],[rs(2),v],[ns(103),ns(71)],[ns(98),ns(66)]]},
+      "tf":{"head":[1,0],"width":4,"height":2,"board":[[v,v],[rs(2),v],[ns(103),ns(71)],[ns(98),ns(66)]]}
     },{
       "t0":{"head":[1,0],"width":5,"height":2,"board":[[v,v],[rs(3),v],[ns(98),v],[ns(103),v],[ns(98),v]]},
-      "tf":{"head":[1,0],"width":5,"height":2,"board":[[v,v],[rs(3),v],[ns(98),ns(66)],[ns(103),ns(71)],[ns(98),ns(66)]]},
+      "tf":{"head":[1,0],"width":5,"height":2,"board":[[v,v],[rs(3),v],[ns(98),ns(66)],[ns(103),ns(71)],[ns(98),ns(66)]]}
     }],
     "disponible":{"desde":fecha}
   }
@@ -224,7 +230,7 @@ def escalera_1(fecha):
     "pre":"",
     "run_data":[{
       "t0":{"head":[3,1],"width":5,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v],[v,v,v],[v,v,v]]},
-      "tf":{"head":[3,1],"width":5,"height":3,"board":[[v,v,v],[v,ed(2),v],[v,ed(3),v],[v,ed(4),v],[v,v,v]]},
+      "tf":{"head":[3,1],"width":5,"height":3,"board":[[v,v,v],[v,ed(2),v],[v,ed(3),v],[v,ed(4),v],[v,v,v]]}
     }],
     "pidePrograma": True,
     "disponible":{"desde":fecha}
@@ -239,7 +245,7 @@ def ajedrez_1(fecha):
     "pre":"procedure PintarBlanco(){Poner(Rojo)}\nprocedure PintarNegro(){Poner(Azul)}\nprogram {PintarTableroDeAjedrez()}",
     "run_data":[{
       "t0":{"head":[5,6],"width":8,"height":8,"board":[[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v],[v,v,v,v,v,v,v,v]]},
-      "tf":{"head":[],"width":8,"height":8,"board":[[a,r,a,r,a,r,a,r],[r,a,r,a,r,a,r,a],[a,r,a,r,a,r,a,r],[r,a,r,a,r,a,r,a],[a,r,a,r,a,r,a,r],[r,a,r,a,r,a,r,a],[a,r,a,r,a,r,a,r],[r,a,r,a,r,a,r,a]]},
+      "tf":{"head":[],"width":8,"height":8,"board":[[a,r,a,r,a,r,a,r],[r,a,r,a,r,a,r,a],[a,r,a,r,a,r,a,r],[r,a,r,a,r,a,r,a],[a,r,a,r,a,r,a,r],[r,a,r,a,r,a,r,a],[a,r,a,r,a,r,a,r],[r,a,r,a,r,a,r,a]]}
     }],
     "disponible":{"desde":fecha}
   }
@@ -253,7 +259,7 @@ def rosa_de_los_vientos(fecha):
     "pre":"program {PonerRosaDeLosVientos()}",
     "run_data":[{
       "t0":{"head":[1,1],"width":3,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v]]},
-      "tf":{"head":[1,1],"width":3,"height":3,"board":[[v,r,v],[r,v,r],[v,r,v]]},
+      "tf":{"head":[1,1],"width":3,"height":3,"board":[[v,r,v],[r,v,r],[v,r,v]]}
     }],
     "disponible":{"desde":fecha}
   }
@@ -267,10 +273,10 @@ def guia1_ej1(fecha):
     "pidePrograma": True,
     "run_data":[{
       "t0":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,r,v],[v,a,v]]},
-      "tf":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,g,v],[v,a,v]]},
+      "tf":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,g,v],[v,a,v]]}
     },{
       "t0":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,c(4,5,3,2),v],[v,a,v]]},
-      "tf":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,c(4,5,2,3),v],[v,a,v]]},
+      "tf":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,c(4,5,2,3),v],[v,a,v]]}
     }],
     "disponible":{"desde":fecha}
   }
@@ -284,7 +290,7 @@ def guia1_ej2(fecha):
     "pidePrograma": True,
     "run_data":[{
       "t0":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,c(4,5,3,2),a],[v,c(4,5,3,2),v]]},
-      "tf":{"head":[2,1],"width":3,"height":3,"board":[[r,v,v],[v,c(4,4,3,2),a],[v,c(4,6,3,2),v]]},
+      "tf":{"head":[2,1],"width":3,"height":3,"board":[[r,v,v],[v,c(4,4,3,2),a],[v,c(4,6,3,2),v]]}
     }],
     "disponible":{"desde":fecha}
   }
@@ -298,7 +304,7 @@ def guia1_ej3(fecha):
     "pidePrograma": True,
     "run_data":[{
       "t0":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,c(4,5,3,2),c(4,5,3,2)],[v,a,v]]},
-      "tf":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,c(4,5,3,2),c(5,5,3,2)],[v,a,v]]},
+      "tf":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,c(4,5,3,2),c(5,5,3,2)],[v,a,v]]}
     }],
     "disponible":{"desde":fecha}
   }
@@ -368,10 +374,10 @@ def guia1_ej6a(fecha):
     "pidePrograma": True,
     "run_data":[{
       "t0":{"head":[1,1],"width":3,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v]]},
-      "tf":{"head":[1,1],"width":3,"height":3,"board":[[g,g,g],[g,g,g],[g,g,g]]},
+      "tf":{"head":[1,1],"width":3,"height":3,"board":[[g,g,g],[g,g,g],[g,g,g]]}
     },{
       "t0":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,v,v,v],[a,v,v,v],[v,v,v,v]]},
-      "tf":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,g,g,g],[a,g,g,g],[v,g,g,g]]},
+      "tf":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,g,g,g],[a,g,g,g],[v,g,g,g]]}
     }],
     "disponible":{"desde":fecha}
   }
@@ -386,13 +392,13 @@ def guia1_ej6b(fecha):
     "pidePrograma": True,
     "run_data":[{
       "t0":{"head":[1,1],"width":3,"height":3,"board":[[g,g,g],[g,g,g],[g,g,g]]},
-      "tf":{"head":[1,1],"width":3,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v]]},
+      "tf":{"head":[1,1],"width":3,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v]]}
     },{
       "t0":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,g,g,g],[a,g,g,g],[v,g,g,g]]},
-      "tf":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,v,v,v],[a,v,v,v],[v,v,v,v]]},
+      "tf":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,v,v,v],[a,v,v,v],[v,v,v,v]]}
     },{
       "t0":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,g,b,g],[a,g,g,g],[v,g,g,b]]},
-      "tf":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,v,g,v],[a,v,v,v],[v,v,v,g]]},
+      "tf":{"head":[2,2],"width":4,"height":4,"board":[[v,v,g,v],[v,v,g,v],[a,v,v,v],[v,v,v,g]]}
     }],
     "disponible":{"desde":fecha}
   }
@@ -474,7 +480,7 @@ def guia1_ej10(fecha):
     "pidePrograma": True,
     "run_data":[{
       "t0":{"head":[1,1],"width":6,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v],[v,v,v],[v,v,v],[v,v,v]]},
-      "tf":{"head":[1,1],"width":6,"height":3,"board":[[v,v,v],[v,a,v],[v,n,v],[v,r,v],[v,g,v],[v,v,v]]},
+      "tf":{"head":[1,1],"width":6,"height":3,"board":[[v,v,v],[v,a,v],[v,n,v],[v,r,v],[v,g,v],[v,v,v]]}
     }],
     "disponible":{"desde":fecha}
   }
@@ -489,7 +495,7 @@ def guia1_ej11(fecha):
     "pidePrograma": True,
     "run_data":[{
       "t0":{"head":[1,1],"width":4,"height":4,"board":[[v,v,v,v],[v,u,u,v],[v,u,u,v],[v,v,v,v]]},
-      "tf":{"head":[1,1],"width":4,"height":4,"board":[[v,v,v,v],[v,v,v,v],[v,v,v,v],[v,v,v,v]]},
+      "tf":{"head":[1,1],"width":4,"height":4,"board":[[v,v,v,v],[v,v,v,v],[v,v,v,v],[v,v,v,v]]}
     }],
     "disponible":{"desde":fecha}
   }
@@ -525,7 +531,7 @@ def guia2_ej2a(fecha):
     "base":"procedure DibujarRectánguloRojoYNegroDe5x3() {\n  /*\n  PROPÓSITO: Poner un rectángulo sólido de 5 celdas de ancho y 3\n   celdas de alto. Desde la celda actual hacia el Este y hacia el Norte.\n  PRECONDICIONES:\n   * Hay al menos 4 celdas al Este y 2 celdas al Norte de la celda\n    actual.\n   * Las celdas contenidas en el rectángulo de 5x3 desde la celda\n    actual hacia el Este y hacia el Norte están vacías.\n  */\n  ",
     "run_data":[{
       "t0":{"head":[1,1],"width":7,"height":5,"board":[[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v]]},
-      "tf":{"head":[1,1],"width":7,"height":5,"board":[[v,v,v,v,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,v,v,v,v]]},
+      "tf":{"head":[1,1],"width":7,"height":5,"board":[[v,v,v,v,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,v,v,v,v]]}
     }],
     "disponible":{"desde":fecha}
   }
@@ -541,7 +547,7 @@ def guia2_ej2b(fecha):
     "base":"procedure DibujarLíneaRojaYNegraDeTamaño5HaciaElEste() {\n  /*\n  PROPÓSITO: ...\n  PRECONDICIONES: ...\n  */\n  ",
     "run_data":[{
       "t0":{"head":[1,1],"width":7,"height":5,"board":[[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v]]},
-      "tf":{"head":[1,1],"width":7,"height":5,"board":[[v,v,v,v,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,v,v,v,v]]},
+      "tf":{"head":[1,1],"width":7,"height":5,"board":[[v,v,v,v,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,v,v,v,v]]}
     }],
     "disponible":{"desde":fecha}
   }
@@ -557,7 +563,409 @@ def guia2_ej2c(fecha):
     "base":"procedure PonerUnaNegraYUnaRoja() {\n  /*\n  PROPÓSITO: ...\n  PRECONDICIONES: ...\n  */\n  \n\nprocedure Mover4VecesAlOeste() {\n  /*\n  PROPÓSITO: ...\n  PRECONDICIONES: ...\n  */\n  ",
     "run_data":[{
       "t0":{"head":[1,1],"width":7,"height":5,"board":[[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v]]},
-      "tf":{"head":[1,1],"width":7,"height":5,"board":[[v,v,v,v,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,v,v,v,v]]},
+      "tf":{"head":[1,1],"width":7,"height":5,"board":[[v,v,v,v,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,b,b,b,v],[v,v,v,v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+e2_3 = "En el ejercicio anterior se trabajó con una metodología conocida como <em>top-down</em>: se comienza desde el problema, y se lo va descomponiendo en tareas cada vez más pequeñas, hasta llegar al uso de comandos primitivos. En este ejercicio vamos a proponer la estrategia inversa, <em>bottom-up</em>: primero se escriben los procedimientos elementales, y luego se van armando procedimientos cada vez más complejos, hasta construir uno que resuelva el problema original.<br>Escribir el siguiente procedimiento. Recuerde escribir los contratos correspondientes.<br><br>"
+
+def guia2_ej3a(fecha):
+  u = c(1,1,1,1) # Celda con una de cada color
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej3a",
+    "nombre":"3. Por abajo (a)",
+    "enunciado":e2_3+"<code>PonerUnaDeCada()</code> que ponga una bolita de cada color en la celda actual.",
+    "pre":"program { PonerUnaDeCada() }",
+    "run_data":[{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[a,v,v],[v,v,v],[v,v,r]]},
+      "tf":{"head":[1,1],"width":3,"height":3,"board":[[a,v,v],[v,u,v],[v,v,r]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej3b(fecha):
+  u = c(1,1,1,1) # Celda con una de cada color
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej3b",
+    "nombre":"3. Por abajo (b)",
+    "enunciado":e2_3+"<code>Mover3VecesAlOeste()</code> que mueva el cabezal tres celdas hacia el Oeste.",
+    "pre":"program { Mover3VecesAlOeste() }",
+    "run_data":[{
+      "t0":{"head":[4,3],"width":6,"height":6,"board":[
+        [v,r,v,a,v,u],[v,u,g,v,a,r],[v,v,u,u,v,v],[a,n,v,g,g,v],[r,v,r,a,v,u],[v,n,v,g,v,v]
+      ]},
+      "tf":{"head":[1,3],"width":6,"height":6,"board":[
+        [v,r,v,a,v,u],[v,u,g,v,a,r],[v,v,u,u,v,v],[a,n,v,g,g,v],[r,v,r,a,v,u],[v,n,v,g,v,v]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej3c(fecha):
+  u = c(1,1,1,1) # Celda con una de cada color
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej3c",
+    "nombre":"3. Por abajo (c)",
+    "enunciado":e2_3+"<code>DibujarLíneaMulticolorDeLargo4()</code> que ponga una línea de cuatro celdas hacia el Este en la que cada celda tenga una bolita de cada color. El cabezal debe quedar en la celda inicial. Para ello, debe reutilizar los procedimientos <code>PonerUnaDeCada()</code> y <code>Mover3VecesAlOeste()</code> (realizados en ejercicios anteriores).<br><br><b>Nota</b>: no incluir las definiciones de los procedimientos <code>PonerUnaDeCada()</code> y <code>Mover3VecesAlOeste()</code> al enviar este ejercicio.",
+    "pre":"program { DibujarLíneaMulticolorDeLargo4() }\nprocedure PonerUnaDeCada() { Poner(Rojo) Poner(Verde) Poner(Azul) Poner(Negro) }\nprocedure Mover3VecesAlOeste() { repeat(3) { Mover(Oeste) } }",
+    "run_data":[{
+      "t0":{"head":[1,3],"width":6,"height":6,"board":[
+        [v,r,v,a,v,u],[v,u,g,v,a,r],[v,v,u,v,v,v],[a,n,v,v,g,v],[r,v,r,v,v,u],[v,n,v,g,v,v]
+      ]},
+      "tf":{"head":[1,3],"width":6,"height":6,"board":[
+        [v,r,v,a,v,u],[v,u,g,u,a,r],[v,v,u,u,v,v],[a,n,v,u,g,v],[r,v,r,u,v,u],[v,n,v,g,v,v]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej3d(fecha):
+  u = c(1,1,1,1) # Celda con una de cada color
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej3d",
+    "nombre":"3. Por abajo (d)",
+    "enunciado":[e2_3+"<code>DibujarCuadradoMulticolorDeLado4()</code> que ponga un cuadrado sólido de 4",{"tex":"\\times"},"4 celdas en la que cada celda tenga una bolita de cada color. El cabezal debe quedar en la celda inicial. Para ello, debe reutilizar el procedimiento <code>DibujarLíneaMulticolorDeLargo4()</code>.<br><br><b>Nota</b>: no incluir la definición del procedimiento <code>DibujarLíneaMulticolorDeLargo4()</code> al enviar este ejercicio."],
+    "pre":"program { DibujarCuadradoMulticolorDeLado4() }\nprocedure DibujarLíneaMulticolorDeLargo4() {\n  repeat(3) { PonerUnaDeCada() Mover(Este) }\n  PonerUnaDeCada()\n  Mover3VecesAlOeste()\n}\nprocedure PonerUnaDeCada() { Poner(Rojo) Poner(Verde) Poner(Azul) Poner(Negro) }\nprocedure Mover3VecesAlOeste() { repeat(3) { Mover(Oeste) } }",
+    "run_data":[{
+      "t0":{"head":[1,1],"width":6,"height":6,"board":[
+        [v,r,v,a,v,u],[v,v,v,v,v,a],[g,v,v,v,v,v],[v,v,v,v,v,v],[u,v,v,v,v,v],[v,n,v,g,v,v]
+      ]},
+      "tf":{"head":[1,1],"width":6,"height":6,"board":[
+        [v,r,v,a,v,u],[v,u,u,u,u,a],[g,u,u,u,u,v],[v,u,u,u,u,v],[u,u,u,u,u,v],[v,n,v,g,v,v]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej4(fecha):
+  b = c(0,5,9,1) # Un azulejo
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej4",
+    "nombre":"4. Guarda de azulejos",
+    "enunciado":"Construir un procedimiento <code>PonerGuardaDe5Azulejos()</code>, que arme una \"guarda\" horizontal de 5 azulejos (como las que decoran las paredes). Cada azulejo está conformado por 1 bolita verde, 5 negras y 9 rojas. La posición final del cabezal no es relevante.<br>Recordar seguir una metodología adecuada para la construcción del código: <b>COMENZAR</b> por escribir el contrato completo del procedimiento, luego pensar las subtareas necesarias y darles un nombre adecuado, escribir el contrato de las subtareas, <b>LUEGO</b> el código del procedimiento pedido en términos de las subtareas, y <b>FINALMENTE</b>, realizar el código de las subtareas siguiendo la misma metodología (que denominamos metodología de construcción de programas <em>top-down</em>).",
+    "pre":"program { PonerGuardaDe5Azulejos() }",
+    "run_data":[{
+      "t0":{"head":[1,2],"width":6,"height":6,"board":[
+        [v,r,v,a,v,b],[v,v,v,v,v,a],[g,v,v,v,v,v],[v,v,v,v,v,v],[b,v,v,v,v,v],[v,n,v,g,v,v]
+      ]},
+      "tf":{"head":[],"width":6,"height":6,"board":[
+        [v,r,v,a,v,b],[v,v,b,v,v,a],[g,v,b,v,v,v],[v,v,b,v,v,v],[b,v,b,v,v,v],[v,n,b,g,v,v]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej5(fecha):
+  D = a_s(24)
+  M = rs(3)
+  A = gs(1976)
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej5",
+    "nombre":"5.  Día de la Memoria",
+    "enunciado":"Utilizando bolitas pueden representarse diversos elementos; un ejemplo de esto es la posibilidad de representar una fecha. Una fecha que los argentinos deberíamos recordar, para no repetirla jamás, es el 24 de marzo de 1976, hoy constituido como Día de la Memoria por la Verdad y la Justicia en Argentina.<br>Hacer un procedimiento <code>RegistrarElDíaDeLaMemoria()</code> que<ul><li>en la celda actual, ponga 24 bolitas Azules, que representan el día,</li><li> en la celda lindante al Este de la actual, ponga 3 bolitas Rojas, que representan el mes, y</li><li>en la celda lindante al Este de la anterior, ponga 1976 bolitas Verdes, representando el año.</li></ul>Recordar que la solución completa incluye la documentación: propósito, precondición y parámetros, los cuales deben ser escritos <b>ANTES</b> de escribir el código.<br>"+importante+": La solución se puede realizar íntegramente utilizando los conceptos vistos en la materia hasta el momento, y no se requieren herramientas adicionales. No debe utilizar conceptos aún no vistos en la teoría para solucionar el problema.",
+    "pre":"program { RegistrarElDíaDeLaMemoria() }",
+    "run_data":[{
+      "t0":{"head":[2,2],"width":6,"height":6,"board":[
+        [v,r,v,a,v,r],[v,v,v,v,v,a],[g,v,v,v,v,v],[v,v,v,v,v,v],[a,v,v,v,v,v],[v,n,v,g,v,v]
+      ]},
+      "tf":{"head":[2,2],"width":6,"height":6,"board":[
+        [v,r,v,a,v,r],[v,v,v,v,v,a],[g,v,D,v,v,v],[v,v,M,v,v,v],[a,v,A,v,v,v],[v,n,v,g,v,v]
+      ]}
+    }],
+    "analisisCodigo":[
+      {"key":"CONCEPT_REP_SIMPLE"}
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej6(fecha):
+  b = c(0,5,9,1) # Un azulejo
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej6",
+    "nombre":"6. Guarda de azulejos en L",
+    "enunciado":"Hacer un procedimiento <code>PonerGuardaEnL()</code>, que arme una guarda en L como muestra la figura (ver figura en <a href='https://aulas.gobstones.org/pluginfile.php/39015/mod_resource/content/22/P2.%20Procedimientos%20y%20Estrategias%20de%20Solucio%CC%81n.pdf' target='_blank'>la guía</a>), dejando el cabezal en la posición inicial.<br>¿Pensaste en reutilizar el procedimiento definido antes, o empezaste a escribirlo de nuevo? Dado que ahora se cuenta con la subtarea definida en el ejercicio anterior, la metodología <em>top-down</em> se puede enriquecer con la reutilización de procedimientos ya realizados; esto puede hacer que ciertas divisiones en subtareas, que permiten esa reutilización, sean más sencillas que otras.",
+    "pre":"program { PonerGuardaEnL() }",
+    "run_data":[{
+      "t0":{"head":[1,2],"width":6,"height":6,"board":[
+        [v,r,v,a,v,b],[v,v,v,v,v,a],[g,v,v,v,v,v],[v,v,v,v,v,v],[b,v,v,v,v,v],[v,n,v,g,v,v]
+      ]},
+      "tf":{"head":[1,2],"width":6,"height":6,"board":[
+        [v,r,v,a,v,b],[v,v,b,b,b,a],[g,v,b,v,v,v],[v,v,b,v,v,v],[b,v,v,v,v,v],[v,n,v,g,v,v]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def e2_7(e):
+  return enPapel+" Escribir un programa para cumplir con el propósito que se indica más adelante. Para ello, deben utilizarse los procedimientos indicados a continuación."+código("procedure DibujarBase()<br>&nbsp;&nbsp;/*<br>&nbsp;&nbsp;PROPÓSITO: Dibuja una base de pirámide de 5 celdas de lado<br>&nbsp;&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;&nbsp;&nbsp;* La celda actual debe estar vacía<br>&nbsp;&nbsp;&nbsp;&nbsp;* Debe haber cuatro celdas vacías al Este del cabezal<br>&nbsp;&nbsp;*/<br>procedure DibujarMedio()<br>&nbsp;&nbsp;/* PROPÓSITO: Dibuja un sector del medio de pirámide de 3 celdas de lado<br>&nbsp;&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;&nbsp;&nbsp;* La celda actual debe estar vacía<br>&nbsp;&nbsp;&nbsp;&nbsp;* Debe haber dos celdas vacías al Este del cabezal<br>&nbsp;&nbsp;*/<br>procedure DibujarPunta()<br>&nbsp;&nbsp;/*<br>&nbsp;&nbsp;PROPÓSITO: Dibuja una punta de pirámide<br>&nbsp;&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;&nbsp;&nbsp;* La celda actual debe estar vacía<br>&nbsp;&nbsp;*/")+resaltado("¡Recordar!")+" Para cada ítem que sigue debe comenzarse redactando el contrato correspondiente, y de ser necesario, se deben definir subtareas para construir su solución, expresándolas mediante procedimientos (y en ese caso se deben escribir primero los contratos de los mismos y utilizarlos <b>ANTES</b> de dar su código).<br><br>" + e + "<br><br><b>Nota</b>: Para enviar, asumir que los dibujos se deben realizar siempre desde la celda actual hacia el Este y hacia el Norte."
+
+def guia2_ej7a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej7a",
+    "nombre":"7. Las pirámides de Gobstones (a)",
+    "enunciado":e2_7("Una pirámide."),
+    "pre":"procedure DibujarBase() {\n  repeat(4){Poner(Negro) Mover(Este)}\n  Poner(Negro)\n  repeat(4){Mover(Oeste)}\n}\nprocedure DibujarMedio() {\n  repeat(2){Poner(Negro) Mover(Este)}\n  Poner(Negro)\n  repeat(2){Mover(Oeste)}\n}\nprocedure DibujarPunta() {Poner(Negro)}",
+    "pidePrograma": True,
+    "run_data":[{
+      "t0":{"head":[1,0],"width":12,"height":6,"board":[
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v]
+      ]},
+      "tf":{"head":[1,0],"width":12,"height":6,"board":[
+        [v,v,v,v,v,v],[n,v,v,v,v,v],[n,n,v,v,v,v],[n,n,n,v,v,v],[n,n,v,v,v,v],[n,v,v,v,v,v],
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v]
+      ]}
+    },{
+      "t0":{"head":[7,1],"width":12,"height":6,"board":[
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v]
+      ]},
+      "tf":{"head":[7,1],"width":12,"height":6,"board":[
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],
+        [v,v,v,v,v,v],[v,n,v,v,v,v],[v,n,n,v,v,v],[v,n,n,n,v,v],[v,n,n,v,v,v],[v,n,v,v,v,v]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej7b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej7b",
+    "nombre":"7. Las pirámides de Gobstones (b)",
+    "enunciado":e2_7("Una pirámide invertida."),
+    "pre":"procedure DibujarBase() {\n  repeat(4){Poner(Negro) Mover(Este)}\n  Poner(Negro)\n  repeat(4){Mover(Oeste)}\n}\nprocedure DibujarMedio() {\n  repeat(2){Poner(Negro) Mover(Este)}\n  Poner(Negro)\n  repeat(2){Mover(Oeste)}\n}\nprocedure DibujarPunta() {Poner(Negro)}",
+    "pidePrograma": True,
+    "run_data":[{
+      "t0":{"head":[1,1],"width":12,"height":6,"board":[
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v]
+      ]},
+      "tf":{"head":[1,1],"width":12,"height":6,"board":[
+        [v,v,v,v,v,v],[v,v,v,n,v,v],[v,v,n,n,v,v],[v,n,n,n,v,v],[v,v,n,n,v,v],[v,v,v,n,v,v],
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v]
+      ]}
+    },{
+      "t0":{"head":[7,1],"width":12,"height":6,"board":[
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v]
+      ]},
+      "tf":{"head":[7,1],"width":12,"height":6,"board":[
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],
+        [v,v,v,v,v,v],[v,v,v,n,v,v],[v,v,n,n,v,v],[v,n,n,n,v,v],[v,v,n,n,v,v],[v,v,v,n,v,v]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej7c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej7c",
+    "nombre":"7. Las pirámides de Gobstones (c)",
+    "enunciado":e2_7("Una pirámide estirada a lo alto (con dos segmentos de cada uno)."),
+    "pre":"procedure DibujarBase() {\n  repeat(4){Poner(Negro) Mover(Este)}\n  Poner(Negro)\n  repeat(4){Mover(Oeste)}\n}\nprocedure DibujarMedio() {\n  repeat(2){Poner(Negro) Mover(Este)}\n  Poner(Negro)\n  repeat(2){Mover(Oeste)}\n}\nprocedure DibujarPunta() {Poner(Negro)}",
+    "pidePrograma": True,
+    "run_data":[{
+      "t0":{"head":[1,0],"width":12,"height":6,"board":[
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v]
+      ]},
+      "tf":{"head":[1,0],"width":12,"height":6,"board":[
+        [v,v,v,v,v,v],[n,n,v,v,v,v],[n,n,n,n,v,v],[n,n,n,n,n,n],[n,n,n,n,v,v],[n,n,v,v,v,v],
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej7d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej7d",
+    "nombre":"7. Las pirámides de Gobstones (d)",
+    "enunciado":e2_7("Una pirámide gigante (con 11 bloques de base y 6 bloques de altura, donde cada segmento es dos celdas más chico que el que tiene debajo). Para esto deben reutilizarse los procedimientos implementados en los puntos a. y b.<br>"+ayuda("PISTA")+": una pirámide gigante se puede conseguir con 4 pirámides comunes, si se las ubica con cuidado."),
+    "pre":"procedure DibujarBase() {\n  repeat(4){Poner(Negro) Mover(Este)}\n  Poner(Negro)\n  repeat(4){Mover(Oeste)}\n}\nprocedure DibujarMedio() {\n  repeat(2){Poner(Negro) Mover(Este)}\n  Poner(Negro)\n  repeat(2){Mover(Oeste)}\n}\nprocedure DibujarPunta() {Poner(Negro)}",
+    "pidePrograma": True,
+    "run_data":[{
+      "t0":{"head":[1,0],"width":12,"height":6,"board":[
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v]
+      ]},
+      "tf":{"head":[1,0],"width":12,"height":6,"board":[
+        [v,v,v,v,v,v],[n,v,v,v,v,v],[n,n,v,v,v,v],[n,n,n,v,v,v],[n,n,n,n,v,v],[n,n,n,n,n,v],
+        [n,n,n,n,n,n],[n,n,n,n,n,v],[n,n,n,n,v,v],[n,n,n,v,v,v],[n,n,v,v,v,v],[n,v,v,v,v,v]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def e2_8(e):
+  return "En este ejercicio, se usará el tablero para <b><em>representar un bosque</em></b>. Cada celda representa a una <b><em>parcela</em></b>. Cada <b><em>bolita verde representa un árbol</em></b>. Cada <b><em>bolita roja representa una semilla</em></b>. Una <b><em>bolita negra representa una bomba</em></b>. Una <b><em>bolita azul representa una unidad de nutrientes</em></b>.<br>Escribir el siguiente procedimiento de representación, que hace lo que su nombre indica. Trabaja sobre la celda actual."+código(e+"()")
+
+def guia2_ej8a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej8a",
+    "nombre":"8. El bosque, parte 1 (a)",
+    "enunciado":e2_8("PonerUnaSemilla"),
+    "pre":"program {PonerUnaSemilla()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[rs(3)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[rs(4)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej8b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej8b",
+    "nombre":"8. El bosque, parte 1 (b)",
+    "enunciado":e2_8("PonerUnÁrbol"),
+    "pre":"program {PonerUnÁrbol()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[g]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[gs(3)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[gs(4)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej8c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej8c",
+    "nombre":"8. El bosque, parte 1 (c)",
+    "enunciado":e2_8("PonerUnaBomba"),
+    "pre":"program {PonerUnaBomba()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[n]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[ns(3)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[ns(4)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej8d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej8d",
+    "nombre":"8. El bosque, parte 1 (d)",
+    "enunciado":e2_8("PonerUnNutriente"),
+    "pre":"program {PonerUnNutriente()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[a]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[a_s(3)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[a_s(4)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej8e(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej8e",
+    "nombre":"8. El bosque, parte 1 (e)",
+    "enunciado":e2_8("SacarUnaSemilla"),
+    "pre":"program {SacarUnaSemilla()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[r]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[rs(3)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[rs(2)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej8f(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej8f",
+    "nombre":"8. El bosque, parte 1 (f)",
+    "enunciado":e2_8("SacarUnÁrbol"),
+    "pre":"program {SacarUnÁrbol()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[g]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[gs(3)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[gs(2)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej8g(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej8g",
+    "nombre":"8. El bosque, parte 1 (g)",
+    "enunciado":e2_8("SacarUnaBomba"),
+    "pre":"program {SacarUnaBomba()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[n]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[ns(3)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[ns(2)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej8h(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej8h",
+    "nombre":"8. El bosque, parte 1 (h)",
+    "enunciado":e2_8("SacarUnNutriente"),
+    "pre":"program {SacarUnNutriente()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[a]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[a_s(3)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[a_s(2)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia2_ej9(fecha):
+  T = rs(3) # Número 3
+  S = rs(6) # Número 6
+  N = rs(9) # Número 9
+  D = rs(12) # Número 12
+  return {
+    "tipo":"CODIGO",
+    "id":"guia2_ej9",
+    "nombre":"9. Reloj Analógico",
+    "enunciado":["Dibujar un reloj analógico de agujas en un tablero cuadriculado puede ser un desafío. Una simplificación posible sería representar solamente algunos de los números que aparecen en el mismo: el 12 arriba, el 3 a la derecha, el 9 a la izquierda y el 6 abajo.<br>Construir un procedimiento <code>DibujarRelojAnalógicoSimplificado()</code>, que ponga los números del reloj tal como se indicó, alrededor del casillero actual. El tamaño del reloj será de 2 celdas de \"radio\" (suponiendo que miramos al reloj como un círculo).<br>Utilizar el comando <code>DibujarRelojAnalógicoSimplificado()</code> en un tablero inicial vacío de 5",{"tex":"\\times"},"5 con la celda inicial en el centro del mismo, es el siguiente: (ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39015/mod_resource/content/22/P2.%20Procedimientos%20y%20Estrategias%20de%20Solucio%CC%81n.pdf' target='_blank'>la guía</a>).<br>"+resaltado("¡Recordar!")+" Escribir el contrato en primer lugar, y en caso de utilizar división en subtareas, en seguir la metodología <em>top-down</em> para las mismas (primero su nombre y su contrato, usarlas, y recién luego definirlas con la misma metodología)."],
+    "pre":"program {DibujarRelojAnalógicoSimplificado()}",
+    "run_data":[{
+      "t0":{"head":[2,2],"width":5,"height":5,"board":[
+        [v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v],[v,v,v,v,v]
+      ]},
+      "tf":{"head":[2,2],"width":5,"height":5,"board":[
+        [v,v,N,v,v],[v,v,v,v,v],[S,v,v,v,D],[v,v,v,v,v],[v,v,T,v,v]
+      ]}
     }],
     "disponible":{"desde":fecha}
   }
@@ -572,7 +980,27 @@ def guia2(fechaInicio):
       linkGuía(2, 39015, "22/P2.%20Procedimientos%20y%20Estrategias%20de%20Solucio%CC%81n.pdf"),
       guia2_ej2a(fechaInicio),
       guia2_ej2b(fechaInicio),
-      guia2_ej2c(fechaInicio)
+      guia2_ej2c(fechaInicio),
+      guia2_ej3a(fechaInicio),
+      guia2_ej3b(fechaInicio),
+      guia2_ej3c(fechaInicio),
+      guia2_ej3d(fechaInicio),
+      guia2_ej4(fechaInicio),
+      guia2_ej5(fechaInicio),
+      guia2_ej6(fechaInicio),
+      guia2_ej7a(fechaInicio),
+      guia2_ej7b(fechaInicio),
+      guia2_ej7c(fechaInicio),
+      guia2_ej7d(fechaInicio),
+      guia2_ej8a(fechaInicio),
+      guia2_ej8b(fechaInicio),
+      guia2_ej8c(fechaInicio),
+      guia2_ej8d(fechaInicio),
+      guia2_ej8e(fechaInicio),
+      guia2_ej8f(fechaInicio),
+      guia2_ej8g(fechaInicio),
+      guia2_ej8h(fechaInicio),
+      guia2_ej9(fechaInicio)
     ]
   }
 
