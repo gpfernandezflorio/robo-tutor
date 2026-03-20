@@ -72,15 +72,24 @@ def buscarNodoDeNombreEnAST(analizador, AST, nombre):
   return None
 
 def buscarNodoImportEnAST(analizador, AST):
-  for nodo in analizador.nodosDeTipo(AST, ast.Import) + analizador.nodosDeTipo(AST, ast.ImportFrom):
-    return "No está permitido importar módulos"
-  return None
+  return "No está permitido importar módulos" if (
+    analizador.hayNodoDeTipo(AST, ast.Import) or
+    analizador.hayNodoDeTipo(AST, ast.ImportFrom)
+  ) else None
+
+def buscarNodoImportEnAST(analizador, AST):
+  return "No está permitido generar excepciones" if (
+    analizador.hayNodoDeTipo(AST, ast.Raise)
+  ) else None
 
 reglasCódigoMalicioso = {
   "EXIT":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "exit"),
   "PRINT":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "print"),
   "OPEN":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "open"),
-  "IMPORT":lambda analizador, AST : buscarNodoImportEnAST(analizador, AST)
+  "EXEC":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "exec"),
+  "IMPORT":lambda analizador, AST : buscarNodoImportEnAST(analizador, AST),
+  "IMPORT_CALL":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "__import__"),
+  "RAISE":lambda analizador, AST : buscarNodoRaiseEnAST(analizador, AST)
 }
 
 class AnalizadorPython(Analizador):

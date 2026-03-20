@@ -89,7 +89,12 @@ def guia3(fechaInicio):
       guia3_ej4h(fechaInicio),
       guia3_ej4ii(fechaInicio),
       guia3_ej4iii(fechaInicio),
-      guia3_ej4iiii(fechaInicio)
+      guia3_ej4iiii(fechaInicio),
+      guia3_ej5(fechaInicio),
+      guia3_ej6(fechaInicio),
+      guia3_ej7a(fechaInicio),
+      guia3_ej7b(fechaInicio),
+      guia3_ej8(fechaInicio)
     ]
   }
 
@@ -673,6 +678,142 @@ def guia3_ej4iiii(fechaInicio):
     "visible":{"desde":fechaInicio}
   }
 
+def guia3_ej5(fechaInicio):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia3_ej5",
+    "nombre":"Guía 3 - Ejercicio 5",
+    "lenguaje":"Haskell",
+    "enunciado":["Implementar la función <code>todosMenores :: (Integer, Integer, Integer) -> Bool</code>"]+spec(
+      "todosMenores", [("t",{"tex":"\\mathbb{Z}\\times\\mathbb{Z}\\times\\mathbb{Z}"})], "Bool",
+      ["True"],
+      [{"tex":"(res = true) \\leftrightarrow ((f(t_0) > g(t_0)) \\land (f(t_1) > g(t_1)) \\land (f(t_2) > g(t_2)))"}]
+    )+spec(
+      "f", [("n",Z())], Z(),
+      ["True"],
+      [{"tex":"(n \\leq 7 \\rightarrow res = n^2) \\land (n > 7 \\rightarrow res = 2n-1)"}]
+    )+spec(
+      "g", [("n",Z())], Z(),
+      ["True"],
+      [["Si ",{"tex":"n"}," es un número par entonces ",{"tex":"res = n/2"},", en caso contrario, ",{"tex":"res = 3n+1"}]]
+    ),
+    "aridad":{"todosMenores":tFunc(tPar3(tInt(),tInt(),tInt()),tBool())},
+    "run_data":[{
+      "assert":"not (todosMenores (2,3,1))" # 4,9,1 ; 1,10,4
+    },{
+      "assert":"todosMenores (4,6,2)" # 16,36,4 ; 2,3,1
+    }],
+    "visible":{"desde":fechaInicio}
+  }
+
+def guia3_ej6(fechaInicio):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia3_ej6",
+    "nombre":"Guía 3 - Ejercicio 6",
+    "lenguaje":"Haskell",
+    "enunciado":["Usando los siguientes tipos:<br>&nbsp;<code>type Anio = Integer</code><br>&nbsp;<code>type EsBisiesto = Bool</code><br><br>Programar la función <code>bisiesto :: Anio -> EsBisiesto</code> según la siguiente especificación:"]+spec(
+      "bisiesto", [("año",Z())], "Bool",
+      ["True"],
+      [[{"tex":"(res = false) \\leftrightarrow "},"(año no es múltiplo de 4, o bien, año es múltiplo de 100 pero no de 400)"]]
+    )+["<br><em>Por ejemplo:</em><br><code>bisiesto 1901</code> ",{"tex":"\\leadsto"}," <code>False</code><br><code>bisiesto 1904</code> ",{"tex":"\\leadsto"}," <code>True</code><code>bisiesto 1900</code> ",{"tex":"\\leadsto"}," <code>False</code><code>bisiesto 2000</code> ",{"tex":"\\leadsto"}," <code>True</code>"],
+    # "aridad":{"bisiesto":tFunc("Anio","EsBisiesto")},
+    "aridad":{"bisiesto":tFunc(tInt(),tBool())},
+    "base":"type Anio = Integer\ntype EsBisiesto = Bool\n\n",
+    "run_data":[{
+      "assert":"not (bisiesto 1901)"
+    },{
+      "assert":"bisiesto 1904"
+    },{
+      "assert":"not (bisiesto 1900)"
+    },{
+      "assert":"bisiesto 2000"
+    }],
+    "visible":{"desde":fechaInicio}
+  }
+
+def guia3_ej7a(fechaInicio):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia3_ej7a",
+    "nombre":"Guía 3 - Ejercicio 7 (a)",
+    "lenguaje":"Haskell",
+    "enunciado":["Implementar la función:<br><code>distanciaManhattan:: (Float, Float, Float) -> (Float, Float, Float) -> Float</code>"]+spec(
+      "distanciaManhattan", [
+        ("p",{"tex":"\\mathbb{R}\\times\\mathbb{R}\\times\\mathbb{R}"}),
+        ("q",{"tex":"\\mathbb{R}\\times\\mathbb{R}\\times\\mathbb{R}"})
+      ], R(),
+      ["True"],
+      [{"tex":"res = \\sum_{i=0}^{2} |p_i - q_i|"}]
+    )+["<br><em>Por ejemplo:</em><br><code>distanciaManhattan (2, 3, 4) (7, 3, 8)</code> ",{"tex":"\\leadsto"}," <code>9</code><br><code>distanciaManhattan ((-1), 0, (-8.5)) (3.3, 4, (-4))</code> ",{"tex":"\\leadsto"}," <code>12.8</code>"],
+    "aridad":{"distanciaManhattan":tFunc(
+      tPar3(tFloat(),tFloat(),tFloat()),
+      tFunc(tPar3(tFloat(),tFloat(),tFloat()),tFloat())
+    )},
+    "pre":"eqFloats :: Float -> Float -> Bool\neqFloats x y = abs (x-y) < 0.01",
+    "run_data":[{
+      "assert":"eqFloats (distanciaManhattan (2, 3, 4) (7, 3, 8)) 9"
+    },{
+      "assert":"eqFloats (distanciaManhattan ((-1), 0, (-8.5)) (3.3, 4, (-4))) 12.8"
+    }],
+    "visible":{"desde":fechaInicio}
+  }
+
+def guia3_ej7b(fechaInicio):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia3_ej7b",
+    "nombre":"Guía 3 - Ejercicio 7 (b)",
+    "lenguaje":"Haskell",
+    "enunciado":"Reimplementar la función teniendo en cuenta el siguiente tipo: <code>type Punto3D = (Float, Float, Float)</code>",
+    # "aridad":{"distanciaManhattan":tFunc(
+    #   "Punto3D",
+    #   tFunc("Punto3D",tFloat)
+    # )},
+    "aridad":{"distanciaManhattan":tFunc(
+      tPar3(tFloat(),tFloat(),tFloat()),
+      tFunc(tPar3(tFloat(),tFloat(),tFloat()),tFloat())
+    )},
+    "pre":"eqFloats :: Float -> Float -> Bool\neqFloats x y = abs (x-y) < 0.01",
+    "base":"type Punto3D = (Float, Float, Float)\n\n",
+    "run_data":[{
+      "assert":"eqFloats (distanciaManhattan (2, 3, 4) (7, 3, 8)) 9"
+    },{
+      "assert":"eqFloats (distanciaManhattan ((-1), 0, (-8.5)) (3.3, 4, (-4))) 12.8"
+    }],
+    "visible":{"desde":fechaInicio}
+  }
+
+def guia3_ej8(fechaInicio):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia3_ej8",
+    "nombre":"Guía 3 - Ejercicio 8",
+    "lenguaje":"Haskell",
+    "enunciado":["Implementar la función <code>comparar :: Integer -> Integer -> Integer</code>"]+spec(
+      "comparar", [("a",Z()),("b",Z())], Z(),
+      ["True"], [
+        {"tex":"(res = 1) \\leftrightarrow (sumaUltimosDosDigitos(a) < sumaUltimosDosDigitos(b))"},
+        {"tex":"(res = -1) \\leftrightarrow (sumaUltimosDosDigitos(a) > sumaUltimosDosDigitos(b))"},
+        {"tex":"(res = 0) \\leftrightarrow (sumaUltimosDosDigitos(a) = sumaUltimosDosDigitos(b))"}
+      ]
+    )+spec(
+      "sumaUltimosDosDigitos", [("x",Z())], Z(),
+      ["True"], [
+        [{"tex":"res = (|x| "},"mód",{"tex":" 10) + (\\lfloor \\frac{|x|}{10} \\rfloor "},"mód",{"tex":" 10)"}]
+      ]
+    )+["<br><em>Por ejemplo:</em><br><code>comparar 45 312</code> ",{"tex":"\\leadsto"}," <code>-1</code> porque 45 ",{"tex":"\\prec"}," 312 y 4 + 5 > 1 + 2.<br><code>comparar 2312 7</code> ",{"tex":"\\leadsto"}," <code>1</code> porque 2312 ",{"tex":"\\prec"}," 7 y 1 + 2 > 0 + 7.<br><code>comparar 45 172</code> ",{"tex":"\\leadsto"}," <code>0</code> porque no vale 45 ",{"tex":"\\prec"}," 172 ni tampoco 172 ",{"tex":"\\prec"}," 45."],
+    "aridad":{"comparar":tFunc(tInt(),tFunc(tInt(),tInt()))},
+    "run_data":[{
+      "assert":"(comparar 45 312) == -1"
+    },{
+      "assert":"(comparar 2312 7) == 1"
+    },{
+      "assert":"(comparar 45 172) == 0"
+    }],
+    "visible":{"desde":fechaInicio}
+  }
+
 CURSOS = {
   "dc_ip_2026_1c":{
     "nombre":"Introducción a la Programación - DC (2026 - 1c)",
@@ -691,18 +832,18 @@ CURSOS = {
     #   {"key":"NEST_CMD","max":1}
     # ],
     "actividades":[
-      linkEncuestaInicial_2026_1C,
-      guia3("24/2/2025-8:30")
-    ]#,
-    # "planilla":{
-    #   "url":"1FAIpQLSeJRA1urVZ81AhWS73Z66G0p_hAujXLR6hirdc3cVq3LuKAtw",
-    #   "campos":{
-    #     "usuario":"9867257",
-    #     "actividad":"1165966175",
-    #     "respuesta":"1778184894",
-    #     "resultado":"1496208069",
-    #     "duracion":"1460244707"
-    #   }
-    # }
+      # linkEncuestaInicial_2026_1C,
+      guia3("30/3/2026-8:00")
+    ],
+    "planilla":{
+      "url":"1FAIpQLSdgcbGNTcG5ZoZRntXhfszHTvZ8wfEDlcdzZ6PWjnunthLpfQ",
+      "campos":{
+        "usuario":"9867257",
+        "actividad":"1165966175",
+        "respuesta":"1778184894",
+        "resultado":"1496208069",
+        "duracion":"1460244707"
+      }
+    }
   }
 }
