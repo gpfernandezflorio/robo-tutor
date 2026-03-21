@@ -182,37 +182,61 @@ def run_gobstones(jsonObj, v):
   run_data = jsonObj["ejercicio"]["run_data"] if "run_data" in jsonObj["ejercicio"] else {}
   if (type(run_data) != type([])):
     run_data = [run_data]
-  code = jsonObj["src"]
+  code = {
+    "pre":"",
+    "src":jsonObj["src"]
+  }
   if (v):
-    print(code)
-  timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
+    print(code["src"])
+  codeParaAnálisis = "" + code["src"]
   lineasAdicionales = 0
-  if "pre" in jsonObj["ejercicio"]:
-    code = jsonObj["ejercicio"]["pre"] + "\n\n" + code
-    lineasAdicionales = lineasAdicionales + jsonObj["ejercicio"]["pre"].count("\n") + 2
+  if not (("pidePrograma" in jsonObj["ejercicio"]) and jsonObj["ejercicio"]["pidePrograma"]):
+    codeParaAnálisis = "program{}\n"
+    lineasAdicionales = 1
   ## Código
   f = open('src.txt', 'w')
-  f.write(code)
+  f.write(codeParaAnálisis)
   f.close()
-  resultadoAnalisisCodigo = analizarGobstones(code, jsonObj["analisisCodigo"])
+  resultadoAnalisisCodigo = analizarGobstones(code["src"], jsonObj["analisisCodigo"])
   if not(resultadoAnalisisCodigo is None):
     if resultadoAnalisisCodigo["resultado"] == "Except":
       return {"resultado":"Except", "error":buscar_falla_gobstones(resultadoAnalisisCodigo["error"], lineasAdicionales)}
     return resultadoAnalisisCodigo
+  timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
+  lineasAdicionales = 0
+  if "pre" in jsonObj["ejercicio"]:
+    code["pre"] = jsonObj["ejercicio"]["pre"] + "\n" + code["pre"]
+    lineasAdicionales = lineasAdicionales + jsonObj["ejercicio"]["pre"].count("\n") + 1
   ## Ejecuciones
   duraciones = []
   for run in run_data:
+    code_run = {
+      "pre":code["pre"],
+      "post":"\n"
+    }
     lineasAdicionales_run = lineasAdicionales
+    ## Inicialización
+    if "pre" in run:
+      code_run["pre"] = code_run["pre"] + "\n\n" + run["pre"]
+      lineasAdicionales_run = lineasAdicionales_run + run["pre"].count("\n") + 2
     ## Tablero inicial
     tablero = run["t0"] if "t0" in run else tablero_default()
     f = open('board.jboard', 'w')
     f.write(json.dumps(tablero))
+    f.close()
+    ## Ejecución del código entregado
+    code_run["pre"] += "\n\n"
+    lineasAdicionales_run = lineasAdicionales_run + 2
+    f = open('src.txt', 'w')
+    f.write(code_run["pre"] + code["src"] + code_run["post"])
     f.close()
     resultadoEjecucion = ejecutarConTimeout("node gobstones-lang/dist/gobstones-lang run -l es -i src.txt -b", timeout)
     if resultadoEjecucion["resultado"] == "TIMEOUT":
       return {"resultado":"Except", "error":"La ejecución demoró más de lo permitido"}
     duraciones.append(resultadoEjecucion["duracion"])
     if len(resultadoEjecucion["falla"]) > 0:
+      if (v):
+        print(resultadoEjecucion["falla"])
       return {"resultado":"Except", "error":buscar_falla_gobstones(resultadoEjecucion["falla"], lineasAdicionales_run)}
     try:
       salida = json.loads(resultadoEjecucion["salida"])
