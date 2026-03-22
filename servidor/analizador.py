@@ -93,7 +93,7 @@ reglasCódigoMalicioso = {
 }
 
 class AnalizadorPython(Analizador):
-  def __init__(self, malicioso=["EXIT","PRINT","OPEN","IMPORT"]):
+  def __init__(self, malicioso=reglasCódigoMalicioso.keys()):
     self.reglasCódigoMalicioso = malicioso
   def obtenerAst(self, codigo):
     return astPython(codigo)
@@ -166,6 +166,9 @@ def analizarHaskell(codigo, reglas):
   return analizar(analizadorHaskell, codigo, reglas)
 
 def astGobstones(codigo):
+  f = open('src.txt', 'w')
+  f.write(codigo)
+  f.close()
   errcode, salida, falla = ejecutar("node gobstones-lang/dist/gobstones-lang parse -l es -i src.txt")
   if len(falla) > 0:
     return {"error":falla}
