@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
 # Documentación de la clase ast de Python: https://docs.python.org/es/3.12/library/ast.html
+
 # Definición de la clase ASTNode de Gobstones: https://github.com/gobstones/gobstones-parser/blob/main/src/parser/ast.ts
+
+# Documentación del parser de Haskell https://hackage.haskell.org/package/haskell-src-exts-1.23.1/docs/Language-Haskell-Exts-Syntax.html
 
 import json
 import ast
@@ -83,23 +86,28 @@ def buscarNodoImportEnAST(analizador, AST):
   ) else None
 
 reglasCódigoMalicioso = {
-  "EXIT":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "exit"),
-  "PRINT":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "print"),
-  "OPEN":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "open"),
-  "EXEC":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "exec"),
-  "IMPORT":lambda analizador, AST : buscarNodoImportEnAST(analizador, AST),
-  "IMPORT_CALL":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "__import__"),
-  "RAISE":lambda analizador, AST : buscarNodoRaiseEnAST(analizador, AST)
+  "PYTHON":{
+    "EXIT":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "exit"),
+    "PRINT":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "print"),
+    "OPEN":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "open"),
+    "EXEC":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "exec"),
+    "IMPORT":lambda analizador, AST : buscarNodoImportEnAST(analizador, AST),
+    "IMPORT_CALL":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "__import__"),
+    "RAISE":lambda analizador, AST : buscarNodoRaiseEnAST(analizador, AST)
+  },
+  "HASKELL":{
+    # TODO
+  }
 }
 
 class AnalizadorPython(Analizador):
-  def __init__(self, malicioso=reglasCódigoMalicioso.keys()):
+  def __init__(self, malicioso=reglasCódigoMalicioso["PYTHON"].keys()):
     self.reglasCódigoMalicioso = malicioso
   def obtenerAst(self, codigo):
     return astPython(codigo)
   def verificarCodigoMalicioso(self, AST, codigo):
     for regla in self.reglasCódigoMalicioso:
-      resultado = reglasCódigoMalicioso[regla](self, AST)
+      resultado = reglasCódigoMalicioso["PYTHON"][regla](self, AST)
       if not (resultado is None):
         return resultado
     return None
@@ -142,12 +150,33 @@ class AnalizadorGobstones(Analizador):
   def hayRepeticiónSimple(self, AST):
     return self.hayNodoDeTipo(AST, "N_StmtRepeat")
 
+class AnalizadorHaskell(Analizador):
+  def __init__(self, malicioso=reglasCódigoMalicioso["HASKELL"].keys()):
+    self.reglasCódigoMalicioso = malicioso
+  def obtenerAst(self, codigo):
+    return astHaskell(codigo)
+  def verificarCodigoMalicioso(self, AST, codigo):
+    for regla in self.reglasCódigoMalicioso:
+      resultado = reglasCódigoMalicioso["HASKELL"][regla](self, AST)
+      if not (resultado is None):
+        return resultado
+    return None
+  # def hijosDeNodo(self, nodo):
+  #   if not isinstance(nodo, ast.AST):
+  #     breakpoint()
+  #   return HIJOS[type(nodo).__name__](nodo)
+  # def esNodoDeTipo(self, nodo, tipo):
+  #   return isinstance(nodo, tipo)
+  def esUnComandoCompuesto(self, nodo):
+    return False # No hay comandos compuestos en Haskell
+  def hayRepeticiónSimple(self, AST):
+    return False # No hay repetición simple en Haskell
+
 analizadorPython = AnalizadorPython()
 
 analizadorGobstones = AnalizadorGobstones()
 
-# TODO:
-# analizadorHaskell = AnalizadorHaskell()
+analizadorHaskell = AnalizadorHaskell()
 
 def analizar(analizador, codigo, reglas):
   AST = analizador.obtenerAst(codigo)
@@ -181,6 +210,28 @@ def astPython(codigo):
     return {"ast":AST} # TODO
   except Exception as e:
     return {"error":str(e).replace("<unknown>, ","").replace("line","línea")}
+
+def astHaskell(codigo):
+  f = open('src.hs', 'w')
+  f.write("{-# LANGUAGE TemplateHaskell #-}\n{-# LANGUAGE DataKinds #-}\n\n" + codigo)
+  f.close()
+  errcode, salida, falla = ejecutar("echo 'main' | ghci -v0 parser.hs")
+  if len(falla) > 0:
+    # No debería pasar. Si el parser falla devuelve ParseFailed por stdout.
+    pass
+
+  f = open('salida.txt', 'w')
+  f.write(salida)
+  f.close()
+  f = open('falla.txt', 'w')
+  f.write(falla)
+  f.close()
+  # print(errcode)
+
+  haskellParser.parse(salida)
+  if haskellParser.falló():
+    return {"error":haskellParser.errorMsg() + "\n\n" + haskellParser.ubicaciónATexto(haskellParser.errorLoc())}
+  return {"ast":haskellParser.ast()}
 
 HIJOS = {
   "AST": lambda self : []
@@ -450,3 +501,102 @@ def hijosComprehension(comprehension): # es una lista
 
 def hijosMatchCase(cases): # es una lista
   return aplanar(mapear(lambda x : ([x.pattern] + x.body + singularSiEsta(x.guard)), cases))
+
+class HaskellParser(object):
+  def parse(self, salida):
+    self.resultado = "OK"
+    self.mensajeError = ""
+    self.ubicaciónDelError = ""
+    self.raíz = None
+    self.salidaCompleta = salida
+    self.salida = salida
+    if self.salida.startswith("ParseFailed"):
+      self.resultado = "FAIL"
+      self.AvanzarSalida(len("ParseFailed"))
+      self.ubicaciónDelError = self.parsearUbicación()
+      self.mensajeError = self.parsearString()
+      return
+    if self.salida.startswith("ParseOk"):
+      self.AvanzarSalida(len("ParseOk"))
+      self.raíz = self.parsearNodo()
+      return
+    self.errorDesconocido("La salida no empieza con (ParseOk) ni con (ParseFailed)")
+  def ubicaciónATexto(self, ubicación):
+    return "Línea " + str(ubicación["línea"] - 3) + ", columna " + str(ubicación["columna"])
+  def errorDesconocido(self, mensaje):
+    print(mensaje)
+    f = open('hsParseErr.txt', 'w')
+    f.write(mensaje + "\n\n" + self.salida + "\n\n" + self.salidaCompleta)
+    f.close()
+  def ast(self):
+    return self.raíz
+  def falló(self):
+    return self.resultado == "FAIL"
+  def errorMsg(self):
+    return self.mensajeError
+  def errorLoc(self):
+    return self.ubicaciónDelError
+  def AvanzarSalida(self, i):
+    # print("AV")
+    # print(self.salida)
+    # print(i)
+    self.salida = self.salida[i +
+      (1 if i < len(self.salida) and self.salida[i] == " " else 0)
+    :]
+  def parsearUbicación(self):
+    if self.salida.startswith('(SrcLoc'):
+      self.AvanzarSalida(len('(SrcLoc'))
+      self.parsearString()
+      línea = self.parsearNúmero()
+      columna = self.parsearNúmero()
+      if (self.salida.startswith(')')):
+        self.AvanzarSalida(1)
+      else:
+        self.errorDesconocido("La ubicación no termina con ')'")
+      return {"línea":línea, "columna":columna}
+    self.errorDesconocido("La ubicación no empieza con (SrcLoc")
+  def parsearString(self):
+    if self.salida.startswith('"'):
+      i = posCaracterNoEscapeado(self.salida, '"', '\\"', 1)
+    elif self.salida.startswith("'"):
+      i = posCaracterNoEscapeado(self.salida, "'", "\\'", 1)
+    else:
+      self.errorDesconocido("El string no empieza con \" ni con '")
+    contenido = self.salida[1:i]
+    self.AvanzarSalida(i+1)
+    return contenido
+  def parsearNúmero(self):
+    i = 0
+    while i < len(self.salida) and esCharNumérico(self.salida[i]):
+      i += 1
+    # print("N")
+    # print(self.salida)
+    # print(i)
+    n = int(self.salida[:i])
+    self.AvanzarSalida(i)
+    return n
+  def parsearNodo(self):
+    if self.salida.startswith('(Module'):
+      self.AvanzarSalida(len('(Module'))
+      ubicación = self.parsearUbicación()
+      #...
+      return {
+        "tipo":"Módulo",
+        "en":ubicación
+      }
+    self.errorDesconocido("Nodo desconocido")
+
+haskellParser = HaskellParser()
+
+def posCaracterNoEscapeado(texto, caracter, secuenciaEscape, desde=0):
+  i = desde
+  iCaracter = texto.find(caracter, i)
+  iEscape = texto.find(secuenciaEscape, i)
+  while iEscape >= 0 and iEscape <= iCaracter and iEscape + len(secuenciaEscape) < len(texto):
+    i = iEscape + len(secuenciaEscape)
+    iCaracter = texto.find(caracter, i)
+    iEscape = texto.find(secuenciaEscape, i)
+  return iCaracter
+
+def esCharNumérico(c):
+  return c in "1234567890-."

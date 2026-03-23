@@ -8,7 +8,7 @@ class CorrectorHaskell(Corrector):
     self.globalPre = "import System.Exit\n\n"
 
   def Analizar(self, jsonObj):
-    return None # TODO: analizarHaskell(jsonObj["src"], jsonObj["analisisCodigo"])
+    return analizarHaskell(jsonObj["src"], jsonObj["analisisCodigo"])
 
   def InicializarRun(self, run):
     self.tmpAridad = ""
