@@ -10,7 +10,7 @@ class Corrector(object):
   def AdaptarResultado(self, resultadoEjecucion, code, code_run, aridad):
     pass
 
-  def validaciónFinal(self, run, resultadoEjecucion):
+  def validaciónFinal(self, run, resultadoEjecucion, v):
     if resultadoEjecucion["errcode"] != 0:
       return {"resultado":"NO"}
     return None
@@ -42,7 +42,7 @@ class Corrector(object):
       self.InicializarRun(run)
       code_run = {
         "pre":code["pre"],
-        "post":"\n"
+        "post":"\n",
         "lineasAdicionales":lineasAdicionales
       }
       ## Inicialización
@@ -84,7 +84,7 @@ class Corrector(object):
         if not (fallaReal is None):
           return {"resultado":"Except", "error":fallaReal}
       ## Validación final
-      validaciónFinal = self.validaciónFinal(run, resultadoEjecucion)
+      validaciónFinal = self.validaciónFinal(run, resultadoEjecucion, v)
       if not (validaciónFinal is None):
         return validaciónFinal
     return {"resultado":"OK","duracion":sum(duraciones)/len(duraciones)}

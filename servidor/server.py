@@ -11,7 +11,7 @@ except:
 
 import socket
 from servidor import mensajesServidor
-from utils import failCallback
+from utils import failCallback, EjecutarLocal
 
 ## SERVER_LIBRARY
 from server_httpServer import Servidor # HTTPServer
@@ -57,6 +57,16 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Server')
     parser.add_argument('-v', dest="v", default=False, type=bool, help='Modo verborrágico.')
     parser.add_argument('-p', dest="PORT", default=8000, type=int, help='Puerto')
+    parser.add_argument('-l', dest="LOCAL", default=False, type=bool, help='Ejecución local')
     args = parser.parse_args()
     PORT = (int(os.environ['PORT']) if 'PORT' in os.environ else args.PORT)
+    if args.LOCAL:
+      print("\n\n || LOCAL ||\n\n")
+      print("ATENCIÓN: estás ejecutando el servidor en [[MODO LOCAL]] (pensado principalmente para hacer pruebas).")
+      print("Para correrlo en modo real, volvé a ejecutarlo sin el flag '-l'.\n")
+      EjecutarLocal()
+    else:
+      print("\n\n || REAL ||\n\n")
+      print("ATENCIÓN: estás ejecutando el servidor en [[MODO REAL]] (el que debería estar corriendo en el servidor real).")
+      print("Si querés hacer pruebas, volvé a ejecutarlo con el flag '-l'.\n")
     launch_server(mi_ip(), PORT, args.v)

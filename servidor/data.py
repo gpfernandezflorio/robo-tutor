@@ -4,10 +4,11 @@ import io, os, json
 import datetime
 import requests
 from users import loginValido, cargarUsuariosEnCurso, usuarioEnCurso, cursosUsuario, rolesEnCurso
-from corrector import run_code, timeoutDefault
+from corrector import run_code
+from correctorBase import timeoutDefault
 from cursos.cursos import cargarCuestionarioMoodle, organizarPreguntasYRespuestas
 from fechas import fueraDeFecha
-from utils import texto_excepcion, mostrar_excepcion, failCallback
+from utils import texto_excepcion, mostrar_excepcion, failCallback, ejecutandoLocal
 
 # CURSOS:
 from cursos.unq_inpr import CURSOS as cursos_unq_inpr
@@ -432,6 +433,8 @@ def limpiar_csv(s):
   return '"' + s + '"' if ("," in s) or ("\n" in s) else s
 
 def planillaDeCurso(curso):
+  if ejecutandoLocal():
+    return None # Si estoy corriendo el servidor local probablemente esté haciendo pruebas
   if curso in CURSOS:
     curso = CURSOS[curso]
     if 'planilla' in curso:

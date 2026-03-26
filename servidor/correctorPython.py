@@ -3,6 +3,7 @@ from analizador import analizarPython
 
 class CorrectorPython(Corrector):
   def __init__(self):
+    super().__init__()
     self.ruta = "src.py"
     self.comando = "python3 src.py"
 

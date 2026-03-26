@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import json
 from analizador import EvitarCódigoMalicioso
-from CorrectorPython import correctorPython
-from CorrectorGobstones import correctorGobstones
-from CorrectorHaskell import correctorHaskell
+from correctorPython import correctorPython
+from correctorGobstones import correctorGobstones
+from correctorHaskell import correctorHaskell
 
 EvitarCódigoMalicioso()
 

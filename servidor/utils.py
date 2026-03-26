@@ -37,6 +37,8 @@ def mostrar_excepcion(e):
 carpetaFallos = "FAIL"
 
 def failCallback(dataFile,FILENAME="r"):
+  if ejecutandoLocal():
+    return # Si estoy corriendo el servidor local probablemente esté haciendo pruebas
   if FILENAME in ["_loadJson","_readData"]:
     return # No vale la pena registrarlos
   if not os.path.isdir(carpetaFallos):
@@ -51,3 +53,13 @@ def failCallback(dataFile,FILENAME="r"):
   dataForm = {}
   dataForm["entry." + CAMPO_FORM_AVISOS] = "[RT] bug " + str(i) + ((": " + dataFile["e"]) if ("e" in dataFile) else ".") + (("\n\nReportado por: " + dataFile["json"]["usuario"]) if (("json" in dataFile) and ("usuario" in dataFile["json"])) else "")
   requests.post("https://docs.google.com/forms/d/e/" + URL_FORM_AVISOS + "/formResponse", data = dataForm)
+
+DATOS_SERVIDOR = {
+  "LOCAL":False
+}
+
+def EjecutarLocal():
+  DATOS_SERVIDOR["LOCAL"] = True
+
+def ejecutandoLocal():
+  return DATOS_SERVIDOR["LOCAL"]

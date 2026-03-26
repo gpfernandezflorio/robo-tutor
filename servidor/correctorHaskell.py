@@ -3,6 +3,7 @@ from analizador import analizarHaskell
 
 class CorrectorHaskell(Corrector):
   def __init__(self):
+    super().__init__()
     self.ruta = "src.hs"
     self.comando = "echo 'main' | ghci -v0 src.hs"
     self.globalPre = "import System.Exit\n\n"
@@ -95,6 +96,7 @@ def esFallaDeAridad(l, aridad, siguientes):
   if not (aridad is None):
     for f in aridad:
       if l.startswith('      In the expression: ((show . typeOf) ' + f + ') /= "') or \
+        l.endswith('In the first argument of ‘(/=)’, namely ‘((show . typeOf) ' + f + ')’') or \
         l.endswith(': error: Variable not in scope: ' + f) or \
         esFallaDeAridadCon(l, f, siguientes):
           return True

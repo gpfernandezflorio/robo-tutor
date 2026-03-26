@@ -1,9 +1,11 @@
+import json
 from correctorBase import Corrector
 from analizador import analizarGobstones
 from utils import mostrar_excepcion
 
 class CorrectorGobstones(Corrector):
   def __init__(self):
+    super().__init__()
     self.ruta = "src.txt"
     self.comando = "node gobstones-lang/dist/gobstones-lang run -l es -i src.txt -b"
 
