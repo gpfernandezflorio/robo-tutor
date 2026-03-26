@@ -80,7 +80,7 @@ def buscarNodoImportEnAST(analizador, AST):
     analizador.hayNodoDeTipo(AST, ast.ImportFrom)
   ) else None
 
-def buscarNodoImportEnAST(analizador, AST):
+def buscarNodoRaiseEnAST(analizador, AST):
   return "No está permitido generar excepciones" if (
     analizador.hayNodoDeTipo(AST, ast.Raise)
   ) else None
@@ -161,12 +161,16 @@ class AnalizadorHaskell(Analizador):
       if not (resultado is None):
         return resultado
     return None
-  # def hijosDeNodo(self, nodo):
-  #   if not isinstance(nodo, ast.AST):
-  #     breakpoint()
-  #   return HIJOS[type(nodo).__name__](nodo)
-  # def esNodoDeTipo(self, nodo, tipo):
-  #   return isinstance(nodo, tipo)
+  def hijosDeNodo(self, nodo):
+    hijosPorAhora = []
+    for k in nodo:
+      if not (k in ["tipo", "en", "valor", "original"]):
+        másHijos = nodo[k]
+        for hijo in (másHijos if (type(másHijos) == type([])) else [másHijos]):
+          hijosPorAhora.append(hijo)
+    return hijosPorAhora
+  def esNodoDeTipo(self, nodo, tipo):
+    return nodo["tipo"] == tipo
   def esUnComandoCompuesto(self, nodo):
     return False # No hay comandos compuestos en Haskell
   def hayRepeticiónSimple(self, AST):
@@ -182,6 +186,9 @@ def analizar(analizador, codigo, reglas):
   AST = analizador.obtenerAst(codigo)
   if "error" in AST:
     AST["resultado"] = "Except"
+    return AST
+  elif "evil" in AST: # Algunos analizadores (como el de Haskell) ya pueden arrojar esto al obtener el AST
+    AST["resultado"] = "EVIL"
     return AST
   return analizador.analizarAst(AST["ast"], codigo, reglas)
 
@@ -229,6 +236,8 @@ def astHaskell(codigo):
   # print(errcode)
 
   haskellParser.parse(salida)
+  if haskellParser.hayElementoProhibido():
+    return {"evil":"No se puede procesar porque se están usando elementos del lenguaje que no están permitidos"}
   if haskellParser.falló():
     return {"error":haskellParser.errorMsg() + "\n\n" + haskellParser.ubicaciónATexto(haskellParser.errorLoc())}
   return {"ast":haskellParser.ast()}
@@ -510,6 +519,7 @@ class HaskellParser(object):
     self.raíz = None
     self.salidaCompleta = salida
     self.salida = salida
+    self.parenStack = []
     if self.salida.startswith("ParseFailed"):
       self.resultado = "FAIL"
       self.AvanzarSalida(len("ParseFailed"))
@@ -518,44 +528,85 @@ class HaskellParser(object):
       return
     if self.salida.startswith("ParseOk"):
       self.AvanzarSalida(len("ParseOk"))
-      self.raíz = self.parsearNodo()
+      self.raíz = self.parsearNodoRaíz()
       return
     self.errorDesconocido("La salida no empieza con (ParseOk) ni con (ParseFailed)")
+  def elementoProhibido(self):
+    self.resultado = "EVIL"
   def ubicaciónATexto(self, ubicación):
     return "Línea " + str(ubicación["línea"] - 3) + ", columna " + str(ubicación["columna"])
   def errorDesconocido(self, mensaje):
-    print(mensaje)
-    f = open('hsParseErr.txt', 'w')
-    f.write(mensaje + "\n\n" + self.salida + "\n\n" + self.salidaCompleta)
-    f.close()
+    # print(mensaje)
+    # import traceback
+    # traceback.print_stack()
+    # f = open('hsParseErr.txt', 'w')
+    # f.write(mensaje + "\n\n" + self.salida + "\n\n" + self.salidaCompleta)
+    # f.close()
+    # exit()
+    pass # TODO: probablemente sea un bug en el servidor
   def ast(self):
     return self.raíz
   def falló(self):
     return self.resultado == "FAIL"
+  def hayElementoProhibido(self):
+    return self.resultado == "EVIL"
   def errorMsg(self):
     return self.mensajeError
   def errorLoc(self):
     return self.ubicaciónDelError
   def AvanzarSalida(self, i):
-    # print("AV")
-    # print(self.salida)
-    # print(i)
     self.salida = self.salida[i +
       (1 if i < len(self.salida) and self.salida[i] == " " else 0)
     :]
+  def abreParen(self):
+    if self.salida.startswith('('):
+      self.AvanzarSalida(1)
+      self.parenStack.append(True)
+    else:
+      self.parenStack.append(False)
+  def cierraParen(self):
+    paren = self.parenStack.pop()
+    if paren:
+      if self.salida.startswith(')'):
+        self.AvanzarSalida(1)
+      else:
+        self.errorDesconocido("La falta cerrar un paréntesis: ')'")
+
+  ## Tipos auxiliares
   def parsearUbicación(self):
-    if self.salida.startswith('(SrcLoc'):
-      self.AvanzarSalida(len('(SrcLoc'))
+    # SrcLoc "..." l c | SrcSpanInfo { srcInfoSpan = (SrcSpan ...), srcInfoPoints = [(SrcSpan ...)] }
+    self.abreParen()
+    if self.salida.startswith('SrcLoc'):
+      self.AvanzarSalida(len('SrcLoc'))
       self.parsearString()
       línea = self.parsearNúmero()
       columna = self.parsearNúmero()
-      if (self.salida.startswith(')')):
-        self.AvanzarSalida(1)
-      else:
-        self.errorDesconocido("La ubicación no termina con ')'")
+      self.cierraParen()
       return {"línea":línea, "columna":columna}
-    self.errorDesconocido("La ubicación no empieza con (SrcLoc")
+    if self.salida.startswith('SrcSpanInfo'):
+      self.AvanzarSalida(len('SrcSpanInfo'))
+      registro = self.parsearRegistro([
+        ["srcInfoSpan", getattr(self, "parsearSrcSpan")],
+        ["srcInfoPoints", self.fParsearLista("parsearSrcSpan")]
+      ])["srcInfoSpan"]
+      self.cierraParen()
+      return registro
+    self.errorDesconocido("La ubicación no empieza con 'SrcLoc' ni con 'SrcSpanInfo'")
+  def parsearSrcSpan(self):
+    # SrcSpan "..." l c
+    self.abreParen()
+    if self.salida.startswith('SrcSpan'):
+      self.AvanzarSalida(len('SrcSpan'))
+      self.parsearString()
+      línea = self.parsearNúmero()
+      columna = self.parsearNúmero()
+      self.parsearNúmero()
+      self.parsearNúmero()
+      self.cierraParen()
+      return {"línea":línea, "columna":columna}
+    self.errorDesconocido("La ubicación no empieza con 'SrcSpan'")
   def parsearString(self):
+    # "..." | '...'
     if self.salida.startswith('"'):
       i = posCaracterNoEscapeado(self.salida, '"', '\\"', 1)
     elif self.salida.startswith("'"):
@@ -566,25 +617,508 @@ class HaskellParser(object):
     self.AvanzarSalida(i+1)
     return contenido
   def parsearNúmero(self):
+    # n
     i = 0
     while i < len(self.salida) and esCharNumérico(self.salida[i]):
       i += 1
-    # print("N")
-    # print(self.salida)
-    # print(i)
+    if i == 0:
+      self.errorDesconocido("El número no empieza con caracteres numéricos")
     n = int(self.salida[:i])
     self.AvanzarSalida(i)
     return n
-  def parsearNodo(self):
-    if self.salida.startswith('(Module'):
-      self.AvanzarSalida(len('(Module'))
+  def parsearRegistro(self, clavesYFunciones):
+    # { clavei = valori }
+    resultado = {}
+    if self.salida.startswith("{"):
+      self.AvanzarSalida(1)
+      for claveYFunción in clavesYFunciones:
+        if self.salida.startswith(claveYFunción[0]):
+          self.AvanzarSalida(len(claveYFunción[0]))
+          if self.salida.startswith("="):
+            self.AvanzarSalida(1)
+            resultado[claveYFunción[0]] = claveYFunción[1]()
+            if self.salida.startswith(",") or self.salida.startswith("}"):
+              self.AvanzarSalida(1)
+            else:
+              self.errorDesconocido("Registro mal formado (no cierra con '}' y no sigue con ',')")
+          else:
+            self.errorDesconocido("Registro mal formado (falta el '=')")
+        else:
+          self.errorDesconocido("Registro mal formado (no aparece la clave '" + claveYFunción[0] + "')")
+    else:
+      self.errorDesconocido("Registro mal formado (no abre con '{')")
+    return resultado
+  def parsearLista(self, fElemento):
+    # [ elementoi ]
+    resultado = []
+    if self.salida.startswith("["):
+      self.AvanzarSalida(1)
+      finLista = self.salida.startswith("]")
+      f = getattr(self, fElemento)
+      while not finLista:
+        resultado.append(f())
+        if self.salida.startswith(","):
+          self.AvanzarSalida(1)
+        elif self.salida.startswith("]"):
+          finLista = True
+        else:
+          self.errorDesconocido("Lista mal formada")
+      self.AvanzarSalida(1)
+    return resultado
+  def fParsearLista(self, fElemento):
+    return lambda: getattr(self, "parsearLista")(fElemento)
+  def parsearMaybe(self, fElemento):
+    # Nothing | Just v
+    self.abreParen()
+    if self.salida.startswith('Nothing'):
+      self.AvanzarSalida(len('Nothing'))
+      self.cierraParen()
+      return {
+        "tipo":"Nada"
+      }
+    if self.salida.startswith('Just'):
+      self.AvanzarSalida(len('Just'))
+      dato = getattr(self, fElemento)()
+      self.cierraParen()
+      return dato
+    self.errorDesconocido("El Maybe no empieza con 'Nothing' ni con 'Just'")
+  
+  ## Nodos
+  def parsearNodoRaíz(self):
+    # Module
+    self.abreParen()
+    if self.salida.startswith('Module'):
+      self.AvanzarSalida(len('Module'))
       ubicación = self.parsearUbicación()
-      #...
+      encabezado = self.parsearMaybe("parsearModuleHead")
+      pragmas = self.parsearLista("parsearModulePragma")
+      imports = self.parsearLista("parsearImportDecl")
+      declaraciones = self.parsearLista("parsearDecl")
+      self.cierraParen()
       return {
         "tipo":"Módulo",
-        "en":ubicación
+        "en":ubicación,
+        "declaraciones":declaraciones
       }
+    if self.salida.startswith('XmlPage'):
+      self.cierraParen()
+      self.elementoProhibido() # TODO: https://hackage.haskell.org/package/haskell-src-exts-1.23.1/docs/Language-Haskell-Exts-Syntax.html#g:1
+      return
+    if self.salida.startswith('XmlHybrid'):
+      self.cierraParen()
+      self.elementoProhibido() # TODO
+      return
     self.errorDesconocido("Nodo desconocido")
+  def parsearModuleHead(self):
+    # Encabezado de módulo
+    self.abreParen()
+    if self.salida.startswith('ModuleHead'):
+      self.AvanzarSalida(len('ModuleHead'))
+      self.parsearUbicación()
+      nombre = self.parsearNombreMódulo()
+      advertencia = self.parsearMaybe("parsearWarningText")
+      exports = self.parsearMaybe("parsearExportSpecList")
+      self.cierraParen()
+      return {
+        "tipo":"EncabezadoMódulo",
+        "en":ubicación,
+        "nombre":nombre
+      }
+    self.errorDesconocido("El encabezado del módulo no empieza con 'ModuleHead'")
+  def parsearNombreMódulo(self):
+    # Nombre de módulo
+    self.abreParen()
+    if self.salida.startswith('ModuleName'):
+      self.AvanzarSalida(len('ModuleName'))
+      self.parsearUbicación()
+      nombre = self.parsearString()
+      self.cierraParen()
+      return {
+        "tipo":"Nombre",
+        "en":ubicación,
+        "valor":nombre
+      }
+    self.errorDesconocido("El nombre del módulo no empieza con 'ModuleName'")
+  def parsearWarningText(self):
+    # Texto de advertencia (?)
+    self.abreParen()
+    if self.salida.startswith('DeprText'):
+      self.AvanzarSalida(len('DeprText'))
+      self.parsearUbicación()
+      texto = self.parsearString()
+      self.cierraParen()
+      return texto
+    self.abreParen()
+    if self.salida.startswith('WarnText'):
+      self.AvanzarSalida(len('WarnText'))
+      self.parsearUbicación()
+      texto = self.parsearString()
+      self.cierraParen()
+      return texto
+    self.errorDesconocido("El texto de advertencia no empieza con 'DeprText' ni con 'WarnText'")
+  def parsearExportSpecList(self):
+    # Lista de exports
+    self.abreParen()
+    if self.salida.startswith('ExportSpecList'):
+      self.AvanzarSalida(len('ExportSpecList'))
+      self.parsearUbicación()
+      exports = self.parsearLista("parsearExportSpec")
+      self.cierraParen()
+      return exports
+    self.errorDesconocido("La lista de exports no empieza con 'ExportSpecList'")
+  def parsearExportSpec(self):
+    # Un export
+    self.abreParen()
+    if self.salida.startswith('EVar'):
+      self.AvanzarSalida(len('EVar'))
+      self.parsearUbicación()
+      nombre = self.parsearNombreQ()
+      self.cierraParen()
+      return nombre
+    if self.salida.startswith('EAbs'):
+      self.AvanzarSalida(len('EAbs'))
+      self.parsearUbicación()
+      nameSpace = self.parsearNameSpace()
+      nombre = self.parsearNombreQ()
+      self.cierraParen()
+      return nombre
+    if self.salida.startswith('EThingWith'):
+      self.AvanzarSalida(len('EThingWith'))
+      self.parsearUbicación()
+      self.parsearWildCard()
+      nombre = self.parsearNombreQ()
+      nombresSub = self.parsearLista("parsearNombreC")
+      self.cierraParen()
+      return nombre
+    if self.salida.startswith('EModuleContents'):
+      self.AvanzarSalida(len('EModuleContents'))
+      self.parsearUbicación()
+      nombre = self.parsearNombreMódulo()
+      self.cierraParen()
+      return nombre
+    self.errorDesconocido("El export no empieza con 'EVar', 'EAbs', 'EThingWith' ni con 'EModuleContents'")
+  def parsearNameSpace(self):
+    # Un nameSpace
+    self.abreParen()
+    if self.salida.startswith('NoNamespace'):
+      self.AvanzarSalida(len('NoNamespace'))
+      self.parsearUbicación()
+      self.cierraParen()
+      return {
+        "tipo":"NameSpace"
+      }
+    if self.salida.startswith('TypeNamespace'):
+      self.AvanzarSalida(len('TypeNamespace'))
+      self.parsearUbicación()
+      self.cierraParen()
+      return {
+        "tipo":"NameSpace"
+      }
+    if self.salida.startswith('PatternNamespace'):
+      self.AvanzarSalida(len('PatternNamespace'))
+      self.parsearUbicación()
+      self.cierraParen()
+      return {
+        "tipo":"NameSpace"
+      }
+    self.errorDesconocido("El NameSpace no empieza con 'NoNamespace', con 'TypeNamespace' ni con 'PatternNamespace'")
+  def parsearWildCard(self):
+    # Un wildcard
+    self.abreParen()
+    if self.salida.startswith('NoWildcard'):
+      self.AvanzarSalida(len('NoWildcard'))
+      self.parsearUbicación()
+      self.cierraParen()
+      return {
+        "tipo":"WildCard"
+      }
+    if self.salida.startswith('EWildcard'):
+      self.AvanzarSalida(len('EWildcard'))
+      self.parsearUbicación()
+      self.parsearNúmero()
+      self.cierraParen()
+      return {
+        "tipo":"WildCard"
+      }
+    self.errorDesconocido("El WildCard no empieza con 'NoWildcard', ni con 'EWildcard'")
+  def parsearModulePragma(self):
+    # Un pragma
+    self.abreParen()
+    if self.salida.startswith('LanguagePragma'):
+      self.AvanzarSalida(len('LanguagePragma'))
+      self.parsearUbicación()
+      self.parsearLista("parsearNombre")
+      self.cierraParen()
+      return {
+        "tipo":"Pragma"
+      }
+    if self.salida.startswith('OptionsPragma'):
+      self.AvanzarSalida(len('OptionsPragma'))
+      self.parsearUbicación()
+      self.parsearMaybe("parsearTool")
+      self.parsearString()
+      self.cierraParen()
+      return {
+        "tipo":"Pragma"
+      }
+    if self.salida.startswith('AnnModulePragma'):
+      self.AvanzarSalida(len('AnnModulePragma'))
+      self.parsearUbicación()
+      self.parsearAnotación()
+      self.cierraParen()
+      return {
+        "tipo":"Pragma"
+      }
+    self.errorDesconocido("El Pragma no empieza con 'LanguagePragma', con 'OptionsPragma' ni con 'AnnModulePragma'")
+  def parsearTool(self):
+    # Una herramienta (?)
+    self.abreParen()
+    for i in ["GHC","HUGS","NHC98","YHC","HADDOCK"]:
+      if self.salida.startswith(i):
+        self.AvanzarSalida(len(i))
+        self.cierraParen()
+        return {
+          "tipo":"Tool",
+          "valor":i
+        }
+    if self.salida.startswith("UnknownTool"):
+      self.AvanzarSalida(len("UnknownTool"))
+      self.parsearString()
+      self.cierraParen()
+      return {
+        "tipo":"Tool",
+        "valor":"UnknownTool"
+      }
+    self.errorDesconocido("La herramienta no empieza con 'UnknownTool', ni con alguna de las herramientas conocidas")
+  def parsearAnotación(self):
+    # Una anotación (?)
+    if self.salida.startswith("Ann"):
+      self.AvanzarSalida(len("Ann"))
+      self.parsearUbicación()
+      self.parsearNombre()
+      self.parsearExpresión()
+      self.cierraParen()
+      return {
+        "tipo":"Anotación"
+      }
+    if self.salida.startswith("TypeAnn"):
+      self.AvanzarSalida(len("TypeAnn"))
+      self.parsearUbicación()
+      self.parsearNombre()
+      self.parsearExpresión()
+      self.cierraParen()
+      return {
+        "tipo":"Anotación"
+      }
+    if self.salida.startswith("ModuleAnn"):
+      self.AvanzarSalida(len("ModuleAnn"))
+      self.parsearUbicación()
+      self.parsearExpresión()
+      self.cierraParen()
+      return {
+        "tipo":"Anotación"
+      }
+    self.errorDesconocido("La herramienta no empieza con 'Ann', con 'TypeAnn' ni con 'ModuleAnn'")
+  def parsearImportDecl(self):
+    self.elementoProhibido() # TODO https://hackage.haskell.org/package/haskell-src-exts-1.23.1/docs/Language-Haskell-Exts-Syntax.html#t:ImportDecl
+    return
+  
+  ## Declaraciones
+  def parsearDecl(self):
+    self.abreParen()
+    if self.salida.startswith('FunBind'):
+      self.AvanzarSalida(len('FunBind'))
+      ubicación = self.parsearUbicación()
+      matchs = self.parsearLista("parsearMatch")
+      self.cierraParen()
+      return {
+        "tipo":"Función",
+        "en":ubicación,
+        "ecuaciones":matchs
+      }
+  def parsearMatch(self):
+    self.abreParen()
+    if self.salida.startswith('Match'):
+      self.AvanzarSalida(len('Match'))
+      ubicación = self.parsearUbicación()
+      nombre = self.parsearNombre()
+      patrones = self.parsearLista("parsearPattern")
+      definición = self.parsearRhs()
+      binds = self.parsearMaybe("parsearBind")
+      self.cierraParen()
+      return {
+        "tipo":"Ecuación",
+        "en":ubicación,
+        "nombre":nombre,
+        "patrones":patrones,
+        "definición":definición
+      }
+  def parsearNombre(self):
+    self.abreParen()
+    if self.salida.startswith('Ident'):
+      self.AvanzarSalida(len('Ident'))
+    elif self.salida.startswith('Symbol'):
+      self.AvanzarSalida(len('Symbol'))
+    else:
+      pass # error
+    ubicación = self.parsearUbicación()
+    nombre = self.parsearString()
+    self.cierraParen()
+    return {
+      "tipo":"Nombre",
+      "en":ubicación,
+      "valor":nombre
+    }
+  def parsearNombreQ(self):
+    self.abreParen()
+    if self.salida.startswith('UnQual'):
+      self.AvanzarSalida(len('UnQual'))
+      ubicación = self.parsearUbicación()
+      nombre = self.parsearNombre()
+      self.cierraParen()
+      return nombre
+  def parsearNombreC(self):
+    self.abreParen()
+    if self.salida.startswith('VarName'):
+      self.AvanzarSalida(len('VarName'))
+      ubicación = self.parsearUbicación()
+      nombre = self.parsearNombre()
+      self.cierraParen()
+      return nombre
+    if self.salida.startswith('ConName'):
+      self.AvanzarSalida(len('ConName'))
+      ubicación = self.parsearUbicación()
+      nombre = self.parsearNombre()
+      self.cierraParen()
+      return nombre
+  def parsearOperadorQ(self):
+    self.abreParen()
+    if self.salida.startswith('QVarOp'):
+      self.AvanzarSalida(len('QVarOp'))
+      ubicación = self.parsearUbicación()
+      nombre = self.parsearNombreQ()
+      self.cierraParen()
+      return {
+      "tipo":"Operador",
+      "en":ubicación,
+      "operador":nombre
+    }
+  def parsearPattern(self):
+    self.abreParen()
+    if self.salida.startswith('PVar'):
+      self.AvanzarSalida(len('PVar'))
+      ubicación = self.parsearUbicación()
+      nombre = self.parsearNombre()
+      self.cierraParen()
+      return {
+        "tipo":"Variable",
+        "en":ubicación,
+        "valor":nombre["valor"]
+      }
+    if self.salida.startswith('PLit'):
+      self.AvanzarSalida(len('PLit'))
+      ubicación = self.parsearUbicación()
+      signo = self.parsearSigno()
+      literal = self.parsearLiteral()
+      self.cierraParen()
+      return {
+        "tipo":"Literal",
+        "en":ubicación,
+        "signo":signo,
+        "literal":literal
+      }
+    if self.salida.startswith('PInfixApp'):
+      self.AvanzarSalida(len('PInfixApp'))
+      ubicación = self.parsearUbicación()
+      izq = self.parsearPattern()
+      q = self.parsearNombreQ()
+      der = self.parsearPattern()
+      self.cierraParen()
+      return {
+        "tipo":"AppInfija",
+        "en":ubicación,
+        "izq":izq,
+        "q":q,
+        "der":der
+      }
+  def parsearRhs(self):
+    self.abreParen()
+    if self.salida.startswith('UnGuardedRhs'):
+      self.AvanzarSalida(len('UnGuardedRhs'))
+      ubicación = self.parsearUbicación()
+      expresión = self.parsearExpresión()
+      self.cierraParen()
+      return expresión
+  def parsearBind(self):
+    pass # TODO
+  def parsearExpresión(self):
+    self.abreParen()
+    if self.salida.startswith('Var'):
+      self.AvanzarSalida(len('Var'))
+      ubicación = self.parsearUbicación()
+      nombre = self.parsearNombreQ()
+      self.cierraParen()
+      return {
+        "tipo":"Variable",
+        "en":ubicación,
+        "valor":nombre["valor"]
+      }
+    if self.salida.startswith('Lit'):
+      self.AvanzarSalida(len('Lit'))
+      ubicación = self.parsearUbicación()
+      literal = self.parsearLiteral()
+      self.cierraParen()
+      return literal
+    if self.salida.startswith('InfixApp'):
+      self.AvanzarSalida(len('InfixApp'))
+      ubicación = self.parsearUbicación()
+      izq = self.parsearExpresión()
+      op = self.parsearOperadorQ()
+      der = self.parsearExpresión()
+      self.cierraParen()
+      return {
+        "tipo":"AppInfija",
+        "en":ubicación,
+        "izq":izq,
+        "op":op,
+        "der":der
+      }
+    self.errorDesconocido("La expresión no empieza con 'Var', con 'Lit' ni con 'InfixApp'")
+  def parsearSigno(self):
+    self.abreParen()
+    if self.salida.startswith('Signless'):
+      self.AvanzarSalida(len('Signless'))
+      ubicación = self.parsearUbicación()
+      self.cierraParen()
+      return {
+        "tipo":"Signo",
+        "en":ubicación,
+        "valor":"Positivo"
+      }
+    if self.salida.startswith('Negative'):
+      self.AvanzarSalida(len('Negative'))
+      ubicación = self.parsearUbicación()
+      self.cierraParen()
+      return {
+        "tipo":"Signo",
+        "en":ubicación,
+        "valor":"Negativo"
+      }
+    self.errorDesconocido("El signo no empieza con 'Signless' ni con 'Negative'")
+  def parsearLiteral(self):
+    self.abreParen()
+    if self.salida.startswith('Int'):
+      self.AvanzarSalida(len('Int'))
+      ubicación = self.parsearUbicación()
+      valor = self.parsearNúmero()
+      original = self.parsearString()
+      self.cierraParen()
+      return {
+        "tipo":"LiteralNúmero",
+        "en":ubicación,
+        "valor":valor,
+        "original":original
+      }
 
 haskellParser = HaskellParser()
 
