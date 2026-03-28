@@ -8,7 +8,7 @@
 
 import json
 import ast
-from procesos import ejecutar
+from procesos import ejecutar, rutaJail
 from utils import algunoCumple, aplanar, mapear, singularSiEsta
 from reglas import REGLAS
 
@@ -85,15 +85,28 @@ def buscarNodoRaiseEnAST(analizador, AST):
     analizador.hayNodoDeTipo(AST, ast.Raise)
   ) else None
 
+def buscarNodoDeTipo_Con_(analizador, AST, tipo, fVal, fMsg):
+  for nodo in analizador.nodosDeTipo(AST, tipo):
+    if f(nodo):
+      return "No está permitido usar '" + fMsg(nodo) + "'"
+  return None
+
 reglasCódigoMalicioso = {
   "PYTHON":{
     "EXIT":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "exit"),
     "PRINT":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "print"),
     "OPEN":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "open"),
     "EXEC":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "exec"),
+    "EVAL":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "eval"),
+    "GETATTR":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "getattr"),
     "IMPORT":lambda analizador, AST : buscarNodoImportEnAST(analizador, AST),
-    "IMPORT_CALL":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "__import__"),
-    "RAISE":lambda analizador, AST : buscarNodoRaiseEnAST(analizador, AST)
+    "RAISE":lambda analizador, AST : buscarNodoRaiseEnAST(analizador, AST),
+    "NombrePrivado":lambda analizador, AST : buscarNodoDeTipo_Con_(analizador, AST, ast.Name,
+      lambda n : n.id.startswith("__"), lambda n : n.id
+    ),
+    "AtributoPrivado":lambda analizador, AST : buscarNodoDeTipo_Con_(analizador, AST, ast.Attribute,
+      lambda n : n.attr.startswith("__"), lambda n : n.attr
+    )
   },
   "HASKELL":{
     # TODO
@@ -202,10 +215,10 @@ def analizarHaskell(codigo, reglas):
   return analizar(analizadorHaskell, codigo, reglas)
 
 def astGobstones(codigo):
-  f = open('src.txt', 'w')
+  f = open(rutaJail("src.txt"), 'w')
   f.write(codigo)
   f.close()
-  errcode, salida, falla = ejecutar("node gobstones-lang/dist/gobstones-lang parse -l es -i src.txt")
+  errcode, salida, falla = ejecutar("node /rtTest/gbs/dist/gobstones-lang parse -l es -i src.txt")
   if len(falla) > 0:
     return {"error":falla}
   AST = json.loads(json.loads(salida))
@@ -219,20 +232,14 @@ def astPython(codigo):
     return {"error":str(e).replace("<unknown>, ","").replace("line","línea")}
 
 def astHaskell(codigo):
-  f = open('src.hs', 'w')
+  f = open(rutaJail('src.hs'), 'w')
   f.write("{-# LANGUAGE TemplateHaskell #-}\n{-# LANGUAGE DataKinds #-}\n\n" + codigo)
   f.close()
-  errcode, salida, falla = ejecutar("echo 'main' | ghci -v0 parser.hs")
+  errcode, salida, falla = ejecutar("echo 'main' | ghci -v0 /rtTest/parser.hs")
   if len(falla) > 0:
     # No debería pasar. Si el parser falla devuelve ParseFailed por stdout.
     pass
 
-  f = open('salida.txt', 'w')
-  f.write(salida)
-  f.close()
-  f = open('falla.txt', 'w')
-  f.write(falla)
-  f.close()
   # print(errcode)
 
   haskellParser.parse(salida)

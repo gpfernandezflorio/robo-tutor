@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import os
+import os, pwd
 from subprocess import Popen
 import signal
+import resource
 
 proceso_en_ejecucion = None
 
@@ -30,14 +31,25 @@ def ejecutarConTimeout(comando, timeout):
     "duracion":duracion
   }
 
+RUTA_BASE = '/rtTest'
+RUTA_JAIL = os.path.join(RUTA_BASE, 'jail')
+USER_RT = 'rtTest'
+MEM_MAX = 128 * 1024 * 1024  # Bytes
+
 def sacarPrivilegios():
-  os.setuid(int(os.environ['UID']) if 'UID' in os.environ else 1000)
+  os.chdir(RUTA_JAIL)
+  resource.setrlimit(resource.RLIMIT_AS, (MEM_MAX, resource.RLIM_INFINITY))
+  # user_info = pwd.getpwnam(USER_RT)
+  # os.setgid(user_info.pw_gid)
+  # os.setuid(user_info.pw_uid)
 
 def ejecutar(cmd):
   global proceso_en_ejecucion
   fOut = open('stdout.out','w')
   fErr = open('stderr.out','w')
-  p = Popen(cmd, stdout=fOut, stderr=fErr, universal_newlines=True, shell=True, preexec_fn=sacarPrivilegios)
+  p = Popen(cmd, stdout=fOut, stderr=fErr, universal_newlines=True, shell=True, preexec_fn=sacarPrivilegios
+    # , user=USER_RT
+  )
   proceso_en_ejecucion = p
   errcode = p.wait()
   fOut.close()
@@ -53,3 +65,6 @@ def ejecutar(cmd):
       stderr += line
   fErr.close()
   return errcode, stdout, stderr
+
+def rutaJail(ruta):
+  return os.path.join(RUTA_JAIL, ruta)

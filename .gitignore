@@ -1,9 +1,5 @@
 __pycache__
 *.pyc
-board.jboard
-src.txt
-src.py
-src.hs
 info.json
 local.csv
 stderr.out

@@ -2,12 +2,13 @@ import json
 from correctorBase import Corrector
 from analizador import analizarGobstones
 from utils import mostrar_excepcion
+from procesos import rutaJail
 
 class CorrectorGobstones(Corrector):
   def __init__(self):
     super().__init__()
     self.ruta = "src.txt"
-    self.comando = "node gobstones-lang/dist/gobstones-lang run -l es -i src.txt -b"
+    self.comando = "node /rtTest/gbs/dist/gobstones-lang run -l es -i src.txt -b"
 
   def Analizar(self, jsonObj):
     codeParaAnálisis = "" + jsonObj["src"]
@@ -24,7 +25,7 @@ class CorrectorGobstones(Corrector):
   def InicializarRun(self, run):
     ## Tablero inicial
     tablero = run["t0"] if "t0" in run else tablero_default()
-    f = open('board.jboard', 'w')
+    f = open(rutaJail('board.jboard'), 'w')
     f.write(json.dumps(tablero))
     f.close()
 

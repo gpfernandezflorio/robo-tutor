@@ -22,10 +22,32 @@
 ### INSTRUCCIONES
 1. Clonar este repositorio.
 
-2. Actualizar el valor de la variable de entorno UID en el archivo `.env` con el uid de usuario (sin permisos de administrador). Generalmente es el 1000. Se puede obtener ejecutando el comando `id` en una terminal.
+  `git clone https://github.com/gpfernandezflorio/robo-tutor.git`
+
+2. Crear la carpeta rtTest para ejecutar el código.
+
+  `mkdir /rtTest`
+
+3. Linkear los fuentes de Gobstones y el parser de Haskell
+
+  `ln -s servidor/gobstones-lang /rtTest/gbs`
+
+  `cp servidor/parser.hs /rtTest/parser.hs`
+
+4. Crear el usuario rtTest para ejecutar el código.
+
+  `sudo useradd rtTest`
+
+  `sudo passwd -d rtTest`
+
+5. Crear la carpeta jail para ejecutar el código.
+
+  `mkdir /rtTest/jail`
+
+  `sudo chmod 777 /rtTest/jail`
 
 (Para ejecutar con https)
 
-3. Cambiar el valor de la variable de entorno PUERTO_INICIAL en el archivo `.env` por 443.
+6. Cambiar el valor de la variable de entorno PUERTO_INICIAL en el archivo `.env` por 443.
 
-4. Generar un certificado ssl y agregar las rutas al certificado y a la clave como valores de las variables de entorno CERT y KEY, respectivamente, en el archivo `.env`.
+7. Generar un certificado ssl y agregar las rutas al certificado y a la clave como valores de las variables de entorno CERT y KEY, respectivamente, en el archivo `.env`.

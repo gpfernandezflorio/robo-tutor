@@ -1,4 +1,4 @@
-from procesos import ejecutarConTimeout
+from procesos import ejecutarConTimeout, rutaJail
 
 def timeoutDefault():
   return 1
@@ -68,7 +68,7 @@ class Corrector(object):
       ## Ejecución del código entregado
       code_run["pre"] += "\n\n"
       code_run["lineasAdicionales"] = code_run["lineasAdicionales"] + 2
-      f = open(self.ruta, 'w')
+      f = open(rutaJail(self.ruta), 'w')
       f.write(code_run["pre"] + code["src"] + code_run["post"])
       f.close()
       resultadoEjecucion = ejecutarConTimeout(self.comando, timeout)
