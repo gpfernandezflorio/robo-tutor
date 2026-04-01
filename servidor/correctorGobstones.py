@@ -16,7 +16,7 @@ class CorrectorGobstones(Corrector):
     if not (("pidePrograma" in jsonObj["ejercicio"]) and jsonObj["ejercicio"]["pidePrograma"]):
       codeParaAnálisis = "program{}\n"
       lineasAdicionales = 1
-    resultadoAnalisisCodigo = analizarGobstones(codeParaAnálisis, jsonObj["analisisCodigo"])
+    resultadoAnalisisCodigo = analizarGobstones(codeParaAnálisis, jsonObj["analisisCodigo"], True)
     if not(resultadoAnalisisCodigo is None):
       if resultadoAnalisisCodigo["resultado"] == "Except":
         return {"resultado":"Except", "error":buscar_falla_gobstones(resultadoAnalisisCodigo["error"], lineasAdicionales)}

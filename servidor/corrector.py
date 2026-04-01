@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from analizador import EvitarCódigoMalicioso
 from correctorPython import correctorPython
 from correctorGobstones import correctorGobstones
 from correctorHaskell import correctorHaskell
-
-EvitarCódigoMalicioso()
 
 def run_code(jsonObj, v):
   if (not ("src" in jsonObj)):

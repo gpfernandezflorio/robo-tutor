@@ -8,7 +8,7 @@ class CorrectorPython(Corrector):
     self.comando = "python3 src.py"
 
   def Analizar(self, jsonObj):
-    return analizarPython(jsonObj["src"], jsonObj["analisisCodigo"])
+    return analizarPython(jsonObj["src"], jsonObj["analisisCodigo"], True)
 
   def InicializarRun(self, run):
     pass
