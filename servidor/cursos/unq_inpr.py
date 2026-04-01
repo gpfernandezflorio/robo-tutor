@@ -1522,7 +1522,7 @@ def guia4(fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guia4",
-    "nombre":"Práctica 4 - Programas y Contratos",
+    "nombre":"Práctica 4 - Parámetros",
     "disponible":{"desde":fechaInicio},
     "actividades":[
       linkGuía(4, 39050, "21/P4.%20Para%CC%81metros.pdf"),
