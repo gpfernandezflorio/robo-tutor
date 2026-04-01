@@ -39,17 +39,18 @@ def ejecutarConTimeout(comando, timeout):
 RUTA_BASE = '/rtTest'
 RUTA_JAIL = os.path.join(RUTA_BASE, 'jail')
 USER_RT = 'rtTest'
-MEM_MAX_KB = 128
+MEM_MAX_MB = 1024
+MEM_MAX_KB = MEM_MAX_MB * 1024
 MEM_MAX_B =  MEM_MAX_KB * 1024
 
 def sacarPrivilegios():
   os.setsid()
-  os.system("ulimit -v " + str(MEM_MAX_KB))
+  # os.system("ulimit -v " + str(MEM_MAX_KB))
   os.chdir(RUTA_JAIL)
   resource.setrlimit(resource.RLIMIT_AS, (MEM_MAX_B, MEM_MAX_B))
   resource.setrlimit(resource.RLIMIT_RSS, (MEM_MAX_B, MEM_MAX_B))
-  resource.setrlimit(resource.RLIMIT_STACK, (MEM_MAX_B, MEM_MAX_B))
-  resource.setrlimit(resource.RLIMIT_DATA, (MEM_MAX_B, MEM_MAX_B))
+  # resource.setrlimit(resource.RLIMIT_STACK, (MEM_MAX_B, MEM_MAX_B))
+  # resource.setrlimit(resource.RLIMIT_DATA, (MEM_MAX_B, MEM_MAX_B))
   # user_info = pwd.getpwnam(USER_RT)
   # os.setgid(user_info.pw_gid)
   # os.setuid(user_info.pw_uid)
