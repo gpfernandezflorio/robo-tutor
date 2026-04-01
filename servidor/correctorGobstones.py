@@ -14,7 +14,7 @@ class CorrectorGobstones(Corrector):
     codeParaAnálisis = "" + jsonObj["src"]
     lineasAdicionales = 0
     if not (("pidePrograma" in jsonObj["ejercicio"]) and jsonObj["ejercicio"]["pidePrograma"]):
-      codeParaAnálisis = "program{}\n"
+      codeParaAnálisis = "program{}\n" + codeParaAnálisis
       lineasAdicionales = 1
     resultadoAnalisisCodigo = analizarGobstones(codeParaAnálisis, jsonObj["analisisCodigo"], True)
     if not(resultadoAnalisisCodigo is None):

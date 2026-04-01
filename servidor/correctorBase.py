@@ -34,8 +34,8 @@ class Corrector(object):
     lineasAdicionales = code["pre"].count("\n")
     ## Código
     if "pre" in jsonObj["ejercicio"]:
-      code["pre"] = jsonObj["ejercicio"]["pre"] + "\n"
-      lineasAdicionales = lineasAdicionales + jsonObj["ejercicio"]["pre"].count("\n") + 1
+      code["pre"] = code["pre"] + "\n" + jsonObj["ejercicio"]["pre"] + "\n"
+      lineasAdicionales = lineasAdicionales + jsonObj["ejercicio"]["pre"].count("\n") + 2
     ## Ejecuciones
     duraciones = []
     for run in run_data:
