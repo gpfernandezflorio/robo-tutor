@@ -10,7 +10,12 @@ proceso_en_ejecucion = None
 def handler_timeout(s, f):
   global proceso_en_ejecucion
   if not (proceso_en_ejecucion is None):
-    proceso_en_ejecucion.kill()
+    try:
+      os.killpg(os.getpgid(proceso_en_ejecucion.pid), signal.SIGTERM)
+      proceso_en_ejecucion.kill()
+      proceso_en_ejecucion.terminate()
+    except Exception as e:
+      pass
     proceso_en_ejecucion = None
 
 signal.signal(signal.SIGALRM, handler_timeout)
@@ -34,11 +39,17 @@ def ejecutarConTimeout(comando, timeout):
 RUTA_BASE = '/rtTest'
 RUTA_JAIL = os.path.join(RUTA_BASE, 'jail')
 USER_RT = 'rtTest'
-MEM_MAX = 128 * 1024 * 1024  # Bytes
+MEM_MAX_KB = 128
+MEM_MAX_B =  MEM_MAX_KB * 1024
 
 def sacarPrivilegios():
+  os.setsid()
+  os.system("ulimit -v " + str(MEM_MAX_KB))
   os.chdir(RUTA_JAIL)
-  resource.setrlimit(resource.RLIMIT_AS, (MEM_MAX, resource.RLIM_INFINITY))
+  resource.setrlimit(resource.RLIMIT_AS, (MEM_MAX_B, MEM_MAX_B))
+  resource.setrlimit(resource.RLIMIT_RSS, (MEM_MAX_B, MEM_MAX_B))
+  resource.setrlimit(resource.RLIMIT_STACK, (MEM_MAX_B, MEM_MAX_B))
+  resource.setrlimit(resource.RLIMIT_DATA, (MEM_MAX_B, MEM_MAX_B))
   # user_info = pwd.getpwnam(USER_RT)
   # os.setgid(user_info.pw_gid)
   # os.setuid(user_info.pw_uid)
@@ -47,7 +58,9 @@ def ejecutar(cmd):
   global proceso_en_ejecucion
   fOut = open('stdout.out','w')
   fErr = open('stderr.out','w')
-  p = Popen(cmd, stdout=fOut, stderr=fErr, universal_newlines=True, shell=True, preexec_fn=sacarPrivilegios
+  comandoAEjecutar = cmd
+  # comandoAEjecutar = "sudo -u " + USER_RT + " " + comandoAEjecutar
+  p = Popen(comandoAEjecutar, stdout=fOut, stderr=fErr, universal_newlines=True, shell=True, preexec_fn=sacarPrivilegios
     # , user=USER_RT
   )
   proceso_en_ejecucion = p

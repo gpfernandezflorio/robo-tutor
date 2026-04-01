@@ -36,7 +36,7 @@
 
 4. Crear el usuario rtTest para ejecutar el código.
 
-  `sudo useradd rtTest`
+  `sudo useradd -m rtTest`
 
   `sudo passwd -d rtTest`
 
