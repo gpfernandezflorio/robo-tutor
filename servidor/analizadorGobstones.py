@@ -63,7 +63,12 @@ def astGobstones(codigo):
   return {"ast":AST}
 
 def hijosDeNodo_(nodo):
-  return nodo["_children"] if (not (nodo is None) and ("_children" in nodo)) else []
+  hijosPorAhora = []
+  if type(nodo) == type({}):
+    for hijo in (nodo["_children"] if (not (nodo is None) and ("_children" in nodo)) else []):
+      if type(hijo) == type({}):
+        hijosPorAhora.append(hijo)
+  return hijosPorAhora
 
 def AgregarAtributoMadre(nodo):
   for hijo in hijosDeNodo_(nodo):
