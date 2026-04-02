@@ -16,33 +16,40 @@ class Corrector(object):
     return None
 
   def corregir(self, jsonObj, v):
-    run_data = jsonObj["ejercicio"]["run_data"] if "run_data" in jsonObj["ejercicio"] else {}
-    if (type(run_data) != type([])):
-      run_data = [run_data]
+    if (v):
+      print(jsonObj["src"])
+    ## Código
     code = {
       "pre":self.globalPre,
-      "src":jsonObj["src"]
+      "src":jsonObj["src"],
+      "post":""
     }
-    if (v):
-      print(code["src"])
+    lineasAdicionales = code["pre"].count("\n")
+    if "pre" in jsonObj["ejercicio"]:
+      code["pre"] = code["pre"] + "\n" + jsonObj["ejercicio"]["pre"] + "\n"
+      lineasAdicionales = lineasAdicionales + jsonObj["ejercicio"]["pre"].count("\n") + 2
+    if "post" in jsonObj["ejercicio"]:
+      code["post"] += "\n\n" + jsonObj["ejercicio"]["post"]
     # Análisis calidad
-    resultadoAnalisisCodigo = self.Analizar(jsonObj)
+    resultadoAnalisisCodigo = self.Analizar(
+      code["pre"] + "\n" + code["src"] + "\n" + code["post"],
+      jsonObj["analisisCodigo"],
+      {"evil":True, "desde":lineasAdicionales + 2, "hasta":lineasAdicionales + 2 + code["src"].count("\n")}
+    )
     if not(resultadoAnalisisCodigo is None):
       return resultadoAnalisisCodigo
     ## Timeout
     timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
-    lineasAdicionales = code["pre"].count("\n")
-    ## Código
-    if "pre" in jsonObj["ejercicio"]:
-      code["pre"] = code["pre"] + "\n" + jsonObj["ejercicio"]["pre"] + "\n"
-      lineasAdicionales = lineasAdicionales + jsonObj["ejercicio"]["pre"].count("\n") + 2
     ## Ejecuciones
     duraciones = []
+    run_data = jsonObj["ejercicio"]["run_data"] if "run_data" in jsonObj["ejercicio"] else {}
+    if (type(run_data) != type([])):
+      run_data = [run_data]
     for run in run_data:
       self.InicializarRun(run)
       code_run = {
         "pre":code["pre"],
-        "post":"\n",
+        "post":code["post"],
         "lineasAdicionales":lineasAdicionales
       }
       ## Inicialización
@@ -59,8 +66,6 @@ class Corrector(object):
       if not (aridad is None):
         self.AgregarCódigoAridadFunciones(aridad, code_run)
       ## Resultado
-      if "post" in jsonObj["ejercicio"]:
-        code_run["post"] += "\n\n" + jsonObj["ejercicio"]["post"]
       if "post" in run:
         code_run["post"] += "\n\n" + run["post"]
       if "assert" in run:

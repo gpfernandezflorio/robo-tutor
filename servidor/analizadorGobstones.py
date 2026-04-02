@@ -17,26 +17,38 @@ class AnalizadorGobstones(Analizador):
     self.reglasCódigoMalicioso = reglasCódigoMalicioso
   def obtenerAst(self, codigo):
     return astGobstones(codigo)
-  def hijosDeNodo(self, nodo):
-    return nodo["_children"] if nodo and ("_children" in nodo) else []
-  def esNodoDeTipo(self, nodo, tipo):
-    return (nodo and ("_tag" in nodo)) and (nodo["_tag"] == tipo)
-  def esUnComandoCompuesto(self, nodo):
-    return (nodo and ("_tag" in nodo)) and (nodo["_tag"] in [
+  def hijosDeNodo_(self, nodo):
+    return hijosDeNodo_(nodo)
+  def nodoMadreDe_(self, nodo):
+    return nodo["_madre"]
+  def es_NodoDeTipo_(self, nodo, tipo):
+    if not (nodo is None) and ("_tag" in nodo):
+      tipos = tipo if type(tipo) == type([]) else [tipo]
+      return algunoCumple(lambda t : nodo["_tag"] == t, tipos)
+    return False
+  def tiposNombre(self):
+    return "N_ExprVariable"
+  def nombreNodo_(self, nodo):
+    # PRE: nodo es de tipo Nombre
+    return nodo["_children"][0]["_value"]
+  def tiposComandosCompuestos(self):
+    return [
       "N_StmtIf",
       "N_StmtRepeat",
       "N_StmtForeach",
       "N_StmtWhile",
       "N_StmtSwitch"
-    ])
-  def hayRepeticiónSimple(self, AST):
-    return self.hayNodoDeTipo(AST, "N_StmtRepeat")
-  def hayNombre_(self, AST, nombre):
-    return algunoCumple(lambda nodo : nodo["_children"][0]["_value"] == nombre, self.nodosDeTipo(AST, "N_ExprVariable"))
-  def hayImport(self, AST):
-    return False # No hay imports en Gobstones
-  def hayExcepción(self, AST):
-    return False # No hay excepciones en Gobstones
+    ]
+  def tiposRepeticiónSimple(self):
+    return "N_StmtRepeat"
+  def tiposImport(self):
+    return [] # No hay imports en Gobstones
+  def tiposExcepción(self):
+    return [] # No hay excepciones en Gobstones
+  def líneaDeNodo_(self, nodo):
+    return nodo["_startPos"]["_line"]
+  def columnaDeNodo_(self, nodo):
+    return nodo["_startPos"]["_column"]
 
 def astGobstones(codigo):
   f = open(rutaJail("src.txt"), 'w')
@@ -46,4 +58,14 @@ def astGobstones(codigo):
   if len(falla) > 0:
     return {"error":falla}
   AST = json.loads(json.loads(salida))
+  AgregarAtributoMadre(AST)
+  AST["_madre"] = None
   return {"ast":AST}
+
+def hijosDeNodo_(nodo):
+  return nodo["_children"] if (not (nodo is None) and ("_children" in nodo)) else []
+
+def AgregarAtributoMadre(nodo):
+  for hijo in hijosDeNodo_(nodo):
+    hijo["_madre"] = nodo
+    AgregarAtributoMadre(hijo)

@@ -16,27 +16,32 @@ class AnalizadorHaskell(Analizador):
     self.reglasCódigoMalicioso = reglasCódigoMalicioso
   def obtenerAst(self, codigo):
     return astHaskell(codigo)
-  def hijosDeNodo(self, nodo):
-    hijosPorAhora = []
-    for k in nodo:
-      if not (k in ["t", "en", "valor", "original"]):
-        másHijos = nodo[k]
-        for hijo in (másHijos if (type(másHijos) == type([])) else [másHijos]):
-          hijosPorAhora.append(hijo)
-    return hijosPorAhora
-  def esNodoDeTipo(self, nodo, tipo):
-    return nodo["t"] == tipo
-  def esUnComandoCompuesto(self, nodo):
-    return False # No hay comandos compuestos en Haskell
-  def hayRepeticiónSimple(self, AST):
-    return False # No hay repetición simple en Haskell
-  def hayNombre_(self, AST, nombre):
-    return algunoCumple(lambda nodo : nodo["valor"] == nombre, self.nodosDeTipo(AST, "Nombre"))
-  def hayImport(self, AST):
-    return self.hayNodoDeTipo(AST, "Import") or \
-      self.hayNodoDeTipo(AST, "DeclaraciónImport")
-  def hayExcepción(self, AST):
-    return False # TODO! ¿exitWith?
+  def hijosDeNodo_(self, nodo):
+    return hijosDeNodo_(nodo)
+  def nodoMadreDe_(self, nodo):
+    return nodo.["_madre"]
+  def es_NodoDeTipo_(self, nodo, tipo):
+    if not (nodo is None):
+      tipos = tipo if type(tipo) == type([]) else [tipo]
+      return algunoCumple(lambda t : nodo["t"] == t, tipos)
+    return False
+  def tiposNombre(self):
+    return "Nombre"
+  def nombreNodo_(self, nodo):
+    # PRE: nodo es de tipo Nombre
+    return nodo["valor"]
+  def tiposComandosCompuestos(self):
+    return [] # No hay comandos compuestos en Haskell
+  def tiposRepeticiónSimple(self):
+    return [] # No hay repetición simple en Haskell
+  def tiposImport(self):
+    return ["Import","DeclaraciónImport"]
+  def tiposExcepción(self):
+    return [] # TODO! ¿exitWith?
+  def líneaDeNodo_(self, nodo):
+    return líneaDeUbicación(nodo["en"]) if ("en" in nodo) else "?"
+  def columnaDeNodo_(self, nodo):
+    return columnaDeUbicación(nodo["en"]) if ("en" in nodo) else "?"
 
 def astHaskell(codigo):
   f = open(rutaJail('src.hs'), 'w')
@@ -52,7 +57,29 @@ def astHaskell(codigo):
   haskellParser.parse(salida)
   if haskellParser.falló():
     return {"error":haskellParser.errorMsg() + "\n\n" + haskellParser.ubicaciónATexto(haskellParser.errorLoc())}
-  return {"ast":haskellParser.ast()}
+  AST = haskellParser.ast()
+  AgregarAtributoMadre(AST)
+  AST["_madre"] = None
+  return {"ast":AST}
+
+def hijosDeNodo_(nodo):
+  hijosPorAhora = []
+  for k in nodo:
+    if not (k in ["t", "en", "valor", "original", "_madre"]):
+      másHijos = nodo[k]
+      for hijo in (másHijos if (type(másHijos) == type([])) else [másHijos]):
+        hijosPorAhora.append(hijo)
+  return hijosPorAhora
+
+def AgregarAtributoMadre(nodo):
+  for hijo in hijosDeNodo_(nodo):
+    hijo["_madre"] = nodo
+    AgregarAtributoMadre(hijo)
+
+def líneaDeUbicación(ubicación):
+  return (ubicación["línea"] - 3) if ("línea" in ubicación) else "?"
+def columnaDeUbicación(ubicación):
+  return ubicación["columna"] if ("columna" in ubicación) else "?"
 
 class HaskellParser(object):
   def parse(self, salida):
@@ -75,7 +102,7 @@ class HaskellParser(object):
       return
     self.errorDesconocido("La salida no empieza con (ParseOk) ni con (ParseFailed)")
   def ubicaciónATexto(self, ubicación):
-    return "Línea " + str(ubicación["línea"] - 3) + ", columna " + str(ubicación["columna"])
+    return "Línea " + str(líneaDeUbicación(ubicación)) + ", columna " + str(columnaDeUbicación(ubicación))
   def errorDesconocido(self, mensaje):
     # print(mensaje)
     # import traceback

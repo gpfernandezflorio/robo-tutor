@@ -10,16 +10,11 @@ class CorrectorGobstones(Corrector):
     self.ruta = "src.txt"
     self.comando = "node /rtTest/gbs/dist/gobstones-lang run -l es -i src.txt -b"
 
-  def Analizar(self, jsonObj):
-    codeParaAnálisis = "" + jsonObj["src"]
-    lineasAdicionales = 0
-    if not (("pidePrograma" in jsonObj["ejercicio"]) and jsonObj["ejercicio"]["pidePrograma"]):
-      codeParaAnálisis = "program{}\n" + codeParaAnálisis
-      lineasAdicionales = 1
-    resultadoAnalisisCodigo = analizarGobstones(codeParaAnálisis, jsonObj["analisisCodigo"], True)
+  def Analizar(self, código, reglas, extras):
+    resultadoAnalisisCodigo = analizarGobstones(código, reglas, extras)
     if not(resultadoAnalisisCodigo is None):
       if resultadoAnalisisCodigo["resultado"] == "Except":
-        return {"resultado":"Except", "error":buscar_falla_gobstones(resultadoAnalisisCodigo["error"], lineasAdicionales)}
+        return {"resultado":"Except", "error":buscar_falla_gobstones(resultadoAnalisisCodigo["error"], extras["desde"]-1)}
     return resultadoAnalisisCodigo
 
   def InicializarRun(self, run):
@@ -120,7 +115,27 @@ def buscar_falla_gobstones(s, n):
     elif l.startswith('    _line: '):
       linea = int(l[11:-1]) - n
       if linea > 0:
-        falla = falla + "\nLínea: " + str(linea)
+        falla = LimpiarNúmerosDeLínea(falla, n) + "\nLínea: " + str(linea)
       return falla
-  # print(s)
+  print(s) # ¿error?
   return falla
+
+def LimpiarNúmerosDeLínea(texto, n):
+  res = ""
+  j = 0
+  i = texto.find("(?):")
+  while i >= 0 and i < len(texto) - 4:
+    res += texto[j:i]
+    fI = texto.find(":", i+4)
+    if fI >= i+5:
+      l = int(texto[i+4:fI])
+      if l > 0:
+        res += ("la línea " + str(l-n)) if l > n else "(?)"
+      else:
+        res += "(?)"
+    else:
+      res += "(?)"
+    j = texto.find(" ", fI)
+    i = -1 if (j < 0) else texto.find("(?):", j)
+  res += texto[j:] if (j >= 0) else ""
+  return res

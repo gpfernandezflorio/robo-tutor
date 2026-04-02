@@ -9,22 +9,22 @@ if versionDePython.major != 3 or versionDePython.minor != 12:
   exit()
 
 import ast
-from analizadorBase import buscarNodoDeNombreEnAST, buscarNodoImportEnAST, buscarNodoRaiseEnAST, buscarNodoDeTipo_Con_, Analizador
+from analizadorBase import nodosDeNombreEnAST, buscarNodoImportEnAST, buscarNodoRaiseEnAST, buscarNodoDeTipo_Con_, Analizador
 from utils import algunoCumple, aplanar, mapear, singularSiEsta
 
 reglasCódigoMalicioso = {
-  "EXIT":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "exit"),
-  "PRINT":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "print"),
-  "OPEN":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "open"),
-  "EXEC":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "exec"),
-  "EVAL":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "eval"),
-  "GETATTR":lambda analizador, AST : buscarNodoDeNombreEnAST(analizador, AST, "getattr"),
-  "IMPORT":lambda analizador, AST : buscarNodoImportEnAST(analizador, AST),
-  "RAISE":lambda analizador, AST : buscarNodoRaiseEnAST(analizador, AST),
-  "NombrePrivado":lambda analizador, AST : buscarNodoDeTipo_Con_(analizador, AST, ast.Name,
+  "EXIT":lambda analizador, AST, código : nodosDeNombreEnAST(analizador, AST, "exit"),
+  "PRINT":lambda analizador, AST, código : nodosDeNombreEnAST(analizador, AST, "print"),
+  "OPEN":lambda analizador, AST, código : nodosDeNombreEnAST(analizador, AST, "open"),
+  "EXEC":lambda analizador, AST, código : nodosDeNombreEnAST(analizador, AST, "exec"),
+  "EVAL":lambda analizador, AST, código : nodosDeNombreEnAST(analizador, AST, "eval"),
+  "GETATTR":lambda analizador, AST, código : nodosDeNombreEnAST(analizador, AST, "getattr"),
+  "IMPORT":lambda analizador, AST, código : buscarNodoImportEnAST(analizador, AST),
+  "RAISE":lambda analizador, AST, código : buscarNodoRaiseEnAST(analizador, AST),
+  "NombrePrivado":lambda analizador, AST, código : buscarNodoDeTipo_Con_(analizador, AST, ast.Name,
     lambda n : n.id.startswith("__"), lambda n : n.id
   ),
-  "AtributoPrivado":lambda analizador, AST : buscarNodoDeTipo_Con_(analizador, AST, ast.Attribute,
+  "AtributoPrivado":lambda analizador, AST, código : buscarNodoDeTipo_Con_(analizador, AST, ast.Attribute,
     lambda n : n.attr.startswith("__"), lambda n : n.attr
   )
 }
@@ -35,14 +35,24 @@ class AnalizadorPython(Analizador):
     self.reglasCódigoMalicioso = reglasCódigoMalicioso
   def obtenerAst(self, codigo):
     return astPython(codigo)
-  def hijosDeNodo(self, nodo):
+  def hijosDeNodo_(self, nodo):
     if not isinstance(nodo, ast.AST):
       breakpoint()
-    return HIJOS[type(nodo).__name__](nodo)
-  def esNodoDeTipo(self, nodo, tipo):
-    return isinstance(nodo, tipo)
-  def esUnComandoCompuesto(self, nodo):
-    return algunoCumple(lambda x : isinstance(nodo, x), [
+    return hijosDeNodo_(nodo)
+  def nodoMadreDe_(self, nodo):
+    return nodo._madre
+  def es_NodoDeTipo_(self, nodo, tipo):
+    if not (nodo is None):
+      tipos = tipo if type(tipo) == type([]) else [tipo]
+      return algunoCumple(lambda t : isinstance(nodo, t), tipos)
+    return False
+  def tiposNombre(self):
+    return ast.Name
+  def nombreNodo_(self, nodo):
+    # PRE: nodo es de tipo Nombre
+    return nodo.id
+  def tiposComandosCompuestos(self):
+    return [
       ast.For,
       ast.AsyncFor,
       ast.While,
@@ -50,20 +60,23 @@ class AnalizadorPython(Analizador):
       ast.With,
       ast.AsyncWith,
       ast.Try
-    ])
-  def hayRepeticiónSimple(self, AST):
-    return False # No hay repetición simple en Python
-  def hayNombre_(self, AST, nombre):
-    return algunoCumple(lambda nodo : nodo.id == nombre, self.nodosDeTipo(AST, ast.Name))
-  def hayImport(self, AST):
-    return self.hayNodoDeTipo(AST, ast.Import) or \
-      self.hayNodoDeTipo(AST, ast.ImportFrom)
-  def hayExcepción(self, AST):
-    return self.hayNodoDeTipo(AST, ast.Raise)
+    ]
+  def tiposRepeticiónSimple(self):
+    return [] # No hay repetición simple en Python
+  def tiposImport(self):
+    return [ast.Import, ast.ImportFrom]
+  def tiposExcepción(self):
+    return [ast.Raise]
+  def líneaDeNodo_(self, nodo):
+    return nodo.lineno
+  def columnaDeNodo_(self, nodo):
+    return nodo.col_offset # OJO: es índice en UTF-8
 
 def astPython(codigo):
   try:
     AST = ast.parse(codigo)
+    AgregarAtributoMadre(AST)
+    AST._madre = None
     return {"ast":AST} # TODO
   except Exception as e:
     return {"error":str(e).replace("<unknown>, ","").replace("line","línea")}
@@ -336,3 +349,11 @@ def hijosComprehension(comprehension): # es una lista
 
 def hijosMatchCase(cases): # es una lista
   return aplanar(mapear(lambda x : ([x.pattern] + x.body + singularSiEsta(x.guard)), cases))
+
+def AgregarAtributoMadre(nodo):
+  for hijo in hijosDeNodo_(nodo):
+    hijo._madre = nodo
+    AgregarAtributoMadre(hijo)
+
+def hijosDeNodo_(nodo):
+  return HIJOS[type(nodo).__name__](nodo)
