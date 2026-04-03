@@ -1,7 +1,7 @@
 from procesos import ejecutarConTimeout, rutaJail
 
 def timeoutDefault():
-  return 1
+  return 2
 
 class Corrector(object):
   def __init__(self):
