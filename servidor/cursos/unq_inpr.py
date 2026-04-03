@@ -71,6 +71,7 @@ enPapel = resaltado("EN PAPEL")
 importante = resaltado("Importante")
 recordar = resaltado("¡Recordar!")
 biblioteca = ayuda("BIBLIOTECA")
+pista = ayuda("PISTA")
 
 def img(ruta):
   return "Ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39068/mod_resource/content/18/P5.%20Expresiones%20y%20tipos.pdf' target='_blank'>la guía</a>."
@@ -806,7 +807,7 @@ def guia2_ej7d(fecha):
     "tipo":"CODIGO",
     "id":"guia2_ej7d",
     "nombre":"7. Las pirámides de Gobstones (d)",
-    "enunciado":e2_7("Una pirámide gigante (con 11 bloques de base y 6 bloques de altura, donde cada segmento es dos celdas más chico que el que tiene debajo). Para esto deben reutilizarse los procedimientos implementados en los puntos a. y b.<br>"+ayuda("PISTA")+": una pirámide gigante se puede conseguir con 4 pirámides comunes, si se las ubica con cuidado."),
+    "enunciado":e2_7("Una pirámide gigante (con 11 bloques de base y 6 bloques de altura, donde cada segmento es dos celdas más chico que el que tiene debajo). Para esto deben reutilizarse los procedimientos implementados en los puntos a. y b.<br>"+pista+": una pirámide gigante se puede conseguir con 4 pirámides comunes, si se las ubica con cuidado."),
     "pre":"procedure DibujarBase() {\n  repeat(4){Poner(Negro) Mover(Este)}\n  Poner(Negro)\n  repeat(4){Mover(Oeste)}\n}\nprocedure DibujarMedio() {\n  repeat(2){Poner(Negro) Mover(Este)}\n  Poner(Negro)\n  repeat(2){Mover(Oeste)}\n}\nprocedure DibujarPunta() {Poner(Negro)}",
     "pidePrograma": True,
     "run_data":[{
@@ -1900,6 +1901,221 @@ def guia5_ej2(fecha):
     "disponible":{"desde":fecha}
   }
 
+def e5_3(e):
+  return "En este ejercicio continuaremos con nuestro bosque, esta vez colocando semillas y árboles en la celda lindante hacia alguna dirección, y dejando el cabezal en la celda inicial."+código(e+"<br>// deja el cabezal en la celda inicial")
+
+def guia5_ej3a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia5_ej3a",
+    "nombre":"3. El bosque, parte 3 (a)",
+    "enunciado":e5_3("Poner_SemillasAl_(cantidadDeSemillas, direcciónAPoner)"),
+    "run_data":[{
+      "pre":"program {Poner_SemillasAl_(3,Norte)}",
+      "t0":{"head":[0,0],"width":1,"height":2,"board":[[v,v]]},
+      "tf":{"head":[0,0],"width":1,"height":2,"board":[[v,rs(3)]]}
+    },{
+      "pre":"program {Poner_SemillasAl_(2,Oeste)}",
+      "t0":{"head":[1,1],"width":2,"height":2,"board":[[v,rs(2)],[v,rs(5)]]},
+      "tf":{"head":[1,1],"width":2,"height":2,"board":[[v,rs(4)],[v,rs(5)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia5_ej3b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia5_ej3b",
+    "nombre":"3. El bosque, parte 3 (b)",
+    "enunciado":e5_3("Sacar_ÁrbolesAl_(cantidadDeÁrboles, direcciónASacar)"),
+    "run_data":[{
+      "pre":"program {Sacar_ÁrbolesAl_(3,Sur)}",
+      "t0":{"head":[0,1],"width":2,"height":2,"board":[[gs(7),rs(3)],[v,v]]},
+      "tf":{"head":[0,1],"width":2,"height":2,"board":[[gs(4),rs(3)],[v,v]]}
+    },{
+      "pre":"program {Sacar_ÁrbolesAl_(1,Este)}",
+      "t0":{"head":[0,1],"width":2,"height":2,"board":[[v,rs(2)],[v,gs(2)]]},
+      "tf":{"head":[0,1],"width":2,"height":2,"board":[[v,rs(2)],[v,gs(1)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia5_ej3c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia5_ej3c",
+    "nombre":"3. El bosque, parte 3 (c)",
+    "enunciado":e5_3("Sacar_SemillasEnDiagonalAl_Y_(cantidadDeSemillas, primeraDirDiagonal, segundaDirDiagonal)"),
+    "run_data":[{
+      "pre":"program {Sacar_SemillasEnDiagonalAl_Y_(3,Norte,Este)}",
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[v,v],[v,rs(5)]]},
+      "tf":{"head":[0,0],"width":2,"height":2,"board":[[v,v],[v,rs(2)]]}
+    },{
+      "pre":"program {Sacar_SemillasEnDiagonalAl_Y_(6,Oeste,Sur)}",
+      "t0":{"head":[1,1],"width":2,"height":2,"board":[[rs(9),v],[v,v]]},
+      "tf":{"head":[1,1],"width":2,"height":2,"board":[[rs(3),v],[v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia5_ej3d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia5_ej3d",
+    "nombre":"3. El bosque, parte 3 (d)",
+    "enunciado":e5_3("Sacar_ÁrbolesEnDiagonalHorariaAl_(cantidadDeÁrboles, direcciónDiagonal)<br>// la diagonal horaria de una dirección es aquella dada por la dirección y su dirección siguiente.<br>// Ej. la diagonal horaria de Norte es Norte-Este, la de Sur es Sur-Oeste."),
+    "run_data":[{
+      "pre":"program {Sacar_ÁrbolesEnDiagonalHorariaAl_(3,Norte)}",
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[v,v],[v,gs(5)]]},
+      "tf":{"head":[0,0],"width":2,"height":2,"board":[[v,v],[v,gs(2)]]}
+    },{
+      "pre":"program {Sacar_ÁrbolesEnDiagonalHorariaAl_(6,Sur)}",
+      "t0":{"head":[1,1],"width":2,"height":2,"board":[[gs(9),v],[v,v]]},
+      "tf":{"head":[1,1],"width":2,"height":2,"board":[[gs(3),v],[v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia5_ej4(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia5_ej4",
+    "nombre":"4. La banda de la gloriosa River Plate",
+    "enunciado":"Escribir <code>DibujarLaBandaGloriosaDeAncho_(ancho)</code> que dibuja una banda diagonal de color Rojo de cuatro celdas de alto y de tantas celdas de largo como indique el parámetro ancho (dibujando hacia arriba y hacia la derecha). El procedimiento debe poder ser ejecutado en tableros en donde la banda entra justa en el tablero como se muestra a continuación (ver figura en <a href='https://aulas.gobstones.org/pluginfile.php/39068/mod_resource/content/18/P5.%20Expresiones%20y%20tipos.pdf' target='_blank'>la guía</a>).<br>La imágen muestra el resultado de ejecutar el procedimiento como <code>DibujarLaBandaGloriosaDeAncho_(6)</code>, con el cabezal posicionado en la esquina Sur-Oeste del tablero al inicio.<br>"+importante+": Si la banda tiene 6 celdas de largo, el argumento pasado debe ser 6, no 5. Tenga en cuenta que deberá utilizar expresiones en algún lugar de su código para solucionar el problema.",
+    "run_data":[{
+      "pre":"program {DibujarLaBandaGloriosaDeAncho_(1)}",
+      "t0":{"head":[0,0],"width":1,"height":4,"board":[[v,v,v,v]]},
+      "tf":{"head":[0,0],"width":1,"height":4,"board":[[r,r,r,r]]}
+    },{
+      "pre":"program {DibujarLaBandaGloriosaDeAncho_(3)}",
+      "t0":{"head":[1,1],"width":4,"height":7,"board":[
+        [v,v,v,v,v,v,v],[v,v,v,v,v,v,v],[v,v,v,v,v,v,v],[v,v,v,v,v,v,v]
+      ]},
+      "tf":{"head":[1,1],"width":4,"height":7,"board":[
+        [v,v,v,v,v,v,v],[v,r,r,r,r,v,v],[v,v,r,r,r,r,v],[v,v,v,r,r,r,r]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia5_ej5a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia5_ej5a",
+    "nombre":"5. ¡A la batalla!, parte 1 (a)",
+    "enunciado":"Suponiendo que se está programando un juego donde en las celdas del tablero se representan Soldados (los aliados con una bolita de color Negro y los enemigos con una bolita de color Rojo por cada soldado), escribir el siguiente procedimiento:<br><br><code>EnviarAliadosParaDuplicarEnemigos()</code>, que agrega soldados aliados en la celda actual en cantidad suficiente para que haya el doble de aliados que de soldados enemigos.",
+    "pre":"program {EnviarAliadosParaDuplicarEnemigos()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,0,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,0,0)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,10,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,20,10,0)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,4,8,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,16,8,0)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,6,4,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,8,4,0)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia5_ej5b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia5_ej5b",
+    "nombre":"5. ¡A la batalla!, parte 1 (b)",
+    "enunciado":"Suponiendo que se está programando un juego donde en las celdas del tablero se representan Soldados (los aliados con una bolita de color Negro y los enemigos con una bolita de color Rojo por cada soldado), escribir el siguiente procedimiento:<br><br><code>PelearLaBatalla()</code>, que simula una batalla, suponiendo que hay suficiente cantidad de soldados aliados como para ganar la batalla. Durante una batalla, 2 soldados enemigos pelean contra 3 soldados aliados y todos mueren. Por ejemplo, si hay 6 enemigos y 10 aliados, mueren los 6 enemigos y 9 de los aliados; si hay 10 enemigos y 21 aliados, mueren los 10 enemigos y 15 soldados aliados.<br>"+pista+": ¿Qué cuenta hay que hacer para saber cuántos soldados aliados morirán?",
+    "pre":"program {PelearLaBatalla()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,0,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,0,0)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,10,6,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,1,0,0)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,21,10,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,6,0,0)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia5_ej6(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia5_ej6",
+    "nombre":"6. Sacando todas las de un color",
+    "enunciado":biblioteca+" Escribir un procedimiento <code>SacarTodasLasDeColor_(colorASacar)</code>, que quite de la celda actual todas las bolitas del color indicado por el parámetro.<br>"+pista+": Considerar utilizar el procedimiento <code>Sacar_DeColor_</code>, definido en la práctica anterior. ¿Qué argumentos se le deberían pasar?",
+    "run_data":[{
+      "pre":"program {SacarTodasLasDeColor_(Rojo)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(10,10,10,10)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(10,10,0,10)]]}
+    },{
+      "pre":"program {SacarTodasLasDeColor_(Azul)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia5_ej7(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia5_ej7",
+    "nombre":"7. ¿Y si vaciamos la celda?",
+    "enunciado":biblioteca+" Escribir un procedimiento <code>VaciarCelda()</code> que quite de la celda actual todas las bolitas de todos los colores, dejando la celda vacía.",
+    "run_data":[{
+      "pre":"program {VaciarCelda()}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(10,10,10,10)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+    },{
+      "pre":"program {VaciarCelda()}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia5_ej8(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia5_ej8",
+    "nombre":"8. La banda ahora es para todos",
+    "enunciado":"Los hinchas de otros clubes se quejaron de que la banda que hicimos solo vale para River, y quieren poder hacer otras bandas. Escribir entonces <code>DibujarBandaDeAlto_YAncho_DeColor_(alto, ancho, color)</code> que dibuja una banda diagonal con los parámetros dados.<br>"+importante+": Nuevamente, debe seguir funcionando el código para casos de borde.",
+    "run_data":[{
+      "pre":"program {DibujarBandaDeAlto_YAncho_DeColor_(6,1,Verde)}",
+      "t0":{"head":[0,0],"width":1,"height":6,"board":[[v,v,v,v,v,v]]},
+      "tf":{"head":[0,0],"width":1,"height":6,"board":[[g,g,g,g,g,g]]}
+    },{
+      "pre":"program {DibujarBandaDeAlto_YAncho_DeColor_(2,4,Azul)}",
+      "t0":{"head":[1,1],"width":5,"height":6,"board":[
+        [v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v],[v,v,v,v,v,v]
+      ]},
+      "tf":{"head":[1,1],"width":5,"height":6,"board":[
+        [v,v,v,v,v,v],[v,a,a,v,v,v],[v,v,a,a,v,v],[v,v,v,a,a,v],[v,v,v,v,a,a]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia5_ej9(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia5_ej9",
+    "nombre":"9. Aprendiendo a leer y escribir",
+    "enunciado":"Hacer el procedimiento PasarPalabraActualAMayúsculas() que suponiendo que en la fila actual se codifica una palabra en minúsculas usando bolitas, ponga la misma palabra en mayúsculas en la fila al Norte.<ul><li>Cada letra se representa con una cantidad diferente de bolitas negras, según un código numérico llamado ASCII.</li><li>En la celda más al Oeste de la fila actual se codifica la cantidad de letras de la palabra, usando bolitas rojas.</li><li>La primera letra de la palabra está en la celda lindante al Este de la que contiene la cantidad de letras.</li><li>En el código ASCII si las letras mayúsculas se codifican con un número N entonces la misma letra minúscula se representa con N+32 (ej. la ‘a’ minúsculas se representa con el número 97 y la ‘A’ mayúsculas, con el 65).</li><li>El cabezal se encuentra en la celda más al Oeste de una fila donde hay una palabra representada.</li></ul>"+importante+": ¿Cómo comenzar la resolución? En cada procedimiento, ¿qué parte debe escribirse primero?",
+    "pre":"program {PasarPalabraActualAMayúsculas()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":3,"height":2,"board":[[rs(2),v],[ns(103),v],[ns(98),v]]},
+      "tf":{"head":[0,0],"width":3,"height":2,"board":[[rs(2),v],[ns(103),ns(71)],[ns(98),ns(66)]]}
+    },{
+      "t0":{"head":[0,0],"width":4,"height":2,"board":[[rs(3),v],[ns(98),v],[ns(103),v],[ns(98),v]]},
+      "tf":{"head":[0,0],"width":4,"height":2,"board":[[rs(3),v],[ns(98),ns(66)],[ns(103),ns(71)],[ns(98),ns(66)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
 def guia5(fechaInicio):
   return {
     "tipo":"SECCION",
@@ -1909,7 +2125,18 @@ def guia5(fechaInicio):
     "actividades":[
       linkGuía(5, 39068, "18/P5.%20Expresiones%20y%20tipos.pdf"),
       guia5_ej1(fechaInicio),
-      guia5_ej2(fechaInicio)
+      guia5_ej2(fechaInicio),
+      guia5_ej3a(fechaInicio),
+      guia5_ej3b(fechaInicio),
+      guia5_ej3c(fechaInicio),
+      guia5_ej3d(fechaInicio),
+      guia5_ej4(fechaInicio),
+      guia5_ej5a(fechaInicio),
+      guia5_ej5b(fechaInicio),
+      guia5_ej6(fechaInicio),
+      guia5_ej7(fechaInicio),
+      guia5_ej8(fechaInicio),
+      guia5_ej9(fechaInicio)
     ]
   }
 

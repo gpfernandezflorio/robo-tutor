@@ -45,6 +45,9 @@ def errorRaise():
 def errorConcepto(n):
   return "No está permitido usar "+n
 
+def calidadNest():
+  return "No está bueno anidar comandos compuestos"
+
 cursos = [{
   "id":"inpr_unq_2026_s1",
   "l":"Gobstones",
@@ -112,6 +115,26 @@ cursos = [{
   },{
     "id":"guia5_ej2",
     "i":[{"src":"procedure Mover_SegúnColor_(d,c) {\n  repeat(nroBolitas(c)) {Mover(d)}\n}","res":"OK"}
+    ]
+  },{
+    "id":"guia5_ej5b",
+    "i":[{"src":"procedure PelearLaBatalla() {\nrepeat(nroBolitas(Rojo) div 2) {\nE()\n}\n}\n\nprocedure E() {\n" +\
+      "Sacar(Rojo)Sacar(Rojo)\nSacar(Negro)Sacar(Negro)Sacar(Negro)\n}","res":"OK"}
+    ]
+  },{
+    "id":"guia5_ej8",
+    "i":[{"src":"procedure DibujarBandaDeAlto_YAncho_DeColor_(h,w,c){\nrepeat(w-1) {\nL(h,c) Mover(Este)Mover(Norte)\n}\n" +\
+        "L(h,c)\nrepeat(w-1) {Mover(Oeste)Mover(Sur)}\n}\n\nprocedure L(h,c) {\n  repeat(h-1) {Poner(c)Mover(Norte)}\n  Poner(c)" +\
+        "\n  repeat(h-1) {Mover(Sur)}\n}","res":"OK"},
+      {"src":"procedure DibujarBandaDeAlto_YAncho_DeColor_(h,w,c){\nrepeat(w-1) {\n  repeat(h-1) {Poner(c)Mover(Norte)}\n  Poner(c)" +\
+        "\n  repeat(h-1) {Mover(Sur)}\nMover(Este)Mover(Norte)\n}\n  repeat(h-1) {Poner(c)Mover(Norte)}\n  Poner(c)" +\
+        "\n  repeat(h-1) {Mover(Sur)}\nrepeat(w-1) {Mover(Oeste)Mover(Sur)}\n}","res":"Calidad","error":calidadNest()}
+    ]
+  },{
+    "id":"guia5_ej9",
+    "i":[{"src":"procedure PasarPalabraActualAMayúsculas() {\nrepeat(nroBolitas(Rojo)) {\nMover(Este)\n" +\
+        "Poner_AlNorte(nroBolitas(Negro)-32)\n}\nIrAlBorde(Oeste)\n}\n\nprocedure Poner_AlNorte(k) {\nMover(Norte)\n" +\
+        "repeat (k) {Poner(Negro)}\nMover(Sur)\n}","res":"OK"},
     ]
   }]
 },{
