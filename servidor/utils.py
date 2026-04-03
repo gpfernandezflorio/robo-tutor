@@ -55,7 +55,9 @@ def failCallback(dataFile,FILENAME="r"):
   requests.post("https://docs.google.com/forms/d/e/" + URL_FORM_AVISOS + "/formResponse", data = dataForm)
 
 DATOS_SERVIDOR = {
-  "LOCAL":False
+  "LOCAL":False,
+  "IP":"localhost",
+  "PORT":8000
 }
 
 def EjecutarLocal():
@@ -63,3 +65,10 @@ def EjecutarLocal():
 
 def ejecutandoLocal():
   return DATOS_SERVIDOR["LOCAL"]
+
+def EstablecerIP(ip, port):
+  DATOS_SERVIDOR["IP"] = ip
+  DATOS_SERVIDOR["PORT"] = port
+
+def rutaAlServidor():
+  return "http://"+DATOS_SERVIDOR["IP"]+":"+str(DATOS_SERVIDOR["PORT"])

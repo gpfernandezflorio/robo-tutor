@@ -11,7 +11,7 @@ except:
 
 import socket
 from servidor import mensajesServidor
-from utils import failCallback, EjecutarLocal
+from utils import failCallback, EjecutarLocal, EstablecerIP
 
 ## SERVER_LIBRARY
 from server_httpServer import Servidor # HTTPServer
@@ -29,6 +29,7 @@ def launch_server(ip='localhost', port=8000, v=False):
     else:
         print('Launch LOCAL Server ' + ip + ":" + str(port))
     sys.stdout.flush()
+    EstablecerIP(ip, port)
     Servidor().run(ip, port, mensajesServidor, failCallback, verb)
     print('Exit...\n')
 
