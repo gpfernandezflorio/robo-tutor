@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from utils import rutaAlServidor
+
 v = {"a": 0, "n": 0, "r": 0, "v": 0} # Celda vacía
 r = {"a": 0, "n": 0, "r": 1, "v": 0} # Celda con una roja
 a = {"a": 1, "n": 0, "r": 0, "v": 0} # Celda con una azul
@@ -69,6 +71,10 @@ enPapel = resaltado("EN PAPEL")
 importante = resaltado("Importante")
 recordar = resaltado("¡Recordar!")
 biblioteca = ayuda("BIBLIOTECA")
+
+def img(ruta):
+  return "Ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39068/mod_resource/content/18/P5.%20Expresiones%20y%20tipos.pdf' target='_blank'>la guía</a>."
+  # return '<img src="'+rutaAlServidor()+'/servidor/cursos/unq_inpr/'+ruta+'"></img>'
 
 def código(c):
   return '<div style="background-color:#eee;border:solid 2px black;padding:3px;font-weight:bold;"><code>' + c + '</code></div>'
@@ -266,6 +272,19 @@ def rosa_de_los_vientos(fecha):
     "disponible":{"desde":fecha}
   }
 
+def rtas_opción_multiple_n(opciones, correcta):
+  return rtas_opción_multiple_i(opciones, correcta-1)
+
+def rtas_opción_multiple_i(opciones, correcta):
+  resultado = []
+  for i in range(len(opciones)):
+    resultado.append({
+      "texto":"<p>" + str(opciones[i][0]) + "</p>",
+      # "devolucion":opciones[i][1],
+      "puntaje":"1" if i==correcta else "0"
+    })
+  return resultado
+
 def guia1_ej1(fecha):
   return {
     "tipo":"CODIGO",
@@ -320,14 +339,10 @@ textos1_5 = [
 ]
 
 def rtas1_5(correcta, devoluciones):
-  resultado = []
+  opciones = []
   for i in range(5):
-    resultado.append({
-      "texto":"<p>" + textos1_5[i] + "</p>",
-      # "devolucion":devoluciones[i],
-      "puntaje":"1" if (i+1)==correcta else "0"
-    })
-  return resultado
+    opciones.append([textos1_5[i], devoluciones[i]])
+  return rtas_opción_multiple_n(opciones, correcta)
 
 def guia1_ej5(fecha):
   return {
@@ -416,14 +431,10 @@ textos1_8 = [
 ]
 
 def rtas1_8(correcta, devoluciones):
-  resultado = []
+  opciones = []
   for i in range(7):
-    resultado.append({
-      "texto":"<p>" + textos1_8[i] + "</p>",
-      # "devolucion":devoluciones[i],
-      "puntaje":"1" if (i+1)==correcta else "0"
-    })
-  return resultado
+    opciones.append([textos1_8[i], devoluciones[i]])
+  return rtas_opción_multiple_n(opciones, correcta)
 
 def guia1_ej8(fecha):
   return {
@@ -1548,6 +1559,347 @@ def guia4(fechaInicio):
     ]
   }
 
+TIPOS5_1 = [
+  "Color",      # 0
+  "Dirección",  # 1
+  "Número",     # 2
+  "Error"       # 3
+]
+
+EXPRESIONES5_1 = {
+  "a":"nroBolitas(Negro) + nroBolitas(Azul)",
+  "b":"opuesto(opuesto(Este))",
+  "c":"nroBolitas(siguiente(Azul))",
+  "d":"2 * nroBolitas(colorAImitar)"
+}
+
+def expresión5_1(e):
+  return EXPRESIONES5_1[e]
+
+def preguntas5_1(q,e,t):
+  return q+' de la expresión <code>'+expresión5_1(e)+'</code> en el tablero ('+t+'):<br>'+img('5.1.'+t+'.png')
+
+def preguntas5_1_tipos(e,t):
+  return preguntas5_1("Tipo",e,t)
+
+def preguntas5_1_valores(e,t):
+  return preguntas5_1("Valor",e,t) + (preguntas5_1_d() if e=="d" else "")
+
+def preguntas5_1_d():
+  return "<br>Para este último supondremos que la expresión aparece dentro del cuerpo del procedimiento con el siguiente contrato:"+ \
+    código("procedure PonerElDobleDe_QueDe_(colorAPoner, colorAImitar)<br>"+ \
+      "&nbsp;&nbsp;/*<br>&nbsp;&nbsp;&nbsp;&nbsp;PROPÓSITO: Poner bolitas del color **colorAPoner** en una cantidad que sea el doble de las que hay del color **colorAImitar** en la celda actual.<br>"+ \
+      "&nbsp;&nbsp;&nbsp;&nbsp;PARÁMETROS:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* colorAPoner : Color - color del que se pondrán bolitas.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* colorAImitar : Color - color del que se mirará cuántas bolitas hay en la celda actual.<br>"+ \
+      "&nbsp;&nbsp;&nbsp;&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* Ninguna<br>&nbsp;&nbsp;*/")+ \
+    "Y del cual sabemos fue invocado como:"+código("PonerElDobleDe_QueDe_(Rojo, Verde)")
+
+def rtas5_1_tipos(correcta, devoluciones):
+  opciones = []
+  for i in range(len(TIPOS5_1)):
+    opciones.append([TIPOS5_1[i], devoluciones[i]])
+  return rtas_opción_multiple_i(opciones, correcta)
+
+def guia5_ej1(fecha):
+  return {
+    "tipo":"CUESTIONARIO",
+    "id":"guia5_ej1",
+    "nombre":"1. Mis primeras expresiones",
+    "preguntas":[{
+      "tipo":"SOLO_TEXTO",
+      "titulo":"Enunciado",
+      "pregunta":enPapel+" Indicar el valor y el tipo que representan las expresiones dadas en los ítems en cada uno de los tableros A , B y C, suponiendo definido un procedimiento con el contrato dado al final."
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"a. (A) Tipo",
+      "pregunta":preguntas5_1_tipos("a","A"),
+      "respuestas":rtas5_1_tipos(2, ["","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"a. (A) Valor",
+      "pregunta":preguntas5_1_valores("a","A"),
+      "respuestas":rtas_opción_multiple_i([
+        [0,""],
+        [1,""],
+        [2,""],
+        [3,""],
+        [4,""],
+        [5,""],
+        [6,""],
+        [7,""],
+        [8,""],
+        [9,""],
+        [10,""],
+        [11,""],
+        [12,""]
+      ], 3)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"a. (B) Tipo",
+      "pregunta":preguntas5_1_tipos("a","B"),
+      "respuestas":rtas5_1_tipos(2, ["","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"a. (B) Valor",
+      "pregunta":preguntas5_1_valores("a","B"),
+      "respuestas":rtas_opción_multiple_i([
+        [0,""],
+        [1,""],
+        [2,""],
+        [3,""],
+        [4,""],
+        [5,""],
+        [6,""],
+        [7,""],
+        [8,""],
+        [9,""],
+        [10,""],
+        [11,""],
+        [12,""]
+      ], 8)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"a. (C) Tipo",
+      "pregunta":preguntas5_1_tipos("a","C"),
+      "respuestas":rtas5_1_tipos(2, ["","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"a. (C) Valor",
+      "pregunta":preguntas5_1_valores("a","C"),
+      "respuestas":rtas_opción_multiple_i([
+        [0,""],
+        [1,""],
+        [2,""],
+        [3,""],
+        [4,""],
+        [5,""],
+        [6,""],
+        [7,""],
+        [8,""],
+        [9,""],
+        [10,""],
+        [11,""],
+        [12,""]
+      ], 0)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"b. (A) Tipo",
+      "pregunta":preguntas5_1_tipos("b","A"),
+      "respuestas":rtas5_1_tipos(1, ["","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"b. (A) Valor",
+      "pregunta":preguntas5_1_valores("b","A"),
+      "respuestas":rtas_opción_multiple_i([
+        ["Norte",""],
+        ["Sur",""],
+        ["Este",""],
+        ["Oeste",""],
+        ["Error",""]
+      ], 2)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"b. (B) Tipo",
+      "pregunta":preguntas5_1_tipos("b","B"),
+      "respuestas":rtas5_1_tipos(1, ["","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"b. (B) Valor",
+      "pregunta":preguntas5_1_valores("b","B"),
+      "respuestas":rtas_opción_multiple_i([
+        ["Norte",""],
+        ["Sur",""],
+        ["Este",""],
+        ["Oeste",""],
+        ["Error",""]
+      ], 2)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"b. (C) Tipo",
+      "pregunta":preguntas5_1_tipos("b","C"),
+      "respuestas":rtas5_1_tipos(1, ["","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"b. (C) Valor",
+      "pregunta":preguntas5_1_valores("b","C"),
+      "respuestas":rtas_opción_multiple_i([
+        ["Norte",""],
+        ["Sur",""],
+        ["Este",""],
+        ["Oeste",""],
+        ["Error",""]
+      ], 2)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"c. (A) Tipo",
+      "pregunta":preguntas5_1_tipos("c","A"),
+      "respuestas":rtas5_1_tipos(2, ["","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"c. (A) Valor",
+      "pregunta":preguntas5_1_valores("c","A"),
+      "respuestas":rtas_opción_multiple_i([
+        [0,""],
+        [1,""],
+        [2,""],
+        [3,""],
+        [4,""],
+        [5,""],
+        [6,""],
+        [7,""],
+        [8,""],
+        [9,""],
+        [10,""],
+        [11,""],
+        [12,""],
+        ["Error",""]
+      ], 0)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"c. (B) Tipo",
+      "pregunta":preguntas5_1_tipos("c","B"),
+      "respuestas":rtas5_1_tipos(2, ["","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"c. (B) Valor",
+      "pregunta":preguntas5_1_valores("c","B"),
+      "respuestas":rtas_opción_multiple_i([
+        [0,""],
+        [1,""],
+        [2,""],
+        [3,""],
+        [4,""],
+        [5,""],
+        [6,""],
+        [7,""],
+        [8,""],
+        [9,""],
+        [10,""],
+        [11,""],
+        [12,""],
+        ["Error",""]
+      ], 4)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"c. (C) Tipo",
+      "pregunta":preguntas5_1_tipos("c","C"),
+      "respuestas":rtas5_1_tipos(2, ["","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"c. (C) Valor",
+      "pregunta":preguntas5_1_valores("c","C"),
+      "respuestas":rtas_opción_multiple_i([
+        [0,""],
+        [1,""],
+        [2,""],
+        [3,""],
+        [4,""],
+        [5,""],
+        [6,""],
+        [7,""],
+        [8,""],
+        [9,""],
+        [10,""],
+        [11,""],
+        [12,""],
+        ["Error",""]
+      ], 0)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"d. (A) Tipo",
+      "pregunta":preguntas5_1_tipos("d","A"),
+      "respuestas":rtas5_1_tipos(2, ["","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"d. (A) Valor",
+      "pregunta":preguntas5_1_valores("d","A"),
+      "respuestas":rtas_opción_multiple_i([
+        [0,""],
+        [1,""],
+        [2,""],
+        [3,""],
+        [4,""],
+        [5,""],
+        [6,""],
+        [7,""],
+        [8,""],
+        [9,""],
+        [10,""],
+        [11,""],
+        [12,""],
+        ["Error",""]
+      ], 6)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"d. (B) Tipo",
+      "pregunta":preguntas5_1_tipos("d","B"),
+      "respuestas":rtas5_1_tipos(2, ["","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"d. (B) Valor",
+      "pregunta":preguntas5_1_valores("d","B"),
+      "respuestas":rtas_opción_multiple_i([
+        [0,""],
+        [1,""],
+        [2,""],
+        [3,""],
+        [4,""],
+        [5,""],
+        [6,""],
+        [7,""],
+        [8,""],
+        [9,""],
+        [10,""],
+        [11,""],
+        [12,""],
+        ["Error",""]
+      ], 8)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"d. (C) Tipo",
+      "pregunta":preguntas5_1_tipos("d","C"),
+      "respuestas":rtas5_1_tipos(2, ["","","",""])
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"d. (C) Valor",
+      "pregunta":preguntas5_1_valores("d","C"),
+      "respuestas":rtas_opción_multiple_i([
+        [0,""],
+        [1,""],
+        [2,""],
+        [3,""],
+        [4,""],
+        [5,""],
+        [6,""],
+        [7,""],
+        [8,""],
+        [9,""],
+        [10,""],
+        [11,""],
+        [12,""],
+        ["Error",""]
+      ], 0)
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia5_ej2(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia5_ej2",
+    "nombre":"2. Moviendo según me indican las bolitas",
+    "enunciado":"Escribir el procedimiento <code>Mover_SegúnColor_(dirección,color)</code>, que mueve el cabezal en la dirección dada tantas celdas como bolitas de color dado hay en la celda actual. Como ejemplos se ofrecen los resultados de evaluar el comando <code>Mover_SegúnColor_(Este, Negro)</code>, en diferentes tableros iniciales (ver imágenes en <a href='https://aulas.gobstones.org/pluginfile.php/39068/mod_resource/content/18/P5.%20Expresiones%20y%20tipos.pdf' target='_blank'>la guía</a>).<br><br>"+importante+":  En el último caso, como la celda no tiene bolitas negras (o sea tiene 0 bolitas negras), entonces el cabezal se mueve 0 celdas hacia el Este (O sea, no se mueve). Para probar correctamente su código, pruebe pasando como argumento otras direcciones y colores.",
+    "run_data":[{
+      "pre":"program {Mover_SegúnColor_(Norte, Negro)}",
+      "t0":{"head":[0,0],"width":1,"height":5,"board":[[ns(3),v,v,v,v]]},
+      "tf":{"head":[0,3],"width":1,"height":5,"board":[[ns(3),v,v,v,v]]}
+    },{
+      "pre":"program {Mover_SegúnColor_(Sur, Verde)}",
+      "t0":{"head":[0,4],"width":1,"height":5,"board":[[v,v,v,v,gs(4)]]},
+      "tf":{"head":[0,0],"width":1,"height":5,"board":[[v,v,v,v,gs(4)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
 def guia5(fechaInicio):
   return {
     "tipo":"SECCION",
@@ -1556,6 +1908,8 @@ def guia5(fechaInicio):
     "disponible":{"desde":fechaInicio},
     "actividades":[
       linkGuía(5, 39068, "18/P5.%20Expresiones%20y%20tipos.pdf"),
+      guia5_ej1(fechaInicio),
+      guia5_ej2(fechaInicio)
     ]
   }
 
