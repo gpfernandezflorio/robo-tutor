@@ -14,8 +14,6 @@
 
   `git clone https://github.com/gpfernandezflorio/robo-tutor.git`
 
-  `chmod -R 570 /rtServer/robo-tutor`
-
 # Crear el usuario que va a correr los intentos enviados sin contraseña
 
   `sudo useradd rtTest`
@@ -28,8 +26,12 @@
 
   `sudo chmod 755 /rtTest`
 
-# Linkear los fuentes de Gobstones y el parser de Haskell
+# Copiar los fuentes de Gobstones y el parser de Haskell
 
-  `ln -s /rtServer/robo-tutor/servidor/gobstones-lang /rtTest/gbs`
+  `cp -r /rtServer/robo-tutor/servidor/gobstones-lang /rtTest/gbs`
 
   `cp /rtServer/robo-tutor/servidor/parser.hs /rtTest/parser.hs`
+
+# Quitar acceso global al repositorio
+
+  `chmod -R 770 /rtServer/robo-tutor`
