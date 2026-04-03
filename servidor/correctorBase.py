@@ -30,11 +30,26 @@ class Corrector(object):
       lineasAdicionales = lineasAdicionales + jsonObj["ejercicio"]["pre"].count("\n") + 2
     if "post" in jsonObj["ejercicio"]:
       code["post"] += "\n\n" + jsonObj["ejercicio"]["post"]
+    run_data = jsonObj["ejercicio"]["run_data"] if "run_data" in jsonObj["ejercicio"] else {}
+    if (type(run_data) != type([])):
+      run_data = [run_data]
     # Análisis calidad
+    code_calidad = {
+      "pre":code["pre"],
+      "post":code["post"],
+      "lineasAdicionales":lineasAdicionales + 2
+    }
+    if (len(run_data) > 0) and ("pre" in run_data[0]):
+      code_calidad["pre"] = code_calidad["pre"] + "\n\n" + run_data[0]["pre"]
+      code_calidad["lineasAdicionales"] = code_calidad["lineasAdicionales"] + run_data[0]["pre"].count("\n") + 2
     resultadoAnalisisCodigo = self.Analizar(
-      code["pre"] + "\n" + code["src"] + "\n" + code["post"],
+      code_calidad["pre"] + "\n" + code["src"] + "\n" + code_calidad["post"],
       jsonObj["analisisCodigo"],
-      {"evil":True, "desde":lineasAdicionales + 2, "hasta":lineasAdicionales + 2 + code["src"].count("\n")}
+      {
+        "evil":True,
+        "desde":code_calidad["lineasAdicionales"],
+        "hasta":code_calidad["lineasAdicionales"] + code["src"].count("\n")
+      }
     )
     if not(resultadoAnalisisCodigo is None):
       return resultadoAnalisisCodigo
@@ -42,9 +57,6 @@ class Corrector(object):
     timeout = jsonObj["ejercicio"]["timeout"] if ("timeout" in jsonObj["ejercicio"]) else timeoutDefault()
     ## Ejecuciones
     duraciones = []
-    run_data = jsonObj["ejercicio"]["run_data"] if "run_data" in jsonObj["ejercicio"] else {}
-    if (type(run_data) != type([])):
-      run_data = [run_data]
     for run in run_data:
       self.InicializarRun(run)
       code_run = {

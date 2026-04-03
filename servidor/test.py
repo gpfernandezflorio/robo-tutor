@@ -108,6 +108,10 @@ cursos = [{
         "Mover(Oeste)Mover(Oeste)Mover(Sur)Mover(Sur)\n}","res":"OK"
       }
     ]
+  },{
+    "id":"guia5_ej2",
+    "i":[{"src":"procedure Mover_SegúnColor_(d,c) {\n  repeat(nroBolitas(c)) {Mover(d)}\n}","res":"OK"}
+    ]
   }]
 },{
   "id":"alc_prueba",
