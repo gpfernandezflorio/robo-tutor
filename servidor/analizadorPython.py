@@ -33,8 +33,8 @@ class AnalizadorPython(Analizador):
   def __init__(self, malicioso=reglasCódigoMalicioso.keys()):
     self.clavesReglasCódigoMalicioso = malicioso
     self.reglasCódigoMalicioso = reglasCódigoMalicioso
-  def obtenerAst(self, codigo):
-    return astPython(codigo)
+  def obtenerAst(self, codigo, ruta="."):
+    return astPython(codigo, ruta)
   def hijosDeNodo_(self, nodo):
     if not isinstance(nodo, ast.AST):
       breakpoint()
@@ -72,7 +72,7 @@ class AnalizadorPython(Analizador):
   def columnaDeNodo_(self, nodo):
     return nodo.col_offset # OJO: es índice en UTF-8
 
-def astPython(codigo):
+def astPython(codigo, ruta="."):
   try:
     AST = ast.parse(codigo)
     AgregarAtributoMadre(AST)

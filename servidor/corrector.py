@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import os, shutil
 from correctorPython import correctorPython
 from correctorGobstones import correctorGobstones
 from correctorHaskell import correctorHaskell
+from utils import ejecutandoLocal
 
 def run_code(jsonObj, v):
   if (not ("src" in jsonObj)):
@@ -14,22 +16,34 @@ def run_code(jsonObj, v):
       print("Falta lenguaje")
     return {"resultado":"Error", "error":"Falta lenguaje"}
   if (jsonObj["lenguaje"] == "Python"):
-    resultado = run_python(jsonObj, v)
+    resultado = corregir(correctorPython, jsonObj, v)
   elif (jsonObj["lenguaje"] == "Haskell"):
-    resultado = run_haskell(jsonObj, v)
+    resultado = corregir(correctorHaskell, jsonObj, v)
   elif (jsonObj["lenguaje"] == "Gobstones"):
-    resultado = run_gobstones(jsonObj, v)
+    resultado = corregir(correctorGobstones, jsonObj, v)
   else:
     if (v):
       print(jsonObj["lenguaje"])
     return {"resultado":"Error", "error":"Lenguaje desconocido: " + jsonObj["lenguaje"]}
   return resultado
 
-def run_python(jsonObj, v):
-  return correctorPython.corregir(jsonObj, v)
+def corregir(corrector, jsonObj, v):
+  usuario = limpiar(jsonObj['usuario'])
+  ruta = os.path.join('/','rtTest', usuario)
+  if os.path.isdir(ruta):
+    shutil.rmtree(ruta)
+  os.mkdir(ruta)
+  os.chmod(ruta, 0o777)
+  resultado = corrector.corregir(jsonObj, ruta, v)
+  if not ejecutandoLocal():
+    shutil.rmtree(ruta)
+  return resultado
 
-def run_haskell(jsonObj, v):
-  return correctorHaskell.corregir(jsonObj, v)
-
-def run_gobstones(jsonObj, v):
-  return correctorGobstones.corregir(jsonObj, v)
+def limpiar(textoOriginal):
+  resultado = ""
+  for x in textoOriginal:
+    if x in "1234567890qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM":
+      resultado += x
+    else:
+      resultado += "_"
+  return resultado

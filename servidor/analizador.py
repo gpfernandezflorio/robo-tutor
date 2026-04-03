@@ -12,8 +12,9 @@ def analizar(analizador, código, reglas, extras={}):
   desde = extras["desde"] if "desde" in extras else 1
   hasta = extras["hasta"] if "hasta" in extras else código.count("\n")+1
   analizarCódigoMalicioso = extras["evil"] if "evil" in extras else False
+  ruta = extras["ruta"] if "ruta" in extras else "."
 
-  AST = analizador.obtenerAst(código)
+  AST = analizador.obtenerAst(código, ruta)
   if "error" in AST:
     AST["resultado"] = "Except"
     return AST

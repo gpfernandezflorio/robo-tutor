@@ -11,7 +11,7 @@ class CorrectorHaskell(Corrector):
   def Analizar(self, código, reglas, extras):
     return analizarHaskell(código, reglas, extras)
 
-  def InicializarRun(self, run):
+  def InicializarRun(self, run, ruta):
     self.tmpAridad = ""
 
   def AgregarCódigoVariablesDefinidas(self, run, jsonObj, code_run):

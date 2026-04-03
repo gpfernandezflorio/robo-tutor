@@ -20,10 +20,10 @@ def handler_timeout(s, f):
 
 signal.signal(signal.SIGALRM, handler_timeout)
 
-def ejecutarConTimeout(comando, timeout):
+def ejecutarConTimeout(comando, timeout, ruta):
   global proceso_en_ejecucion
   signal.alarm(timeout)
-  errcode, salida, falla = ejecutar(comando)
+  errcode, salida, falla = ejecutar(comando, ruta)
   duracion = timeout - signal.alarm(0)
   if proceso_en_ejecucion is None:
     return {"resultado":"TIMEOUT"}
@@ -36,17 +36,15 @@ def ejecutarConTimeout(comando, timeout):
     "duracion":duracion
   }
 
-RUTA_BASE = '/rtTest'
-RUTA_JAIL = os.path.join(RUTA_BASE, 'jail')
-USER_RT = 'rtTest'
+# USER_RT = 'rtTest'
 MEM_MAX_MB = 1024
 MEM_MAX_KB = MEM_MAX_MB * 1024
 MEM_MAX_B =  MEM_MAX_KB * 1024
 
-def sacarPrivilegios():
+def sacarPrivilegios(ruta):
   os.setsid()
   # os.system("ulimit -v " + str(MEM_MAX_KB))
-  os.chdir(RUTA_JAIL)
+  os.chdir(ruta)
   resource.setrlimit(resource.RLIMIT_AS, (MEM_MAX_B, MEM_MAX_B))
   resource.setrlimit(resource.RLIMIT_RSS, (MEM_MAX_B, MEM_MAX_B))
   # resource.setrlimit(resource.RLIMIT_STACK, (MEM_MAX_B, MEM_MAX_B))
@@ -55,13 +53,16 @@ def sacarPrivilegios():
   # os.setgid(user_info.pw_gid)
   # os.setuid(user_info.pw_uid)
 
-def ejecutar(cmd):
+def ejecutar(cmd, ruta):
   global proceso_en_ejecucion
-  fOut = open('stdout.out','w')
-  fErr = open('stderr.out','w')
+  RUTA_STDOUT = os.path.join(ruta, 'stdout.out')
+  RUTA_STDERR = os.path.join(ruta, 'stderr.out')
+
+  fOut = open(RUTA_STDOUT,'w')
+  fErr = open(RUTA_STDERR,'w')
   comandoAEjecutar = cmd
   # comandoAEjecutar = "sudo -u " + USER_RT + " " + comandoAEjecutar
-  p = Popen(comandoAEjecutar, stdout=fOut, stderr=fErr, universal_newlines=True, shell=True, preexec_fn=sacarPrivilegios
+  p = Popen(comandoAEjecutar, stdout=fOut, stderr=fErr, universal_newlines=True, shell=True, preexec_fn=lambda: sacarPrivilegios(ruta)
     # , user=USER_RT
   )
   proceso_en_ejecucion = p
@@ -70,15 +71,12 @@ def ejecutar(cmd):
   fErr.close()
   stdout = ""
   stderr = ""
-  fOut = open('stdout.out','r')
+  fOut = open(RUTA_STDOUT,'r')
   for line in fOut.read():
       stdout += line
   fOut.close()
-  fErr = open('stderr.out','r')
+  fErr = open(RUTA_STDERR,'r')
   for line in fErr.read():
       stderr += line
   fErr.close()
   return errcode, stdout, stderr
-
-def rutaJail(ruta):
-  return os.path.join(RUTA_JAIL, ruta)

@@ -2,9 +2,9 @@
 
 # Definición de la clase ASTNode de Gobstones: https://github.com/gobstones/gobstones-parser/blob/main/src/parser/ast.ts
 
-import json
+import os, json
 from analizadorBase import Analizador
-from procesos import ejecutar, rutaJail
+from procesos import ejecutar
 from utils import algunoCumple
 
 reglasCódigoMalicioso = {
@@ -15,8 +15,8 @@ class AnalizadorGobstones(Analizador):
   def __init__(self, malicioso=reglasCódigoMalicioso.keys()):
     self.clavesReglasCódigoMalicioso = malicioso
     self.reglasCódigoMalicioso = reglasCódigoMalicioso
-  def obtenerAst(self, codigo):
-    return astGobstones(codigo)
+  def obtenerAst(self, codigo, ruta="."):
+    return astGobstones(codigo, ruta)
   def hijosDeNodo_(self, nodo):
     return hijosDeNodo_(nodo)
   def nodoMadreDe_(self, nodo):
@@ -50,11 +50,11 @@ class AnalizadorGobstones(Analizador):
   def columnaDeNodo_(self, nodo):
     return nodo["_startPos"]["_column"]
 
-def astGobstones(codigo):
-  f = open(rutaJail("src.txt"), 'w')
+def astGobstones(codigo, ruta="."):
+  f = open(os.path.join(ruta, "src.txt"), 'w')
   f.write(codigo)
   f.close()
-  errcode, salida, falla = ejecutar("node /rtTest/gbs/dist/gobstones-lang parse -l es -i src.txt")
+  errcode, salida, falla = ejecutar("node /rtTest/gbs/dist/gobstones-lang parse -l es -i src.txt", ruta)
   if len(falla) > 0:
     return {"error":falla}
   AST = json.loads(json.loads(salida))

@@ -2,8 +2,9 @@
 
 # Documentación del parser de Haskell https://hackage.haskell.org/package/haskell-src-exts-1.23.1/docs/Language-Haskell-Exts-Syntax.html
 
+import os
 from analizadorBase import Analizador
-from procesos import ejecutar, rutaJail
+from procesos import ejecutar
 from utils import algunoCumple
 
 reglasCódigoMalicioso = {
@@ -14,8 +15,8 @@ class AnalizadorHaskell(Analizador):
   def __init__(self, malicioso=reglasCódigoMalicioso.keys()):
     self.clavesReglasCódigoMalicioso = malicioso
     self.reglasCódigoMalicioso = reglasCódigoMalicioso
-  def obtenerAst(self, codigo):
-    return astHaskell(codigo)
+  def obtenerAst(self, codigo, ruta="."):
+    return astHaskell(codigo, ruta)
   def hijosDeNodo_(self, nodo):
     return hijosDeNodo_(nodo)
   def nodoMadreDe_(self, nodo):
@@ -43,11 +44,11 @@ class AnalizadorHaskell(Analizador):
   def columnaDeNodo_(self, nodo):
     return columnaDeUbicación(nodo["en"]) if ("en" in nodo) else "?"
 
-def astHaskell(codigo):
-  f = open(rutaJail('src.hs'), 'w')
+def astHaskell(codigo, ruta="."):
+  f = open(os.path.join(ruta, 'src.hs'), 'w')
   f.write("{-# LANGUAGE TemplateHaskell #-}\n{-# LANGUAGE DataKinds #-}\n\n" + codigo)
   f.close()
-  errcode, salida, falla = ejecutar("echo 'main' | ghci -v0 /rtTest/parser.hs")
+  errcode, salida, falla = ejecutar("echo 'main' | ghci -v0 /rtTest/parser.hs", ruta)
   if len(falla) > 0:
     # No debería pasar. Si el parser falla devuelve ParseFailed por stdout.
     pass

@@ -1,8 +1,7 @@
-import json
+import os, json
 from correctorBase import Corrector
 from analizador import analizarGobstones
 from utils import mostrar_excepcion
-from procesos import rutaJail
 
 class CorrectorGobstones(Corrector):
   def __init__(self):
@@ -17,10 +16,10 @@ class CorrectorGobstones(Corrector):
         return {"resultado":"Except", "error":buscar_falla_gobstones(resultadoAnalisisCodigo["error"], extras["desde"]-1)}
     return resultadoAnalisisCodigo
 
-  def InicializarRun(self, run):
+  def InicializarRun(self, run, ruta):
     ## Tablero inicial
     tablero = run["t0"] if "t0" in run else tablero_default()
-    f = open(rutaJail('board.jboard'), 'w')
+    f = open(os.path.join(ruta, 'board.jboard'), 'w')
     f.write(json.dumps(tablero))
     f.close()
 

@@ -1,4 +1,5 @@
-from procesos import ejecutarConTimeout, rutaJail
+import os
+from procesos import ejecutarConTimeout
 
 def timeoutDefault():
   return 2
@@ -15,7 +16,7 @@ class Corrector(object):
       return {"resultado":"NO"}
     return None
 
-  def corregir(self, jsonObj, v):
+  def corregir(self, jsonObj, ruta, v):
     if (v):
       print(jsonObj["src"])
     ## Código
@@ -48,7 +49,8 @@ class Corrector(object):
       {
         "evil":True,
         "desde":code_calidad["lineasAdicionales"],
-        "hasta":code_calidad["lineasAdicionales"] + code["src"].count("\n")
+        "hasta":code_calidad["lineasAdicionales"] + code["src"].count("\n"),
+        "ruta":ruta
       }
     )
     if not(resultadoAnalisisCodigo is None):
@@ -58,7 +60,7 @@ class Corrector(object):
     ## Ejecuciones
     duraciones = []
     for run in run_data:
-      self.InicializarRun(run)
+      self.InicializarRun(run, ruta)
       code_run = {
         "pre":code["pre"],
         "post":code["post"],
@@ -85,10 +87,10 @@ class Corrector(object):
       ## Ejecución del código entregado
       code_run["pre"] += "\n\n"
       code_run["lineasAdicionales"] = code_run["lineasAdicionales"] + 2
-      f = open(rutaJail(self.ruta), 'w')
+      f = open(os.path.join(ruta, self.ruta), 'w')
       f.write(code_run["pre"] + code["src"] + code_run["post"])
       f.close()
-      resultadoEjecucion = ejecutarConTimeout(self.comando, timeout)
+      resultadoEjecucion = ejecutarConTimeout(self.comando, timeout, ruta)
       if resultadoEjecucion["resultado"] == "TIMEOUT":
         return {"resultado":"Except", "error":"La ejecución demoró más de lo permitido"}
       duraciones.append(resultadoEjecucion["duracion"])

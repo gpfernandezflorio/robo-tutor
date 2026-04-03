@@ -10,7 +10,7 @@ class CorrectorPython(Corrector):
   def Analizar(self, código, reglas, extras):
     return analizarPython(código, reglas, extras)
 
-  def InicializarRun(self, run):
+  def InicializarRun(self, run, ruta):
     pass
 
   def AgregarCódigoVariablesDefinidas(self, run, jsonObj, code_run):
