@@ -1,4 +1,5 @@
-SERVER = "http://192.168.0.11:8050"
+# SERVER = "http://192.168.0.11:8050" # LOCAL
+SERVER = "http://157.92.26.79:8060" # RT
 
 import requests
 import json
