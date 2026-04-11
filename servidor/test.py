@@ -1,6 +1,8 @@
-# SERVER = "http://192.168.0.29:8050" # LOCAL (Pikmin)
-# SERVER = "http://192.168.0.11:8050" # LOCAL (Luigi)
-SERVER = "http://157.92.26.79:8060" # RT
+SERVER_PIKMIN = "http://192.168.0.29:8050"
+SERVER_LUIGI = "http://192.168.0.11:8050"
+SERVER_RT = "http://157.92.26.79:8060"
+
+SERVER = SERVER_RT
 
 import requests
 import json
@@ -205,8 +207,6 @@ for c in cursos:
   for ej in c["ejs"]:
     n += len(ej["i"])
 
-desde = n # Cambiarlo por un número más chico para ignorar los primeros tests
-
 for c in cursos:
   for ej in c["ejs"]:
     for i in ej["i"]:
@@ -256,6 +256,16 @@ def Validar(resultado, esperado):
         return "El resultado tiene un mensaje de error que no se esperaba: " + resultado["error"]
     return None
   return "Se esperaba RES=" + esperado["resultado"] + " pero se obtuvo:" + resultado["resultado"] + "\n("+str(resultado)+")"
+
+print(SERVER)
+if (SERVER == SERVER_RT):
+  print("¡CUIDADO! Estás testeando contra el servidor RT real.")
+  if input("¿Continuar? (y/N)") != "y":
+    exit(0)
+
+print("¡RUN!")
+
+desde = n # Cambiarlo por un número más chico para ignorar los primeros tests
 
 for intento in todosLosIntentos:
   if desde < n:

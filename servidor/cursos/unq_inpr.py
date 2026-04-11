@@ -69,6 +69,7 @@ def resaltado(texto):
   return '<span style="color:red;font-weight:bold;">' + texto + '</span>'
 enPapel = resaltado("EN PAPEL")
 importante = resaltado("Importante")
+atención = resaltado("Atención")
 recordar = resaltado("¡Recordar!")
 biblioteca = ayuda("BIBLIOTECA")
 pista = ayuda("PISTA")
@@ -76,11 +77,90 @@ observación = ayuda("OBSERVACIÓN")
 ejemplo = ayuda("EJEMPLO")
 
 def img(ruta):
-  return "Ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39068/mod_resource/content/18/P5.%20Expresiones%20y%20tipos.pdf' target='_blank'>la guía</a>." if ruta.startswith("5") else "Ver imagen en <a href='https://https://aulas.gobstones.org/pluginfile.php/39086/mod_resource/content/25/P6.%20Alternativas%20Condicionales.pdf' target='_blank'>la guía</a>."
+  return "Ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39068/mod_resource/content/18/P5.%20Expresiones%20y%20tipos.pdf' target='_blank'>la guía</a>." if ruta.startswith("5") else "Ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39086/mod_resource/content/25/P6.%20Alternativas%20Condicionales.pdf' target='_blank'>la guía</a>."
   # return '<img src="'+rutaAlServidor()+'/servidor/cursos/unq_inpr/'+ruta+'"></img>'
 
 def código(c):
   return '<div style="background-color:#eee;border:solid 2px black;padding:3px;font-weight:bold;"><code>' + c + '</code></div>'
+
+def celdaCambiadaPorBooleano(celda, b):
+  return c(
+    celda["a"], celda["n"], celda["r"] + (0 if b else 1), celda["v"] + (1 if b else 0)
+  )
+
+def programParaValidarBoolEnCelda(expresión):
+  return "program {Poner(choose Verde when ("+expresión+") Rojo otherwise)}"
+
+def validarBoolEnCelda(expresión, b, celda):
+  return {
+    "pre":programParaValidarBoolEnCelda(expresión),
+    "t0":{"head":[0,0],"width":1,"height":1,"board":[[celda]]},
+    "tf":{"head":[0,0],"width":1,"height":1,"board":[[
+      celdaCambiadaPorBooleano(celda, b)
+    ]]}
+  }
+
+def validarBoolEnTablero(expresión, b, t0):
+  head = t0["head"]
+  width = t0["width"]
+  height = t0["height"]
+  b0 = t0["board"]
+  bf = []
+  for col in range(width):
+    columna = []
+    for row in range(height):
+      columna.append(celdaCambiadaPorBooleano(b0[col][row],b) if head == [col,row] else b0[col][row])
+    bf.append(columna)
+  tf = {
+    "head":head,
+    "width":width,
+    "height":height,
+    "board":bf
+  }
+  return {
+    "pre":programParaValidarBoolEnCelda(expresión),
+    "t0":t0,
+    "tf":tf
+  }
+
+def celdaCambiadaPorNúmero(celda, n):
+  return c(
+    celda["a"] + n, celda["n"], celda["r"], celda["v"]
+  )
+
+def programParaValidarNumEnCelda(expresión):
+  return "program {repeat("+expresión+"){Poner(Azul)}}"
+
+def validarNumEnCelda(expresión, n, celda):
+  return {
+    "pre":programParaValidarNumEnCelda(expresión),
+    "t0":{"head":[0,0],"width":1,"height":1,"board":[[celda]]},
+    "tf":{"head":[0,0],"width":1,"height":1,"board":[[celdaCambiadaPorNúmero(celda, n)]]}
+  }
+
+def celdaCambiadaPorColor(celda, claveColor):
+  return c(
+    celda["a"] + (1 if claveColor == "a" else 0),
+    celda["n"] + (1 if claveColor == "n" else 0),
+    celda["r"] + (1 if claveColor == "r" else 0),
+    celda["v"] + (1 if claveColor == "v" else 0)
+  )
+
+def programParaValidarColorEnCelda(expresión):
+  return "program {Poner("+expresión+")}"
+
+def validarColorEnCelda(expresión, claveColor, celda):
+  return {
+    "pre":programParaValidarColorEnCelda(expresión),
+    "t0":{"head":[0,0],"width":1,"height":1,"board":[[celda]]},
+    "tf":{"head":[0,0],"width":1,"height":1,"board":[[celdaCambiadaPorColor(celda, claveColor)]]}
+  }
+
+def validarTransformaciónCelda(c1,c2):
+  return {
+    "t0":{"head":[0,0],"width":1,"height":1,"board":[[c1]]},
+    "tf":{"head":[0,0],"width":1,"height":1,"board":[[c2]]}
+  }
 
 def superGobi64_1(fecha):
   return {
@@ -2754,6 +2834,688 @@ def guia6(fechaInicio):
     ]
   }
 
+def e7_1(s, n):
+  return "Definir una función total que describa el siguiente caso:<br>"+s+"<br>"+atención+": Es conveniente utilizar funciones para expresar subtareas, de forma que las expresiones utilizadas resulten fáciles de entender. Recordar además escribir los contratos.<br><br><b>Nota</b>: Para enviar este ejercicio, llamar a la función <code>"+n+"</code>."
+
+def guia7_ej1a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej1a",
+    "nombre":"1. Definiendo mis primeras funciones (a)",
+    "enunciado":e7_1("La cantidad total de bolitas de la celda actual.","nroBolitasAcá"),
+    "pre":programParaValidarNumEnCelda("nroBolitasAcá()"),
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(2,3,0,5)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(12,3,0,5)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej1b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej1b",
+    "nombre":"1. Definiendo mis primeras funciones (b)",
+    "enunciado":e7_1("Si hay más de 5 bolitas en total en la celda actual.","hayMásDe5BolitasAcá"),
+    "pre":programParaValidarBoolEnCelda("hayMásDe5BolitasAcá()"),
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(2,3,0,2)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(2,3,0,3)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[rs(5)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[rs(6)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej1c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej1c",
+    "nombre":"1. Definiendo mis primeras funciones (c)",
+    "enunciado":e7_1("Si hay exactamente 5 bolitas en la celda actual.","hayExactamente5BolitasAcá"),
+    "pre":programParaValidarBoolEnCelda("hayExactamente5BolitasAcá()"),
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(2,3,0,2)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(2,3,1,2)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(2,1,0,2)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(2,1,0,3)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[gs(5)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[gs(6)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej1d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej1d",
+    "nombre":"1. Definiendo mis primeras funciones (d)",
+    "enunciado":e7_1("Si hay al menos 5 bolitas en la celda actual.","hayAlMenos5BolitasAcá"),
+    "pre":programParaValidarBoolEnCelda("hayAlMenos5BolitasAcá()"),
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(2,3,0,2)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(2,3,0,3)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(2,1,0,2)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(2,1,0,3)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[gs(8)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[gs(9)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej1e(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej1e",
+    "nombre":"1. Definiendo mis primeras funciones (e)",
+    "enunciado":e7_1("Si hay bolitas de todos los colores en la celda actual.","hayDeTodosColoresAcá"),
+    "pre":programParaValidarBoolEnCelda("hayDeTodosColoresAcá()"),
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(2,3,0,2)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(2,3,1,2)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(2,1,1,2)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(2,1,1,3)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[rs(8)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[rs(9)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej1f(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej1f",
+    "nombre":"1. Definiendo mis primeras funciones (f)",
+    "enunciado":e7_1("Si la celda actual está vacía.","esCeldaVacía()"),
+    "pre":programParaValidarBoolEnCelda("esCeldaVacía()"),
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[g]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[rs(8)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[rs(9)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej1g(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej1g",
+    "nombre":"1. Definiendo mis primeras funciones (g)",
+    "enunciado":e7_1("Si a la celda actual le faltan bolitas de alguno de los colores y no está vacía.","hayDeAlgunoPeroNoDeTodosAcá"),
+    "pre":programParaValidarBoolEnCelda("hayDeAlgunoPeroNoDeTodosAcá()"),
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(2,3,0,2)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(2,3,0,3)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(2,1,1,2)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(2,1,2,2)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[gs(8)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[gs(9)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def e7_2(s):
+  return biblioteca+" Escribir la siguiente función, para agregarla a la biblioteca.<br>"+s
+
+def guia7_ej2a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej2a",
+    "nombre":"2. Algunas funciones útiles (a)",
+    "enunciado":e7_2("<code>esCeldaVacía()</code>, que indica si la celda actual se encuentra vacía."),
+    "pre":programParaValidarBoolEnCelda("esCeldaVacía()"),
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[g]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[rs(8)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[rs(9)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej2b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej2b",
+    "nombre":"2. Algunas funciones útiles (b)",
+    "enunciado":e7_2("<code>hayAlMenosUnaDeCada()</code>, que indica si en la celda actual hay al menos una bolita de cada color."),
+    "pre":programParaValidarBoolEnCelda("hayAlMenosUnaDeCada()"),
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(2,3,0,2)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(2,3,1,2)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(2,1,1,2)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(2,1,1,3)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[rs(8)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[rs(9)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej2c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej2c",
+    "nombre":"2. Algunas funciones útiles (c)",
+    "enunciado":e7_2("<code>esCeldaConBolitas()</code>, que indica si la celda actual tiene al menos una bolita, de cualquier color."),
+    "pre":programParaValidarBoolEnCelda("esCeldaConBolitas()"),
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[gs(8)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[gs(9)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def e7_3(s):
+  return "Escribir la siguiente función para el juego ¡A la batalla! de la <a href='https://aulas.gobstones.org/pluginfile.php/39068/mod_resource/content/18/P5.%20Expresiones%20y%20tipos.pdf' target='_blank'>práctica 5</a>, donde en las celdas del tablero se representan soldados (los aliados con una bolita de color Negro y los enemigos con una bolita de color Rojo por cada soldado).<br>"+s
+
+def guia7_ej3a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej3a",
+    "nombre":"3. ¡A la batalla!, parte 2 (a)",
+    "enunciado":e7_3("<code>cantidadDeSoldadosDe_(colorDelEjército)</code>, que describe la cantidad de soldados de la celda actual del ejército dado."),
+    "run_data":[
+      validarNumEnCelda("cantidadDeSoldadosDe_(Negro)",0,v),
+      validarNumEnCelda("cantidadDeSoldadosDe_(Negro)",5,c(0,5,8,0)),
+      validarNumEnCelda("cantidadDeSoldadosDe_(Rojo)",8,c(0,5,8,0))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej3b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej3b",
+    "nombre":"3. ¡A la batalla!, parte 2 (b)",
+    "enunciado":"Vuelva a escribir <code>EnviarAliadosParaDuplicarEnemigos()</code> y <code>PelearLaBatalla()</code>, que realizó en la <a href='https://aulas.gobstones.org/pluginfile.php/39068/mod_resource/content/18/P5.%20Expresiones%20y%20tipos.pdf' target='_blank'>práctica 5</a>, ahora haciendo uso de la función hecha en el punto a (<code>cantidadDeSoldadosDe_</code>).<br><br><b>Nota</b>: no incluir la definición de la función <code>cantidadDeSoldadosDe_</code> al enviar este ejercicio.",
+    "pre":"function cantidadDeSoldadosDe_(c){return (nroBolitas(c))}",
+    "run_data":[{
+      "pre":"program {EnviarAliadosParaDuplicarEnemigos()}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,0,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,0,0)]]}
+    },{
+      "pre":"program {EnviarAliadosParaDuplicarEnemigos()}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,10,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,20,10,0)]]}
+    },{
+      "pre":"program {EnviarAliadosParaDuplicarEnemigos()}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,4,8,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,16,8,0)]]}
+    },{
+      "pre":"program {EnviarAliadosParaDuplicarEnemigos()}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,6,4,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,8,4,0)]]}
+    },{
+      "pre":"program {PelearLaBatalla()}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,0,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,0,0)]]}
+    },{
+      "pre":"program {PelearLaBatalla()}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,10,6,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,1,0,0)]]}
+    },{
+      "pre":"program {PelearLaBatalla()}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,21,10,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,6,0,0)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej3c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej3c",
+    "nombre":"3. ¡A la batalla!, parte 2 (c)",
+    "enunciado":e7_3("<code>esCeldaIndefensa()</code> que indica si no hay soldados aliados en la celda actual."),
+    "pre":programParaValidarBoolEnCelda("esCeldaIndefensa()"),
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[g]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,5,0,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,5,1,0)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,5,10,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,5,11,0)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej3d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej3d",
+    "nombre":"3. ¡A la batalla!, parte 2 (d)",
+    "enunciado":e7_3("<code>estadoDeEmergencia()</code> que indica si existen más de 100 soldados enemigos, y además la celda está indefensa."),
+    "pre":programParaValidarBoolEnCelda("estadoDeEmergencia()"),
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,5,0,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,5,1,0)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,5,10,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,5,11,0)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,100,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,101,0)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,1,110,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,1,111,0)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,110,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,110,1)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej3e(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej3e",
+    "nombre":"3. ¡A la batalla!, parte 2 (e)",
+    "enunciado":e7_3("<code>hayAlMenos_AliadosPorCada_Atacantes(cantidadDefensa, cantidadAtaque)</code> que indica si hay por lo menos <code>cantidadDefensa</code> soldados aliados por cada <code>cantidadAtaque</code> soldados enemigos en la celda actual. Por ejemplos si en la celda actual hubiera 10 soldados aliados y 5 enemigos, la función invocada como <code>hayAlMenos_AliadosPorCada_Atacantes(2, 1)</code>, describiría Verdadero, pues hay al menos dos aliados por cada atacante. Si se invocara con esos mismos argumentos en una celda donde hay 7 aliados y 5 enemigos, describiría Falso."),
+    "run_data":[
+      # validarBoolEnCelda("hayAlMenos_AliadosPorCada_Atacantes(15,1)", True, v),
+      validarBoolEnCelda("hayAlMenos_AliadosPorCada_Atacantes(2,1)", True, c(0,10,5,0)),
+      validarBoolEnCelda("hayAlMenos_AliadosPorCada_Atacantes(2,1)", False, c(0,7,5,0))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej3f(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej3f",
+    "nombre":"3. ¡A la batalla!, parte 2 (f)",
+    "enunciado":e7_3("<code>aliadosNecesariosParaDefensaEficazContra_(cantidadDeSoldadosEnemigosAdicionales)</code> que describe el número de soldados aliados que faltan para defender la celda actual si a ella se suman la cantidad de soldados enemigos dada. Tener en cuenta que en la celda actual puede ser que haya soldados, pero que es precondición de esta función que no hay suficientes aliados. Recordemos que 2 soldados enemigos pelean contra 3 soldados aliados y todos mueren."),
+    "run_data":[
+      # validarNumEnCelda("aliadosNecesariosParaDefensaEficazContra_(0)",0,v),
+      validarNumEnCelda("aliadosNecesariosParaDefensaEficazContra_(0)",1,c(0,2,2,0)),
+      validarNumEnCelda("aliadosNecesariosParaDefensaEficazContra_(0)",4,c(0,5,6,0)),
+      validarNumEnCelda("aliadosNecesariosParaDefensaEficazContra_(8)",13,c(0,2,2,0)),
+      validarNumEnCelda("aliadosNecesariosParaDefensaEficazContra_(2)",7,c(0,5,6,0))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def e7_4(s):
+  return enPapel+" A continuación se dan una serie de funciones que se consideran primitivas, es decir, que puede asumir realizadas y no debe implementarlas de ninguna forma."+código("hayUnPlanetaA_Hacia_(distancia, dirección)<br>/*<br>&nbsp;&nbsp;PROPÓSITO: Indica si hay un planeta a **distancia** celdas hacia la dirección**dirección**.<br>&nbsp;&nbsp;PARÁMETROS:<br>&nbsp;&nbsp;&nbsp;&nbsp;* distancia: Número - La cantidad de celdas a la cual se indica si hay un planeta.<br>&nbsp;&nbsp;&nbsp;&nbsp;* dirección: Dirección - La dirección hacia la cual se indica si hay un planeta.<br>&nbsp;&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;&nbsp;&nbsp;* Hay al menos **distancia** celdas en dirección **dirección**.<br>&nbsp;&nbsp;&nbsp;&nbsp;* El cabezal está sobre la nave.<br>&nbsp;&nbsp;TIPO: Booleano<br>*/")+código("combustibleRestante()<br>/*<br>&nbsp;&nbsp;PROPÓSITO: Indica la cantidad de combustible que le queda a la nave.<br>&nbsp;&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;&nbsp;&nbsp;* El cabezal está sobre la nave.<br>&nbsp;&nbsp;TIPO: Número<br>*/")+"Utilizando dichas funciones, se pide que se defina la siguiente, sin hacer suposiciones sobre la representación.<br><br>"+s
+
+def guia7_ej4a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej4a",
+    "nombre":"4. ¡Mira mami! ¡sin bolitas! (a)",
+    "enunciado":e7_4("<code>sePuedeAterrizarA_Hacia_(distanciaAPlaneta, direcciónAPlaneta)</code> que asumiendo que el cabezal se encuentra sobre la nave y hay al menos <code>distanciaAPlaneta</code> celdas en dirección <code>direcciónAPlaneta</code>, indica si hay un planeta a <code>distanciaAPlaneta</code> en la dirección <code>direcciónAPlaneta</code> y si el combustible es suficiente para llegar al mismo.<br>La nave consume una única unidad de combustibe por cada celda que deba moverse."),
+    # planeta: hay(rojo), nave: 1 x negro, combustible: azul
+    "pre":'function hayUnPlanetaA_Hacia_(n,d){repeat(n){Mover(d)}return(hayBolitas(Rojo))}\nfunction combustibleRestante(){if (nroBolitas(Negro) /= 1){BOOM("El cabezal no está sobre la nave")}return (nroBolitas(Azul))}',
+    "run_data":[
+      validarBoolEnTablero("sePuedeAterrizarA_Hacia_(3,Norte)",False,
+        {"head":[0,1],"width":1,"height":5,"board":[
+          [v,c(10,1,0,0),r,r,v]
+        ]}
+      ),
+      validarBoolEnTablero("sePuedeAterrizarA_Hacia_(3,Norte)",False,
+        {"head":[0,1],"width":1,"height":5,"board":[
+          [v,c(0,1,0,0),r,r,r]
+        ]}
+      ),
+      validarBoolEnTablero("sePuedeAterrizarA_Hacia_(3,Norte)",True,
+        {"head":[0,1],"width":1,"height":5,"board":[
+          [v,c(3,1,0,0),r,r,r]
+        ]}
+      ),
+      validarBoolEnTablero("sePuedeAterrizarA_Hacia_(1,Sur)",False,
+        {"head":[0,1],"width":1,"height":5,"board":[
+          [v,c(1,1,0,0),r,r,r]
+        ]}
+      )
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej4b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej4b",
+    "nombre":"4. ¡Mira mami! ¡sin bolitas! (b)",
+    "enunciado":e7_4("Sabiendo que el cabezal se encuentra sobre la nave y a exactamente 3 celdas de distancia de todos los bordes, se pide que escriba la función <code>hayUnPlanetaRecto()</code>, que indica si existe un planeta en cualquiera de las direcciones, a cualquier distancia desde la nave."),
+    # planeta: hay(rojo), nave: 1 x negro, combustible: azul
+    "pre":'function hayUnPlanetaA_Hacia_(n,d){repeat(n){Mover(d)}return(hayBolitas(Rojo))}\nfunction combustibleRestante(){if (nroBolitas(Negro) /= 1){BOOM("El cabezal no está sobre la nave")}return (nroBolitas(Azul))}',
+    "run_data":[
+      validarBoolEnTablero("hayUnPlanetaRecto()",False,
+        {"head":[3,3],"width":7,"height":7,"board":[
+          [v,v,v,v,v,v,v],
+          [v,v,v,v,v,v,v],
+          [v,v,v,v,v,v,v],
+          [v,v,v,n,v,v,v],
+          [v,v,v,v,v,v,v],
+          [v,v,v,v,v,v,v],
+          [v,v,v,v,v,v,v]
+        ]}
+      ),
+      validarBoolEnTablero("hayUnPlanetaRecto()",False,
+        {"head":[3,3],"width":7,"height":7,"board":[
+          [v,v,v,v,v,v,v],
+          [v,r,v,v,v,v,v],
+          [v,r,r,v,r,v,v],
+          [v,v,v,n,v,v,v],
+          [v,v,v,v,r,v,v],
+          [v,v,v,v,v,r,v],
+          [v,v,v,v,v,v,v]
+        ]}
+      ),
+      validarBoolEnTablero("hayUnPlanetaRecto()",True,
+        {"head":[3,3],"width":7,"height":7,"board":[
+          [v,v,v,v,v,v,v],
+          [v,r,v,v,v,v,v],
+          [v,r,r,v,r,v,v],
+          [v,v,v,n,r,v,v],
+          [v,v,v,v,r,v,v],
+          [v,v,v,v,v,r,v],
+          [v,v,v,v,v,v,v]
+        ]}
+      ),
+      validarBoolEnTablero("hayUnPlanetaRecto()",True,
+        {"head":[3,3],"width":7,"height":7,"board":[
+          [v,v,v,v,v,v,v],
+          [v,r,v,v,v,v,v],
+          [v,r,r,v,r,v,v],
+          [v,v,v,n,v,v,v],
+          [v,v,v,v,r,v,v],
+          [v,v,v,v,v,r,v],
+          [v,v,v,r,v,v,v]
+        ]}
+      )
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def e7_5(s):
+  return "Continuaremos utilizando el mismo dominio del bosque que venimos utilizando en las prácticas anteriores. Esta vez se pide escribir los siguientes procedimientos que modelan el bosque. Considerar la reutilización de los procedimientos hechos en las partes anteriores y la definición de nuevas funciones necesarias para no tener que depender de la representación dada.<br><br>"+s
+
+def guia7_ej5a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej5a",
+    "nombre":"5. El bosque, parte 4 (a)",
+    "enunciado":e7_5("Escribir las funciones <code>árbol()</code>, <code>semilla()</code>, <code>bomba()</code>, <code>nutriente()</code> que describen las representaciones de los elementos del ejercicios “El bosque”, de las prácticas anteriores."),
+    "run_data":[
+      validarColorEnCelda("árbol()","v",v),
+      validarColorEnCelda("semilla()","r",v),
+      validarColorEnCelda("bomba()","n",v),
+      validarColorEnCelda("nutriente()","a",v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej5b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej5b",
+    "nombre":"5. El bosque, parte 4 (b)",
+    "enunciado":e7_5("<code>GerminarSemilla()</code>, que transforma una semilla en un árbol en la celda actual. La germinación consume tres unidades de nutrientes. Si en la celda no hay semilla, o no hay suficientes nutrientes, no se hace nada."),
+    "pre":"program{GerminarSemilla()}",
+    "run_data":[
+      validarTransformaciónCelda(v,v),
+      validarTransformaciónCelda(rs(10),rs(10)),
+      validarTransformaciónCelda(a_s(10),a_s(10)),
+      validarTransformaciónCelda(c(15,1,3,5),c(12,1,2,6))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej5c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej5c",
+    "nombre":"5. El bosque, parte 4 (c)",
+    "enunciado":e7_5("<code>AlimentarÁrboles()</code>, que hace que los árboles de la celda actual se alimenten, consumiendo un nutriente cada uno. El único cambio que hay que hacer es la eliminación de los nutrientes. Si hay menos nutrientes de lo que se necesita, se consumen todos los que hay."),
+    "pre":"program{AlimentarÁrboles()}",
+    "run_data":[
+      validarTransformaciónCelda(v,v),
+      validarTransformaciónCelda(gs(10),gs(10)),
+      validarTransformaciónCelda(a_s(10),a_s(10)),
+      validarTransformaciónCelda(c(15,1,3,5),c(10,1,3,5)),
+      validarTransformaciónCelda(c(5,1,3,10),c(0,1,3,10))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej5d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej5d",
+    "nombre":"5. El bosque, parte 4 (d)",
+    "enunciado":e7_5("<code>ExplotarBomba()</code>, que explota una bomba en la celda actual, eliminando árboles. Al explotar, una bomba derriba 5 árboles en la celda actual y 3 en la celda lindante al Norte. Si la celda actual está en el borde Norte, entonces solo se eliminan los árboles de la celda actual. "+atención+": cuando haya menos árboles de los que la bomba puede eliminar, entonces elimina los que haya. La bomba se consume en el proceso, o sea, hay que eliminarla."),
+    "pre":"program{ExplotarBomba()}",
+    "run_data":[
+      validarTransformaciónCelda(n,v),
+      validarTransformaciónCelda(c(10,10,10,10),c(10,9,10,5)),
+      validarTransformaciónCelda(c(10,10,10,2),c(10,9,10,0)),{
+      "t0":{"head":[0,0],"width":1,"height":2,"board":[[c(10,10,10,10),c(10,10,10,10)]]},
+      "tf":{"head":[0,0],"width":1,"height":2,"board":[[c(10,9,10,5),c(10,10,10,7)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":2,"board":[[c(1,1,1,1),c(1,1,1,1)]]},
+      "tf":{"head":[0,0],"width":1,"height":2,"board":[[c(1,0,1,0),c(1,1,1,0)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej5e(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej5e",
+    "nombre":"5. El bosque, parte 4 (e)",
+    "enunciado":e7_5("<code>Polinizar()</code>, los árboles en la celda actual polinizan la celda lindante en la dirección Este, generando tantas semillas en esa celda como árboles haya en la celda actual, menos 3. Por ejemplo, si en la celda actual hay 5 árboles, se generan 2 semillas en la celda lindante al Este. Si en la celda actual hay menos de 3 árboles, o no tiene lindante al Este, entonces no se hace nada."),
+    "pre":"program{Polinizar()}",
+    "run_data":[
+      validarTransformaciónCelda(v,v),
+      validarTransformaciónCelda(c(10,10,10,10),c(10,10,10,10)),{
+      "t0":{"head":[0,0],"width":2,"height":1,"board":[[c(10,10,10,2)],[c(10,10,10,10)]]},
+      "tf":{"head":[0,0],"width":2,"height":1,"board":[[c(10,10,10,2)],[c(10,10,10,10)]]}
+    },{
+      "t0":{"head":[0,0],"width":2,"height":1,"board":[[c(10,10,10,10)],[c(10,10,10,10)]]},
+      "tf":{"head":[0,0],"width":2,"height":1,"board":[[c(10,10,10,10)],[c(10,10,17,10)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def e7_6(s, recordarTabla):
+  return "Continuaremos utilizando el mismo dominio del banco de la práctica anterior. Esta vez, vamos a realizar funciones que nos permitan abstraernos de la representación subyacente, así como simplificar cálculos en nuestras operaciones.<br><br>Se pide entonces que realice la siguiente función:<br><br>"+s+ ("<br><br>Recordar las tablas con los precios de compra y venta en <a href='https://aulas.gobstones.org/pluginfile.php/39086/mod_resource/content/25/P6.%20Alternativas%20Condicionales.pdf' target='_blank'>la guía anterior</a>." if recordarTabla else "")
+
+def guia7_ej6a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej6a",
+    "nombre":"6. ¿Vamos al banco? - Parte 2 (a)",
+    "enunciado":e7_6("<code>pesos()</code> que describe el color con el que se representan los pesos en el tablero, Negro.", False),
+    "run_data":[
+      validarColorEnCelda("pesos()","n",v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej6b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej6b",
+    "nombre":"6. ¿Vamos al banco? - Parte 2 (b)",
+    "enunciado":e7_6("<code>dólares()</code> que describe el color con el que se representan los dólares en el tablero, Verde.", False),
+    "run_data":[
+      validarColorEnCelda("dólares()","v",v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej6c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej6c",
+    "nombre":"6. ¿Vamos al banco? - Parte 2 (c)",
+    "enunciado":e7_6("<code>euros()</code> que describe el color con el que se representan los euros en el tablero, Azul.", False),
+    "run_data":[
+      validarColorEnCelda("euros()","a",v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej6d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej6d",
+    "nombre":"6. ¿Vamos al banco? - Parte 2 (d)",
+    "enunciado":e7_6("<code>yuanes()</code> que describe el color con el que se representan los yuanes en el tablero, Rojo.", False),
+    "run_data":[
+      validarColorEnCelda("yuanes()","r",v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej6e(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej6e",
+    "nombre":"6. ¿Vamos al banco? - Parte 2 (e)",
+    "enunciado":e7_6("<code>ahorrosEn_(moneda)</code> que dada una moneda, indica la cantidad de unidades de esa moneda en la cuenta actual.", False),
+    "run_data":[
+      validarNumEnCelda("ahorrosEn_(Negro)",0,v),
+      validarNumEnCelda("ahorrosEn_(Negro)",5,c(0,5,8,0)),
+      validarNumEnCelda("ahorrosEn_(Rojo)",8,c(0,5,8,0))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej6f(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej6f",
+    "nombre":"6. ¿Vamos al banco? - Parte 2 (f)",
+    "enunciado":e7_6("<code>cuantosDolaresSePuedeComprarCon_Pesos(cantidadDePesos)</code> que indica la cantidad de dólares que se pueden comprar con una cantidad de pesos dada.", True),
+    "run_data":[
+      validarNumEnCelda("cuantosDolaresSePuedeComprarCon_Pesos(0)",0,v),
+      validarNumEnCelda("cuantosDolaresSePuedeComprarCon_Pesos(50)",0,v),
+      validarNumEnCelda("cuantosDolaresSePuedeComprarCon_Pesos(100)",1,v),
+      validarNumEnCelda("cuantosDolaresSePuedeComprarCon_Pesos(190)",1,v),
+      validarNumEnCelda("cuantosDolaresSePuedeComprarCon_Pesos(250)",2,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej6g(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej6g",
+    "nombre":"6. ¿Vamos al banco? - Parte 2 (g)",
+    "enunciado":e7_6("<code>cuantosEurosSePuedeComprarCon_Pesos(cantidadDePesos)</code> que indica la cantidad de euros que se pueden comprar con una cantidad de pesos dada.", True),
+    "run_data":[
+      validarNumEnCelda("cuantosEurosSePuedeComprarCon_Pesos(0)",0,v),
+      validarNumEnCelda("cuantosEurosSePuedeComprarCon_Pesos(100)",0,v),
+      validarNumEnCelda("cuantosEurosSePuedeComprarCon_Pesos(120)",1,v),
+      validarNumEnCelda("cuantosEurosSePuedeComprarCon_Pesos(190)",1,v),
+      validarNumEnCelda("cuantosEurosSePuedeComprarCon_Pesos(250)",2,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej6h(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej6h",
+    "nombre":"6. ¿Vamos al banco? - Parte 2 (h)",
+    "enunciado":e7_6("<code>cuantosYuanesSePuedeComprarCon_Pesos(cantidadDePesos)</code> que indica la cantidad de yuanes que se pueden comprar con una cantidad de pesos dada.", True),
+    "run_data":[
+      validarNumEnCelda("cuantosYuanesSePuedeComprarCon_Pesos(0)",0,v),
+      validarNumEnCelda("cuantosYuanesSePuedeComprarCon_Pesos(15)",0,v),
+      validarNumEnCelda("cuantosYuanesSePuedeComprarCon_Pesos(20)",1,v),
+      validarNumEnCelda("cuantosYuanesSePuedeComprarCon_Pesos(30)",1,v),
+      validarNumEnCelda("cuantosYuanesSePuedeComprarCon_Pesos(40)",2,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej6i(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej6i",
+    "nombre":"6. ¿Vamos al banco? - Parte 2 (i)",
+    "enunciado":e7_6("<code>cuantosPesosSiVendo_Dólares(cantidadDeMonedaExtranjera)</code> que indica la cantidad de pesos a obtener si se venden (depositan) la cantidad de dólares dada.", True),
+    "run_data":[
+      validarNumEnCelda("cuantosPesosSiVendo_Dólares(0)",0,v),
+      validarNumEnCelda("cuantosPesosSiVendo_Dólares(1)",80,v),
+      validarNumEnCelda("cuantosPesosSiVendo_Dólares(2)",160,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej6j(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej6j",
+    "nombre":"6. ¿Vamos al banco? - Parte 2 (j)",
+    "enunciado":e7_6("<code>cuantosPesosSiVendo_Euros(cantidadDeMonedaExtranjera)</code> que indica la cantidad de pesos a obtener si se venden (depositan) la cantidad de euros dada.", True),
+    "run_data":[
+      validarNumEnCelda("cuantosPesosSiVendo_Euros(0)",0,v),
+      validarNumEnCelda("cuantosPesosSiVendo_Euros(1)",90,v),
+      validarNumEnCelda("cuantosPesosSiVendo_Euros(2)",180,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia7_ej6k(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia7_ej6k",
+    "nombre":"6. ¿Vamos al banco? - Parte 2 (k)",
+    "enunciado":e7_6("<code>cuantosPesosSiVendo_Yuanes(cantidadDeMonedaExtranjera)</code> que indica la cantidad de pesos a obtener si se venden (depositan) la cantidad de yuanes dada.", True),
+    "run_data":[
+      validarNumEnCelda("cuantosPesosSiVendo_Yuanes(0)",0,v),
+      validarNumEnCelda("cuantosPesosSiVendo_Yuanes(1)",12,v),
+      validarNumEnCelda("cuantosPesosSiVendo_Yuanes(2)",24,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
 def guia7(fechaInicio):
   return {
     "tipo":"SECCION",
@@ -2762,6 +3524,43 @@ def guia7(fechaInicio):
     "disponible":{"desde":fechaInicio},
     "actividades":[
       linkGuía(7, 39099, "23/P7.%20Funciones%20simples.pdf"),
+      guia7_ej1a(fechaInicio),
+      guia7_ej1b(fechaInicio),
+      guia7_ej1c(fechaInicio),
+      guia7_ej1d(fechaInicio),
+      guia7_ej1e(fechaInicio),
+      guia7_ej1f(fechaInicio),
+      guia7_ej1g(fechaInicio),
+      guia7_ej2a(fechaInicio),
+      guia7_ej2b(fechaInicio),
+      guia7_ej2c(fechaInicio),
+      guia7_ej3a(fechaInicio),
+      # guia7_ej3b(fechaInicio), Por ahora no tiene sentido. Agregarlo cuando analice más cuestiones de calidad
+        # OJO: ya está implementado (aunque no testeado)
+      guia7_ej3c(fechaInicio),
+      guia7_ej3d(fechaInicio),
+      guia7_ej3e(fechaInicio),
+      guia7_ej3f(fechaInicio),
+      guia7_ej4a(fechaInicio),
+      guia7_ej4b(fechaInicio),
+      guia7_ej5a(fechaInicio),
+      guia7_ej5b(fechaInicio),
+      guia7_ej5c(fechaInicio),
+      guia7_ej5d(fechaInicio),
+      guia7_ej5e(fechaInicio),
+      guia7_ej6a(fechaInicio),
+      guia7_ej6b(fechaInicio),
+      guia7_ej6c(fechaInicio),
+      guia7_ej6d(fechaInicio),
+      guia7_ej6e(fechaInicio),
+      guia7_ej6f(fechaInicio),
+      guia7_ej6g(fechaInicio),
+      guia7_ej6h(fechaInicio),
+      guia7_ej6i(fechaInicio),
+      guia7_ej6j(fechaInicio),
+      guia7_ej6k(fechaInicio)#,
+      # guia7_ej6l(fechaInicio) Por ahora no tiene sentido. Agregarlo cuando analice más cuestiones de calidad
+        # OJO: Todavía no está implementado
     ]
   }
 
