@@ -19,6 +19,14 @@
 
     `sudo apt install ghc`
 
+6. Instalar `cabal`
+
+    `sudo apt install cabal-install`
+
+7. Instalar el paquete `haskell-src-exts` para `ghc`
+
+    `cabal install --lib haskell-src-exts`
+
 ### INSTRUCCIONES
 
 ...
