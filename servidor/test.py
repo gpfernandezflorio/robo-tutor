@@ -1,4 +1,5 @@
-# SERVER = "http://192.168.0.11:8050" # LOCAL
+# SERVER = "http://192.168.0.29:8050" # LOCAL (Pikmin)
+# SERVER = "http://192.168.0.11:8050" # LOCAL (Luigi)
 SERVER = "http://157.92.26.79:8060" # RT
 
 import requests
@@ -12,8 +13,41 @@ def nombreRepeticiónSimple():
 def idConMayus():
   return "un identificador con mayúsculas"
 
+def keywordProgram():
+  return 'la palabra clave "program"'
+
+def keywordFunction():
+  return 'la palabra clave "function"'
+
+def unaExpresión():
+  return "una expresión"
+
+def callProc():
+  return "una invocación a un procedimiento"
+
+def unaDefinición():
+  return "una definición (de programa, función, procedimiento, o tipo)"
+
+def unBooleano():
+  return "un booleano"
+
+def unColor():
+  return "un color"
+
+def unNúmero():
+  return "un número"
+
+def errorSeEsperabaSeEncontró(esperado, encontrado, l): # sintaxis
+  return "Se esperaba "+esperado+". Se encontró: "+encontrado+".\nLínea: "+str(l)
+
+def errorSeEsperabaSeRecibió(esperado, recibido, l): # tipado
+  return "Se esperaba "+esperado+" pero se recibió "+recibido+".\nLínea: "+str(l)
+
 def errorFaltaDef(q, l):
-  return "Se esperaba una definición (de programa, función, procedimiento, o tipo). Se encontró: "+q+".\nLínea: "+str(l)
+  return errorSeEsperabaSeEncontró(unaDefinición(), q, l)
+
+def errorFaltaExpr(q, l):
+  return errorSeEsperabaSeEncontró(unaExpresión(), q, l)
 
 def errorFaltaPrograma():
   return 'El código debe tener una definición de "program { ... }".'
@@ -135,6 +169,18 @@ cursos = [{
     "i":[{"src":"procedure PasarPalabraActualAMayúsculas() {\nrepeat(nroBolitas(Rojo)) {\nMover(Este)\n" +\
         "Poner_AlNorte(nroBolitas(Negro)-32)\n}\nIrAlBorde(Oeste)\n}\n\nprocedure Poner_AlNorte(k) {\nMover(Norte)\n" +\
         "repeat (k) {Poner(Negro)}\nMover(Sur)\n}","res":"OK"},
+    ]
+  },{
+    "id":"guia6_ej2a",
+    "i":[{"src":"program {}","res":"Except","error":errorFaltaExpr(keywordProgram(), 1)},
+        {"src":"function () {}","res":"Except","error":errorFaltaExpr(keywordFunction(), 1)},
+        {"src":"Poner(Rojo)","res":"Except","error":errorFaltaExpr(callProc(), 1)},
+        {"src":"Rojo","res":"Except","error":errorSeEsperabaSeRecibió(unBooleano(), unColor(), 1)},
+        {"src":"True","res":"NO"},
+        {"src":"nroBolitas(Rojo)","res":"Except","error":errorSeEsperabaSeRecibió(unBooleano(), unNúmero(), 1)},
+        {"src":"nroBolitas(Rojo) == 5","res":"NO"},
+        {"src":"nroBolitas(Rojo) >= 5","res":"NO"},
+        {"src":"nroBolitas(Rojo) > 5","res":"OK"}
     ]
   }]
 },{

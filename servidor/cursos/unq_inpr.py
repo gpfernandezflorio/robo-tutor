@@ -72,9 +72,11 @@ importante = resaltado("Importante")
 recordar = resaltado("¡Recordar!")
 biblioteca = ayuda("BIBLIOTECA")
 pista = ayuda("PISTA")
+observación = ayuda("OBSERVACIÓN")
+ejemplo = ayuda("EJEMPLO")
 
 def img(ruta):
-  return "Ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39068/mod_resource/content/18/P5.%20Expresiones%20y%20tipos.pdf' target='_blank'>la guía</a>."
+  return "Ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39068/mod_resource/content/18/P5.%20Expresiones%20y%20tipos.pdf' target='_blank'>la guía</a>." if ruta.startswith("5") else "Ver imagen en <a href='https://https://aulas.gobstones.org/pluginfile.php/39086/mod_resource/content/25/P6.%20Alternativas%20Condicionales.pdf' target='_blank'>la guía</a>."
   # return '<img src="'+rutaAlServidor()+'/servidor/cursos/unq_inpr/'+ruta+'"></img>'
 
 def código(c):
@@ -2140,6 +2142,588 @@ def guia5(fechaInicio):
     ]
   }
 
+EXPRESIONES6_1 = {
+  "a":"not hayBolitas(Rojo)",
+  "b":"puedeMover(Sur) &amp;&amp; puedeMover(Oeste)",
+  "c":"puedeMover(Sur) || puedeMover(Oeste)",
+  "d":"not puedeMover(Sur) &amp;&amp; puedeMover(Oeste)",
+  "e":"nroBolitas(Negro) == nroBolitas(Azul) &amp;&amp; nroBolitas(Negro) == nroBolitas(Verde)",
+  "f":"puedeMover(opuesto(opuesto(dirección)))"
+}
+
+def expresión6_1(e):
+  return EXPRESIONES6_1[e]
+
+def preguntas6_1(e,t):
+  return 'Valor de la expresión <code>'+expresión6_1(e)+'</code> en el tablero ('+t+'):<br>'+img('6.1.'+t+'.png') + (preguntas6_1_f() if e=="f" else "")
+
+def preguntas6_1_f():
+  return "<br>suponiendo que, por alguna razón, esta expresión aparece dentro del cuerpo del procedimiento siguiente:"+ \
+    código("procedure Mover_SegúnColor_(dirección, color)<br>"+ \
+      "&nbsp;&nbsp;/*<br>&nbsp;&nbsp;&nbsp;&nbsp;PROPÓSITO: Mover el cabezal en la dirección dada tantas celdas como el número de bolitas del color dado haya en la celda actual<br>"+ \
+      "&nbsp;&nbsp;&nbsp;&nbsp;PRECONDICIONES: Hay al menos tantas celdas en la dirección dada como número de bolitas del color dado en la celda actual<br>"+ \
+      "&nbsp;&nbsp;&nbsp;&nbsp;PARÁMETROS:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* dirección, una dirección, hacia donde moverse<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* color, un color para saber la cantidad a moverse<br>"+ \
+      "&nbsp;&nbsp;*/")+ \
+    "Y considerando que el mismo fue invocado como:"+código("Mover_SegúnColor_(Norte, Verde)")
+
+def guia6_ej1(fecha):
+  return {
+    "tipo":"CUESTIONARIO",
+    "id":"guia6_ej1",
+    "nombre":"1. Mis primeros booleanos",
+    "preguntas":[{
+      "tipo":"SOLO_TEXTO",
+      "titulo":"Enunciado",
+      "pregunta":enPapel+" Las siguientes expresiones son todas expresiones que representan booleanos. Indicar el valor de cada una evaluada para cada uno de los tableros A, B y C."
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"a. (A)",
+      "pregunta":preguntas6_1("a","A"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 1)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"a. (B)",
+      "pregunta":preguntas6_1("a","B"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 1)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"a. (C)",
+      "pregunta":preguntas6_1("a","C"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 2)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"b. (A)",
+      "pregunta":preguntas6_1("b","A"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 2)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"b. (B)",
+      "pregunta":preguntas6_1("b","B"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 2)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"b. (C)",
+      "pregunta":preguntas6_1("b","C"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 1)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"c. (A)",
+      "pregunta":preguntas6_1("c","A"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 2)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"c. (B)",
+      "pregunta":preguntas6_1("c","B"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 1)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"c. (C)",
+      "pregunta":preguntas6_1("c","C"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 1)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"d. (A)",
+      "pregunta":preguntas6_1("d","A"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 2)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"d. (B)",
+      "pregunta":preguntas6_1("d","B"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 1)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"d. (C)",
+      "pregunta":preguntas6_1("d","C"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 2)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"e. (A)",
+      "pregunta":preguntas6_1("e","A"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 2)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"e. (B)",
+      "pregunta":preguntas6_1("e","B"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 1)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"e. (C)",
+      "pregunta":preguntas6_1("e","C"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 1)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"f. (A)",
+      "pregunta":preguntas6_1("f","A"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 1)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"f. (B)",
+      "pregunta":preguntas6_1("f","B"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 1)
+    },{
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":"f. (C)",
+      "pregunta":preguntas6_1("f","C"),
+      "respuestas":rtas_opción_multiple_n([
+        ["True",""],
+        ["False",""],
+        ["Error",""]
+      ], 2)
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia6_ej2a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej2a",
+    "nombre":"2. Definiendo mis primeros booleanos (a)",
+    "enunciado":"Definir una expresión que sea verdadera (describe el valor de verdad Verdadero) para el siguiente caso:<br>Cuando la celda actual tiene más de 5 bolitas de color Rojo.",
+    "pre":"program {Poner(choose Verde when (",
+    "post":") Rojo otherwise)}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[rs(5)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[rs(6)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[rs(6)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,6,1)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[rs(11)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,11,1)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia6_ej2b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej2b",
+    "nombre":"2. Definiendo mis primeros booleanos (b)",
+    "enunciado":"Definir una expresión que sea verdadera (describe el valor de verdad Verdadero) para el siguiente caso:<br>Cuando la celda actual tiene al menos 9 bolitas en total entre rojas y negras.",
+    "pre":"program {Poner(choose Verde when (",
+    "post":") Rojo otherwise)}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(10,4,4,10)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(10,4,5,10)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,5,6,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,5,6,1)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(10,0,11,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(10,0,11,1)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia6_ej2c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej2c",
+    "nombre":"2. Definiendo mis primeros booleanos (c)",
+    "enunciado":"Definir una expresión que sea verdadera (describe el valor de verdad Verdadero) para el siguiente caso:<br>Cuando la celda actual es la esquina Norte-Este.",
+    "pre":"program {Poner(choose Verde when (",
+    "post":") Rojo otherwise)}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[g]]}
+    },{
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[v,v],[v,v]]},
+      "tf":{"head":[0,0],"width":2,"height":2,"board":[[r,v],[v,v]]}
+    },{
+      "t0":{"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,v]]},
+      "tf":{"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,g]]}
+    },{
+      "t0":{"head":[1,0],"width":2,"height":2,"board":[[v,v],[v,v]]},
+      "tf":{"head":[1,0],"width":2,"height":2,"board":[[v,v],[r,v]]}
+    },{
+      "t0":{"head":[0,1],"width":2,"height":2,"board":[[v,v],[v,v]]},
+      "tf":{"head":[0,1],"width":2,"height":2,"board":[[v,r],[v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia6_ej2d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej2d",
+    "nombre":"2. Definiendo mis primeros booleanos (d)",
+    "enunciado":"Definir una expresión que sea verdadera (describe el valor de verdad Verdadero) para el siguiente caso:<br>Cuando la celda actual está vacía.",
+    "pre":"program {Poner(choose Verde when (",
+    "post":") Rojo otherwise)}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[g]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(1,0,0,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(1,0,1,0)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,1,0,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,1,1,0)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia6_ej2e(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej2e",
+    "nombre":"2. Definiendo mis primeros booleanos (e)",
+    "enunciado":"Definir una expresión que sea verdadera (describe el valor de verdad Verdadero) para el siguiente caso:<br>Cuando hay una sola celda en el tablero.",
+    "pre":"program {Poner(choose Verde when (",
+    "post":") Rojo otherwise)}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[g]]}
+    },{
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[v,v],[v,v]]},
+      "tf":{"head":[0,0],"width":2,"height":2,"board":[[r,v],[v,v]]}
+    },{
+      "t0":{"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,v]]},
+      "tf":{"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,r]]}
+    },{
+      "t0":{"head":[1,0],"width":2,"height":2,"board":[[v,v],[v,v]]},
+      "tf":{"head":[1,0],"width":2,"height":2,"board":[[v,v],[r,v]]}
+    },{
+      "t0":{"head":[0,1],"width":2,"height":2,"board":[[v,v],[v,v]]},
+      "tf":{"head":[0,1],"width":2,"height":2,"board":[[v,r],[v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia6_ej3a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej3a",
+    "nombre":"3. Sí se puede, sí se puede... (a)",
+    "enunciado":"Escribir el siguiente procedimiento, recordando no mezclar niveles de abstracción del problema, para lo cual puede ser necesario definir otros procedimientos y/o funciones:<br><code>SacarUnaFicha_SiSePuede(colorDeLaFicha)</code> que, dado el colorDeLaFicha que debe sacarse, saque una ficha siempre y cuando la misma esté en la celda. Si no hubiera fichas del color dado, el procedimiento no hace nada. Si hubiera varias fichas, solo debe sacar una.<br>"+observación+": cada ficha se representa con una bolita del color correspondiente.",
+    "pre":"program {SacarUnaFicha_SiSePuede(Azul)}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[r]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[a_s(5)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[a_s(4)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(3,3,3,3)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(2,3,3,3)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia6_ej3b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej3b",
+    "nombre":"3. Sí se puede, sí se puede... (b)",
+    "enunciado":"Escribir el siguiente procedimiento, recordando no mezclar niveles de abstracción del problema, para lo cual puede ser necesario definir otros procedimientos y/o funciones:<br><code>DesempatarParaElLocal_Contra_(colorDelLocal,colorDelVisitante)</code> que, dados los colores de dos jugadores, cuyos puntos se representan mediante la cantidad de bolitas del color del jugador, otorgue un punto al jugador con color <code>colorDelLocal</code> solamente en el caso en que la celda actual contiene la misma cantidad de bolitas de ambos colores.",
+    "pre":"program {DesempatarParaElLocal_Contra_(Rojo,Azul)}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[r]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[r]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[a_s(5)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[a_s(5)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(3,3,3,3)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(3,3,4,3)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia6_ej3c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej3c",
+    "nombre":"3. Sí se puede, sí se puede... (c)",
+    "enunciado":"Escribir el siguiente procedimiento, recordando no mezclar niveles de abstracción del problema, para lo cual puede ser necesario definir otros procedimientos y/o funciones:<br><code>ExpandirBacteriaDeLaColonia()</code>, que siempre que en la celda actual haya un cultivo de bacterias y haya suficientes nutrientes, agregue exactamente una bacteria más y consuma nutrientes, a razón de dos nutrientes por bacteria expandida; si no hay bacterias o no hay suficientes nutrientes, no hace nada. Las bacterias se representan con bolitas Verdes y los nutrientes con bolitas Rojas.",
+    "pre":"program {ExpandirBacteriaDeLaColonia()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[g]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[g]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[gs(5)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[gs(5)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[rs(5)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[rs(5)]]}
+    },{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,10,10)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,8,11)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia6_ej3d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej3d",
+    "nombre":"3. Sí se puede, sí se puede... (d)",
+    "enunciado":"Escribir el siguiente procedimiento, recordando no mezclar niveles de abstracción del problema, para lo cual puede ser necesario definir otros procedimientos y/o funciones:<br><code>PonerFlecha_AlNorteSiCorresponde(colorDeLaFlecha)</code>, que dado un color para representar flechas, ponga una flecha al Norte si existe espacio para moverse en esa dirección. Las flechas serán representadas con una bolita del color dado.",
+    "pre":"program {PonerFlecha_AlNorteSiCorresponde(Negro)}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+    },{
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[v,v],[v,v]]},
+      "tf":{"head":[0,0],"width":2,"height":2,"board":[[v,n],[v,v]]}
+    },{
+      "t0":{"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,v]]},
+      "tf":{"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia6_ej4a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej4a",
+    "nombre":"4. Hacer solo si... (a)",
+    "enunciado":"La combinación de parámetros y expresiones booleanas es interesante.<br>"+biblioteca+" Escribir un procedimiento <code>Poner_Si_(color, condición)</code> que dado un color y un valor de verdad llamado condición, ponga en la celda actual una bolita del color dado si el valor de verdad de la condición es verdadero, y no lo ponga si no.<br>"+ejemplo+": <code>Poner_Si_(Rojo, nroBolitas(Rojo) == 2)</code> solamente pone una bolita roja cuando hay exactamente dos rojas en la celda actual.",
+    "run_data":[{
+      "pre":"program {Poner_Si_(Negro, puedeMover(Sur))}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+    },{
+      "pre":"program {Poner_Si_(Azul, puedeMover(Sur))}",
+      "t0":{"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,v]]},
+      "tf":{"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,a]]}
+    },{
+      "pre":"program {Poner_Si_(Rojo, True)}",
+      "t0":{"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,v]]},
+      "tf":{"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,r]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia6_ej4b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej4b",
+    "nombre":"4. Hacer solo si... (b)",
+    "enunciado":"La combinación de parámetros y expresiones booleanas es interesante.<br>"+biblioteca+" Escribir el procedimiento <code>Sacar_Si_(color, condición)</code> que actúa de forma similar al anterior, pero ahora sacando bolitas si la condición se cumple.",
+    "run_data":[{
+      "pre":"program {Sacar_Si_(Negro, False)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+    },{
+      "pre":"program {Sacar_Si_(Azul, False)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[a]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[a]]}
+    },{
+      "pre":"program {Sacar_Si_(Azul, True)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[a_s(2)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[a]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia6_ej4c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej4c",
+    "nombre":"4. Hacer solo si... (c)",
+    "enunciado":"La combinación de parámetros y expresiones booleanas es interesante.<br>"+biblioteca+" Escribir el procedimiento <code>Mover_Si_(dirección, condición)</code> que actúa de forma similar a los anteriores, pero ahora moviendo solo si se cumple la condición dada.",
+    "run_data":[{
+      "pre":"program {Mover_Si_(Norte, False)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+    },{
+      "pre":"program {Mover_Si_(Sur, False)}",
+      "t0":{"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,v]]},
+      "tf":{"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,v]]}
+    },{
+      "pre":"program {Mover_Si_(Sur, True)}",
+      "t0":{"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,v]]},
+      "tf":{"head":[1,0],"width":2,"height":2,"board":[[v,v],[v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia6_ej5b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej5b",
+    "nombre":"5. ¡Nuevamente Nova tiene problemas! (b)",
+    "enunciado":enPapel+" Ayudar a Nova a generalizar este procedimiento, escribiendo <code>SacarExactamente_BolitasDeColor_(cantidadASacar, colorASAcar)</code> (ver el enunciado del inciso anterior en <a href='https://aulas.gobstones.org/pluginfile.php/39086/mod_resource/content/25/P6.%20Alternativas%20Condicionales.pdf' target='_blank'>la guía</a>)",
+    "run_data":[{
+      "pre":"program {SacarExactamente_BolitasDeColor_(3, Rojo)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[rs(8)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[rs(5)]]}
+    },{
+      "pre":"program {SacarExactamente_BolitasDeColor_(6, Azul)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(10,10,10,10)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(4,10,10,10)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def e6_6(conEjemplos, s):
+  return 'En este ejercicio utilizaremos el tablero de Gobstones para representar cuentas bancarias. Cada celda representará a una cuenta bancaria, y en cada una de ellas puede haber dinero en distintas monedas, que representaremos con distintos colores:<ul><li>bolitas negras para pesos argentinos.</li><li>bolitas verdes para dólares estadounidenses.</li><li>bolitas azules para euros.</li><li>bolitas rojas para yuanes chinos.</li></ul>Se pueden hacer tres operaciones: depósitos, extracciones y conversiones a divisa extranjera. Las extracciones pueden hacerse en cualquier moneda, pero los depósitos siempre serán en pesos.<br><br>En el caso en que se quiera depositar un monto en una moneda extranjera, se aplicará automáticamente la conversión a pesos según el precio de venta dado en la siguiente tabla:<br><table style="justify-self:center"><tr><td colspan="2" style="border:solid 1px">Precios de venta</td></tr><tr><td style="border:solid 1px">1 dólar</td><td style="border:solid 1px">80 pesos</td></tr><tr><td style="border:solid 1px">1 euro</td><td style="border:solid 1px">90 pesos</td></tr><tr><td style="border:solid 1px">1 yuan</td><td style="border:solid 1px">12 pesos</td></tr></table><br>En cuanto a la conversión a divisa extranjera, el banco actualmente aplica las siguientes tarifas para la compra de divisa:<br><table style="justify-self:center"><tr><td colspan="2" style="border:solid 1px">Precios de compra</td></tr><tr><td style="border:solid 1px">100 pesos</td><td style="border:solid 1px">1 dólar</td></tr><tr><td style="border:solid 1px">115 pesos</td><td style="border:solid 1px">1 euro</td></tr><tr><td style="border:solid 1px">17 pesos</td><td style="border:solid 1px">1 yuan</td></tr></table><br>Realizar el siguiente procedimiento para poder manipular la cuenta:<br><br>'+s+(" (ver el ejemplo en <a href='https://aulas.gobstones.org/pluginfile.php/39086/mod_resource/content/25/P6.%20Alternativas%20Condicionales.pdf' target='_blank'>la guía</a>)." if conEjemplos else ".")
+
+def guia6_ej6a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej6a",
+    "nombre":"6. ¿Vamos al banco? - Parte 1 (a)",
+    "enunciado":e6_6(True, "<code>Depositar_EnMoneda_ComoPesos(cantidadADepositar, moneda)</code>, que dada una cantidad de dinero a depositar y un color que representa la moneda en la que está representado ese monto, agrega a la cuenta la cantidad de pesos equivalente a lo indicado para depositar. En este procedimiento hay que aplicar la conversión indicada para el precio de venta"),
+    "run_data":[{
+      "pre":"program {Depositar_EnMoneda_ComoPesos(10, Negro)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[ns(10)]]}
+    },{
+      "pre":"program {Depositar_EnMoneda_ComoPesos(2, Rojo)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(5,5,5,5)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(5,29,5,5)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia6_ej6b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej6b",
+    "nombre":"6. ¿Vamos al banco? - Parte 1 (b)",
+    "enunciado":e6_6(True, "<code>ExtraerHasta_EnMoneda_(cantidadAExtraer, moneda)</code>, que dada una cantidad de dinero a extraer y un color que representa la moneda en la que se va a extraer, remueve de la cuenta la cantidad que se indica. Si no hubiera tanto dinero como el solicitado, se extrae todo lo que haya"),
+    "run_data":[{
+      "pre":"program {ExtraerHasta_EnMoneda_(10, Negro)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+    },{
+      "pre":"program {ExtraerHasta_EnMoneda_(10, Rojo)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(5,5,5,5)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(5,5,0,5)]]}
+    },{
+      "pre":"program {ExtraerHasta_EnMoneda_(10, Azul)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(15,5,5,5)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(5,5,5,5)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia6_ej6c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej6c",
+    "nombre":"6. ¿Vamos al banco? - Parte 1 (c)",
+    "enunciado":e6_6(True, "<code>ConvertirHasta_PesosA_(pesosAConvertir, moneda)</code>, que dada una cantidad de pesos a convertir y un color que representa la moneda en la cual se quiere convertir, remueve los pesos de la cuenta y agrega la moneda solicitada. Si en la cuenta hubiera menos pesos de lo solicitado, se convierte todo lo que haya")+"<br>El último ejemplo es interesante: se piden convertir 100 pesos a dólares pero no hay 10 pesos en la cuenta, por lo que se va a intentar convertir el total de pesos que haya, 90. Con 90 pesos, no se llega a comprar ningún dólar, y como Gobstones solo trabaja con números enteros, no es posible tener medio dólar, por lo que queda en cero dólares.",
+    "run_data":[{
+      "pre":"program {ConvertirHasta_PesosA_(200, Verde)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,299,0,10)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,99,0,12)]]}
+    },{
+      "pre":"program {ConvertirHasta_PesosA_(300, Verde)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,299,0,10)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,0,0,12)]]}
+    },{
+      "pre":"program {ConvertirHasta_PesosA_(5, Azul)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(10,25,5,5)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(10,20,5,5)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia6_ej6d(fecha):
+  b = lambda p, d : c(10,p,10,d)
+  return {
+    "tipo":"CODIGO",
+    "id":"guia6_ej6d",
+    "nombre":"6. ¿Vamos al banco? - Parte 1 (d)",
+    "enunciado":e6_6(False, "<code>RealizarCorridaCambiaria()</code>, que dado un tablero de 1 única fila y 10 columnas, donde cada celda representa una cuenta bancaria, se realiza una corrida cambiaria, donde en cada cuenta se cambia la totalidad de los pesos a dólares. No es relevante la ubicación final del cabezal"),
+    "run_data":[{
+      "pre":"program {RealizarCorridaCambiaria()}",
+      "t0":{"head":[5,0],"width":10,"height":1,"board":[
+        [b(0,0)],[b(0,10)],[b(50,5)],[b(150,5)],[b(200,0)],[b(200,5)],[b(50,0)],[b(0,10)],[b(100,0)],[b(50,10)]
+      ]},
+      "tf":{"head":[],"width":10,"height":1,"board":[
+        [b(0,0)],[b(0,10)],[b(0,5)],[b(0,6)],[b(0,2)],[b(0,7)],[b(0,0)],[b(0,10)],[b(0,1)],[b(0,10)]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
 def guia6(fechaInicio):
   return {
     "tipo":"SECCION",
@@ -2148,6 +2732,25 @@ def guia6(fechaInicio):
     "disponible":{"desde":fechaInicio},
     "actividades":[
       linkGuía(6, 39086, "25/P6.%20Alternativas%20Condicionales.pdf"),
+      guia6_ej1(fechaInicio),
+      guia6_ej2a(fechaInicio),
+      guia6_ej2b(fechaInicio),
+      guia6_ej2c(fechaInicio),
+      guia6_ej2d(fechaInicio),
+      guia6_ej2e(fechaInicio),
+      guia6_ej3a(fechaInicio),
+      guia6_ej3b(fechaInicio),
+      guia6_ej3c(fechaInicio),
+      guia6_ej3d(fechaInicio),
+      guia6_ej4a(fechaInicio),
+      guia6_ej4b(fechaInicio),
+      guia6_ej4c(fechaInicio),
+      # guia6_ej5a(fechaInicio), ¿Cuestionario?
+      guia6_ej5b(fechaInicio),
+      guia6_ej6a(fechaInicio),
+      guia6_ej6b(fechaInicio),
+      guia6_ej6c(fechaInicio),
+      guia6_ej6d(fechaInicio)
     ]
   }
 
