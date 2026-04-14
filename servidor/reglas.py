@@ -18,10 +18,14 @@ def reglaUnComandoPorLinea(analizador, AST, código, regla):
 def reglaIndentacion(analizador, AST, código, regla):
   return []
 
+def reglaNombresProhibidos(analizador, AST, código, regla):
+  return nodosDeNombresProhibidosEnAST(analizador, AST, regla["nombres"] if "nombres" in regla else [])
+
 REGLAS = {
   "NEST_CMD":reglaComandosAnidados,
   "CMD_X_LINE":reglaUnComandoPorLinea,
-  "INDENT":reglaIndentacion
+  "INDENT":reglaIndentacion,
+  "NAME_VOID":reglaNombresProhibidos
 }
 
 conceptos = [
@@ -45,6 +49,31 @@ def buscarNodosCon_YGenerar_(analizador, AST, fVal, fMsg):
   for nodo in analizador.hijosDeNodo_(AST):
     resultado += buscarNodosCon_YGenerar_(analizador, nodo, fVal, fMsg)
   return resultado
+
+def nodosDeNombresProhibidosEnAST(analizador, AST, nombres):
+  todosLosNombres = nombres if (type(nombres) == type([])) else [nombres]
+  return buscarNodoDeTipo_Con_(analizador, AST, analizador.tiposNombre(),
+    lambda nodo : analizador.nombreNodo_(nodo) in todosLosNombres,
+    lambda nodo : analizador.nombreNodo_(nodo)
+  )
+
+def buscarNodoDeTipo_Con_(analizador, AST, tipo, fVal, fMsg):
+  return buscarNodosCon_YGenerar_(analizador, AST,
+    lambda nodo : analizador.es_NodoDeTipo_(nodo, tipo) and fVal(nodo),
+    lambda nodo : "No está permitido usar '" + fMsg(nodo) + "'"
+  )
+
+def buscarNodoImportEnAST(analizador, AST):
+  return buscarNodosCon_YGenerar_(analizador, AST,
+    lambda nodo : analizador.es_NodoImport(nodo),
+    lambda nodo : "No está permitido importar módulos"
+  )
+
+def buscarNodoRaiseEnAST(analizador, AST):
+  return buscarNodosCon_YGenerar_(analizador, AST,
+    lambda nodo : analizador.es_NodoExcepción(nodo),
+    lambda nodo : "No está permitido generar excepciones"
+  )
 
 for concepto in conceptos:
   REGLAS["CONCEPT_" + concepto[0]] = lambda analizador, AST, código, regla : buscarNodosCon_YGenerar_(analizador, AST,

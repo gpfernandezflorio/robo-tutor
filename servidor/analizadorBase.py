@@ -3,30 +3,6 @@
 from reglas import REGLAS, buscarNodosCon_YGenerar_
 from utils import aplanar, mapear
 
-def nodosDeNombreEnAST(analizador, AST, nombre):
-  return buscarNodoDeTipo_Con_(analizador, AST, analizador.tiposNombre(),
-    lambda nodo : analizador.nombreNodo_(nodo) == nombre,
-    lambda nodo : nombre
-  )
-
-def buscarNodoImportEnAST(analizador, AST):
-  return buscarNodosCon_YGenerar_(analizador, AST,
-    lambda nodo : analizador.es_NodoImport(nodo),
-    lambda nodo : "No está permitido importar módulos"
-  )
-
-def buscarNodoRaiseEnAST(analizador, AST):
-  return buscarNodosCon_YGenerar_(analizador, AST,
-    lambda nodo : analizador.es_NodoExcepción(nodo),
-    lambda nodo : "No está permitido generar excepciones"
-  )
-
-def buscarNodoDeTipo_Con_(analizador, AST, tipo, fVal, fMsg):
-  return buscarNodosCon_YGenerar_(analizador, AST,
-    lambda nodo : analizador.es_NodoDeTipo_(nodo, tipo) and fVal(nodo),
-    lambda nodo : "No está permitido usar '" + fMsg(nodo) + "'"
-  )
-
 class Analizador(object):
   def AnalizarCódigoMalicioso(self, AST, código, desde, hasta):
     resultado = []

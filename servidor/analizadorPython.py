@@ -9,16 +9,17 @@ if versionDePython.major != 3 or versionDePython.minor != 12:
   exit()
 
 import ast
-from analizadorBase import nodosDeNombreEnAST, buscarNodoImportEnAST, buscarNodoRaiseEnAST, buscarNodoDeTipo_Con_, Analizador
+from analizadorBase import Analizador
+from reglas import nodosDeNombresProhibidosEnAST, buscarNodoImportEnAST, buscarNodoRaiseEnAST, buscarNodoDeTipo_Con_
 from utils import algunoCumple, aplanar, mapear, singularSiEsta
 
 reglasCódigoMalicioso = {
-  "EXIT":lambda analizador, AST, código : nodosDeNombreEnAST(analizador, AST, "exit"),
-  "PRINT":lambda analizador, AST, código : nodosDeNombreEnAST(analizador, AST, "print"),
-  "OPEN":lambda analizador, AST, código : nodosDeNombreEnAST(analizador, AST, "open"),
-  "EXEC":lambda analizador, AST, código : nodosDeNombreEnAST(analizador, AST, "exec"),
-  "EVAL":lambda analizador, AST, código : nodosDeNombreEnAST(analizador, AST, "eval"),
-  "GETATTR":lambda analizador, AST, código : nodosDeNombreEnAST(analizador, AST, "getattr"),
+  "EXIT":lambda analizador, AST, código : nodosDeNombresProhibidosEnAST(analizador, AST, "exit"),
+  "PRINT":lambda analizador, AST, código : nodosDeNombresProhibidosEnAST(analizador, AST, "print"),
+  "OPEN":lambda analizador, AST, código : nodosDeNombresProhibidosEnAST(analizador, AST, "open"),
+  "EXEC":lambda analizador, AST, código : nodosDeNombresProhibidosEnAST(analizador, AST, "exec"),
+  "EVAL":lambda analizador, AST, código : nodosDeNombresProhibidosEnAST(analizador, AST, "eval"),
+  "GETATTR":lambda analizador, AST, código : nodosDeNombresProhibidosEnAST(analizador, AST, "getattr"),
   "IMPORT":lambda analizador, AST, código : buscarNodoImportEnAST(analizador, AST),
   "RAISE":lambda analizador, AST, código : buscarNodoRaiseEnAST(analizador, AST),
   "NombrePrivado":lambda analizador, AST, código : buscarNodoDeTipo_Con_(analizador, AST, ast.Name,

@@ -27,10 +27,10 @@ class AnalizadorGobstones(Analizador):
       return algunoCumple(lambda t : nodo["_tag"] == t, tipos)
     return False
   def tiposNombre(self):
-    return "N_ExprVariable"
+    return "Nombre"
   def nombreNodo_(self, nodo):
     # PRE: nodo es de tipo Nombre
-    return nodo["_children"][0]["_value"]
+    return nodo["_value"]
   def tiposComandosCompuestos(self):
     return [
       "N_StmtIf",
@@ -58,6 +58,7 @@ def astGobstones(codigo, ruta="."):
   if len(falla) > 0:
     return {"error":falla}
   AST = json.loads(json.loads(salida))
+  AgregarTagNombre(AST)
   AgregarAtributoMadre(AST)
   AST["_madre"] = None
   return {"ast":AST}
@@ -68,9 +69,17 @@ def hijosDeNodo_(nodo):
     for hijo in (nodo["_children"] if (not (nodo is None) and ("_children" in nodo)) else []):
       if type(hijo) == type({}):
         hijosPorAhora.append(hijo)
+      elif type(hijo) == type([]):
+        hijosPorAhora = hijosPorAhora + hijo
   return hijosPorAhora
 
 def AgregarAtributoMadre(nodo):
   for hijo in hijosDeNodo_(nodo):
     hijo["_madre"] = nodo
     AgregarAtributoMadre(hijo)
+
+def AgregarTagNombre(nodo):
+  if not ("_tag" in nodo) and ("_value" in nodo):
+    nodo["_tag"] = "Nombre"
+  for hijo in hijosDeNodo_(nodo):
+    AgregarTagNombre(hijo)
