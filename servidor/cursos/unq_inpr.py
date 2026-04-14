@@ -48,6 +48,15 @@ def iniGobi_0_1(a,z): # Tablero inicial Gobi de 4x4x4 en piso a (con Gobi en 0-1
   return [[gobiData(4,a),gobi(z),v,v],[v,v,v,v],[v,v,v,v],[v,v,v,v]]
 def iniGobi_2(a): # Tablero inicial Gobi de 6x6x4 en piso a (sin Gobi, sólo enemigos)
   return [[gobiData(4,a),v,e(2,1),v,e(3,7),v],[v,v,e(2,5),v,e(2,8),e(3,6)],[v,e(2,4),v,e(2,4),e(3,4),v],[e(3,6),e(2,6),e(2,2),e(2,5),e(3,10),e(2,3)],[v,v,e(2,4),e(2,1),e(3,5),v],[v,v,e(2,3),e(3,6),e(2,8),e(3,5)]]
+def tv(w,h):
+  tablero = []
+  for c in range(w):
+    columna = []
+    for r in range(h):
+      columna.append(v)
+    tablero.append(columna)
+  return tablero
+
 
 '''
     head: [columna, fila]
@@ -70,6 +79,7 @@ def resaltado(texto):
 enPapel = resaltado("EN PAPEL")
 importante = resaltado("Importante")
 atención = resaltado("Atención")
+atenciónX = resaltado("¡Atención!")
 recordar = resaltado("¡Recordar!")
 biblioteca = ayuda("BIBLIOTECA")
 pista = ayuda("PISTA")
@@ -3564,6 +3574,233 @@ def guia7(fechaInicio):
     ]
   }
 
+def guia8_ej1(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej1",
+    "nombre":"1. Un nuevo IrAlBorde",
+    "enunciado":"Definir el procedimiento <code>IrAlBorde_(dirección)</code>, que lleva al cabezal al borde dado por el parámetro <code>dirección</code>.<br><br>"+atenciónX+" Debe realizar el ejercicio sin utilizar el comando primitivo <code>IrAlBorde</code>. Dado que el único otro comando primitivo que permite mover el cabezal es <code>Mover</code>, debe <em>repetirse</em> su uso <em>hasta</em> que se haya cumplido el propósito.",
+    "analisisCodigo":[
+      {"key":"NAME_VOID", "nombres":["IrAlBorde"]}
+    ],
+    "run_data":[{
+      "pre":"program{IrAlBorde_(Este)}",
+      "t0":{"head":[3,3],"width":7,"height":7,"board":tv(7,7)},
+      "tf":{"head":[6,3],"width":7,"height":7,"board":tv(7,7)}
+    },{
+      "pre":"program{IrAlBorde_(Sur)}",
+      "t0":{"head":[3,3],"width":7,"height":7,"board":tv(7,7)},
+      "tf":{"head":[3,0],"width":7,"height":7,"board":tv(7,7)}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej2(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej2",
+    "nombre":"2. Otra forma de sacar todas",
+    "enunciado":"Volver a definir el procedimiento <code>SacarTodasLasDeColor_(color)</code>, que quita todas las bolitas del color dado por el parámetro <code>color</code> de la celda actual, pero esta vez SIN utilizar la expresión primitiva <code>nroBolitas</code> (directa o indirectamente).",
+    "analisisCodigo":[
+      {"key":"NAME_VOID", "nombres":["nroBolitas"]}
+    ],
+    "run_data":[{
+      "pre":"program{SacarTodasLasDeColor_(Rojo)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[rs(25)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+    },{
+      "pre":"program{SacarTodasLasDeColor_(Azul)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(30,10,5,20)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(0,10,5,20)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej3a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej3a",
+    "nombre":"3. Vaciando una fila (a)",
+    "enunciado":["Considerar el procedimiento <code>VaciarFilaDe_(color)</code>, que debe quitar todas las bolitas del color dado por el parámetro <code>color</code> de cada una de las celdas de la fila actual",{"tex":"^1"},". El cabezal puede empezar en cualquier celda de la fila, y también puede terminar en cualquier celda de la fila (ya sea celda inicial o cualquier otra).<br><br>Definir el procedimiento, como siempre, comenzando por establecer el contrato, y luego recién el código.<br><br>1: La fila actual es aquella en la que se encuentra la celda actual."],
+    "run_data":[{
+      "pre":"program{VaciarFilaDe_(Rojo)}",
+      "t0":{"head":[3,0],"width":10,"height":1,"board":[
+        [rs(10)],[v],[rs(5)],[rs(8)],[rs(3)],[v],[rs(11)],[v],[rs(7)],[rs(4)]
+      ]},
+      "tf":{"head":[],"width":10,"height":1,"board":
+        [[v],[v],[v],[v],[v],[v],[v],[v],[v],[v]]
+      }
+    },{
+      "pre":"program{VaciarFilaDe_(Azul)}",
+      "t0":{"head":[1,0],"width":3,"height":1,"board":[[c(5,2,13,6)],[c(15,22,3,6)],[c(12,9,0,2)]]},
+      "tf":{"head":[],"width":3,"height":1,"board":[[c(0,2,13,6)],[c(0,22,3,6)],[c(0,9,0,2)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej4(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej4",
+    "nombre":"4. Vaciando una fila hacia...",
+    "enunciado":"Defina ahora el procedimiento <code>VaciarFilaDe_HaciaEl_(color, dirección)</code>, que debe quitar todas las bolitas del color dado por el parámetro <code>color</code> de cada una de las celdas de la fila actual, desde la celda en donde se encuentra el cabezal (incluyendo esta) hacia el final de la fila en la dirección dada por <code>dirección</code>.",
+    "run_data":[{
+      "pre":"program{VaciarFilaDe_HaciaEl_(Rojo, Este)}",
+      "t0":{"head":[2,0],"width":5,"height":1,"board":[
+        [rs(10)],[rs(6)],[rs(5)],[rs(8)],[rs(3)]
+      ]},
+      "tf":{"head":[],"width":5,"height":1,"board":
+        [[rs(10)],[rs(6)],[v],[v],[v]]
+      }
+    },{
+      "pre":"program{VaciarFilaDe_HaciaEl_(Negro, Oeste)}",
+      "t0":{"head":[0,0],"width":5,"height":1,"board":[
+        [ns(10)],[ns(6)],[ns(5)],[ns(8)],[ns(3)]
+      ]},
+      "tf":{"head":[0,0],"width":5,"height":1,"board":[
+        [v],[ns(6)],[ns(5)],[ns(8)],[ns(3)]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def e8_6(s):
+  return biblioteca+" Escribir los procedimientos y funciones necesarias para generalizar la noción de recorrido por celdas de un tablero, para que las direcciones de recorrido no estén fijas. En particular, definir (como siempre, comenzando por los contratos):<br><br><code>"+s+"(dirPrincipal, dirSecundaria)</code><br><br>Que hace precisamente lo que sugiere su nombre, permitiendo utilizarla en un recorrido por celdas."
+
+def guia8_ej6a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej6a",
+    "nombre":"6. Las subtareas más útiles de la historia (a)",
+    "enunciado":e8_6("IrAPrimeraCeldaEnUnRecorridoAl_Y_"),
+    "run_data":[{
+      "pre":"program{IrAPrimeraCeldaEnUnRecorridoAl_Y_(Norte,Este)}",
+      "t0":{"head":[3,3],"width":7,"height":7,"board":tv(7,7)},
+      "tf":{"head":[0,0],"width":7,"height":7,"board":tv(7,7)}
+    },{
+      "pre":"program{IrAPrimeraCeldaEnUnRecorridoAl_Y_(Oeste,Norte)}",
+      "t0":{"head":[2,4],"width":7,"height":7,"board":tv(7,7)},
+      "tf":{"head":[6,0],"width":7,"height":7,"board":tv(7,7)}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej6b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej6b",
+    "nombre":"6. Las subtareas más útiles de la historia (b)",
+    "enunciado":e8_6("haySiguienteCeldaEnUnRecorridoAl_Y_"),
+    "run_data":[
+      validarBoolEnTablero("haySiguienteCeldaEnUnRecorridoAl_Y_(Este, Norte)",False,
+        {"head":[2,2],"width":3,"height":3,"board":tv(3,3)}),
+      validarBoolEnTablero("haySiguienteCeldaEnUnRecorridoAl_Y_(Sur, Oeste)",True,
+        {"head":[0,2],"width":3,"height":3,"board":tv(3,3)}),
+      validarBoolEnTablero("haySiguienteCeldaEnUnRecorridoAl_Y_(Sur, Oeste)",True,
+        {"head":[2,2],"width":3,"height":3,"board":tv(3,3)}),
+      validarBoolEnTablero("haySiguienteCeldaEnUnRecorridoAl_Y_(Sur, Oeste)",True,
+        {"head":[2,0],"width":3,"height":3,"board":tv(3,3)})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej6c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej6c",
+    "nombre":"6. Las subtareas más útiles de la historia (c)",
+    "enunciado":e8_6("IrASiguienteCeldaEnUnRecorridoAl_Y_"),
+    "pre":"program{IrASiguienteCeldaEnUnRecorridoAl_Y_(Oeste,Norte)}",
+    "run_data":[{
+      "t0":{"head":[1,0],"width":3,"height":3,"board":tv(3,3)},
+      "tf":{"head":[0,0],"width":3,"height":3,"board":tv(3,3)}
+    },{
+      "t0":{"head":[0,0],"width":3,"height":3,"board":tv(3,3)},
+      "tf":{"head":[2,1],"width":3,"height":3,"board":tv(3,3)}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej6c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej6c",
+    "nombre":"6. Las subtareas más útiles de la historia (c)",
+    "enunciado":e8_6("IrASiguienteCeldaEnUnRecorridoAl_Y_"),
+    "pre":"program{IrASiguienteCeldaEnUnRecorridoAl_Y_(Oeste,Norte)}",
+    "run_data":[{
+      "t0":{"head":[1,0],"width":3,"height":3,"board":tv(3,3)},
+      "tf":{"head":[0,0],"width":3,"height":3,"board":tv(3,3)}
+    },{
+      "t0":{"head":[0,0],"width":3,"height":3,"board":tv(3,3)},
+      "tf":{"head":[2,1],"width":3,"height":3,"board":tv(3,3)}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def e8_7(s):
+  return "Escribir ahora el siguiente procedimiento, teniendo en cuenta que el cabezal puede comenzar en cualquier lugar del tablero, y terminar en dónde usted crea conveniente.<br><br>" + s
+
+def guia8_ej7a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej7a",
+    "nombre":"7. Y ahora más cosas sobre el tablero (a)",
+    "enunciado":e8_7("<code>PintarTableroDe_(color)</code> que coloca exactamente una bolita del color dado en cada celda del tablero."),
+    "pre":"program{PintarTableroDe_(Verde)}",
+    "run_data":[{
+      "t0":{"head":[1,2],"width":3,"height":3,"board":tv(3,3)},
+      "tf":{"head":[],"width":3,"height":3,"board":[[g,g,g],[g,g,g],[g,g,g]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej7b(fecha):
+  b = c(1,1,1,1)
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej7b",
+    "nombre":"7. Y ahora más cosas sobre el tablero (b)",
+    "enunciado":e8_7("<code>PonerUnaDeCadaEnTodoElTablero()</code> que coloca una bolita de cada color en cada celda del tablero."),
+    "pre":"program{PonerUnaDeCadaEnTodoElTablero()}",
+    "run_data":[{
+      "t0":{"head":[2,1],"width":4,"height":2,"board":tv(4,2)},
+      "tf":{"head":[],"width":4,"height":2,"board":[[b,b],[b,b],[b,b],[b,b]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej7c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej7c",
+    "nombre":"7. Y ahora más cosas sobre el tablero (c)",
+    "enunciado":e8_7("<code>RellenarCon_EnAusenciaDe_EnElTablero(colorAPoner, colorAMirar)</code> que coloca una bolita de color <code>colorAPoner</code> en cada celda del tablero en la que no haya al menos una bolita de color <code>colorAMirar</code>."),
+    "pre":"program{RellenarCon_EnAusenciaDe_EnElTablero(Azul, Verde)}",
+    "run_data":[{
+      "t0":{"head":[0,1],"width":2,"height":4,"board":[[v,gs(2),a,v],[rs(2),c(2,2,2,2),c(2,3,4,0),g]]},
+      "tf":{"head":[],"width":2,"height":4,"board":[[a,gs(2),a_s(2),a],[c(1,0,2,0),c(2,2,2,2),c(3,3,4,0),g]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej7d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej7d",
+    "nombre":"7. Y ahora más cosas sobre el tablero (d)",
+    "enunciado":e8_7("<code>CompletarHasta_De_EnElTablero(cantidad, color)</code> que deja en cada celda del tablero exactamente tantas bolitas del color dado como la cantidad indicada por el parámetro <code>cantidad</code>. Note que puede que ya existan bolitas del color dado en algunas de las celdas (pero no más de <code>cantidad</code> en ninguna). Realice el procedimiento sin hacer uso del comando <code>Sacar</code> ni ninguno de los procedimientos que implican Sacar."),
+    "pre":"program{CompletarHasta_De_EnElTablero(10, Negro)}",
+    "analisisCodigo":[
+      {"key":"NAME_VOID", "nombres":["Sacar"]}
+    ],
+    "run_data":[{
+      "t0":{"head":[1,1],"width":2,"height":2,"board":[[v,ns(3)],[c(5,5,5,5),c(2,1,6,2)]]},
+      "tf":{"head":[],"width":2,"height":2,"board":[[ns(10),ns(10)],[c(5,10,5,5),c(2,10,6,2)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
 def guia8(fechaInicio):
   return {
     "tipo":"SECCION",
@@ -3572,6 +3809,39 @@ def guia8(fechaInicio):
     "disponible":{"desde":fechaInicio},
     "actividades":[
       linkGuía(8, 39117, "19/P8.%20Repetici%C3%B3n%20condicional%2C%20recorridos.pdf"),
+      guia8_ej1(fechaInicio),
+      guia8_ej2(fechaInicio),
+      guia8_ej3a(fechaInicio),
+      guia8_ej4(fechaInicio),
+      guia8_ej6a(fechaInicio),
+      guia8_ej6b(fechaInicio),
+      guia8_ej6c(fechaInicio),
+      guia8_ej7a(fechaInicio),
+      guia8_ej7b(fechaInicio),
+      guia8_ej7c(fechaInicio),
+      guia8_ej7d(fechaInicio)#,
+      # guia8_ej8(fechaInicio),
+      # guia8_ej9(fechaInicio),
+      # guia8_ej10(fechaInicio),
+      # guia8_ej12(fechaInicio),
+      # guia8_ej13a(fechaInicio),
+      # guia8_ej13b(fechaInicio),
+      # guia8_ej13c(fechaInicio),
+      # guia8_ej13d(fechaInicio),
+      # guia8_ej13e(fechaInicio),
+      # guia8_ej13f(fechaInicio),
+      # guia8_ej14a(fechaInicio),
+      # guia8_ej14b(fechaInicio),
+      # guia8_ej14c(fechaInicio),
+      # guia8_ej14d(fechaInicio),
+      # guia8_ej14e(fechaInicio),
+      # guia8_ej14f(fechaInicio),
+      # guia8_ej14g(fechaInicio),
+      # guia8_ej14h(fechaInicio),
+      # guia8_ej14i(fechaInicio),
+      # guia8_ej14j(fechaInicio),
+      # guia8_ej14k(fechaInicio),
+      # guia8_ej14l(fechaInicio)
     ]
   }
 

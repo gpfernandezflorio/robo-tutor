@@ -184,6 +184,16 @@ cursos = [{
         {"src":"nroBolitas(Rojo) >= 5","res":"NO"},
         {"src":"nroBolitas(Rojo) > 5","res":"OK"}
     ]
+  },{
+    "id":"guia8_ej1",
+    "i":[{"src":"procedure IrAlBorde_(dirección) {\n  IrAlBorde(dirección)\n}",
+      "res":"Calidad","error":errorNombre("IrAlBorde")
+    }]
+  },{
+    "id":"guia8_ej2",
+    "i":[{"src":"procedure SacarTodasLasDeColor_(color) {\n  repeat(nroBolitas(color)) { Sacar(color) }\n}",
+      "res":"Calidad","error":errorNombre("nroBolitas")
+    }]
   }]
 },{
   "id":"alc_prueba",
