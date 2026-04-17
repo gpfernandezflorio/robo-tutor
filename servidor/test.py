@@ -1,5 +1,6 @@
 SERVER_PIKMIN = "http://192.168.0.29:8050"
 SERVER_LUIGI = "http://192.168.0.11:8050"
+SERVER_TOSHI = "http://10.1.101.89:8050"
 SERVER_RT = "http://157.92.26.79:8060"
 
 SERVER = SERVER_RT
@@ -184,6 +185,9 @@ cursos = [{
         {"src":"nroBolitas(Rojo) >= 5","res":"NO"},
         {"src":"nroBolitas(Rojo) > 5","res":"OK"}
     ]
+  },{
+    "id":"guia6_ej6a",
+    "i":[{"src":"procedure Depositar_EnMoneda_ComoPesos(cantidadADepositar, moneda) {\n if (moneda==Verde) {\n  DepositarAPesos(cantidadADepositar*80)\n } elseif (moneda==Azul) {\n  DepositarAPesos(cantidadADepositar*90)\n } elseif (moneda==Rojo) {\n  DepositarAPesos(cantidadADepositar*12)\n } elseif (moneda==Negro) {\n  DepositarAPesos(cantidadADepositar*1)\n }\n}\nprocedure DepositarAPesos(monto){\n repeat(monto){\n  Poner(Negro)\n }\n}","res":"OK"}]
   },{
     "id":"guia8_ej1",
     "i":[{"src":"procedure IrAlBorde_(dirección) {\n  IrAlBorde(dirección)\n}",

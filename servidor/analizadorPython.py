@@ -72,6 +72,12 @@ class AnalizadorPython(Analizador):
     return nodo.lineno
   def columnaDeNodo_(self, nodo):
     return nodo.col_offset # OJO: es índice en UTF-8
+  def actualizarNroLíneas(self, r, d):
+    # TODO
+    return r
+  def astMostrable(self, ast):
+    # TODO
+    return ast
 
 def astPython(codigo, ruta="."):
   try:

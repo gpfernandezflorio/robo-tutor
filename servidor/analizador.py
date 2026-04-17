@@ -8,6 +8,8 @@ analizadorPython = AnalizadorPython()
 analizadorGobstones = AnalizadorGobstones()
 # analizadorHaskell = AnalizadorHaskell()
 
+import json
+
 def analizar(analizador, código, reglas, extras={}):
   desde = extras["desde"] if "desde" in extras else 1
   hasta = extras["hasta"] if "hasta" in extras else código.count("\n")+1
@@ -23,6 +25,8 @@ def analizar(analizador, código, reglas, extras={}):
     if len(resultadoCódigoMalicioso) > 0:
       return {"resultado":"EVIL", "error":textoAPartirDeLista(resultadoCódigoMalicioso)}
   resultadoAnálisisCalidad = analizador.AnalizarAst(AST["ast"], código, reglas, desde, hasta)
+  # MostrarAST(analizador.astMostrable(AST["ast"]))
+  # print(list(map(lambda r: analizador.actualizarNroLíneas(r, desde), resultadoAnálisisCalidad)))
   if len(resultadoAnálisisCalidad) > 0:
     return {"resultado":"Calidad", "error":textoAPartirDeLista(resultadoAnálisisCalidad)}
   return None
@@ -38,3 +42,6 @@ def analizarHaskell(código, reglas, extras={}):
 
 def textoAPartirDeLista(lista):
   return lista[0]["msg"] # Por ahora sólo devuelvo el primero porque las funciones de buscar_falla asumen que es uno sólo.
+
+def MostrarAST(ast):
+  print(json.dumps(ast, indent=2))

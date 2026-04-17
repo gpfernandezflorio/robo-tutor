@@ -43,6 +43,12 @@ class AnalizadorHaskell(Analizador):
     return líneaDeUbicación(nodo["en"]) if ("en" in nodo) else "?"
   def columnaDeNodo_(self, nodo):
     return columnaDeUbicación(nodo["en"]) if ("en" in nodo) else "?"
+  def actualizarNroLíneas(self, r, d):
+    # TODO
+    return r
+  def astMostrable(self, ast):
+    # TODO
+    return ast
 
 def astHaskell(codigo, ruta="."):
   f = open(os.path.join(ruta, 'src.hs'), 'w')
