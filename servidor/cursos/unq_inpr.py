@@ -85,6 +85,7 @@ biblioteca = ayuda("BIBLIOTECA")
 pista = ayuda("PISTA")
 observación = ayuda("OBSERVACIÓN")
 ejemplo = ayuda("EJEMPLO")
+aclaración = ayuda("Aclaración")
 
 def img(ruta):
   return "Ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39068/mod_resource/content/18/P5.%20Expresiones%20y%20tipos.pdf' target='_blank'>la guía</a>." if ruta.startswith("5") else "Ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39086/mod_resource/content/25/P6.%20Alternativas%20Condicionales.pdf' target='_blank'>la guía</a>."
@@ -3801,6 +3802,438 @@ def guia8_ej7d(fecha):
     "disponible":{"desde":fecha}
   }
 
+def guia8_ej8(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej8",
+    "nombre":"8. Buscando la bolita roja en la fila/columna",
+    "enunciado":"Escribir un procedimiento <code>IrHastaLaBolitaRojaHacia_(direcciónABuscar)</code> que deja el cabezal posicionado en la celda más próxima a la actual en la dirección dada que posea una bolita de color Rojo. Cuidado, si hay una bolita de color Rojo en la celda actual, el cabezal debe moverse a la más cercana, no permanecer en la actual. ¿Cuál es la precondición de este procedimiento?",
+    "run_data":[{
+      "pre":"program{IrHastaLaBolitaRojaHacia_(Este)}",
+      "t0":{"head":[0,0],"width":5,"height":1,"board":[[v],[v],[v],[r],[r]]},
+      "tf":{"head":[3,0],"width":5,"height":1,"board":[[v],[v],[v],[r],[r]]}
+    },{
+      "pre":"program{IrHastaLaBolitaRojaHacia_(Sur)}",
+      "t0":{"head":[0,6],"width":1,"height":8,"board":[[v,r,r,v,v,v,r,r]]},
+      "tf":{"head":[0,2],"width":1,"height":8,"board":[[v,r,r,v,v,v,r,r]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej9(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej9",
+    "nombre":"9. Buscando la celda vacía",
+    "enunciado":"Escribir un procedimiento <code>IrALaSiguienteVacíaHacia_(dirección)</code> que posiciona el cabezal en la próxima celda vacía en la fila o columna, desde la celda en donde se encuentra el cabezal (sin incluirla) hacia el borde en la dirección dada, dejando el cabezal en el borde en caso de no haber ninguna celda vacía en dicha dirección.",
+    "run_data":[{
+      "pre":"program{IrALaSiguienteVacíaHacia_(Este)}",
+      "t0":{"head":[0,0],"width":5,"height":1,"board":[[a],[a],[a],[v],[a]]},
+      "tf":{"head":[3,0],"width":5,"height":1,"board":[[a],[a],[a],[v],[a]]}
+    },{
+      "pre":"program{IrALaSiguienteVacíaHacia_(Sur)}",
+      "t0":{"head":[0,2],"width":1,"height":3,"board":[[r,r,v]]},
+      "tf":{"head":[0,0],"width":1,"height":3,"board":[[r,r,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej10(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej10",
+    "nombre":"10. Buscando en todo el tablero",
+    "enunciado":"Definir un procedimiento <code>IrHastaLaQueTengaUnaDeCada()</code> que posiciona el cabezal en cualquier celda que contenga una bolita de cada color, asumiendo que existe en el tablero alguna celda que cumpla con dicha característica.",
+    "pre":"program{IrHastaLaQueTengaUnaDeCada()}",
+    "run_data":[{
+      "t0":{"head":[3,3],"width":4,"height":4,"board":[
+        [c(1,1,0,1),r,v,v],[a,c(1,1,1,1),v,v],[v,gs(10),v,v],[v,v,v,c(1,0,1,1)]
+      ]},
+      "tf":{"head":[1,1],"width":4,"height":4,"board":[
+        [c(1,1,0,1),r,v,v],[a,c(1,1,1,1),v,v],[v,gs(10),v,v],[v,v,v,c(1,0,1,1)]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej12(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej12",
+    "nombre":"12. Comiendo la pieza",
+    "enunciado":enPapel+" Dadas las siguientes primitivas que modelan partes de un juego de ajedrez:"+código("function hayUnaPiezaNegra()<br>&nbsp;/*<br>&nbsp;&nbsp;PROPÓSITO: Indica si hay una pieza negra en la celda actual.<br>&nbsp;&nbsp;TIPO: Booleano<br>&nbsp;&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;&nbsp;* Ninguna<br>&nbsp;*/")+código("procedure ComerPiezaNegra()<br>&nbsp;/*<br>&nbsp;&nbsp;PROPÓSITO: Come la pieza negra en la celda actual.<br>&nbsp;&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;&nbsp;* Hay una pieza negra en la celda actual<br>&nbsp;*/")+código("procedure MoverTorreBlancaHacia_(direcciónAMover)<br>&nbsp;/*<br>&nbsp;&nbsp;PROPÓSITO: Mueve la torre blanca una celda en la dirección dada.<br>&nbsp;&nbsp;PARÁMETROS:<br>&nbsp;&nbsp;&nbsp;* direcciónAMover: Dirección - La dirección hacia la cual mover la pieza.<br>&nbsp;&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;&nbsp;* Hay una celda en la dirección dada.<br>&nbsp;*/")+"Se pide que escriba el procedimiento <code>ComerPiezaNegraConTorreHacia_(direcciónAComer)</code> que asumiendo que se está sobre una torre blanca, come la pieza negra más próxima a la celda actual hacia la dirección dada, dejando la torre en dicha celda.",
+    "pre":'function hayUnaPiezaNegra(){return (nroBolitas(Azul)==1)}\nprocedure ComerPiezaNegra(){\nif(not hayUnaPiezaNegra()){BOOM("No se puede comer una pieza negra en esta celda: No hay una pieza negra para comer.")}\nSacar(Azul)\n}procedure MoverTorreBlancaHacia_(direcciónAMover){\nif(nroBolitas(Rojo)/=1){BOOM("No se puede mover una torre blanca desde esta celda: No hay una torre blanca.")}\nif(not puedeMover(direcciónAMover)){BOOM("No se puede mover la torre blanca en esa dirección: No hay celda lindante a dónde mover.")}\nSacar(Rojo)Mover(direcciónAMover)Poner(Rojo)Mover(opuesto(direcciónAMover))}',
+    "run_data":[{
+      "pre":"program{ComerPiezaNegraConTorreHacia_(Oeste)}",
+      "t0":{"head":[3,1],"width":4,"height":4,"board":[
+        [n,n,n,n],[n,a,n,n],[n,n,n,n],[n,r,n,n]
+      ]},
+      "tf":{"head":[1,1],"width":4,"height":4,"board":[
+        [n,n,n,n],[n,r,n,n],[n,n,n,n],[n,v,n,n]
+      ]}
+    },{
+      "pre":"program{ComerPiezaNegraConTorreHacia_(Norte)}",
+      "t0":{"head":[0,2],"width":1,"height":4,"board":[[n,n,r,a]]},
+      "tf":{"head":[0,3],"width":1,"height":4,"board":[[n,n,v,r]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def e8_13(s):
+  return "Se desea modelar el movimiento de mercadería en una sencilla red de depósitos, que tiene un depósito central, más un depósito local para cada punto cardinal. Para esto, se va a representar en el tablero un mapa muy simplificado.<ul><li>Tres bolitas negras marcan el depósito central,</li><li>dos bolitas negras marcan un depósito local,</li><li>una bolita negra marca el camino de central a local,</li><li>cada bolita azul marca una unidad de mercadería.</li></ul>Los depósitos locales forman una cruz, donde el centro es el depósito central. No se sabe a qué distancia están los depósitos locales del depósito central (ver ejemplo en <a href='https://aulas.gobstones.org/pluginfile.php/39117/mod_resource/content/19/P8.%20Repetici%C3%B3n%20condicional%2C%20recorridos.pdf' target='_blank'>la guía</a>).<br>Escribir:<br>"+s
+
+def guia8_ej13a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej13a",
+    "nombre":"13. Distribución de mercadería (a)",
+    "enunciado": e8_13("<code>esDepósitoCentral()</code> y <code>esDepósitoLocal()</code> que indican si el cabezal está, respectivamente, en el depósito central o en un depósito local."),
+    "run_data":[
+      validarBoolEnCelda("esDepósitoCentral()", False, ns(2)),
+      validarBoolEnCelda("esDepósitoCentral()", True, ns(3)),
+      validarBoolEnCelda("esDepósitoCentral()", False, ns(4)),
+      validarBoolEnCelda("esDepósitoLocal()", False, ns(1)),
+      validarBoolEnCelda("esDepósitoLocal()", True, ns(2)),
+      validarBoolEnCelda("esDepósitoLocal()", False, ns(3))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej13b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej13b",
+    "nombre":"13. Distribución de mercadería (b)",
+    "enunciado": e8_13("<code>IrDeCentralAlLocal_(dirección)</code>, que mueve el cabezal del depósito central al depósito local que está en la dirección dada, suponiendo que el cabezal comience en el depósito central."),
+    "run_data":[{
+      "pre":"program{IrDeCentralAlLocal_(Norte)}",
+      "t0":{"head":[0,2],"width":1,"height":4,"board":[[v,v,ns(3),ns(2)]]},
+      "tf":{"head":[0,3],"width":1,"height":4,"board":[[v,v,ns(3),ns(2)]]}
+    },{
+      "pre":"program{IrDeCentralAlLocal_(Sur)}",
+      "t0":{"head":[0,3],"width":1,"height":4,"board":[[ns(2),n,n,ns(3)]]},
+      "tf":{"head":[0,0],"width":1,"height":4,"board":[[ns(2),n,n,ns(3)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej13c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej13c",
+    "nombre":"13. Distribución de mercadería (c)",
+    "enunciado": e8_13("<code>IrDelLocal_ACentral(dirección)</code>, que mueve el cabezal al depósito central, suponiendo que el cabezal está en el depósito local que está en la dirección dada.<br>"+aclaración+": si se pide <code>IrDelLocal_ACentral(Sur)</code>, quiere decir que el cabezal está en el depósito Sur, por lo tanto, debe moverse <em>hacia el Norte</em>."),
+    "run_data":[{
+      "pre":"program{IrDelLocal_ACentral(Sur)}",
+      "t0":{"head":[0,2],"width":1,"height":4,"board":[[v,v,ns(2),ns(3)]]},
+      "tf":{"head":[0,3],"width":1,"height":4,"board":[[v,v,ns(2),ns(3)]]}
+    },{
+      "pre":"program{IrDelLocal_ACentral(Norte)}",
+      "t0":{"head":[0,3],"width":1,"height":4,"board":[[ns(3),n,n,ns(2)]]},
+      "tf":{"head":[0,0],"width":1,"height":4,"board":[[ns(3),n,n,ns(2)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej13d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej13d",
+    "nombre":"13. Distribución de mercadería (d)",
+    "enunciado": e8_13("<code>Llevar_MercaderíasAlLocal_(cantidad, dirección)</code>, que lleva la cantidad de mercadería indicada del depósito central al depósito local que está en la dirección indicada. Si en el depósito central no hay suficiente cantidad de mercadería, no se hace nada. Se puede suponer que el cabezal está en el depósito central, y debe dejarse en el mismo lugar. Por ejemplo a partir del tablero inicial dado como ejemplo, <code>Llevar_MercaderíasAlLocal_(3, Sur)</code> tiene este efecto: (ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39117/mod_resource/content/19/P8.%20Repetici%C3%B3n%20condicional%2C%20recorridos.pdf' target='_blank'>la guía</a>)."),
+    "run_data":[{
+      "pre":"program{Llevar_MercaderíasAlLocal_(5,Sur)}",
+      "t0":{"head":[0,3],"width":1,"height":4,"board":[[v,v,ns(2),c(4,3,0,0)]]},
+      "tf":{"head":[0,3],"width":1,"height":4,"board":[[v,v,ns(2),c(4,3,0,0)]]}
+    },{
+      "pre":"program{Llevar_MercaderíasAlLocal_(3,Norte)}",
+      "t0":{"head":[0,0],"width":1,"height":4,"board":[[c(4,3,0,0),n,n,c(2,2,0,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":4,"board":[[c(1,3,0,0),n,n,c(5,2,0,0)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej13e(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej13e",
+    "nombre":"13. Distribución de mercadería (e)",
+    "enunciado": e8_13("<code>Traer_MercaderíasDelLocal_(cantidad, dirección)</code>, que lleva la cantidad de mercadería indicada del depósito local en la dirección indicada, al depósito central. Si en el depósito local indicado no hay suficiente cantidad de mercadería, no se hace nada. Se puede suponer que el cabezal está en el depósito central, y debe dejarse en el mismo lugar. Por ejemplo, a partir del tablero inicial, <code>Traer_MercaderíasDelLocal_(3, Sur)</code> tiene este efecto: (ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39117/mod_resource/content/19/P8.%20Repetici%C3%B3n%20condicional%2C%20recorridos.pdf' target='_blank'>la guía</a>)."),
+    "run_data":[{
+      "pre":"program{Traer_MercaderíasDelLocal_(5,Sur)}",
+      "t0":{"head":[0,3],"width":1,"height":4,"board":[[v,v,ns(2),c(4,3,0,0)]]},
+      "tf":{"head":[0,3],"width":1,"height":4,"board":[[v,v,ns(2),c(4,3,0,0)]]}
+    },{
+      "pre":"program{Traer_MercaderíasDelLocal_(3,Norte)}",
+      "t0":{"head":[0,0],"width":1,"height":4,"board":[[c(4,3,0,0),n,n,c(10,2,0,0)]]},
+      "tf":{"head":[0,0],"width":1,"height":4,"board":[[c(7,3,0,0),n,n,c(7,2,0,0)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej13f(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej13f",
+    "nombre":"13. Distribución de mercadería (f)",
+    "enunciado": e8_13("<code>Mover_MercaderíasDelLocal_AlLocal_(cantidad, origen, destino)</code>, que mueve la cantidad indicada de mercadería del depósito local que está en dirección origen al que está en dirección destino. Si en el depósito origen no hay la cantidad de mercadería necesaria, no se hace nada. Nuevamente se puede suponer que el cabezal se encuentra en el depósito central. Por ejemplo, a partir del tablero inicial, <code>Mover_MercaderíasDelLocal_AlLocal_(3, Este, Sur)</code> tiene este efecto: (ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39117/mod_resource/content/19/P8.%20Repetici%C3%B3n%20condicional%2C%20recorridos.pdf' target='_blank'>la guía</a>)."),
+    "run_data":[{
+      "pre":"program{Mover_MercaderíasDelLocal_AlLocal_(5,Sur,Norte)}",
+      "t0":{"head":[0,3],"width":1,"height":5,"board":[[v,v,ns(2),c(14,3,0,0),ns(2)]]},
+      "tf":{"head":[0,3],"width":1,"height":5,"board":[[v,v,ns(2),c(14,3,0,0),ns(2)]]}
+    },{
+      "pre":"program{Mover_MercaderíasDelLocal_AlLocal_(3,Norte,Sur)}",
+      "t0":{"head":[0,1],"width":1,"height":5,"board":[[c(2,2,0,0),c(4,3,0,0),n,n,c(10,2,0,0)]]},
+      "tf":{"head":[0,1],"width":1,"height":5,"board":[[c(5,2,0,0),c(4,3,0,0),n,n,c(7,2,0,0)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def e8_14(s, nota):
+  return enPapel+" Se puede modelar el paseo de un caminante por el tablero con las siguientes consideraciones para la representación.<ul><li>El caminante está representado por entre una a cuatro bolitas azules. La dirección de su paseo es Norte si es una bolita, Este si son dos, Sur si son tres y Oeste si son cuatro.</li><li>Las indicaciones de cambio de dirección se representan con bolitas verdes. Si el caminante llega a una celda con una de estas indicaciones, debe cambiar de dirección. La cantidad de bolitas verdes indica la nueva dirección, con la misma representación de direcciones dadas para el caminante.</li><li>El caminante deja una huella de bolitas negras a su paso, una por cada paso.</li><li>La meta se representa con cualquier número de bolitas rojas. El paseo del caminante termina si llega a la meta.</li><li>La celda actual siempre se encuentra sobre el caminante.</li><li>La única celda con bolitas azules es la del caminante.</li><li>Todas las celdas tienen un máximo de 4 bolitas verdes.</li><li>Las indicaciones llevan al caminante a la meta.</li></ul>Como ayuda para guiar la división en subtareas, ya se realizó un análisis <em>top-down</em> de la estrategia, y se eligieron ciertas subtareas. Se pide, entonces, implementar los procedimientos y funciones que expresan dichas subtareas, que son los indicados a continuación. Observar que en su gran mayoría, las tareas están presentadas en forma <em>top-down</em>, por lo que es interesante mirarlas todas antes de empezar a implementar, y definir todos los contratos antes de proceder a escribir el código de cada una, ya que las de niveles más alto se pueden servir de las de niveles más bajos. Además, puede tomarse la siguiente función como primitiva:"+código("function direcciónDelCódigo_(código)<br>&nbsp;/*<br>&nbsp;&nbsp;PROPÓSITO: Describe la dirección correspondiente al código dado.<br>&nbsp;&nbsp;PARÁMETROS:<br>&nbsp;&nbsp;&nbsp;* código: Número - código de la dirección a describir.<br>&nbsp;&nbsp;TIPO: Dirección<br>&nbsp;&nbsp;PRECONDICIONES: El código dado está entre 1 y 4.<br>&nbsp;*/")+"Al escribir los contratos, no olvidar establecer las precondiciones necesarias (ya que las mismas no siempre se explicitan en los enunciados).<br>" + s + ("<br><br><b>Nota</b>: debe asumir definidas todas las subtareas de los otros incisos, así como la función primitiva <code>direcciónDelCódigo_(código)</code> (es decir, no debe incluir dichas definiciones al enviar este ejercicio)." if nota else "")
+
+soluciones8_14 = {
+  "a":'function colorCaminante(){return(Azul)}\nfunction colorIndicador(){return(Verde)}\nfunction colorHuella(){return(Negro)}\nfunction colorMeta(){return(Rojo)}',
+  "b":'procedure LlevarAlCaminanteALaMeta(){while(not estáEnLaMeta()){DejarHuella()DarUnPaso()}}',
+  "c":'function estáEnLaMeta(){return(hayBolitas(colorMeta()))}',
+  "d":'procedure DejarHuella(){if(not hayBolitas(colorCaminante())){BOOM("No se puede dejar huella si no está el caminante.")}Poner(Negro)}',
+  "e":'procedure DarUnPaso(){CambiarDeDirecciónSiHayIndicador()MoverAlCaminanteHaciaDondeMira()}',
+  "f":'procedure CambiarDeDirecciónSiHayIndicador(){if(hayIndicadorDeCambioDeDirección()){CambiarDirecciónDelCaminanteALaDelIndicador()}}',
+  "g":'procedure MoverAlCaminanteHaciaDondeMira(){MoverAlCaminanteAl_(direcciónDelCódigo_(nroBolitas(colorCaminante())))}',
+  "h":'function hayIndicadorDeCambioDeDirección(){return(hayBolitas(colorIndicador()))}',
+  "i":'procedure CambiarDirecciónDelCaminanteALaDelIndicador(){if(not hayBolitas(colorCaminante())){BOOM("No se puede cambiar la dirección del caminante: El caminante no está en la celda actual.")}if(not hayBolitas(colorIndicador())){BOOM("No se puede cambiar la dirección del caminante: No hay indicador de cambio de dirección.")}Cambiar_ParaImitar_(colorCaminante(),colorIndicador())}',
+  "j":'procedure MoverAlCaminanteAl_(dirección){if(not hayBolitas(colorCaminante())){BOOM("No se puede mover al caminante: El caminante no está en la celda actual.")}Mover_Bolitas_Al_(nroBolitas(colorCaminante()),colorCaminante(),dirección)}',
+  "k":'procedure Cambiar_ParaImitar_(colorACambiar,colorAImitar){repeat(nroBolitas(colorACambiar)){Sacar(colorACambiar)}repeat(nroBolitas(colorAImitar)){Poner(colorACambiar)}}',
+  "l":'procedure Mover_Bolitas_Al_(cantidad,color,dirección){repeat(cantidad){Sacar(color)Mover(dirección)Poner(color)Mover(opuesto(dirección))}Mover(dirección)}'
+}
+
+def pre8_14_sin(i):
+  resultado = ['function direcciónDelCódigo_(código){return(choose Norte when(código==1)Este when(código==2)Sur when(código==3)Oeste when(código==4)boom("No se puede describir la dirección para el código dada: No es uno de los códigos de dirección válidos.") otherwise)}']
+  for j in soluciones8_14:
+    if j != i:
+      resultado.append(soluciones8_14[j])
+  return "\n".join(resultado)
+
+def guia8_ej14a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej14a",
+    "nombre":"14. El caminante (a)",
+    "enunciado": e8_14("<code>colorCaminante()</code>, <code>colorIndicador()</code>, <code>colorHuella()</code> y <code>colorMeta()</code>, que describen los colores con los que se representa cada uno de los elementos nombrados.", False),
+    "run_data":[
+      validarColorEnCelda("colorCaminante()","a",v),
+      validarColorEnCelda("colorIndicador()","v",v),
+      validarColorEnCelda("colorHuella()","n",v),
+      validarColorEnCelda("colorMeta()","r",v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej14b(fecha):
+  rc = c(4,0,1,0) # meta y caminante mirando al norte
+  ih = lambda x : c(0,1,0,x) # indicador con huella
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej14b",
+    "nombre":"14. El caminante (b)",
+    "enunciado": e8_14("<code>LlevarAlCaminanteALaMeta()</code> que, suponiendo que en el tablero está representado un escenario válido para el caminante, lleva al caminante hasta la meta.", True),
+    "pre":"program {LlevarAlCaminanteALaMeta()}\n"+pre8_14_sin("b"),
+    "run_data":[{
+    #   "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(1,1,1,1)]]},
+    #   "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(1,1,1,1)]]}
+    # },{
+    #   "t0":{"head":[0,0],"width":1,"height":3,"board":[[a,v,r]]},
+    #   "tf":{"head":[0,2],"width":1,"height":3,"board":[[n,n,c(1,0,1,0)]]}
+    # },{
+    #   "t0":{"head":[0,0],"width":2,"height":2,"board":[[a,gs(2)],[v,r]]},
+    #   "tf":{"head":[1,1],"width":2,"height":2,"board":[[n,c(0,1,0,2)],[v,c(2,0,1,0)]]}
+    # },{
+    #   "t0":{"head":[0,0],"width":2,"height":2,"board":[[a,gs(2)],[r,gs(3)]]},
+    #   "tf":{"head":[0,1],"width":2,"height":2,"board":[[n,c(0,1,0,2)],[c(3,0,1,0),c(0,1,0,3)]]}
+    # },{
+      "t0":{"head":[3,1],"width":5,"height":5,"board":[
+        [v,    v,     v,    v,    v],
+        [v,    gs(1), v,    gs(2),v],
+        [gs(2),v,     v,    gs(3),v],
+        [v,    a_s(4),r,    v,    v],
+        [gs(1),v,     gs(4),v,    v]
+      ]},
+      "tf":{"head":[3,2],"width":5,"height":5,"board":[
+        [v,    v,    v,    v,    v],
+        [v,    ih(1),n,    ih(2),v],
+        [ih(2),ns(2),n,    ih(3),v],
+        [n,    n    ,rc,   v,    v],
+        [ih(1),n,    ih(4),v,    v]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej14c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej14c",
+    "nombre":"14. El caminante (c)",
+    "enunciado": e8_14("<code>estáEnLaMeta()</code> que indica si el caminante está o no en la meta.", True),
+    "pre":pre8_14_sin("c"),
+    "run_data":[
+      validarBoolEnCelda("estáEnLaMeta()", False, v),
+      validarBoolEnCelda("estáEnLaMeta()", False, a_s(3)),
+      validarBoolEnCelda("estáEnLaMeta()", True, r),
+      validarBoolEnCelda("estáEnLaMeta()", True, rs(5)),
+      validarBoolEnCelda("estáEnLaMeta()", True, c(2,1,2,0))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej14d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej14d",
+    "nombre":"14. El caminante (d)",
+    "enunciado": e8_14("<code>DejarHuella()</code> que deja una huella en la celda actual.", True),
+    "pre":"program {DejarHuella()}\n"+pre8_14_sin("d"),
+    "run_data":[
+      validarTransformaciónCelda(v,n),
+      validarTransformaciónCelda(ns(3),ns(4))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej14e(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej14e",
+    "nombre":"14. El caminante (e)",
+    "enunciado": e8_14("<code>DarUnPaso()</code> que realiza un paso en el paseo del caminante, de acuerdo a las siguientes reglas.<ol><li>Si hay que cambiar la dirección (está sobre una celda indicadora), lo hace.</li><li>Finalmente, se mueve en la dirección correspondiente.</li></ol>", True),
+    "pre":"program {DarUnPaso()}\n"+pre8_14_sin("e"),
+    "run_data":[{
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[a_s(1),v],[v,v]]},
+      "tf":{"head":[0,1],"width":2,"height":2,"board":[[v,a_s(1)],[v,v]]}
+    },{
+      "t0":{"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,c(2,0,0,4)]]},
+      "tf":{"head":[0,1],"width":2,"height":2,"board":[[v,a_s(4)],[v,gs(4)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej14f(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej14f",
+    "nombre":"14. El caminante (f)",
+    "enunciado": e8_14("<code>CambiarDeDirecciónSiHayIndicador()</code> que cambia la dirección del caminante cuando se encuentra con un indicador.", True),
+    "pre":"program {CambiarDeDirecciónSiHayIndicador()}\n"+pre8_14_sin("f"),
+    "run_data":[
+      validarTransformaciónCelda(a_s(3),a_s(3)),
+      validarTransformaciónCelda(c(2,0,0,1),c(1,0,0,1))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej14g(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej14g",
+    "nombre":"14. El caminante (g)",
+    "enunciado": e8_14("<code>MoverAlCaminanteHaciaDondeMira()</code> que mueve el caminante un paso en la dirección hacia la cual está mirando.", True),
+    "pre":"program {MoverAlCaminanteHaciaDondeMira()}\n"+pre8_14_sin("g"),
+    "run_data":[{
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[a_s(1),v],[v,v]]},
+      "tf":{"head":[0,1],"width":2,"height":2,"board":[[v,a_s(1)],[v,v]]}
+    },{
+      "t0":{"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,a_s(4)]]},
+      "tf":{"head":[0,1],"width":2,"height":2,"board":[[v,a_s(4)],[v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej14h(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej14h",
+    "nombre":"14. El caminante (h)",
+    "enunciado": e8_14("<code>hayIndicadorDeCambioDeDirección()</code> que indica si en la celda actual hay un indicador de dirección.", True),
+    "pre":pre8_14_sin("h"),
+    "run_data":[
+      validarBoolEnCelda("hayIndicadorDeCambioDeDirección()", False, v),
+      validarBoolEnCelda("hayIndicadorDeCambioDeDirección()", False, c(2,2,2,0)),
+      validarBoolEnCelda("hayIndicadorDeCambioDeDirección()", True, c(2,2,2,2)),
+      validarBoolEnCelda("hayIndicadorDeCambioDeDirección()", True, gs(2))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej14i(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej14i",
+    "nombre":"14. El caminante (i)",
+    "enunciado": e8_14("<code>CambiarDirecciónDelCaminanteALaDelIndicador()</code> que cambia la dirección del caminante para que coincida con la del indicador de la celda actual.", True),
+    "pre":"program {CambiarDirecciónDelCaminanteALaDelIndicador()}\n"+pre8_14_sin("i"),
+    "run_data":[
+      validarTransformaciónCelda(c(2,4,8,1),c(1,4,8,1))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej14j(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej14j",
+    "nombre":"14. El caminante (j)",
+    "enunciado": e8_14("<code>MoverAlCaminanteAl_(dirección)</code> que mueve al caminante un paso en la dirección dada.", True),
+    "pre":pre8_14_sin("j"),
+    "run_data":[{
+      "pre":"program {MoverAlCaminanteAl_(Norte)}",
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[a_s(1),v],[v,v]]},
+      "tf":{"head":[0,1],"width":2,"height":2,"board":[[v,a_s(1)],[v,v]]}
+    },{
+      "pre":"program {MoverAlCaminanteAl_(Oeste)}",
+      "t0":{"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,a_s(4)]]},
+      "tf":{"head":[0,1],"width":2,"height":2,"board":[[v,a_s(4)],[v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej14k(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej14k",
+    "nombre":"14. El caminante (k)",
+    "enunciado": e8_14("<code>Cambiar_ParaImitar_(colorACambiar, colorAImitar)</code> que cambia la cantidad de bolitas de <code>colorACambiar</code> según la cantidad de bolitas de <code>colorDeReferencia</code> que haya en la celda actual.", True),
+    "pre":pre8_14_sin("k"),
+    "run_data":[{
+      "pre":"program {Cambiar_ParaImitar_(Rojo,Azul)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(1,2,3,4)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(1,2,1,4)]]}
+    },{
+      "pre":"program {Cambiar_ParaImitar_(Negro,Verde)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(6,7,8,9)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(6,9,8,9)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia8_ej14l(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia8_ej14l",
+    "nombre":"14. El caminante (l)",
+    "enunciado": e8_14("<code>Mover_Bolitas_Al_(cantidad, color, dirección)</code> que mueve (es decir, quita de una celda para llevar a la otra) la cantidad indicada de bolitas de color a la celda lindante en la dirección dada, y deja el cabezal en esa celda. Suponer que hay una celda lindante en esa dirección.", True),
+    "pre":pre8_14_sin("l"),
+    "run_data":[{
+      "pre":"program {Mover_Bolitas_Al_(3,Rojo,Norte)}",
+      "t0":{"head":[0,0],"width":1,"height":2,"board":[[c(1,2,3,4),c(5,6,7,8)]]},
+      "tf":{"head":[0,0],"width":1,"height":2,"board":[[c(1,2,0,4),c(5,6,10,8)]]}
+    },{
+      "pre":"program {Mover_Bolitas_Al_(6,Verde,Este)}",
+      "t0":{"head":[1,1],"width":3,"height":2,"board":[[v,v],[v,gs(10)],[v,v]]},
+      "tf":{"head":[1,1],"width":3,"height":2,"board":[[v,v],[v,gs(4)],[v,gs(6)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
 def guia8(fechaInicio):
   return {
     "tipo":"SECCION",
@@ -3819,29 +4252,29 @@ def guia8(fechaInicio):
       guia8_ej7a(fechaInicio),
       guia8_ej7b(fechaInicio),
       guia8_ej7c(fechaInicio),
-      guia8_ej7d(fechaInicio)#,
-      # guia8_ej8(fechaInicio),
-      # guia8_ej9(fechaInicio),
-      # guia8_ej10(fechaInicio),
-      # guia8_ej12(fechaInicio),
-      # guia8_ej13a(fechaInicio),
-      # guia8_ej13b(fechaInicio),
-      # guia8_ej13c(fechaInicio),
-      # guia8_ej13d(fechaInicio),
-      # guia8_ej13e(fechaInicio),
-      # guia8_ej13f(fechaInicio),
-      # guia8_ej14a(fechaInicio),
-      # guia8_ej14b(fechaInicio),
-      # guia8_ej14c(fechaInicio),
-      # guia8_ej14d(fechaInicio),
-      # guia8_ej14e(fechaInicio),
-      # guia8_ej14f(fechaInicio),
-      # guia8_ej14g(fechaInicio),
-      # guia8_ej14h(fechaInicio),
-      # guia8_ej14i(fechaInicio),
-      # guia8_ej14j(fechaInicio),
-      # guia8_ej14k(fechaInicio),
-      # guia8_ej14l(fechaInicio)
+      guia8_ej7d(fechaInicio),
+      guia8_ej8(fechaInicio),
+      guia8_ej9(fechaInicio),
+      guia8_ej10(fechaInicio),
+      guia8_ej12(fechaInicio),
+      guia8_ej13a(fechaInicio),
+      guia8_ej13b(fechaInicio),
+      guia8_ej13c(fechaInicio),
+      guia8_ej13d(fechaInicio),
+      guia8_ej13e(fechaInicio),
+      guia8_ej13f(fechaInicio),
+      guia8_ej14a(fechaInicio),
+      guia8_ej14b(fechaInicio),
+      guia8_ej14c(fechaInicio),
+      guia8_ej14d(fechaInicio),
+      guia8_ej14e(fechaInicio),
+      guia8_ej14f(fechaInicio),
+      guia8_ej14g(fechaInicio),
+      guia8_ej14h(fechaInicio),
+      guia8_ej14i(fechaInicio),
+      guia8_ej14j(fechaInicio),
+      guia8_ej14k(fechaInicio),
+      guia8_ej14l(fechaInicio)
     ]
   }
 
