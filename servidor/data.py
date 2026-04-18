@@ -16,6 +16,7 @@ from cursos.exactas_programa import CURSOS as cursos_exactas_programa
 from cursos.taller_programacion import CURSOS as cursos_taller_programacion
 from cursos.alc import CURSOS as cursos_alc
 from cursos.dc_ip import CURSOS as dc_ip
+from cursos.epli import CURSOS as epli
 
 CURSOS = {}
 
@@ -33,6 +34,9 @@ for c in cursos_alc:
 
 for c in dc_ip:
   CURSOS[c] = dc_ip[c]
+
+for c in epli:
+  CURSOS[c] = epli[c]
 
 LOCAL_DIR = 'locales'
 if not os.path.isdir(LOCAL_DIR):
@@ -251,10 +255,14 @@ def habilitacion(usuario, curso, actividad):
       return "OCULTA"
     if fueraDeFecha(actividad["visible"]):
       return "OCULTA"
+    if not usuarioHabilitado(actividad["visible"], usuario):
+      return "OCULTA"
   if "disponible" in actividad:
     if actividad["disponible"] == "NO":
       return "DESHABILITADA"
     if fueraDeFecha(actividad["disponible"]):
+      return "DESHABILITADA"
+    if not usuarioHabilitado(actividad["disponible"], usuario):
       return "DESHABILITADA"
   if actividad["tipo"] == "CODIGO":
     return ejercicioHabilitado(usuario, actividad)
@@ -281,6 +289,22 @@ def linkHabilitado(usuario, cuestionario):
 def seccionHabilitada(usuario, cuestionario):
   # Acá se puede verificar si hay contenido habilitado en la sección
   return "HABILITADA"
+
+def usuarioHabilitado(restricción, usuario):
+  if "usuariosSi" in restricción and not (usuario in datoDeObjetoComoLista(restricción, "usuariosSi")):
+    return False
+  if "usuariosNo" in restricción and (usuario in datoDeObjetoComoLista(restricción, "usuariosNo")):
+    return False
+  return True
+
+def datoDeObjeto(objeto, campo):
+  return objeto[campo]
+
+def datoDeObjetoComoLista(objeto, campo):
+  resultado = datoDeObjeto(objeto, campo)
+  if type(resultado) == type([]):
+    return resultado
+  return [resultado]
 
 def dame_data_cuestionario(ruta):
   respuesta = {'resultado':"Falla"}
