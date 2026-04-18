@@ -90,7 +90,7 @@ def limpiarXML(textoOriginal):
   return textoOriginal.replace('&lt;','<').replace('&gt;','>')
 
 informacionPrivadaPregunta = ["respuestas"]
-informacionPublicaPregunta = ["titulo","tipo","tipoMoodle","pregunta"]
+informacionPublicaPregunta = ["titulo","tipo","tipoMoodle","pregunta","rango"]
 
 informacionPrivadaRespuesta = ["devolucion","puntaje"]
 informacionPublicaRespuesta = ["texto"]
