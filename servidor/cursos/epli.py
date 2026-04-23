@@ -1,21 +1,38 @@
+preguntasEstímulo = [
+  "¿Qué tanto creés que la consigna presentada satisface lo que requiere el docente (sin importar la calidad en sí de la misma)?",
+  "¿Cómo evaluás la calidad de la consigna en cuánto qué tan correcta es? Más allá de lo que pidió el docente, indicá la calidad de la consigna en tanto si no contiene errores, la consigna tiene sentido y no es confusa.",
+  "¿Cómo evaluás la consigna en general? Acá podés valoras otros aspectos no relativos a la corrección de la consigna o qué tanto responde a lo pedido por el docente.",
+  'Dejá algún comentario para justificar o agregar comentarios extras sobre tus respuestas anteriores.<br><br>Si no tenés nada que agregar, escribí "-".'
+]
 títuloBienvenida = "Comenzando"
-textoDeBienvenida = "En este experimento te vamos a mostrar distintas actividades diseñadas para evaluar conceptos de programación. Junto a cada consigna te explicamos cuál es el objetivo que guió el diseño de la misma (qué concepto se desea evaluar, para qué público objetivo está pensada, etc.). Te pedimos que califiques cada una de ellas en la escala del 1 al 5, según qué tan bien pensás que se ajusta a los objetivos planteados. Después de cada respuesta brindada vas a tener un campo de texto opcional para justificar tu calificación o agregar comentarios adicionales sobre el ejercicio propuesto.<br><br>Hacé clic en 'Siguiente' para continuar."
-títuloEstímulo = "Calificá este ejercicio"
-def textoEstímulo(estímulo):
+textoDeBienvenida = "En este experimento te vamos a mostrar distintas actividades diseñadas para evaluar conceptos de programación. <br>Junto a cada consigna te explicamos cuál es el objetivo que guió el diseño de la misma (qué concepto se desea evaluar, para qué público objetivo está pensada, etc.).<br>Para cada una de ellas, te pedimos que respondas las siguientes 3 preguntas, en la escala del 1 al 5:<br><ol><li>"+preguntasEstímulo[0]+"</li><li>"+preguntasEstímulo[1]+"</li><li>"+preguntasEstímulo[2]+"</li></ol><br>Además, vas a tener un campo de texto opcional para justificar tu calificación o agregar comentarios adicionales sobre el ejercicio propuesto.<br><br>Hacé clic en 'Siguiente' para continuar."
+def títuloEstímulo(j, n):
+  return "Ejercicio " + str(j) + " de " + str(n)
+def escala(u,c):
+  return "<br><br>Respondé en la escala del 1 al 5, donde 1 es '<em>"+u+"</em>' y 5 es '<em>"+c+"</em>':"
+preguntasEstímulo[0] += escala("No lo satisface para nada", "Lo satisface completamente")
+preguntasEstímulo[1] += escala("Muy baja calidad", "Muy alta calidad")
+preguntasEstímulo[2] += escala("Muy mala", "Muy buena")
+def textoEstímulo(estímulo, i):
   return [
     estímulo[0] + "<br><br>", # La presentación (Esta es una consigna ...)
     { 'md':estímulo[1], # La consigna en sí
       'css':"border: solid 5pt #ddd;background-color: #f8f8f8;padding: 12px;"
     },
-    "<br><br>A continuación calificá el ejercicio propuesto en la escala del 1 al 5:"
+    "<br><br>" + (("<b>" + nPreguntas[i-1] + "</b>:<br>") if i < 4 else "") + preguntasEstímulo[i-1]
   ]
-títuloJustificación = "Justificá tu respuesta (opcional)"
-textoJustificación = 'En el siguiente campo podés complementar tu respuesta justificando el puntaje que le asignaste al ejercicio o agregando cualquier comentario que te parezca pertinente.<br><br>Si no tenés nada que agregar, escribí "-".'
+nPreguntas = [
+  "Primera pregunta",
+  "Segunda pregunta",
+  "Tercera pregunta"
+]
+def títuloJustificación(j, n):
+  return títuloEstímulo(j, n) + " - Justificación (opcional)"
 títuloFinalización = "Eso es todo..."
-textoDeFinalización = "¡Muchas gracias por particiar!"
+textoDeFinalización = "¡Muchas gracias por participar!"
 
 todosLosEstímulos = [
-['''Esta es una consigna del tipo '<b>COMPLECIÓN DE ESPACIOS VACÍOS</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. ''','''## Evaluación de Programación: Dominio "El Robot Recolector"
+['''Esta es una consigna del tipo '<b>COMPLECIÓN DE ESPACIOS VACÍOS</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. ''','''## Evaluación de Programación: Dominio "El Robot Recolector"
 
 En un tablero que representa un depósito, un robot debe decidir si puede realizar una tarea de recolección de materiales. El robot solo puede activar su brazo mecánico si se cumplen **todas** las siguientes condiciones simultáneamente:
 1. El robot tiene al menos una batería (representada por bolitas de color **Verde**).
@@ -34,7 +51,7 @@ function puedeRecogerMaterial() {
     */
     return ( __________ )
 }
-```'''],['''Esta es una consigna del tipo '<b>RESPUESTA ABIERTA</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e implementación de expresiones lógicas.''','''## Evaluación de Programación: Expresiones Lógicas
+```'''],['''Esta es una consigna del tipo '<b>RESPUESTA ABIERTA</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e implementación de expresiones lógicas.''','''## Evaluación de Programación: Expresiones Lógicas
 
 ### Contexto: El Escenario del Robot Recolector
 En un tablero de Gobstones, un robot se encuentra en una parcela (celda) que puede contener diferentes elementos: **Bolitas Verdes** (que representan plantas sanas), **Bolitas Rojas** (que representan frutos maduros) y **Bolitas Negras** (que representan plagas).
@@ -48,7 +65,7 @@ Escribí una función en lenguaje **Gobstones** que determine si la celda actual
 3. La parcela no tiene plagas.
 
 La función debe devolver un valor booleano que indique si la parcela es apta o no, sin modificar el contenido del tablero.
-'''],['''Esta es una consigna del tipo '<b>PARSONS</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e implementación de expresiones lógicas.''','''## Consigna de Evaluación: El Robot Clasificador de Celdas
+'''],['''Esta es una consigna del tipo '<b>PARSONS</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e implementación de expresiones lógicas.''','''## Consigna de Evaluación: El Robot Clasificador de Celdas
 
 **Dominio:** Estás programando el sensor de un robot encargado de inspeccionar un tablero de materiales. El robot debe decidir si una celda cumple con los estándares de seguridad para ser procesada.
 
@@ -71,7 +88,7 @@ Reordena los siguientes bloques de código para definir la función `esAptaParaP
 * `)`
 * `}`
 * `if (hayBolitas(Verde)) {`
-'''],['''Esta es una consigna del tipo '<b>OPCIÓN MÚLTIPLE CON RESPUESTA ÚNICA</b>' para evaluar '<b>EVALUACIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. ''','''### Contexto del Problema: El Escáner de Minerales
+'''],['''Esta es una consigna del tipo '<b>OPCIÓN MÚLTIPLE CON RESPUESTA ÚNICA</b>' para evaluar '<b>EVALUACIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. ''','''### Contexto del Problema: El Escáner de Minerales
 En una excavación minera controlada por un cabezal robótico (el cabezal de Gobstones), se ha definido un protocolo de seguridad para la extracción de cristales. El robot se encuentra en una celda que puede contener bolitas de tres colores: **Verdes** (que representan esmeraldas), **Rojas** (que representan sensores térmicos) y **Azules** (que representan suministros de agua). 
 
 Para que la extracción sea segura en la celda actual, se deben cumplir **simultáneamente** las siguientes condiciones:
@@ -91,7 +108,7 @@ B) `hayBolitas(Verde) || nroBolitas(Rojo) < 2 || hayBolitas(Azul)`
 C) `nroBolitas(Verde) >= 1 && (nroBolitas(Rojo) > 2 || not hayBolitas(Azul))`
 
 D) `hayBolitas(Verde) && nroBolitas(Rojo) < 3 && not hayBolitas(Azul)`
-'''],['''Esta es una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Seguimiento de funciones y directivas de selección.''','''## Evaluación de Programación: El Controlador de Almacén
+'''],['''Esta es una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Seguimiento de funciones y directivas de selección.''','''## Evaluación de Programación: El Controlador de Almacén
 
 **Dominio:** Un robot encargado de organizar suministros en un depósito. El robot debe colocar una "Caja de Seguridad" (una bolita de color Verde) solo si se cumplen estrictamente las condiciones de seguridad del estante.
 
@@ -117,7 +134,7 @@ function puedeColocarCajaSeguridad() {
 
 **Tu tarea:**
 Identificá la línea o sección del código donde se encuentra el error de lógica, explicá por qué esa expresión no cumple con el manual de operaciones y escribí la expresión lógica corregida.
-'''],['''Esta es una consigna del tipo '<b>COMPLECIÓN DE ESPACIOS VACÍOS</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. ''','''## Consigna de Evaluación
+'''],['''Esta es una consigna del tipo '<b>COMPLECIÓN DE ESPACIOS VACÍOS</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. ''','''## Consigna de Evaluación
 
 En el contexto de un tablero de **Gobstones**, donde el cabezal se encuentra en una celda que contiene bolitas de diversos colores, se requiere definir una condición específica para un mecanismo de control.
 
@@ -127,7 +144,7 @@ Completá la siguiente expresión para que la misma sea verdadera **únicamente*
 
 ```gobstones
 _________ (nroBolitas(Negro) == 0) _________ (nroBolitas(Azul) == nroBolitas(Rojo))
-```'''],['''Esta es una consigna del tipo '<b>RESPUESTA ABIERTA</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e implementación de expresiones lógicas.''','''## Consigna de Evaluación
+```'''],['''Esta es una consigna del tipo '<b>RESPUESTA ABIERTA</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e implementación de expresiones lógicas.''','''## Consigna de Evaluación
 
 **Contexto del Dominio: Sistema de Control de Almacén**
 
@@ -146,7 +163,7 @@ Un estante se considera en "desbalance crítico" cuando ocurre alguna de las sig
 Definir la expresión lógica en lenguaje **Gobstones** que permita determinar si la ubicación actual cumple con la condición de **estado crítico de desbalance**. Para obtener las cantidades necesarias, disponés de las siguientes funciones totales (puras) ya integradas al lenguaje:
 * `nroBolitas(color)`: Retorna la cantidad de bolitas del color indicado en la celda actual.
 * `hayBolitas(color)`: Retorna un valor booleano indicando si existe al menos una bolita del color indicado.
-'''],['''Esta es una consigna del tipo '<b>PARSONS</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e implementación de expresiones lógicas.''','''### Consigna de Evaluación
+'''],['''Esta es una consigna del tipo '<b>PARSONS</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e implementación de expresiones lógicas.''','''### Consigna de Evaluación
 
 **Dominio:** Sistema de Control de Calidad de Cultivos en un Tablero Espacial.
 
@@ -167,7 +184,7 @@ A continuación, se presenta una lista de fragmentos de código desordenados. Tu
 6. `||`
 7. `nroBolitas(Rojo) * nroBolitas(Verde)`
 8. `> 15`
-'''],['''Esta es una consigna del tipo '<b>OPCIÓN MÚLTIPLE CON RESPUESTA ÚNICA</b>' para evaluar '<b>EVALUACIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. ''','''### Consigna de Evaluación
+'''],['''Esta es una consigna del tipo '<b>OPCIÓN MÚLTIPLE CON RESPUESTA ÚNICA</b>' para evaluar '<b>EVALUACIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. ''','''### Consigna de Evaluación
 
 **Dominio:** Gestión de inventario de recursos en un tablero de minería espacial.
 
@@ -185,7 +202,7 @@ Dada la siguiente expresión lógica escrita en Gobstones, la cual se utiliza pa
 4. 4 bolitas verdes, 1 bolita roja y 1 bolita azul.
 
 ***
-'''],['''Esta es una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Seguimiento de funciones y directivas de selección.''','''## Consigna
+'''],['''Esta es una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Seguimiento de funciones y directivas de selección.''','''## Consigna
 
 El equipo de mantenimiento de una aplicación de logística para depósitos está teniendo problemas con el sistema de control de stock automatizado. El objetivo del sistema es alertar cuando una ubicación del depósito necesita reposición inmediata. Según el manual de procedimientos, una ubicación debe marcarse para **"Reposición"** únicamente cuando **no tiene mercadería** (está vacía) **y** además **no tiene un pedido de reabastecimiento en curso**.
 
@@ -212,7 +229,7 @@ function tienePedidoEnCurso() {
     return (hayBolitas(Rojo))
 }
 ```
-'''],['''Esta es una consigna del tipo '<b>COMPLECIÓN DE ESPACIOS VACÍOS</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. ''','''### Consigna: El Robot Sanitario
+'''],['''Esta es una consigna del tipo '<b>COMPLECIÓN DE ESPACIOS VACÍOS</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. ''','''### Consigna: El Robot Sanitario
 
 **Contexto:**
 Un robot debe limpiar una celda solo si se cumplen ciertas condiciones de seguridad y necesidad. El robot detecta **Bolinhas Verdes** como señal de "Celda Sucia" y **Bolinhas Rojas** como "Obstáculo Crítico".
@@ -239,7 +256,7 @@ function puedeLimpiar() {
    - Operadores: && (y), || (o), ! (no)
 */
 ```
-'''],['''Esta es una consigna del tipo '<b>RESPUESTA ABIERTA</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e implementación de expresiones lógicas.''','''## Evaluación: Expresiones Lógicas en Gobstones
+'''],['''Esta es una consigna del tipo '<b>RESPUESTA ABIERTA</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e implementación de expresiones lógicas.''','''## Evaluación: Expresiones Lógicas en Gobstones
 
 ### Contexto: El Sistema de Riego Automatizado
 En una plantación automatizada, el cabezal representa un sensor que debe decidir si activar o no los aspersores basándose en las condiciones del suelo. El suelo se representa con bolitas de colores:
@@ -261,7 +278,7 @@ Para que la función retorne `Verdadero`, deben cumplirse **simultáneamente** l
 
 **Requerimiento Técnico:** No podés utilizar estructuras de control condicional (`if` / `si`) para retornar los valores. Debes definir la lógica de la función puramente a través de una **expresión lógica compuesta**, utilizando operadores booleanos y de comparación.
 
-'''],['''Esta es una consigna del tipo '<b>PARSONS</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e implementación de expresiones lógicas.''','''## Consigna de Examen: Problema de Parsons
+'''],['''Esta es una consigna del tipo '<b>PARSONS</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e implementación de expresiones lógicas.''','''## Consigna de Examen: Problema de Parsons
 
 **Dominio:** Un robot recolector en un jardín cuadriculado.
 **Contexto:** El robot debe identificar si una celda es **"Apta para Cultivo"**. Una celda se considera apta si se cumplen las siguientes condiciones simultáneamente:
@@ -285,7 +302,7 @@ Ordená los siguientes bloques de código para definir la función `esCeldaAptaP
 * `&& not hayBolitas(Negro)`
 * `}`
 * `nroBolitas(Verde) == 0`
-'''],['''Esta es una consigna del tipo '<b>OPCIÓN MÚLTIPLE CON RESPUESTA ÚNICA</b>' para evaluar '<b>EVALUACIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. ''','''## Evaluación de Expresiones Lógicas en Gobstones
+'''],['''Esta es una consigna del tipo '<b>OPCIÓN MÚLTIPLE CON RESPUESTA ÚNICA</b>' para evaluar '<b>EVALUACIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. ''','''## Evaluación de Expresiones Lógicas en Gobstones
 
 ### Contexto del Dominio: El Almacén de Suministros
 En un tablero que representa un almacén, las bolitas de colores simbolizan diferentes tipos de suministros:
@@ -332,7 +349,7 @@ not (nroBolitas(Azul) <= 3 && nroBolitas(Negro) <= 2) &&
 nroBolitas(Rojo) > 1 && 
 hayBolitas(Negro)
 ```
-'''],['''Esta es una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Seguimiento de funciones y directivas de selección.''','''### Contexto de Dominio: El Sistema de Riego Automatizado
+'''],['''Esta es una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Seguimiento de funciones y directivas de selección.''','''### Contexto de Dominio: El Sistema de Riego Automatizado
 En una plantación de hortalizas, un cabezal robótico (el cabezal de Gobstones) debe decidir si activar los aspersores. La regla de negocio indica que un sector debe regarse **solo si** se cumplen estas condiciones simultáneamente:
 1.  Hay **Humedad Baja** (representado por la ausencia de bolitas Azules).
 2.  **No hay Alerta de Helada** (representado por menos de 3 bolitas Rojas).
@@ -362,7 +379,7 @@ Analizá la expresión lógica dentro del `return`. Se afirma que la expresión 
 1.  **Identificá la ocurrencia del error de precedencia:** Explicá qué parte de la expresión se evalúa primero debido a la falta de paréntesis y cómo esto altera el resultado final frente a los requerimientos del dominio.
 2.  **Identificá el error de borde:** Señalá específicamente qué sucede cuando hay exactamente 3 bolitas Rojas y por qué esto contradice la regla de "Alerta de Helada".
 3.  **Proponé la corrección:** Escribí la expresión lógica corregida que garantice que las tres condiciones se evalúen como un conjunto estricto.
-'''],['''Esta es una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna de Evaluación: El recolector de semillas
+'''],['''Esta es una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna de Evaluación: El recolector de semillas
 
 En el tablero de **Gobstones**, un robot debe recorrer una fila de celdas para recolectar semillas (representadas por bolitas de color **Verde**). Se ha definido una función `haySemilla()` que indica si hay bolitas verdes en la celda actual, y un procedimiento `RecogerSemilla()` que se encarga de recolectarlas.
 
@@ -386,7 +403,7 @@ procedure LimpiarFilaDeSemillas() {
   }
 }
 ```
-'''],['''Esta es una consigna del tipo '<b>COMPLECIÓN DE ESPACIOS VACÍOS</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna de Evaluación: El Robot Cosechador
+'''],['''Esta es una consigna del tipo '<b>COMPLECIÓN DE ESPACIOS VACÍOS</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna de Evaluación: El Robot Cosechador
 
 En un tablero que representa un huerto, se ha definido una función llamada `hayFruta()` que indica si existe un elemento en la celda actual, y un procedimiento `RecogerFruta()` que se encarga de recolectar un elemento del suelo.
 
@@ -404,14 +421,14 @@ procedure CosecharCincoFrutas() {
     }
 }
 ```
-'''],['''Esta es una consigna del tipo '<b>RESPUESTA ABIERTA</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna de Evaluación
+'''],['''Esta es una consigna del tipo '<b>RESPUESTA ABIERTA</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna de Evaluación
 
 **Dominio:** Sistema de Carga de Contenedores Marítimos.
 **Contexto:** En un puerto, se utiliza un brazo mecánico para organizar filas de contenedores en el muelle. Cada contenedor está representado por una bolita de color **Azul**. El brazo mecánico se encuentra actualmente en una celda que representa el inicio de una plataforma de carga.
 
 **Tarea:**
 Escribí un procedimiento llamado `CargarFilaDeContenedores()` que se encargue de colocar exactamente 5 contenedores en la celda actual. Para realizar esta tarea, ya contás con un procedimiento predefinido llamado `PonerContenedor()`, el cual se encarga de realizar la acción física de colocar una bolita de color Azul. 
-'''],['''Esta es una consigna del tipo '<b>PARSONS</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna de Evaluación
+'''],['''Esta es una consigna del tipo '<b>PARSONS</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna de Evaluación
 
 **Contexto: El Robot Pintor**
 En un tablero de Gobstones, un robot debe pintar una línea horizontal de celdas de color **Verde**. El robot comienza en una celda cualquiera y debe pintar la celda actual y las **3 celdas siguientes** hacia el **Este**.
@@ -428,7 +445,7 @@ Ordena los siguientes bloques de código para construir el procedimiento `Pintar
 * `procedure PintarLineaVerde() {`
 * `}`
 
-'''],['''Esta es una consigna del tipo '<b>OPCIÓN MÚLTIPLE CON RESPUESTA ÚNICA</b>' para evaluar '<b>SEGUIMIENTO</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones. ''','''### Consigna de Evaluación
+'''],['''Esta es una consigna del tipo '<b>OPCIÓN MÚLTIPLE CON RESPUESTA ÚNICA</b>' para evaluar '<b>SEGUIMIENTO</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones. ''','''### Consigna de Evaluación
 
 **Contexto: El Robot Cosechador**
 Un robot se encuentra en una parcela de un campo representada por un tablero. En la celda actual del robot, hay una cantidad de semillas representadas por bolitas de color **Rojo**. Se ha definido el siguiente procedimiento para que el robot recoja las semillas una por una y las procese:
@@ -453,7 +470,7 @@ Si al iniciar la ejecución del procedimiento `RecolectarYProcesar`, la celda ac
 * C) La celda tendrá 0 bolitas Rojas y 3 bolitas Verdes.
 * D) La celda tendrá 3 bolitas Rojas y 0 bolitas Verdes.
 
-'''],['''Esta es una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna de Evaluación
+'''],['''Esta es una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna de Evaluación
 
 **Dominio:** Sistema de balizamiento de pista de aterrizaje.
 **Contexto:** Se requiere señalizar una sección de la pista colocando una baliza (representada por una bolita de color **Verde**) en cada celda, cubriendo un trayecto lineal de exactamente **4 celdas** hacia el Norte, incluyendo la celda donde se inicia el procedimiento.
@@ -480,7 +497,7 @@ B) La cantidad de iteraciones en el `repeat` es insuficiente para cubrir las 4 c
 C) El programa termina su ejecución sin colocar la bolita verde en la última celda del tramo.
 D) La precondición es incorrecta y debería exigir 4 celdas al Norte en lugar de 3.
 
-'''],['''Esta es una consigna del tipo '<b>COMPLECIÓN DE ESPACIOS VACÍOS</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''### Consigna
+'''],['''Esta es una consigna del tipo '<b>COMPLECIÓN DE ESPACIOS VACÍOS</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''### Consigna
 
 En el tablero de Gobstones, un robot encargado de mantenimiento debe delimitar una zona de seguridad. Para ello, se requiere que el robot coloque una línea de **12 bolitas azules** en la celda actual. 
 
@@ -497,12 +514,12 @@ procedure DelimitarZonaSeguridad() {
     }
 }
 ```
-'''],['''Esta es una consigna del tipo '<b>RESPUESTA ABIERTA</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna
+'''],['''Esta es una consigna del tipo '<b>RESPUESTA ABIERTA</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna
 
 En el lenguaje **Gobstones**, el tablero representa un territorio donde un robot recolector debe realizar tareas de mantenimiento. En esta ocasión, se requiere automatizar una tarea de limpieza en una columna del tablero.
 
 Escribí un procedimiento llamado `LimpiarLíneaDeCincoAlEste()` que permita al cabezal recoger exactamente una bolita de color **Verde** de la celda actual y de cada una de las siguientes 4 celdas hacia el **Este**. 
-'''],['''Esta es una consigna del tipo '<b>PARSONS</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna
+'''],['''Esta es una consigna del tipo '<b>PARSONS</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna
 
 **Dominio:** El Tablero Mágico de Piedras.
 
@@ -519,7 +536,7 @@ A continuación, se presentan una serie de bloques de código desordenados. Tu t
 7. `repeat (4) {`
 8. `  Mover(Sur)`
 
-'''],['''Esta es una consigna del tipo '<b>OPCIÓN MÚLTIPLE CON RESPUESTA ÚNICA</b>' para evaluar '<b>SEGUIMIENTO</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones. ''','''## Consigna
+'''],['''Esta es una consigna del tipo '<b>OPCIÓN MÚLTIPLE CON RESPUESTA ÚNICA</b>' para evaluar '<b>SEGUIMIENTO</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones. ''','''## Consigna
 
 Se dispone de un tablero con un cabezal inicialmente posicionado en una celda cualquiera (lejos de los bordes). El dominio del problema consiste en el desplazamiento de un robot recolector que debe marcar un camino específico.
 
@@ -543,7 +560,7 @@ procedure MarcarRecorrido() {
 2.  Tres celdas al Este de la posición inicial.
 3.  Dos celdas al Este y una al Norte de la posición inicial.
 4.  En la misma posición inicial.
-'''],['''Esta es una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''### Contexto del Problema
+'''],['''Esta es una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''### Contexto del Problema
 En el simulador de **Jardinería Digital**, un robot debe plantar una fila de flores (representadas por bolitas rojas) en un cantero rectangular. Para optimizar el código, se ha implementado una función llamada `cantidadDeEspaciosARecorrer()` que calcula cuántos casilleros debe avanzar el robot según el tamaño del cantero actual.
 
 Sin embargo, el equipo de programación ha reportado que el siguiente procedimiento **no funciona correctamente**: el robot se detiene antes de terminar la fila o intenta moverse fuera del tablero, causando un error de ejecución.
@@ -571,7 +588,7 @@ Se sabe que el procedimiento anterior tiene un **error de ocurrencia** respecto 
 2.  **Señalamiento:** Si `cantidadDeEspaciosARecorrer()` devuelve el valor **5**, ¿cuántas flores se ponen y cuántos movimientos se realizan?
 3.  **Corrección:** Proponga una modificación lógica (utilizando el concepto de "procesar y mover" o ajustando el límite) para que el procedimiento sea correcto.
 
-'''],['''Esta es una consigna del tipo '<b>COMPLECIÓN DE ESPACIOS VACÍOS</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''### Consigna
+'''],['''Esta es una consigna del tipo '<b>COMPLECIÓN DE ESPACIOS VACÍOS</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''### Consigna
 Dada la siguiente solución incompleta, completa los espacios vacíos para que el procedimiento `DibujarLadoDelLote()` coloque una bolita negra en la celda actual y en las 3 celdas siguientes hacia el **Este**, dejando el cabezal en la última celda donde colocó una bolita. 
 
 Debes utilizar una **directiva de repetición** fija y aprovechar la función `pasosRestantes()` (ya definida) que devuelve la cantidad de veces que el robot debe moverse.
@@ -597,7 +614,7 @@ function pasosRestantes() {
     return (3)
 }
 ```
-'''],['''Esta es una consigna del tipo '<b>RESPUESTA ABIERTA</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna de Programación: El Huerto de Naranjas
+'''],['''Esta es una consigna del tipo '<b>RESPUESTA ABIERTA</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna de Programación: El Huerto de Naranjas
 
 **Contexto:**
 En el tablero de Gobstones, representamos un huerto. Cada celda puede contener una cantidad variable de **bolitas naranjas**, que simbolizan las naranjas caídas de los árboles. El cabezal se encuentra actualmente sobre un árbol que ha tenido una cosecha excepcional.
@@ -630,7 +647,7 @@ Si en la celda actual hay **5 bolitas naranjas** y se invoca a `CosecharNaranjas
 * La función `hayNaranjasSuficientes(3)` retornará `True`.
 * El bloque `repeat(3)` se ejecutará, sacando 3 bolitas.
 * Resultado final: Quedan **2 bolitas naranjas** en la celda.
-'''],['''Esta es una consigna del tipo '<b>PARSONS</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna de Programación: El Camino de Cuentas
+'''],['''Esta es una consigna del tipo '<b>PARSONS</b>' para evaluar '<b>IMPLEMENTACIÓN</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''## Consigna de Programación: El Camino de Cuentas
 
 ### Contexto del Dominio
 En el tablero de Gobstones, un robot recolector debe automatizar la creación de una "línea de seguridad" en una zona de excavación. El objetivo es colocar una hilera de **Cuentas Verdes** de un largo específico, pero para asegurar la visibilidad, cada celda debe tener exactamente **3 cuentas**.
@@ -670,7 +687,7 @@ procedure PonerLineaDeSeguridad(cantidadDeCeldas) {
 // Bloque G (Distractor: Parámetro incorrecto)
   repeat (cantidadDeCeldas + 1) {
 ```
-'''],['''Esta es una consigna del tipo '<b>OPCIÓN MÚLTIPLE CON RESPUESTA ÚNICA</b>' para evaluar '<b>SEGUIMIENTO</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna generada está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones. ''','''### Consigna
+'''],['''Esta es una consigna del tipo '<b>OPCIÓN MÚLTIPLE CON RESPUESTA ÚNICA</b>' para evaluar '<b>SEGUIMIENTO</b> de <b>REPETICIÓN</b>' con un nivel de complejidad <b>BÁSICO</b>. La consigna está diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones. ''','''### Consigna
 En un tablero que representa un estante de un depósito, el cabezal se encuentra sobre una celda que contiene una cantidad arbitraria de bolitas **Negras** (que representan cajas vacías). Se desea implementar un procedimiento que transforme todas esas cajas vacías en "cajas con productos", representadas por bolitas **Verdes**.
 
 Para ello, contamos con la siguiente función ya definida:
@@ -749,36 +766,44 @@ sujetos = [
 
 estímulosPorSujeto = [ # Índices de los estímulos asignados a cada sujeto
   # 1
-  [0,1,2,3,4,5,6,7,8,9],
+  [26, 10, 23, 22, 21, 20, 19, 5, 28, 11, 25, 14, 0, 15, 18, 24, 6, 27, 12, 1],
   # 2
-  [10,11,12,13,14,15,16,17,18,19],
+  [25, 14, 0, 15, 18, 24, 6, 27, 12, 1, 29, 17, 7, 8, 4, 16, 9, 13, 2, 3],
   # 3
-  [20,21,22,23,24,25,26,27,28,29],
+  [29, 17, 7, 8, 4, 16, 9, 13, 2, 3, 26, 10, 23, 22, 21, 20, 19, 5, 28, 11],
   # 4
-  [0,1,2,3,4,5,6,7,8,9],
+  [20, 19, 5, 28, 11, 26, 10, 23, 22, 21, 24, 6, 27, 12, 1, 25, 14, 0, 15, 18],
   # 5
-  [10,11,12,13,14,15,16,17,18,19],
+  [24, 6, 27, 12, 1, 25, 14, 0, 15, 18, 16, 9, 13, 2, 3, 29, 17, 7, 8, 4],
   # 6
-  [20,21,22,23,24,25,26,27,28,29],
+  [16, 9, 13, 2, 3, 29, 17, 7, 8, 4, 20, 19, 5, 28, 11, 26, 10, 23, 22, 21],
   # 7
-  [0,1,2,3,4,5,6,7,8,9],
+  [22, 2, 18, 23, 20, 6, 27, 16, 7, 12, 17, 29, 10, 4, 19, 0, 15, 9, 11, 24],
   # 8
-  [10,11,12,13,14,15,16,17,18,19],
+  [17, 29, 10, 4, 19, 0, 15, 9, 11, 24, 21, 26, 1, 28, 13, 3, 14, 5, 8, 25],
   # 9
-  [20,21,22,23,24,25,26,27,28,29],
+  [21, 26, 1, 28, 13, 3, 14, 5, 8, 25, 22, 2, 18, 23, 20, 6, 27, 16, 7, 12],
   # 10
-  [0,1,2,3,4,5,6,7,8,9],
+  [6, 27, 16, 7, 12, 22, 2, 18, 23, 20, 0, 15, 9, 11, 24, 17, 29, 10, 4, 19],
   # 11
-  [10,11,12,13,14,15,16,17,18,19],
+  [0, 15, 9, 11, 24, 17, 29, 10, 4, 19, 3, 14, 5, 8, 25, 21, 26, 1, 28, 13],
   # 12
-  [20,21,22,23,24,25,26,27,28,29],
+  [3, 14, 5, 8, 25, 21, 26, 1, 28, 13, 6, 27, 16, 7, 12, 22, 2, 18, 23, 20],
   # 13
-  [0,1,2,3,4,5,6,7,8,9]
+  [24, 19, 25, 12, 17, 8, 1, 7, 4, 14, 22, 21, 27, 3, 15, 20, 6, 28, 13, 9] # , 18, 29, 5, 16, 0, 11, 2, 26, 23, 10]
 ]
 
 def estímulosPara_(i):
   # i es un número entre 1 y la cantidad de sujetos
   return list(map(lambda x : todosLosEstímulos[x], estímulosPorSujeto[i-1]))
+
+def pregunta_ParaEstímulo_(i, estímulo, j, n):
+  return {
+    "tipo":"SLIDER",
+    "titulo":títuloEstímulo(j, n) + " - " + nPreguntas[i-1],
+    "pregunta":textoEstímulo(estímulo, i),
+    "rango":{"desde":1,"hasta":5,"paso":1}
+  }
 
 def cuestionarioPara_ConEstímulos_(sujeto, estímulos, i):
   preguntas = [{
@@ -786,18 +811,18 @@ def cuestionarioPara_ConEstímulos_(sujeto, estímulos, i):
     "titulo":títuloBienvenida,
     "pregunta":textoDeBienvenida
   }]
+  n = len(estímulos)
+  j = 1
   for estímulo in estímulos:
-    preguntas.append({
-      "tipo":"SLIDER",
-      "titulo":títuloEstímulo,
-      "pregunta":textoEstímulo(estímulo),
-      "rango":{"desde":1,"hasta":5,"paso":1}
-    })
+    preguntas.append(pregunta_ParaEstímulo_(1, estímulo, j, n))
+    preguntas.append(pregunta_ParaEstímulo_(2, estímulo, j, n))
+    preguntas.append(pregunta_ParaEstímulo_(3, estímulo, j, n))
     preguntas.append({
       "tipo":"TEXTO_LIBRE",
-      "titulo":títuloJustificación,
-      "pregunta":textoJustificación
+      "titulo":títuloJustificación(j, n),
+      "pregunta":textoEstímulo(estímulo, 4)
     })
+    j += 1
   preguntas.append({
     "tipo":"SOLO_TEXTO",
     "titulo":títuloFinalización,
