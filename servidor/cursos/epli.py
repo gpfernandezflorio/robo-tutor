@@ -1,33 +1,33 @@
 preguntasEstímulo = [
-  "¿Qué tanto creés que la consigna presentada satisface lo que requiere el docente (sin importar la calidad en sí de la misma)?",
-  "¿Cómo evaluás la calidad de la consigna en cuánto qué tan correcta es? Más allá de lo que pidió el docente, indicá la calidad de la consigna en tanto si no contiene errores, la consigna tiene sentido y no es confusa.",
-  "¿Cómo evaluás la consigna en general? Acá podés valoras otros aspectos no relativos a la corrección de la consigna o qué tanto responde a lo pedido por el docente.",
-  'Dejá algún comentario para justificar o agregar comentarios extras sobre tus respuestas anteriores.<br><br>Si no tenés nada que agregar, escribí "-".'
+  "¿La consigna está alineada con los requerimientos del docente?",
+  "¿Cómo evaluás la calidad de la consigna en términos de la presencia de errores, ambigüedades y formulaciones confusas?",
+  "Si tuvieses que evaluar los mismos requerimientos, ¿Utilizarías esta consigna?",
+  'Acá podés justificar tus respuestas anteriores o agregar cualquier comentario extra que te parezca pertinente al respecto.<br><br>Si no tenés nada que agregar, escribí "-".'
 ]
 títuloBienvenida = "Comenzando"
-textoDeBienvenida = "En este experimento te vamos a mostrar distintas actividades diseñadas para evaluar conceptos de programación. <br>Junto a cada consigna te explicamos cuál es el objetivo que guió el diseño de la misma (qué concepto se desea evaluar, para qué público objetivo está pensada, etc.).<br>Para cada una de ellas, te pedimos que respondas las siguientes 3 preguntas, en la escala del 1 al 5:<br><ol><li>"+preguntasEstímulo[0]+"</li><li>"+preguntasEstímulo[1]+"</li><li>"+preguntasEstímulo[2]+"</li></ol><br>Además, vas a tener un campo de texto opcional para justificar tu calificación o agregar comentarios adicionales sobre el ejercicio propuesto.<br><br>Hacé clic en 'Siguiente' para continuar."
-def títuloEstímulo(j, n):
-  return "Ejercicio " + str(j) + " de " + str(n)
+textoDeBienvenida = "En este experimento te vamos a mostrar distintas actividades diseñadas para evaluar conceptos de programación. <br>Junto a cada consigna te explicamos cuál es el objetivo que guió el diseño de la misma (qué concepto se desea evaluar, para qué público objetivo está pensada, etc.).<br>Para cada una de ellas, te pedimos que respondas las siguientes 3 preguntas:<br><ol><li>"+preguntasEstímulo[0]+"</li><li>"+preguntasEstímulo[1]+"</li><li>"+preguntasEstímulo[2]+"</li></ol><br>Además, vas a tener un campo de texto opcional para justificar tu calificación o agregar comentarios adicionales sobre el ejercicio propuesto. Tené en cuenta que una vez que respondas ya no vas a poder volver hacia atrás.<br><br>Hacé clic en 'Siguiente' para continuar."
+def títuloEstímulo(j, n, i):
+  return "Consigna " + str(j) + " de " + str(n) + " - " + nPreguntas[i-1]
 def escala(u,c):
-  return "<br><br>Respondé en la escala del 1 al 5, donde 1 es '<em>"+u+"</em>' y 5 es '<em>"+c+"</em>':"
-preguntasEstímulo[0] += escala("No lo satisface para nada", "Lo satisface completamente")
+  return "Respondé en la escala del 1 al 5, donde 1 es '<em>"+u+"</em>' y 5 es '<em>"+c+"</em>':"
+preguntasEstímulo[0] += escala("Nada alineada", "Totalmente Alineada")
 preguntasEstímulo[1] += escala("Muy baja calidad", "Muy alta calidad")
-preguntasEstímulo[2] += escala("Muy mala", "Muy buena")
 def textoEstímulo(estímulo, i):
   return [
+    "<h3>Requerimientos</h3>",
     estímulo[0] + "<br><br>", # La presentación (Esta es una consigna ...)
     { 'md':estímulo[1], # La consigna en sí
       'css':"border: solid 5pt #ddd;background-color: #f8f8f8;padding: 12px;"
     },
-    "<br><br>" + (("<b>" + nPreguntas[i-1] + "</b>:<br>") if i < 4 else "") + preguntasEstímulo[i-1]
+    "<h3>" + nPreguntas[i-1] + "</h3>",
+    preguntasEstímulo[i-1] # La pregunta
   ]
 nPreguntas = [
   "Primera pregunta",
   "Segunda pregunta",
-  "Tercera pregunta"
+  "Tercera pregunta",
+  "Comentarios adicionales (opcional)"
 ]
-def títuloJustificación(j, n):
-  return títuloEstímulo(j, n) + " - Justificación (opcional)"
 títuloFinalización = "Eso es todo..."
 textoDeFinalización = "¡Muchas gracias por participar!"
 
@@ -800,7 +800,7 @@ def estímulosPara_(i):
 def pregunta_ParaEstímulo_(i, estímulo, j, n):
   return {
     "tipo":"SLIDER",
-    "titulo":títuloEstímulo(j, n) + " - " + nPreguntas[i-1],
+    "titulo":títuloEstímulo(j, n, i),
     "pregunta":textoEstímulo(estímulo, i),
     "rango":{"desde":1,"hasta":5,"paso":1}
   }
@@ -816,10 +816,15 @@ def cuestionarioPara_ConEstímulos_(sujeto, estímulos, i):
   for estímulo in estímulos:
     preguntas.append(pregunta_ParaEstímulo_(1, estímulo, j, n))
     preguntas.append(pregunta_ParaEstímulo_(2, estímulo, j, n))
-    preguntas.append(pregunta_ParaEstímulo_(3, estímulo, j, n))
+    preguntas.append({
+      "tipo":"OPCION_MULTIPLE",
+      "titulo":títuloEstímulo(j, n, 3),
+      "pregunta":textoEstímulo(estímulo, 3),
+      "respuestas":[{"texto":"No"}, {"texto":"Sí"}]
+    })
     preguntas.append({
       "tipo":"TEXTO_LIBRE",
-      "titulo":títuloJustificación(j, n),
+      "titulo":títuloEstímulo(j, n, 4),
       "pregunta":textoEstímulo(estímulo, 4)
     })
     j += 1
