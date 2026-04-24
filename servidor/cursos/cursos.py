@@ -89,8 +89,8 @@ def ordenarLecciones(cuestionario):
 def limpiarXML(textoOriginal):
   return textoOriginal.replace('&lt;','<').replace('&gt;','>')
 
-informacionPrivadaPregunta = ["respuestas"]
-informacionPublicaPregunta = ["titulo","tipo","tipoMoodle","pregunta","rango"]
+informacionPrivadaPregunta = ["preguntas","respuestas"]
+informacionPublicaPregunta = ["titulo","tipo","tipoMoodle","pregunta","contenido","solo_preguntas","solo_respuestas","rango"]
 
 informacionPrivadaRespuesta = ["devolucion","puntaje"]
 informacionPublicaRespuesta = ["texto"]
@@ -102,6 +102,8 @@ def organizarPreguntasYRespuestas(cuestionario):
     for pregunta in cuestionario["preguntas"]:
       nuevaPregunta = {}
       nuevoMapaDeRespuestas = []
+      if pregunta["tipo"] == "MULTI":
+        organizarPreguntasYRespuestas(pregunta)
       for x in informacionPublicaPregunta:
         if x in pregunta:
           nuevaPregunta[x] = pregunta[x]

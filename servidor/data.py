@@ -380,6 +380,14 @@ def validarRespuesta(pregunta, respuesta):
       resultado["correcto"] = respuesta["puntaje"] == "1"
     if "devolucion" in respuesta:
       resultado["texto"] = respuesta["devolucion"]
+  elif pregunta["tipo"] == "MULTI":
+    # respuesta es una lista
+    i=0
+    resultado = []
+    if "preguntas" in pregunta:
+      for subPregunta in pregunta["preguntas"]:
+        resultado.append(validarRespuesta(subPregunta, respuesta[i]))
+        i += 1
   return resultado
 
 def open_ej(jsonObj, v):
@@ -408,7 +416,7 @@ def commit(jsonObj, v):
   data_csv = [str(datetime.datetime.now())]
   for x in entries:
     data_form[x] = jsonObj[x]
-    data_csv.append(limpiar_csv(jsonObj[x].replace('"','""')))
+    data_csv.append(limpiar_csv(str(jsonObj[x]).replace('"','""')))
   cursos = []
   if "curso" in jsonObj:
     cursos = [jsonObj["curso"]]
