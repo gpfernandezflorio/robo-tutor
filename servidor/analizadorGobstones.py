@@ -76,6 +76,8 @@ def astGobstones(codigo, ruta="."):
   f.write(codigo)
   f.close()
   errcode, salida, falla = ejecutar("node /rtTest/gbs/dist/gobstones-lang parse -l es -i src.txt", ruta)
+  if (errcode == 134):
+    return {"error":errcode, "errorMsg":"El código es más largo de lo permitido."}
   if len(falla) > 0:
     return {"error":falla}
   AST = json.loads(json.loads(salida))

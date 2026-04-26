@@ -13,7 +13,10 @@ class CorrectorGobstones(Corrector):
     resultadoAnalisisCodigo = analizarGobstones(código, reglas, extras)
     if not(resultadoAnalisisCodigo is None):
       if resultadoAnalisisCodigo["resultado"] == "Except":
-        return {"resultado":"Except", "error":buscar_falla_gobstones(resultadoAnalisisCodigo["error"], extras["desde"]-1)}
+        errorMsg = resultadoAnalisisCodigo["errorMsg"] \
+          if ("errorMsg" in resultadoAnalisisCodigo) \
+          else buscar_falla_gobstones(resultadoAnalisisCodigo["error"], extras["desde"]-1)
+        return {"resultado":"Except", "error":errorMsg}
     return resultadoAnalisisCodigo
 
   def InicializarRun(self, run, ruta):
