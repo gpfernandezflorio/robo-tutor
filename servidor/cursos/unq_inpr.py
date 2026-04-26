@@ -94,6 +94,16 @@ def img(ruta):
 def código(c):
   return '<div style="background-color:#eee;border:solid 2px black;padding:3px;font-weight:bold;"><code>' + c + '</code></div>'
 
+def tablaHtml(contenido):
+  resultado = "<table style='justify-self:center;'>"
+  for fila in contenido:
+    resultado += "<tr>"
+    for celda in fila:
+      resultado += "<td style='border:1px solid;text-align:center;padding:5px;'>" + celda + "</td>"
+    resultado += "</tr>"
+  resultado += "</table>"
+  return resultado
+
 def celdaCambiadaPorBooleano(celda, b):
   return c(
     celda["a"], celda["n"], celda["r"] + (0 if b else 1), celda["v"] + (1 if b else 0)
@@ -149,6 +159,29 @@ def validarNumEnCelda(expresión, n, celda):
     "tf":{"head":[0,0],"width":1,"height":1,"board":[[celdaCambiadaPorNúmero(celda, n)]]}
   }
 
+def validarNumEnTablero(expresión, n, t0):
+  head = t0["head"]
+  width = t0["width"]
+  height = t0["height"]
+  b0 = t0["board"]
+  bf = []
+  for col in range(width):
+    columna = []
+    for row in range(height):
+      columna.append(celdaCambiadaPorNúmero(b0[col][row],n) if head == [col,row] else b0[col][row])
+    bf.append(columna)
+  tf = {
+    "head":head,
+    "width":width,
+    "height":height,
+    "board":bf
+  }
+  return {
+    "pre":programParaValidarNumEnCelda(expresión),
+    "t0":t0,
+    "tf":tf
+  }
+
 def celdaCambiadaPorColor(celda, claveColor):
   return c(
     celda["a"] + (1 if claveColor == "a" else 0),
@@ -166,6 +199,43 @@ def validarColorEnCelda(expresión, claveColor, celda):
     "t0":{"head":[0,0],"width":1,"height":1,"board":[[celda]]},
     "tf":{"head":[0,0],"width":1,"height":1,"board":[[celdaCambiadaPorColor(celda, claveColor)]]}
   }
+
+def validarColorEnTablero(expresión, claveColor, t0):
+  head = t0["head"]
+  width = t0["width"]
+  height = t0["height"]
+  b0 = t0["board"]
+  bf = []
+  for col in range(width):
+    columna = []
+    for row in range(height):
+      columna.append(celdaCambiadaPorColor(b0[col][row],claveColor) if head == [col,row] else b0[col][row])
+    bf.append(columna)
+  tf = {
+    "head":head,
+    "width":width,
+    "height":height,
+    "board":bf
+  }
+  return {
+    "pre":programParaValidarColorEnCelda(expresión),
+    "t0":t0,
+    "tf":tf
+  }
+
+def expresiónDirAColor(expresión):
+  return "choose Azul when (("+expresión+")==Norte) Negro when (("+expresión+")==Este) Rojo when (("+expresión+")==Sur) Verde otherwise"
+
+def dirAClaveColor(d):
+  return {"N":"a", "E":"n", "S":"r", "O":"v"}[d]
+
+def validarDirEnCelda(expresión, d, celda):
+  # Uso colores para codificar las direcciones
+  return validarColorEnCelda(expresiónDirAColor(expresión), dirAClaveColor(d), celda)
+
+def validarDirEnTablero(expresión, d, t0):
+  # Uso colores para codificar las direcciones
+  return validarColorEnTablero(expresiónDirAColor(expresión), dirAClaveColor(d), t0)
 
 def validarTransformaciónCelda(c1,c2):
   return {
@@ -2732,7 +2802,7 @@ def guia6_ej5b(fecha):
   }
 
 def e6_6(conEjemplos, s):
-  return 'En este ejercicio utilizaremos el tablero de Gobstones para representar cuentas bancarias. Cada celda representará a una cuenta bancaria, y en cada una de ellas puede haber dinero en distintas monedas, que representaremos con distintos colores:<ul><li>bolitas negras para pesos argentinos.</li><li>bolitas verdes para dólares estadounidenses.</li><li>bolitas azules para euros.</li><li>bolitas rojas para yuanes chinos.</li></ul>Se pueden hacer tres operaciones: depósitos, extracciones y conversiones a divisa extranjera. Las extracciones pueden hacerse en cualquier moneda, pero los depósitos siempre serán en pesos.<br><br>En el caso en que se quiera depositar un monto en una moneda extranjera, se aplicará automáticamente la conversión a pesos según el precio de venta dado en la siguiente tabla:<br><table style="justify-self:center"><tr><td colspan="2" style="border:solid 1px">Precios de venta</td></tr><tr><td style="border:solid 1px">1 dólar</td><td style="border:solid 1px">80 pesos</td></tr><tr><td style="border:solid 1px">1 euro</td><td style="border:solid 1px">90 pesos</td></tr><tr><td style="border:solid 1px">1 yuan</td><td style="border:solid 1px">12 pesos</td></tr></table><br>En cuanto a la conversión a divisa extranjera, el banco actualmente aplica las siguientes tarifas para la compra de divisa:<br><table style="justify-self:center"><tr><td colspan="2" style="border:solid 1px">Precios de compra</td></tr><tr><td style="border:solid 1px">100 pesos</td><td style="border:solid 1px">1 dólar</td></tr><tr><td style="border:solid 1px">115 pesos</td><td style="border:solid 1px">1 euro</td></tr><tr><td style="border:solid 1px">17 pesos</td><td style="border:solid 1px">1 yuan</td></tr></table><br>Realizar el siguiente procedimiento para poder manipular la cuenta:<br><br>'+s+(" (ver el ejemplo en <a href='https://aulas.gobstones.org/pluginfile.php/39086/mod_resource/content/25/P6.%20Alternativas%20Condicionales.pdf' target='_blank'>la guía</a>)." if conEjemplos else ".")
+  return 'En este ejercicio utilizaremos el tablero de Gobstones para representar cuentas bancarias. Cada celda representará a una cuenta bancaria, y en cada una de ellas puede haber dinero en distintas monedas, que representaremos con distintos colores:<ul><li>bolitas negras para pesos argentinos.</li><li>bolitas verdes para dólares estadounidenses.</li><li>bolitas azules para euros.</li><li>bolitas rojas para yuanes chinos.</li></ul>Se pueden hacer tres operaciones: depósitos, extracciones y conversiones a divisa extranjera. Las extracciones pueden hacerse en cualquier moneda, pero los depósitos siempre serán en pesos.<br><br>En el caso en que se quiera depositar un monto en una moneda extranjera, se aplicará automáticamente la conversión a pesos según el precio de venta dado en la siguiente tabla:<br><table style="justify-self:center;"><tr><td colspan="2" style="border:solid 1px;">Precios de venta</td></tr><tr><td style="border:solid 1px;">1 dólar</td><td style="border:solid 1px;">80 pesos</td></tr><tr><td style="border:solid 1px;">1 euro</td><td style="border:solid 1px;">90 pesos</td></tr><tr><td style="border:solid 1px;">1 yuan</td><td style="border:solid 1px;">12 pesos</td></tr></table><br>En cuanto a la conversión a divisa extranjera, el banco actualmente aplica las siguientes tarifas para la compra de divisa:<br><table style="justify-self:center;"><tr><td colspan="2" style="border:solid 1px;">Precios de compra</td></tr><tr><td style="border:solid 1px;">100 pesos</td><td style="border:solid 1px;">1 dólar</td></tr><tr><td style="border:solid 1px;">115 pesos</td><td style="border:solid 1px;">1 euro</td></tr><tr><td style="border:solid 1px;">17 pesos</td><td style="border:solid 1px;">1 yuan</td></tr></table><br>Realizar el siguiente procedimiento para poder manipular la cuenta:<br><br>'+s+(" (ver el ejemplo en <a href='https://aulas.gobstones.org/pluginfile.php/39086/mod_resource/content/25/P6.%20Alternativas%20Condicionales.pdf' target='_blank'>la guía</a>)." if conEjemplos else ".")
 
 def guia6_ej6a(fecha):
   return {
@@ -4278,6 +4348,826 @@ def guia8(fechaInicio):
     ]
   }
 
+def guia9_ej1(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej1",
+    "nombre":"1. Mirando la celda vecina",
+    "enunciado": "Escribir la función <code>hayBolitas_EnCeldaAl_</code>, que, suponiendo que existe una celda lindante en la dirección dada, indica si la misma tiene o no bolitas del color indicado. Si no hay una celda lindante, hace BOOM.",
+    "run_data":[
+      validarBoolEnTablero("hayBolitas_EnCeldaAl_(Rojo, Norte)",False,
+        {"head":[0,0],"width":1,"height":2,"board":[[r,a]]}),
+      validarBoolEnTablero("hayBolitas_EnCeldaAl_(Azul, Sur)",True,
+        {"head":[0,1],"width":1,"height":2,"board":[[a,g]]})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej2(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej2",
+    "nombre":"2. Mirando la celda vecina, incluso si no hay vecina",
+    "enunciado": biblioteca+" Escribir la función <code>hayBolitas_Al_</code>, que indica si hay una celda lindante en la dirección indicada y la misma tiene bolitas del color dado. Si no hay celda lindante describe Falso.",
+    "run_data":[
+      validarBoolEnTablero("hayBolitas_Al_(Rojo, Norte)",False,
+        {"head":[0,0],"width":1,"height":2,"board":[[r,a]]}),
+      validarBoolEnTablero("hayBolitas_Al_(Azul, Sur)",True,
+        {"head":[0,1],"width":1,"height":2,"board":[[a,g]]}),
+      validarBoolEnTablero("hayBolitas_Al_(Azul, Este)",False,
+        {"head":[0,1],"width":1,"height":2,"board":[[a,a]]})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej3(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej3",
+    "nombre":"3. Mirando en la celda al borde",
+    "enunciado": "Escribir la función <code>hayBolitas_EnElBorde_</code>, que indica si en la celda que se encuentra en el borde dado por la dirección, hay bolitas del color indicado.",
+    "run_data":[
+      validarBoolEnTablero("hayBolitas_EnElBorde_(Azul, Norte)",False,
+        {"head":[0,0],"width":1,"height":5,"board":[[a,a,a,a,r]]}),
+      validarBoolEnTablero("hayBolitas_EnElBorde_(Azul, Sur)",True,
+        {"head":[0,0],"width":1,"height":5,"board":[[a,a,a,a,r]]})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej4(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej4",
+    "nombre":"4. Mirando en la fila o columna",
+    "enunciado": "Escribir la función <code>hayBolitas_Hacia_</code> que indica si en alguna de las celdas hacia la dirección dada (sin incluir la celda actual) hay bolitas del color dado.",
+    "run_data":[
+      validarBoolEnTablero("hayBolitas_Hacia_(Azul, Sur)",True,
+        {"head":[0,3],"width":1,"height":5,"board":[[r,a,r,v,r]]}),
+      validarBoolEnTablero("hayBolitas_Hacia_(Azul, Norte)",False,
+        {"head":[0,2],"width":1,"height":5,"board":[[r,a,a,v,r]]})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej5(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej5",
+    "nombre":"5. Y volviendo a mirar en la fila o columna",
+    "enunciado": "Escribir la función <code>hayCeldaVacíaHacia_</code>, que indica si en alguna de las celdas hacia la dirección dada (sin incluir la celda actual) hay una que esté vacía.",
+    "run_data":[
+      validarBoolEnTablero("hayCeldaVacíaHacia_(Sur)",False,
+        {"head":[0,3],"width":1,"height":5,"board":[[r,a,r,v,r]]}),
+      validarBoolEnTablero("hayCeldaVacíaHacia_(Norte)",True,
+        {"head":[0,2],"width":1,"height":5,"board":[[r,a,a,v,r]]})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej6(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej6",
+    "nombre":"6. Y si miramos el tablero",
+    "enunciado": "Escribir la función <code>hayAlgunaBolita_</code>, que indica si en alguna de las celdas del tablero existe una bolita del color dado.",
+    "run_data":[
+      validarBoolEnTablero("hayAlgunaBolita_(Rojo)",False,
+        {"head":[1,2],"width":3,"height":3,"board":tv(3,3)}),
+      validarBoolEnTablero("hayAlgunaBolita_(Azul)",False,
+        {"head":[1,2],"width":3,"height":3,"board":[[v,r,g],[v,n,r],[r,v,g]]}),
+      validarBoolEnTablero("hayAlgunaBolita_(Rojo)",True,
+        {"head":[1,1],"width":3,"height":3,"board":[[v,r,v],[v,v,v],[v,v,v]]})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej7(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej7",
+    "nombre":"7. Y volvemos a mirar el tablero",
+    "enunciado": "Escribir la función <code>hayAlgunaCeldaVacía</code>, que indica si alguna de las celdas del tablero está vacía.",
+    "run_data":[
+      validarBoolEnTablero("hayAlgunaCeldaVacía()",False,
+        {"head":[1,2],"width":3,"height":3,"board":[[n,r,g],[a,n,r],[r,a,g]]}),
+      validarBoolEnTablero("hayAlgunaCeldaVacía()",True,
+        {"head":[1,1],"width":3,"height":3,"board":[[v,r,g],[a,n,r],[r,a,g]]}),
+      validarBoolEnTablero("hayAlgunaCeldaVacía()",True,
+        {"head":[1,1],"width":3,"height":3,"board":[[n,r,g],[a,n,r],[r,a,v]]})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej8(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej8",
+    "nombre":"8. Copiamos una celda",
+    "enunciado": biblioteca + " Escribir el procedimiento <code>CopiarCeldaAl_</code>, que copia los contenidos de la celda actual a la celda lindante en la dirección dada. Note que la celda de destino debe quedar tal cual la celda actual, independientemente de los contenidos que tuviera la celda de destino previamente.",
+    "run_data":[{
+      "pre":"program{CopiarCeldaAl_(Norte)}",
+      "t0":{"head":[0,0],"width":1,"height":2,"board":[[c(2,3,6,8),c(4,11,2,9)]]},
+      "tf":{"head":[0,0],"width":1,"height":2,"board":[[c(2,3,6,8),c(2,3,6,8)]]}
+    },{
+      "pre":"program{CopiarCeldaAl_(Sur)}",
+      "t0":{"head":[0,1],"width":1,"height":2,"board":[[c(4,11,2,9),c(2,3,6,8)]]},
+      "tf":{"head":[0,1],"width":1,"height":2,"board":[[c(2,3,6,8),c(2,3,6,8)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej9(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej9",
+    "nombre":"9. Copiamos las esquinas",
+    "enunciado": "Escribir el procedimiento <code>CopiarOrigenEnEsquinas</code> que copia en cada esquina los contenidos que hay en la celda actual (las 4 esquinas deben terminar con exactamente las mismas bolitas de cada color que había en la celda donde estaba originalmente el cabezal en el tablero inicial. La posición final del cabezal no es relevante).",
+    "pre":"program{CopiarOrigenEnEsquinas()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(4,11,2,9)]]},
+      "tf":{"head":[],"width":1,"height":1,"board":[[c(4,11,2,9)]]}
+    },{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[
+        [c(4,11,2,9),v,c(4,11,2,9)],[v,c(2,3,6,8),v],[c(4,11,2,9),v,c(4,11,2,9)]]},
+      "tf":{"head":[],"width":3,"height":3,"board":[
+        [c(2,3,6,8),v,c(2,3,6,8)],[v,c(2,3,6,8),v],[c(2,3,6,8),v,c(2,3,6,8)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej10(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej10",
+    "nombre":"10. No era taaaaaan necesario...",
+    "enunciado": "Los ejercicios 8 y 9 de esta guía pueden resolverse sin variables. Vuelva a pensar cómo resolver los ejercicios anteriores sin el uso de las mismas.",
+    "run_data":[{
+      "pre":"program{CopiarCeldaAl_(Norte)}",
+      "t0":{"head":[0,0],"width":1,"height":2,"board":[[c(2,3,6,8),c(4,11,2,9)]]},
+      "tf":{"head":[0,0],"width":1,"height":2,"board":[[c(2,3,6,8),c(2,3,6,8)]]}
+    },{
+      "pre":"program{CopiarCeldaAl_(Sur)}",
+      "t0":{"head":[0,1],"width":1,"height":2,"board":[[c(4,11,2,9),c(2,3,6,8)]]},
+      "tf":{"head":[0,1],"width":1,"height":2,"board":[[c(2,3,6,8),c(2,3,6,8)]]}
+    },{
+      "pre":"program{CopiarOrigenEnEsquinas()}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(4,11,2,9)]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[c(4,11,2,9)]]}
+    },{
+      "pre":"program{CopiarOrigenEnEsquinas()}",
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[
+        [c(4,11,2,9),v,c(4,11,2,9)],[v,c(2,3,6,8),v],[c(4,11,2,9),v,c(4,11,2,9)]]},
+      "tf":{"head":[],"width":3,"height":3,"board":[
+        [c(2,3,6,8),v,c(2,3,6,8)],[v,c(2,3,6,8),v],[c(2,3,6,8),v,c(2,3,6,8)]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej12(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej12",
+    "nombre":"12. El más chico",
+    "enunciado": biblioteca + " Escribir la función <code>mínimoEntre_Y_</code>, que dados dos valores describe aquel que sea más chico. Por ejemplo, <code>mínimoEntre_Y_(3, 7)</code> describe <code>3</code>, mientras que <code>mínimoEntre_Y_(9, 4)</code> describe <code>4</code>.",
+    "run_data":[
+      validarNumEnCelda("mínimoEntre_Y_(3,7)",3,v),
+      validarNumEnCelda("mínimoEntre_Y_(9,4)",4,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej13(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej13",
+    "nombre":"13. El más grande",
+    "enunciado": biblioteca + " Escribir ahora la función <code>máximoEntre_Y_</code> que dados dos valores describe aquel que sea el más grande.",
+    "run_data":[
+      validarNumEnCelda("máximoEntre_Y_(3,7)",7,v),
+      validarNumEnCelda("máximoEntre_Y_(9,4)",9,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej14(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej14",
+    "nombre":"14. Mi caminante se mueve",
+    "enunciado": 'La primitiva del ejercicio <b>"14. El Caminante"</b> de la <b><a href="https://aulas.gobstones.org/pluginfile.php/39117/mod_resource/content/19/P8.%20Repetici%C3%B3n%20condicional%2C%20recorridos.pdf" target="_blank">Práctica 8</a></b>, <code>direcciónDelCódigo_(código)</code>, puede implementarse con alternativa condicional de expresiones. Se pide que la implemente, y que pruebe ahora su código del caminante para verificar su correcto funcionamiento.',
+    "run_data":[
+      validarDirEnCelda("direcciónDelCódigo_(1)","N",v),
+      validarDirEnCelda("direcciónDelCódigo_(2)","E",v),
+      validarDirEnCelda("direcciónDelCódigo_(3)","S",v),
+      validarDirEnCelda("direcciónDelCódigo_(4)","O",v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej15(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej15",
+    "nombre":"15. Piedra, Papel o Tijeras",
+    "enunciado": enPapel + " Escribir <code>jugadaGanadoraDePiedraPapelOTijerasEntre_Y_</code>, que dadas dos jugadas, describe la jugada ganadora entre ambas. Para olvidarnos de cómo está codificada la jugada, tenemos las funciones <code>piedra()</code>, <code>papel()</code> y <code>tijeras()</code>, que representan a cada una de las jugadas. En piedra papel o tijeras, el jugador puede elegir una de tres opciones, y cada opción pierde contra alguna otra y le gana a alguna otra.<br>" + tablaHtml([
+      ["Jugada", "Pierde contra", "Gana contra"],
+      ["piedra()","papel()","tijeras()"],
+      ["papel()","tijeras()","piedra()"],
+      ["tijeras()","piedra()","papel()"]
+    ]),
+    "pre":"type Jugada is variant {\ncase Piedra {}\ncase Papel {}\ncase Tijeras {}}\nfunction piedra() {return (Piedra)}\nfunction papel() {return (Papel)}\nfunction tijeras() {return (Tijeras)}",
+    "run_data":[
+      validarBoolEnCelda(
+        "jugadaGanadoraDePiedraPapelOTijerasEntre_Y_(piedra(), papel())==papel()",
+        True, v),
+      validarBoolEnCelda(
+        "jugadaGanadoraDePiedraPapelOTijerasEntre_Y_(piedra(), tijeras())==piedra()",
+        True, v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej16(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej16",
+    "nombre":"16. Piedra, Papel o Tijeras... Lagarto, Spock",
+    "enunciado": enPapel + " La popular variante del juego piedra, papel o tijeras, lagarto, spock, <a href='https://youtu.be/O5j4RGw6fHQ' target='_blank'>popularizada por Sheldon Cooper</a>, es un juego en esencia idéntico al clásico, pero con mayor número de resultados posibles. El jugador puede elegir entre 5 posibles jugadas, y cada una pierde y/o gana ante dos jugadas, según se muestra en la siguiente tabla:<br>"+tablaHtml([
+      ["Jugada", "Pierde contra", "Gana contra"],
+      ["piedra()","papel(),spock()","tijeras(),lagarto()"],
+      ["papel()","tijeras(),lagarto()","piedra(),spock()"],
+      ["tijeras()","piedra(),spock()","papel(),lagarto()"],
+      ["lagarto()","tijeras(),piedra()","spock(),papel()"],
+      ["spock()","papel(),lagarto()","tijeras(),piedra()"]
+    ])+"<br>Escribir <code>jugadaGanadoraDePiedraPapelOTijerasLagartoSpockEntre_Y_</code>, que dadas dos jugadas, describe la jugada ganadora entre ambas. Para olvidarnos de cómo está codificada la jugada, tenemos las funciones <code>piedra()</code>, <code>papel()</code>, <code>tijeras()</code>, <code>lagarto()</code> y <code>spock()</code> que representan a cada una de las jugadas.",
+    "pre":"type Jugada is variant {\ncase Piedra {}\ncase Papel {}\ncase Tijeras {}\ncase Lagarto {}\ncase Spock {}}\nfunction piedra() {return (Piedra)}\nfunction papel() {return (Papel)}\nfunction tijeras() {return (Tijeras)}\nfunction lagarto() {return (Lagarto)}\nfunction spock() {return (Spock)}",
+    "run_data":[
+      validarBoolEnCelda(
+        "jugadaGanadoraDePiedraPapelOTijerasLagartoSpockEntre_Y_(piedra(), papel())==papel()",
+        True, v),
+      validarBoolEnCelda(
+        "jugadaGanadoraDePiedraPapelOTijerasLagartoSpockEntre_Y_(piedra(), tijeras())==piedra()",
+        True, v),
+      validarBoolEnCelda(
+        "jugadaGanadoraDePiedraPapelOTijerasLagartoSpockEntre_Y_(spock(), lagarto())==lagarto()",
+        True, v),
+      validarBoolEnCelda(
+        "jugadaGanadoraDePiedraPapelOTijerasLagartoSpockEntre_Y_(papel(), lagarto())==lagarto()",
+        True, v),
+      validarBoolEnCelda(
+        "jugadaGanadoraDePiedraPapelOTijerasLagartoSpockEntre_Y_(spock(), piedra())==spock()",
+        True, v),
+      validarBoolEnCelda(
+        "jugadaGanadoraDePiedraPapelOTijerasLagartoSpockEntre_Y_(tijeras(), lagarto())==tijeras()",
+        True, v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej17(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej17",
+    "nombre":"17. De booleano a número",
+    "enunciado": biblioteca + " Escribir la función <code>unoSi_CeroSiNo</code> que dado un booleano, describe el número 1 si el booleano dado es Verdadero, y cero, sí el booleano es Falso.",
+    "run_data":[
+      validarNumEnCelda("unoSi_CeroSiNo(True)",1,v),
+      validarNumEnCelda("unoSi_CeroSiNo(False)",0,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej18(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej18",
+    "nombre":"18. Contando bolitas",
+    "enunciado": "Escribir la función <code>nroBolitas_EnLaFilaActual</code> que describa la cantidad de bolitas del color dado en la fila actual.",
+    "run_data":[
+      validarNumEnTablero("nroBolitas_EnLaFilaActual(Rojo)",10,
+        {"head":[3,0],"width":7,"height":1,"board":[[rs(3)],[v],[r],[rs(2)],[n],[c(2,2,2,2)],[rs(2)]]}),
+      validarNumEnTablero("nroBolitas_EnLaFilaActual(Azul)",10,
+        {"head":[0,0],"width":1,"height":1,"board":[[c(10,5,3,12)]]})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej19(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej19",
+    "nombre":"19. Contando celdas hacia un lado",
+    "enunciado": biblioteca + " Escribir la función <code>distanciaAlBorde_</code>, que describe la cantidad de celdas que hay entre la celda actual y el borde indicado.<br>"+observación+": si la celda actual se encuentra en el borde, la distancia es 0.",
+    "run_data":[
+      validarNumEnTablero("distanciaAlBorde_(Norte)",5,
+        {"head":[0,3],"width":1,"height":9,"board":tv(1,9)}),
+      validarNumEnTablero("distanciaAlBorde_(Sur)",0,
+        {"head":[0,0],"width":1,"height":9,"board":tv(1,9)})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej20(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej20",
+    "nombre":"20. Mis coordenadas son...",
+    "enunciado": biblioteca + " Escribir las funciones <code>coordenadaX</code> y <code>coordenadaY</code> que retornen la coordenada de la columna y la coordenada de la fila de la celda actual, respectivamente. Suponer que 0 es la coordenada de la primera fila y columna.",
+    "run_data":[
+      validarNumEnTablero("coordenadaX()",0,
+        {"head":[0,3],"width":1,"height":9,"board":tv(1,9)}),
+      validarNumEnTablero("coordenadaY()",5,
+        {"head":[0,5],"width":1,"height":9,"board":tv(1,9)})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej21(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej21",
+    "nombre":"21. Contando filas y columnas",
+    "enunciado": biblioteca + " Escribir las funciones <code>nroFilas</code> y <code>nroColumnas</code> que describan la cantidad de filas y columnas del tablero respectivamente.",
+    "run_data":[
+      validarNumEnTablero("nroFilas()",9,
+        {"head":[0,3],"width":1,"height":9,"board":tv(1,9)}),
+      validarNumEnTablero("nroColumnas()",1,
+        {"head":[0,5],"width":1,"height":9,"board":tv(1,9)})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej22(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej22",
+    "nombre":"22. Contando bolitas de un color",
+    "enunciado": biblioteca + " Escribir una función <code>nroBolitasTotalDeColor_</code> que describa la cantidad de bolitas del color dado que hay en total en todo el tablero. Estructurar el código como recorrido por las celdas del tablero.",
+    "run_data":[
+      validarNumEnTablero("nroBolitasTotalDeColor_(Rojo)",10,
+        {"head":[3,0],"width":7,"height":1,"board":[[rs(3)],[v],[r],[rs(2)],[n],[c(2,2,2,2)],[rs(2)]]}),
+      validarNumEnTablero("nroBolitasTotalDeColor_(Azul)",10,
+        {"head":[0,0],"width":1,"height":1,"board":[[c(10,5,3,12)]]}),
+      validarNumEnTablero("nroBolitasTotalDeColor_(Negro)",10,
+        {"head":[1,1],"width":3,"height":3,"board":[
+          [ns(3),n,c(10,2,3,12)],[rs(10),v,ns(2)],[v,c(10,2,3,12),a_s(8)]
+        ]})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej23(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej23",
+    "nombre":"23. Contando celdas vacías",
+    "enunciado": biblioteca + " Escribir una función <code>nroVacías</code> que describa la cantidad de celdas vacías del tablero. Estructurar el código como recorrido por las celdas del tablero.",
+    "run_data":[
+      validarNumEnTablero("nroVacías()",9,
+        {"head":[1,1],"width":3,"height":3,"board":tv(3,3)}),
+      validarNumEnTablero("nroVacías()",3,
+        {"head":[1,1],"width":3,"height":3,"board":[
+          [v,n,c(10,2,3,12)],[rs(10),v,ns(2)],[v,c(10,2,3,12),a_s(8)]
+        ]})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej24(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej24",
+    "nombre":"24. Contando celdas con bolitas",
+    "enunciado": biblioteca + " Escribir la función <code>cantidadDeCeldasConBolitasDeColor_</code> que describe la cantidad de celdas que contienen al menos una bolita del color dado.",
+    "run_data":[
+      validarNumEnTablero("cantidadDeCeldasConBolitasDeColor_(Azul)",0,
+        {"head":[1,1],"width":3,"height":3,"board":tv(3,3)}),
+      validarNumEnTablero("cantidadDeCeldasConBolitasDeColor_(Negro)",4,
+        {"head":[1,1],"width":3,"height":3,"board":[
+          [v,n,c(10,2,3,12)],[rs(10),v,ns(2)],[v,c(10,2,3,12),a_s(8)]
+        ]})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej25(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej25",
+    "nombre":"25. Y volvemos a mirar el tablero",
+    "enunciado": enPapel + " Dado que en el tablero está representada una carretera, y en cada celda puede haber hasta un auto, se pide que realice la función <code>cantidadDeAutosEnLaCarretera</code>. Para realizar esto se puede hacer uso de la siguiente función:" + código("function hayUnAuto()<br>&nbsp;/*<br>&nbsp;&nbsp;PROPÓSITO: Indica si hay un auto en la celda actual.<br>&nbsp;&nbsp;TIPO: Booleano.<br>&nbsp;&nbsp;PRECONDICIONES: Ninguna.<br>&nbsp;*/"),
+    "pre":"function hayUnAuto() {return (hayBolitas(Negro))}",
+    "run_data":[
+      validarNumEnTablero("cantidadDeAutosEnLaCarretera()",0,
+        {"head":[1,1],"width":3,"height":3,"board":tv(3,3)}),
+      validarNumEnTablero("cantidadDeAutosEnLaCarretera()",4,
+        {"head":[1,1],"width":3,"height":3,"board":[
+          [v,n,c(10,2,3,12)],[rs(10),v,ns(2)],[v,c(10,2,3,12),a_s(8)]
+        ]})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej26a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej26a",
+    "nombre":"26. El bosque, parte 5 (a)",
+    "enunciado": "Escribir la función <code>cantidadTotalDeÁrbolesEnElTerreno</code> que describa la cantidad de árboles que hay en el bosque. Organizar el código como un recorrido genérico sobre las parcelas instanciado para el sentido Sur-Oeste.",
+    "run_data":[
+      validarNumEnTablero("cantidadTotalDeÁrbolesEnElTerreno()",10,
+        {"head":[1,1],"width":3,"height":3,"board":[
+          [gs(3),g,c(10,12,3,2)],[rs(10),v,gs(2)],[v,c(10,12,3,2),a_s(8)]
+        ]})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej26b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej26b",
+    "nombre":"26. El bosque, parte 5 (b)",
+    "enunciado": "Escribir <code>cantidadTotalDeÁrbolesEnElTerrenoLuegoDeExplosiones</code>, una función que indica la cantidad total de árboles que quedarán en el terreno luego de explotar todas las bombas que hayan en este.",
+    "run_data":[
+      validarNumEnTablero("cantidadTotalDeÁrbolesEnElTerrenoLuegoDeExplosiones()",10,
+        {"head":[1,1],"width":3,"height":3,"board":[
+          [gs(3),g,c(10,0,3,2)],[rs(10),v,gs(2)],[v,c(10,0,3,2),a_s(8)]
+        ]}),
+      validarNumEnTablero("cantidadTotalDeÁrbolesEnElTerrenoLuegoDeExplosiones()",14,
+        {"head":[1,1],"width":3,"height":3,"board":[
+          [gs(3),g,c(10,1,3,8)],[rs(10),v,gs(2)],[v,c(10,1,3,2),gs(8)]
+        ]})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej27(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej27",
+    "nombre":"27. Otra vez una de cada",
+    "enunciado": "Volver a escribir el procedimiento <code>PonerUnaDeCadaColor</code> que pone una bolita de cada color, estructurando la solución como un recorrido sobre colores.",
+    "pre":"program{PonerUnaDeCadaColor()}",
+    "run_data":[
+      validarTransformaciónCelda(v,c(1,1,1,1)),
+      validarTransformaciónCelda(c(1,2,6,0),c(2,3,7,1))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej28(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej28",
+    "nombre":"28. Limpiando la cruz",
+    "enunciado": "Escribir el procedimiento <code>LimpiarCruzDeColor_</code> que dado un color limpia el dibujo de una cruz realizado con bolitas de dicho color, bajo la suposición de que el cabezal se encuentra en el centro de dicha cruz.",
+    "run_data":[{
+      "pre":"program{LimpiarCruzDeColor_(Rojo)}",
+      "t0":{"head":[3,3],"width":7,"height":7,"board":[
+        [v,v,v,v,v,v,v],
+        [v,v,v,r,v,v,v],
+        [r,r,r,r,r,r,v],
+        [rs(3),r,rs(2),r,r,a,r],
+        [v,v,r,rs(2),rs(2),v,v],
+        [v,v,v,c(1,1,1,1),r,v,v],
+        [v,v,v,v,v,v,v]
+      ]},
+      "tf":{"head":[3,3],"width":7,"height":7,"board":[
+        [v,v,v,v,v,v,v],
+        [v,v,v,v,v,v,v],
+        [r,r,r,v,r,r,v],
+        [v,v,v,v,v,a,r],
+        [v,v,r,v,rs(2),v,v],
+        [v,v,v,c(1,1,0,1),r,v,v],
+        [v,v,v,v,v,v,v]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej29(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej29",
+    "nombre":"29. Hacia la cual hay bolitas",
+    "enunciado": "Escribir la función <code>direcciónHaciaLaCualHayBolitasDe_</code> que dado un color describe la dirección hacia la cual hay bolitas de dicho color, bajo la suposición de que existe una celda vecina con bolitas de dicho color en alguna de las dirección, y es única (no hay más de una vecina con bolitas de ese color).",
+    "run_data":[
+      validarDirEnTablero("direcciónHaciaLaCualHayBolitasDe_(Rojo)","S",{
+        "head":[1,1],"width":3,"height":3,"board":[[v,v,v],[c(1,1,1,1),r,a],[v,c(2,2,0,2),r]]
+      }),
+      validarDirEnTablero("direcciónHaciaLaCualHayBolitasDe_(Verde)","O",{
+        "head":[1,0],"width":2,"height":1,"board":[[g],[g]]
+      })
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej30(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej30",
+    "nombre":"30. Vecinas con bolitas",
+    "enunciado": "Escribir la función <code>cantidadDeVecinasConBolitas</code> que describe la cantidad de celdas vecinas que contienen bolitas (de cualquier color). En este caso el concepto de vecindad implica tanto las celdas ortogonales como las diagonales, es decir, las celdas hacia el N, E, S y O y también las diagonales hacia el NE, SE, SO y NO. La función realizada debe ser total.",
+    "run_data":[
+      validarNumEnTablero("cantidadDeVecinasConBolitas()",4,{
+        "head":[1,1],"width":3,"height":3,"board":[[v,v,v],[c(1,1,1,1),r,a],[v,c(2,2,0,2),r]]
+      }),
+      validarNumEnTablero("cantidadDeVecinasConBolitas()",1,{
+        "head":[1,0],"width":2,"height":1,"board":[[g],[g]]
+      })
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej31(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej31",
+    "nombre":"31. Incrementando las cantidades",
+    "enunciado": "Escribir el procedimiento <code>Poner_EnLineaHacia_De_IncrementandoDeA_ComenzandoEn_</code> que dado un número que representa una cantidad de celdas a abarcar, una dirección hacia donde dibujar la línea, un color que indica en color de bolitas a poner, un número que indica el factor de incremento, y un número inicial, pone una línea de bolitas en donde, en la primer celda pone tantas bolitas del color dado como el número inicial, en la celda siguiente hacia la dirección dada, pone tantas bolitas como el número inicial sumado en el factor de incremento, en la dos lugares hacia la dirección tantas como el número inicial sumado en el doble del factor del incremento, y así siguiendo tantos lugares como el primer argumento. Ej. sí se invoca al procedimiento de la siguiente forma <code>Poner_EnLineaHacia_De_IncrementandoDeA_ComenzandoEn_(5, Norte, Rojo, 3, 3)</code> entonces se dibujará una línea de 5 celdas hacia el norte de bolitas de color rojo, comenzando en la celda actual, en donde se tendrán en cada celda (contando de la actual) las siguientes cantidades de bolitas: 3, 6, 9, 12, 15.",
+    "run_data":[{
+      "pre":"program{Poner_EnLineaHacia_De_IncrementandoDeA_ComenzandoEn_(5, Norte, Rojo, 2, 3)}",
+      "t0":{"head":[1,1],"width":3,"height":7,"board":[
+        [v,v,v,v,v,v,v],[v,v,v,v,v,v,v],[v,v,v,v,v,v,v]
+      ]},
+      "tf":{"head":[1,1],"width":3,"height":7,"board":[
+        [v,v,v,v,v,v,v],[v,rs(3),rs(5),rs(7),rs(9),rs(11),v],[v,v,v,v,v,v,v]
+      ]}
+    },{
+      "pre":"program{Poner_EnLineaHacia_De_IncrementandoDeA_ComenzandoEn_(10, Oeste, Negro, 4, 2)}",
+      "t0":{"head":[9,0],"width":10,"height":1,"board":[
+        [v],[c(2,2,2,2)],[ns(5)],[n],[v],[c(1,1,1,1)],[v],[ns(2)],[v],[n]
+      ]},
+      "tf":{"head":[9,0],"width":10,"height":1,"board":[
+        [ns(38)],[c(2,36,2,2)],[ns(35)],[ns(27)],[ns(22)],[c(1,19,1,1)],[ns(14)],[ns(12)],[ns(6)],[ns(3)]
+      ]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej32(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej32",
+    "nombre":"32. El número de Fibonacci",
+    "enunciado": "Escribir la función <code>fibonacciNro_</code>, que dado un número que representa una posición en la secuencia de fibonacci (debe ser mayor o igual a cero) describe el número de fibonacci correspondiente a dicha posición.<br>La sucesión de fibonacci es una sucesión infinita de número en donde se comienza con el número 1 como elemento en la primera y segunda posición de la sucesión, y luego, cada elemento de la sucesión se calcula como la suma de los dos elementos anteriores. A continuación se deja una pequeña tabla de la sucesión de fibonacci para los primeros números:<br>"+tablaHtml([
+      ["Posición","0","1","2","3","4","5","6","7","8","9","10"],
+      ["Elemento","1","1","2","3","5","8","13","21","34","55","89"],
+      ["Cálculo","-","-","1+1","2+1","3+2","5+3","8+5","13+8","21+13","34+21","55+34"]
+    ])+"<br>"+resaltado("Ayuda: ") + "Se recomienda resolver el problema con dos variables, una que representa el número para la posición actual, y otra que representa el de la posición anterior. Luego, basta repetir tantas veces como una menos de la posición pedida, actualizando las variables en cada paso. Para esto último será necesaria la ayuda de una tercer variable que actúa como auxiliar.",
+    "timeout":4,
+    "run_data":[
+      validarNumEnCelda("fibonacciNro_(0)",1,v),
+      validarNumEnCelda("fibonacciNro_(2)",2,v),
+      validarNumEnCelda("fibonacciNro_(3)",3,v),
+      validarNumEnCelda("fibonacciNro_(6)",13,v),
+      validarNumEnCelda("fibonacciNro_(10)",89,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej33(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej33",
+    "nombre":"33. La celda con más",
+    "enunciado": "Escribir las funciones <code>coordenadaXConMásBolitas</code> y <code>coordenadaYConMásBolitas</code> que describen las coordenadas X e Y de aquella celda que tiene más bolitas (en total) que el resto. Se garantiza por precondición que hay alguna celda que tiene más bolitas que el resto.",
+    "run_data":[
+      validarNumEnTablero("coordenadaXConMásBolitas()",1,{
+        "head":[2,2],"width":3,"height":3,"board":[
+          [rs(2),rs(3),v],[r,ns(10),a],[gs(8),v,rs(8)]]
+      }),
+      validarNumEnTablero("coordenadaYConMásBolitas()",2,{
+        "head":[0,0],"width":3,"height":3,"board":[
+          [rs(2),rs(3),v],[r,v,a],[gs(6),v,rs(8)]]
+      })
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej34(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej34",
+    "nombre":"34. El borde más cercano",
+    "enunciado": "Escribir la función <code>bordeMásCercano</code> que describe la dirección hacia la cual se encuentra el borde que está más cerca (a menor cantidad de celdas). Si hubiera dos bordes a la misma distancia describe la dirección más chica entre ellas.",
+    "run_data":[
+      validarDirEnCelda("bordeMásCercano()","N",v),
+      validarDirEnTablero("bordeMásCercano()","S",{"head":[0,0],"width":3,"height":3,"board":tv(3,3)})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej35(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej35",
+    "nombre":"35. Color más chico del cual hay bolitas",
+    "enunciado": "Escribir la función <code>colorMásChicoDelCualHayBolitas</code> que describe el color más chico para el cual haya bolitas en la celda actual. Por ej. si en la celda hay bolitas Negras, Rojas y Verdes, el color más chico del cual hay bolitas es Negro. Si solo hay bolitas de color Rojo y Verde, el más chico es Rojo.",
+    "run_data":[
+      validarColorEnCelda("colorMásChicoDelCualHayBolitas()","a",c(1,1,1,1)),
+      validarColorEnCelda("colorMásChicoDelCualHayBolitas()","n",c(0,1,1,1)),
+      validarColorEnCelda("colorMásChicoDelCualHayBolitas()","v",g)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej36(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej36",
+    "nombre":"36. Color más grande del cual hay bolitas",
+    "enunciado": "Escribir la función <code>colorMásGrandeDelCualHayBolitas</code> que describe el color más grande del cual hay bolitas. Por ej. si en la celda hay bolitas Negras, Rojas y Verdes, el color más grande del cual hay bolitas es Verde. Si solo hay bolitas de color Rojo y Negro, el más grande es Rojo.",
+    "run_data":[
+      validarColorEnCelda("colorMásGrandeDelCualHayBolitas()","v",c(1,1,1,1)),
+      validarColorEnCelda("colorMásGrandeDelCualHayBolitas()","n",n),
+      validarColorEnCelda("colorMásGrandeDelCualHayBolitas()","v",g)
+      ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej38(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej38",
+    "nombre":"38. Posicionandose en una celda vacía puntual",
+    "enunciado": "Escribir un procedimiento <code>IrAVacíaNúmero_(númeroDeVacía)</code> que posicione el cabezal en la celda vacía número <code>númeroDeVacía</code> que se encuentra en un recorrido del tablero por celdas en las direcciones Este y Norte. Si no hay suficientes celdas vacías, deja el cabezal en la esquina NorEste. Por ejemplo, <code>IrAVacíaNúmero_(1)</code> posiciona el cabezal en la primer celda vacía, <code>IrAVacíaNúmero_(2)</code> posiciona el cabezal en la segunda celda vacía, etc. Organizar la solución como un recorrido de búsqueda por celdas que utilice una variable celdasVacíasYaVistas, cuyo propósito sea denotar la cantidad de celdas vacías que ya se recorrieron.",
+    "run_data":[{
+      "pre":"program{IrAVacíaNúmero_(1)}",
+      "t0":{"head":[2,2],"width":3,"height":3,"board":tv(3,3)},
+      "t0":{"head":[0,0],"width":3,"height":3,"board":tv(3,3)}
+    },{
+      "pre":"program{IrAVacíaNúmero_(1)}",
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[a,a,a],[a,a,a],[a,a,a]]},
+      "t0":{"head":[2,2],"width":3,"height":3,"board":[[a,a,a],[a,a,a],[a,a,a]]}
+    },{
+      "pre":"program{IrAVacíaNúmero_(1)}",
+      "t0":{"head":[0,0],"width":3,"height":3,"board":tv(3,3)},
+      "t0":{"head":[0,0],"width":3,"height":3,"board":tv(3,3)}
+    },{
+      "pre":"program{IrAVacíaNúmero_(1)}",
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[a,v,a],[a,v,v],[a,v,a]]},
+      "t0":{"head":[0,1],"width":3,"height":3,"board":[[a,v,a],[a,v,v],[a,v,a]]}
+    },{
+      "pre":"program{IrAVacíaNúmero_(4)}",
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[a,v,a],[a,v,v],[a,v,a]]},
+      "t0":{"head":[1,2],"width":3,"height":3,"board":[[a,v,a],[a,v,v],[a,v,a]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def e9_39(s):
+  return "En este ejercicio las columnas del tablero representan cada una una pista de aterrizaje en la que despegan y aterrizan aviones. Se considera que una pista está libre para aterrizar si no hay avión en ninguna de las posiciones de esa pista. Los aviones se representan con tantas bolitas azules como el número de su vuelo, y con una bolita Roja en la misma celda si está aterrizando o con una bolita Verde si está despegando. El tablero representa a todo el aeropuerto. Además sabemos que en cada celda hay a lo sumo un avión, y que en una misma pista pueden haber varios aviones.<br><br>Implementar " + s
+
+def guia9_ej39a(fecha):
+  aa2 = c(2,0,1,0) # avión 2 aterrizando
+  ad4 = c(4,0,0,1) # avión 4 despegando
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej39a",
+    "nombre":"39. La torre de control (a)",
+    "enunciado": e9_39("la función <code>cantidadDePistasLibres</code>, que devuelva la cantidad de pistas de aterrizaje sin aviones en ella."),
+    "run_data":[
+      validarNumEnCelda("cantidadDePistasLibres()",1,v),
+      validarNumEnTablero("cantidadDePistasLibres()",1,{
+        "head":[1,1],"width":3,"height":3,"board":[[aa2,v,v],[v,v,v],[v,v,ad4]]
+      })
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej39b(fecha):
+  aa2 = c(2,0,1,0) # avión 2 aterrizando
+  ad4 = c(4,0,0,1) # avión 4 despegando
+  aa5 = c(5,0,1,0) # avión 5 aterrizando
+  ad6 = c(6,0,0,1) # avión 6 despegando
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej39b",
+    "nombre":"39. La torre de control (b)",
+    "enunciado": e9_39("la función <code>cantidadDeAvionesDespegando</code>, que devuelva la cantidad total de aviones que están despegando en todo el aeropuerto."),
+    "run_data":[
+      validarNumEnTablero("cantidadDeAvionesDespegando()",1,{
+        "head":[1,1],"width":3,"height":3,"board":[[aa2,v,v],[v,v,v],[v,v,ad4]]
+      }),
+      validarNumEnTablero("cantidadDeAvionesDespegando()",2,{
+        "head":[1,1],"width":3,"height":3,"board":[[aa2,v,ad6],[v,aa5,v],[v,v,ad4]]
+      })
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej39c(fecha):
+  aa2 = c(2,0,1,0) # avión 2 aterrizando
+  ad4 = c(4,0,0,1) # avión 4 despegando
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej39c",
+    "nombre":"39. La torre de control (c)",
+    "enunciado": e9_39("el procedimiento <code>IrAPistaLibreParaDespegar</code>, que deje el cabezal en la primera pista libre más cerca al Este del aeropuerto, en la posición más al Sur de la pista."),
+    "pre":"program{IrAPistaLibreParaDespegar()}",
+    "run_data":[{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":tv(3,3)},
+      "tf":{"head":[2,0],"width":3,"height":3,"board":tv(3,3)}
+    },{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[aa2,v,v],[v,ad4,v],[v,v,v]]},
+      "tf":{"head":[2,0],"width":3,"height":3,"board":[[aa2,v,v],[v,ad4,v],[v,v,v]]}
+    },{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[aa2,v,v],[v,v,v],[ad4,v,v]]},
+      "tf":{"head":[1,0],"width":3,"height":3,"board":[[aa2,v,v],[v,v,v],[ad4,v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej39d(fecha):
+  aa2 = c(2,0,1,0) # avión 2 aterrizando
+  ad4 = c(4,0,0,1) # avión 4 despegando
+  aa5 = c(5,0,1,0) # avión 5 aterrizando
+  ad6 = c(6,0,0,1) # avión 6 despegando
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej39d",
+    "nombre":"39. La torre de control (d)",
+    "enunciado": e9_39("la función <code>cantidadDeAvionesTotales</code>, que devuelva la cantidad total de aviones que están despegando o aterrizando en todo el aeropuerto."),
+    "run_data":[
+      validarNumEnTablero("cantidadDeAvionesTotales()",2,{
+        "head":[1,1],"width":3,"height":3,"board":[[aa2,v,v],[v,v,v],[v,v,ad4]]
+      }),
+      validarNumEnTablero("cantidadDeAvionesTotales()",4,{
+        "head":[1,1],"width":3,"height":3,"board":[[aa2,v,ad6],[v,aa5,v],[v,v,ad4]]
+      })
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej39e(fecha):
+  aa2 = c(2,0,1,0) # avión 2 aterrizando
+  ad4 = c(4,0,0,1) # avión 4 despegando
+  aa5 = c(5,0,1,0) # avión 5 aterrizando
+  ad6 = c(6,0,0,1) # avión 6 despegando
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej39e",
+    "nombre":"39. La torre de control (e)",
+    "enunciado": e9_39("el procedimiento <code>IrAPistaLibreParaAterrizar</code>, que debe dejar al cabezal en la primera pista libre más al Oeste del aeropuerto, en la celda más al Norte de la misma."),
+    "pre":"program{IrAPistaLibreParaAterrizar()}",
+    "run_data":[{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":tv(3,3)},
+      "tf":{"head":[0,2],"width":3,"height":3,"board":tv(3,3)}
+    },{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[aa2,v,v],[v,ad4,v],[v,v,v]]},
+      "tf":{"head":[2,2],"width":3,"height":3,"board":[[aa2,v,v],[v,ad4,v],[v,v,v]]}
+    },{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[aa2,v,v],[v,v,v],[ad4,v,v]]},
+      "tf":{"head":[1,2],"width":3,"height":3,"board":[[aa2,v,v],[v,v,v],[ad4,v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej39f(fecha):
+  aa2 = c(2,0,1,0) # avión 2 aterrizando
+  ad4 = c(4,0,0,1) # avión 4 despegando
+  aa5 = c(5,0,1,0) # avión 5 aterrizando
+  ad6 = c(6,0,0,1) # avión 6 despegando
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej39f",
+    "nombre":"39. La torre de control (f)",
+    "enunciado": e9_39("la función <code>cantidadDePistasConColisiónInminente</code>, que devuelva la cantidad de pistas con posibles colisiones en todo el aeropuerto. Se considera que hay una colisión posible si en la misma pista hay un avión que está despegando debajo (más al Sur) de un avión que está aterrizando."),
+    "run_data":[
+      validarNumEnTablero("cantidadDePistasConColisiónInminente()",1,{
+        "head":[1,1],"width":3,"height":3,"board":[[ad6,v,aa2],[v,v,v],[aa5,v,ad4]]
+      }),
+      validarNumEnTablero("cantidadDePistasConColisiónInminente()",2,{
+        "head":[1,1],"width":3,"height":3,"board":[[ad6,v,aa2],[v,v,v],[ad4,v,aa5]]
+      })
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia9_ej39g(fecha):
+  aa2 = c(2,0,1,0) # avión 2 aterrizando
+  ad4 = c(4,0,0,1) # avión 4 despegando
+  aa5 = c(5,0,1,0) # avión 5 aterrizando
+  ad6 = c(6,0,0,1) # avión 6 despegando
+  return {
+    "tipo":"CODIGO",
+    "id":"guia9_ej39g",
+    "nombre":"39. La torre de control (g)",
+    "enunciado": e9_39("el procedimiento <code>IrAPistaConColisiónInminente</code>, que deje el cabezal en la primera pista con una colisión inminente contando desde el Oeste, y en la celda más al Sur de la pista."),
+    "pre":"program{IrAPistaConColisiónInminente()}",
+    "run_data":[{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[aa2,v,ad6],[v,v,v],[ad4,v,aa5]]},
+      "tf":{"head":[2,0],"width":3,"height":3,"board":[[aa2,v,ad6],[v,v,v],[ad4,v,aa5]]}
+    },{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[ad6,v,aa2],[v,v,v],[ad4,v,aa5]]},
+      "tf":{"head":[0,0],"width":3,"height":3,"board":[[ad6,v,aa2],[v,v,v],[ad4,v,aa5]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
 def guia9(fechaInicio):
   return {
     "tipo":"SECCION",
@@ -4286,6 +5176,54 @@ def guia9(fechaInicio):
     "disponible":{"desde":fechaInicio},
     "actividades":[
       linkGuía(9, 39139, "18/P9.%20Variables%20y%20Funciones%20con%20Procesamiento.pdf"),
+      guia9_ej1(fechaInicio),
+      guia9_ej2(fechaInicio),
+      guia9_ej3(fechaInicio),
+      guia9_ej4(fechaInicio),
+      guia9_ej5(fechaInicio),
+      guia9_ej6(fechaInicio),
+      guia9_ej7(fechaInicio),
+      guia9_ej8(fechaInicio),
+      guia9_ej9(fechaInicio),
+      # guia9_ej10(fechaInicio), Por ahora no tiene sentido. Agregarlo cuando analice más cuestiones de calidad
+        # En particular, que no se usen variables
+        # OJO: ya está implementado (aunque no testeado)
+      guia9_ej12(fechaInicio),
+      guia9_ej13(fechaInicio),
+      guia9_ej14(fechaInicio),
+      guia9_ej15(fechaInicio),
+      guia9_ej16(fechaInicio),
+      guia9_ej17(fechaInicio),
+      guia9_ej18(fechaInicio),
+      guia9_ej19(fechaInicio),
+      guia9_ej20(fechaInicio),
+      guia9_ej21(fechaInicio),
+      guia9_ej22(fechaInicio),
+      guia9_ej23(fechaInicio),
+      guia9_ej24(fechaInicio),
+      guia9_ej25(fechaInicio),
+      guia9_ej26a(fechaInicio),
+      guia9_ej26b(fechaInicio),
+      # guia9_ej27(fechaInicio), Por ahora no tiene sentido. Agregarlo cuando analice más cuestiones de calidad
+        # En particular, que se haga un recorrido sobre colores
+        # OJO: ya está implementado (y testeado)
+      guia9_ej28(fechaInicio),
+      guia9_ej29(fechaInicio),
+      guia9_ej30(fechaInicio),
+      guia9_ej31(fechaInicio),
+      guia9_ej32(fechaInicio),
+      guia9_ej33(fechaInicio),
+      guia9_ej34(fechaInicio),
+      guia9_ej35(fechaInicio),
+      guia9_ej36(fechaInicio),
+      guia9_ej38(fechaInicio),
+      guia9_ej39a(fechaInicio),
+      guia9_ej39b(fechaInicio),
+      guia9_ej39c(fechaInicio),
+      guia9_ej39d(fechaInicio),
+      guia9_ej39e(fechaInicio),
+      guia9_ej39f(fechaInicio),
+      guia9_ej39g(fechaInicio)
     ]
   }
 
