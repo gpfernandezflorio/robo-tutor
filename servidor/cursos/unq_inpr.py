@@ -237,11 +237,24 @@ def validarDirEnTablero(expresión, d, t0):
   # Uso colores para codificar las direcciones
   return validarColorEnTablero(expresiónDirAColor(expresión), dirAClaveColor(d), t0)
 
+def validarTransformaciónCeldaCon(comando,c1,c2):
+  return {
+    "pre":"program{"+comando+"}",
+    "t0":{"head":[0,0],"width":1,"height":1,"board":[[c1]]},
+    "tf":{"head":[0,0],"width":1,"height":1,"board":[[c2]]}
+  }
+
 def validarTransformaciónCelda(c1,c2):
   return {
     "t0":{"head":[0,0],"width":1,"height":1,"board":[[c1]]},
     "tf":{"head":[0,0],"width":1,"height":1,"board":[[c2]]}
   }
+
+def CambiarCeldaTablero(t, pos, cof):
+  if (type(cof) == type(lambda x : x)):
+    cof(t["board"][pos[0]][pos[1]])
+  else:
+    t["board"][pos[0]][pos[1]] = cof
 
 def superGobi64_1(fecha):
   return {
@@ -5227,6 +5240,297 @@ def guia9(fechaInicio):
     ]
   }
 
+# Gobs-man
+  # Gobsman vivo: 1 Azul
+  # Gobsman muerto: 2 Azul
+  # Coco: 1 Negro
+  # Cereza: 2 Rojo
+  # Fantasma: 5 Verde
+
+preGm0 = 'procedure MoverGobsManAl_(dirección) {\nif (nroBolitas(Azul)==2){BOOM("Gobs-Man no se puede mover porque está muerto.")}\nif (nroBolitas(Azul)/=1){BOOM("Gobs-Man no está en la celda actual.")}\nif (not puedeMover(dirección)){BOOM("Gobs-Man no se puede mover en esa dirección porque ya está sobre el borde.")}\nSacar(Azul)Mover(dirección)Poner(Azul)}\nprocedure LlevarGobsManAlBorde_(dirección) {\nif (nroBolitas(Azul)==2){BOOM("Gobs-Man no se puede mover porque está muerto.")}\nif (nroBolitas(Azul)/=1){BOOM("Gobs-Man no está en la celda actual.")}\nSacar(Azul)IrAlBorde(dirección)Poner(Azul)}'
+
+preGm1 = preGm0 + '\nprocedure ComerCoco() {\nif (nroBolitas(Azul)==2){BOOM("Gobs-Man no puede comer porque está muerto.")}\nif (nroBolitas(Azul)/=1){BOOM("Gobs-Man no está en la celda actual.")}\nif (nroBolitas(Negro)/=1){BOOM("No hay coco en la celda actual")}\nSacar(Negro)}'
+
+preGm2 = preGm1 + '\nprocedure ComerCereza() {\nif (nroBolitas(Azul)==2){BOOM("Gobs-Man no puede comer porque está muerto.")}\nif (nroBolitas(Azul)/=1){BOOM("Gobs-Man no está en la celda actual.")}\nif (not hayCereza()){BOOM("No hay cereza en la celda actual")}\nSacar(Rojo)Sacar(Rojo)}\nfunction hayCereza() {return (nroBolitas(Rojo)==2)}'
+
+preGm3 = preGm2 + '\nprocedure MorirGobsMan(){\nif (nroBolitas(Azul)==2){BOOM("Gobs-Man ya está muerto.")}\nif (nroBolitas(Azul)/=1){BOOM("Gobs-Man no está en la celda actual.")}\nPoner(Azul)}\nfunction hayFantasma() {return (nroBolitas(Verde)==5)}'
+
+def t0Gm(w,h,x,y,vivo=True): # Tablero inicial (con un coco en cada celda) de Gobs-man
+  # de dimensiones wxh, con Gobs-man en la celda (x-y).
+  tablero = []
+  for c in range(w):
+    columna = []
+    for r in range(h):
+      columna.append(cCoco())
+    tablero.append(columna)
+  AgregarGobsman(tablero[x][y],vivo)
+  return {"head":[x,y],"width":w,"height":h,"board":tablero}
+
+def tfGm(w,h,x,y,vivo=True): # Tablero final (sin cocos) de Gobs-man
+  # de dimensiones wxh, con Gobs-man en la celda (x-y).
+  tablero = tv(w,h)
+  tablero[x][y] = cGobsman(vivo)
+  return {"head":[x,y],"width":w,"height":h,"board":tablero}
+
+def cGobsman(vivo=True): # Celda con gobsman
+  return c(1 if vivo else 2,0,0,0)
+
+def cCoco(): # Celda con coco
+  return c(0,1,0,0)
+
+def cCereza(): # Celda con cereza
+  return c(0,0,2,0)
+
+def cCocoCereza(): # Celda con coco y cereza
+  return c(0,1,2,0)
+
+def cFantasma(): # Celda con fantasma
+  return c(0,0,0,5)
+
+def AgregarGobsman(celda, vivo=True):
+  celda['a'] += 1 if vivo else 2
+
+def AgregarCereza(celda):
+  celda['r'] = 2
+
+def AgregarFantasma(celda):
+  celda['v'] = 5
+
+def guiaI1_ej1(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI1_ej1",
+    "nombre":"1. ComerTodosLosCocosDelNivel",
+    "enunciado": 'Al comenzar un nuevo "nivel" del juego, en cada celda del tablero hay un "coco" (pequeños puntos amarillos) que son el alimento natural de los seres como Gobs-Man. El objetivo de Gobs-Man es precisamente comerse todos los cocos del nivel. Para poder hacer esto, contamos con la siguiente primitiva adicional a las anteriores:'+código("procedure ComerCoco()<br>&nbsp;PROPÓSITO: Come el coco que hay en la celda actual.<br>&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;* Hay un coco en la celda actual.<br>&nbsp;&nbsp;* Gobs-Man está en la celda actual.")+'Se desea implementar el procedimiento <code>ComerTodosLosCocosDelNivel()</code>, que hace que Gobs-Man se coma absolutamente todos los cocos del nivel (tablero). Sabemos, <em>por precondición de dicho procedimiento, que hay un coco en cada celda del tablero</em> (incluida en la que inicia Gobs-Man). A continuación hay algunos posibles niveles de Gobs-Man (Note que son solo ejemplos, y que su solución tiene que funcionar en cualquiera de estos tableros, e incluso otros que cumplan las mismas características).<br><br>Ver imágenes en <a href="https://aulas.gobstones.org/pluginfile.php/39223/mod_resource/content/7/Gobs-Man%20%28Recorridos%29.pdf" target="_blank">la guía</a>.',
+    "pre":preGm1 + "\nprogram{ComerTodosLosCocosDelNivel()if(nroBolitas(Azul)/=1){Poner(Verde)}else{LlevarGobsManAlBorde_(Sur)LlevarGobsManAlBorde_(Oeste)}}",
+    # # Si en algún momento habilito mensajes más descriptivos sobre por qué no se cumple el enunciado:
+    # # Un objeto que define funciones para generar mensajes específicos para cada tipo de resultado:
+    # "msg":{"NO":lambda x : ... }
+      # # Si el diff es que hay una bolita verde más, devolver "El cabezal no termina sobre Gobsman"
+    "run_data":[{
+      "t0":t0Gm(3,6,1,4),
+      "tf":tfGm(3,6,0,0)
+    },{
+      "t0":t0Gm(7,5,4,3),
+      "tf":tfGm(7,5,0,0)
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI1_ej2(fecha):
+  t01 = tfGm(3,6,1,4)
+  for c in [(0,0),(0,5),(2,0),(1,3),(2,5)]:
+    CambiarCeldaTablero(t01, c, cCereza())
+  CambiarCeldaTablero(t01, (1,4), AgregarCereza)
+  t02 = tfGm(7,5,2,4)
+  for c in [(0,0),(0,4),(6,0),(3,3),(2,3),(1,4),(6,4)]:
+    CambiarCeldaTablero(t02, c, cCereza())
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI1_ej2",
+    "nombre":"2. ComerTodasLasCerezasDelNivel",
+    "enunciado": 'Gobs-Man también gusta de comer cerezas. En este caso queremos que Gobs-Man se coma absolutamente todas las cerezas del nivel. Ojo, a diferencia de los cocos, las cerezas no están en todas las celdas, sino que pueden aparecer en algunas celdas y en otras no, y nunca sabemos al arrancar un nivel en cuáles celdas estarán las cerezas. Para implementar esto necesitaremos unas nuevas primitivas:'+código("procedure ComerCereza()<br>&nbsp;PROPÓSITO: Come la cereza haya en la celda actual.<br>&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;* Hay una cereza en la celda actual.<br>&nbsp;&nbsp;* Gobs-Man está en la celda actual.")+código("function hayCereza()<br>&nbsp;PROPÓSITO: Indica si hay una cereza en la celda actual.<br>&nbsp;PRECONDICIÓN: Ninguna.")+'Ahora sí, implementemos el procedimiento <code>ComerTodasLasCerezasDelNivel()</code>, que hace que Gobs-Man se coma todas las cerezas del tablero. Note que los tableros iniciales posibles de este ejercicio no tienen cocos, sino que en cada celda puede haber una cereza, o no haber nada, como muestran los ejemplos de tableros iniciales a continuación:<br><br>Ver imágenes en <a href="https://aulas.gobstones.org/pluginfile.php/39223/mod_resource/content/7/Gobs-Man%20%28Recorridos%29.pdf" target="_blank">la guía</a>.',
+    "pre":preGm2 + "\nprogram{ComerTodasLasCerezasDelNivel()if(nroBolitas(Azul)/=1){Poner(Verde)}else{LlevarGobsManAlBorde_(Sur)LlevarGobsManAlBorde_(Oeste)}}",
+    # # Si en algún momento habilito mensajes más descriptivos sobre por qué no se cumple el enunciado:
+    # # Un objeto que define funciones para generar mensajes específicos para cada tipo de resultado:
+    # "msg":{"NO":lambda x : ... }
+      # # Si el diff es que hay una bolita verde más, devolver "El cabezal no termina sobre Gobsman"
+    "run_data":[{
+      "t0":t01,
+      "tf":tfGm(3,6,0,0)
+    },{
+      "t0":t02,
+      "tf":tfGm(7,5,0,0)
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI1_ej3(fecha):
+  t01 = t0Gm(3,6,1,4)
+  for c in [(0,0),(0,5),(2,0),(1,3),(1,4),(2,5)]:
+    CambiarCeldaTablero(t01, c, AgregarCereza)
+  t02 = t0Gm(7,5,2,4)
+  for c in [(0,0),(0,4),(6,0),(3,3),(2,3),(1,4),(6,4)]:
+    CambiarCeldaTablero(t02, c, AgregarCereza)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI1_ej3",
+    "nombre":"3. ComerTodoLoQueSeEncuentreEnElNivel (i)",
+    "enunciado": 'Para este ejercicio queremos trabajar sobre niveles que tienen tanto cerezas como cocos. En nuestros tableros iniciales habrá cocos en todas las celdas, y en algunas habrá adicionalmente una cereza. Gobs-Man quiere comerse absolutamente todo lo que encuentre en el nivel, y nosotros debemos determinar cómo se realiza entonces el código de <code>ComerTodoLoQueSeEncuentreEnElNivel()</code>.<br><br>'+pista+': Si su solución requiere más de dos líneas de código, plantee otra estrategia (piense en qué cosas ya realizó anteriormente).',
+    "pre":preGm2 + "\nprogram{ComerTodoLoQueSeEncuentreEnElNivel()if(nroBolitas(Azul)/=1){Poner(Verde)}else{LlevarGobsManAlBorde_(Sur)LlevarGobsManAlBorde_(Oeste)}}",
+    # # Si en algún momento habilito mensajes más descriptivos sobre por qué no se cumple el enunciado:
+    # # Un objeto que define funciones para generar mensajes específicos para cada tipo de resultado:
+    # "msg":{"NO":lambda x : ... }
+      # # Si el diff es que hay una bolita verde más, devolver "El cabezal no termina sobre Gobsman"
+    "run_data":[{
+      "t0":t01,
+      "tf":tfGm(3,6,0,0)
+    },{
+      "t0":t02,
+      "tf":tfGm(7,5,0,0)
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI1_ej4(fecha):
+  t01 = t0Gm(3,6,1,4)
+  for c in [(0,0),(0,5),(2,0),(1,3),(2,5)]:
+    CambiarCeldaTablero(t01, c, cCereza())
+  t02 = t0Gm(7,5,2,4)
+  for c in [(0,0),(0,4),(6,0),(3,3),(2,3),(1,4),(6,4)]:
+    CambiarCeldaTablero(t02, c, cCereza())
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI1_ej4",
+    "nombre":"4. ComerTodoLoQueSeEncuentreEnElNivel (ii)",
+    "enunciado": 'El programador del juego ha decidido hacer unos pequeños retoques a cómo inician los niveles. Ahora, en todas las celdas hay cocos, menos en aquellas donde hay una cereza. Es decir, en cada celda puede, o bien haber una cereza, o bien haber un coco (solo estará vacía la celda cuando Gobs-Man se haya comido todo lo de la celda, nunca al inicio del nivel). Debemos entonces volver a realizar <code>ComerTodoLoQueSeEncuentreEnElNivel()</code>, y en este caso, la solución no es tan sencilla como en el ejercicio anterior. A continuación, algunos posibles tableros iniciales de este caso:<br><br>Ver imágenes en <a href="https://aulas.gobstones.org/pluginfile.php/39223/mod_resource/content/7/Gobs-Man%20%28Recorridos%29.pdf" target="_blank">la guía</a>.<br><br>'+atención+': Note que no dispone de una primitiva "hayCoco" para solucionar el problema. Si su estrategia está realizada utilizando dicha primitiva, entonces es incorrecta.<br><br>'+atención+': Si a esta altura sus soluciones le están demandando el planteo de más de un recorrido, probablemente esté planteando recorridos sobre filas o columnas. Le proponemos plantee la solución en términos de un recorrido único sobre todas las celdas del tablero, o los siguientes ejercicios se volverán sumamente complicados.',
+    "pre":preGm2 + "\nprogram{ComerTodoLoQueSeEncuentreEnElNivel()if(nroBolitas(Azul)/=1){Poner(Verde)}else{LlevarGobsManAlBorde_(Sur)LlevarGobsManAlBorde_(Oeste)}}",
+    # # Si en algún momento habilito mensajes más descriptivos sobre por qué no se cumple el enunciado:
+    # # Un objeto que define funciones para generar mensajes específicos para cada tipo de resultado:
+    # "msg":{"NO":lambda x : ... }
+      # # Si el diff es que hay una bolita verde más, devolver "El cabezal no termina sobre Gobsman"
+    "run_data":[{
+      "t0":t01,
+      "tf":tfGm(3,6,0,0)
+    },{
+      "t0":t02,
+      "tf":tfGm(7,5,0,0)
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI1_ej5(fecha):
+  t01 = tfGm(3,6,1,4)
+  f1 = (2,4)
+  CambiarCeldaTablero(t01, f1, cFantasma())
+  tf1 = tfGm(3,6,f1[0],f1[1], False)
+  CambiarCeldaTablero(tf1, f1, AgregarFantasma)
+  t02 = tfGm(7,5,2,4)
+  f2 = (1,1)
+  CambiarCeldaTablero(t02, f2, cFantasma())
+  tf2 = tfGm(7,5,f2[0],f2[1], False)
+  CambiarCeldaTablero(tf2, f2, AgregarFantasma)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI1_ej5",
+    "nombre":"5. RecorrerNivelMuriendoEnElFantasma",
+    "enunciado": 'Gobs-Man puede toparse en algún momento con un fantasma. Si lo hace, Gobs-Man sufre un paro cardíaco que la hace morir en la celda en donde vió el espectro. Se sabe que existen ahora las siguientes primitivas:'+código("procedure MorirGobsMan()<br>&nbsp;PROPÓSITO: Hace que Gobs-Man muera, dejando su cuerpo en la celda actual.<br>&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;* El cabezal se encuentra sobre Gobs-Man")+código("function hayFantasma()<br>&nbsp;PROPÓSITO: Indica si hay un fantasma en la celda actual.<br>&nbsp;PRECONDICIÓN: Ninguna.")+atención+': Note que una vez muerto Gobs-Man no puede moverse. Es decir, los procedimientos que mueven a Gobs-Man tienen ahora una nueva precondición: Gobs-Man está vivo.<br><br>Se pide entonces hagamos una prueba sobre un nivel vacío (Es decir, en las celdas no hay cocos ni cerezas) donde Gobs-Man deberá moverse desde la celda más al Oeste y al Sur, hacia la celda más al Norte y al Este. Se garantiza que en algún lado del tablero habrá un fantasma, y Gob-Man debe morir en la celda en donde encuentre el mismo. Realice entonces el procedimiento <code>RecorrerNivelMuriendoEnElFantasma()</code>. Como es costumbre, dejamos algunos tableros iniciales:<br><br>Ver imágenes en <a href="https://aulas.gobstones.org/pluginfile.php/39223/mod_resource/content/7/Gobs-Man%20%28Recorridos%29.pdf" target="_blank">la guía</a>.',
+    "pre":preGm3 + "\nprogram{RecorrerNivelMuriendoEnElFantasma()}",
+    # mensajes: "Gobsman no murió" si hay una bolita azul en lugar de 2, etc.
+    "run_data":[{
+      "t0":t01,
+      "tf":tf1
+    },{
+      "t0":t02,
+      "tf":tf2
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI1_ej6(fecha):
+  t01 = tfGm(3,6,1,4)
+  f1 = (2,4)
+  CambiarCeldaTablero(t01, f1, cFantasma())
+  tf1 = tfGm(3,6,f1[0],f1[1], False)
+  CambiarCeldaTablero(tf1, f1, AgregarFantasma)
+  t02 = tfGm(7,5,2,4)
+  tf2 = tfGm(7,5,6,4)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI1_ej6",
+    "nombre":"6. RecorrerNivelMuriendoSiHayFantasma",
+    "enunciado": 'Si bien hemos logrado que Gobs-Man muera en el lugar correcto, también se desea contemplar los niveles en donde tal vez no haya un fantasma. Es decir, ahora queremos volver a recorrer el nivel, pero esta vez, no tenemos la certeza de que hay un fantasma en el nivel. Si hay uno, Gobs-Man deberá morir allí, sino, Gobs-Man deberá quedar vivo en la última celda del recorrido. Realice entonces el procedimiento <code>RecorrerNivelMuriendoSiHayFantasma()</code> que solucione dicho problema. Los tableros iniciales son idénticos a los anteriores, pero, el fantasma podría no estar, como muestra el segundo tablero de ejemplo:<br><br>Ver imágenes en <a href="https://aulas.gobstones.org/pluginfile.php/39223/mod_resource/content/7/Gobs-Man%20%28Recorridos%29.pdf" target="_blank">la guía</a>.',
+    "pre":preGm3 + "\nprogram{RecorrerNivelMuriendoSiHayFantasma()}",
+    # mensajes: "Gobsman no murió" si hay una bolita azul en lugar de 2, etc.
+    "run_data":[{
+      "t0":t01,
+      "tf":tf1
+    },{
+      "t0":t02,
+      "tf":tf2
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI1_ej7(fecha):
+  t01 = t0Gm(3,6,1,4)
+  f1 = (0,5)
+  CambiarCeldaTablero(t01, f1, AgregarFantasma)
+  tf1 = t0Gm(3,6,f1[0],f1[1], False)
+  CambiarCeldaTablero(tf1, f1, AgregarFantasma)
+  t02 = t0Gm(7,5,2,4)
+  for c in [(0,0),(0,4),(6,0),(3,3),(2,3),(1,4),(6,4)]:
+    CambiarCeldaTablero(t02, c, cCereza())
+  tf2 = tfGm(7,5,6,0)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI1_ej7",
+    "nombre":"7. JugarNivel",
+    "enunciado": 'En este ejercicio queremos integrar todas nuestras soluciones al momento. Aunque probablemente no podamos reutilizar el código, si podremos reutilizar las ideas de lo que venimos trabajando. En este caso, el nivel comienza con un coco en cada celda, menos en las que hay cerezas, y tal vez, algún fantasma en alguna celda del tablero. Gobs-Man debe comer todos los cocos y cerezas que pueda, partiendo esta vez de la esquina Norte y Oeste, y yendo hacia el Sur y el Este. Al finalizar el nivel, Gobs-Man debe quedar en dicha esquina, si es que no se cruzó con ningún fantasma. Si por el contrario el nivel tiene un fantasma, Gobs-Man deberá comer todo lo que tenga en el camino, hasta que se tope con el espectro, donde morirá y terminará el juego. Implemente entonces <code>JugarNivel()</code> que realice lo mencionado.',
+    "pre":preGm3 + "\nprogram{JugarNivel()}",
+    # mensajes: "Gobsman no murió" si hay una bolita azul en lugar de 2, etc.
+    "run_data":[{
+      "t0":t01,
+      "tf":tf1
+    },{
+      "t0":t02,
+      "tf":tf2
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI1_ej9(fecha):
+  cc = cCoco()
+  gm = cGobsman()
+  gmc = cCoco()
+  AgregarGobsman(gmc)
+  gmcc = cCereza()
+  AgregarGobsman(gmcc)
+  gmccc = cCocoCereza()
+  AgregarGobsman(gmccc)
+  gmm = cGobsman(False)
+  gmcm = cCoco()
+  AgregarGobsman(gmcm,False)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI1_ej9",
+    "nombre":"9. Primitivas",
+    "enunciado": 'Queremos realizar el juego, y probar que funcionen nuestras soluciones, pero el diseñador gráfico ha renunciado y no tenemos vestimentas ni primitivas que nos abstraiga de la representación, debemos contentarnos con ver bolitas. Por suerte, todas nuestras soluciones anteriores asumen la existencia de ciertos procedimientos y funciones primitivas, por lo que bastará implementar las mismas para tener andando nuestro trabajo previo. Asumiremos la siguiente representación:<ul><li>Gobs-Man estará representado por una bolita de color Azul si está vivo, y dos, si está muerto.</li><li>Un coco estará representado por una bolita de color Negro.</li><li>Una cereza estará representada por dos bolitas de color Rojo.</li><li>Un fantasma estará representado por cinco bolitas de color Verde.</li></ul><br>Se pide entonces implemente cada uno de los procedimientos y funciones primitivas mencionados en esta guía (<code>MoverGobsManAl_(dirección)</code>, <code>LlevarGobsManAlBorde_(dirección)</code>, <code>ComerCoco()</code>, <code>ComerCereza()</code>, <code>hayCereza()</code>, <code>MorirGobsMan()</code> y <code>hayFantasma()</code>) utilizando esta representación, y luego pruebe las soluciones que hicimos en papel, en la máquina.',
+    "run_data":[{
+      "pre":"program{MoverGobsManAl_(Este)}",
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[gm,v],[v,v]]},
+      "tf":{"head":[1,0],"width":2,"height":2,"board":[[v,v],[gm,v]]}
+    },{
+      "pre":"program{MoverGobsManAl_(Sur)}",
+      "t0":{"head":[0,1],"width":2,"height":2,"board":[[cc,gmc],[cc,cc]]},
+      "tf":{"head":[0,0],"width":2,"height":2,"board":[[gmc,cc],[cc,cc]]}
+    },{
+      "pre":"program{LlevarGobsManAlBorde_(Oeste)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[gmc]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[gmc]]}
+    },{
+      "pre":"program{LlevarGobsManAlBorde_(Norte)}",
+      "t0":{"head":[0,1],"width":1,"height":10,"board":[[cc,gmc,cc,cc,v,v,cc,cc,cc,v]]},
+      "tf":{"head":[0,9],"width":1,"height":10,"board":[[cc,cc,cc,cc,v,v,cc,cc,cc,gm]]}
+    },
+      validarTransformaciónCeldaCon("ComerCoco()",gmc,gm),
+      validarTransformaciónCeldaCon("ComerCoco()",gmccc,gmcc),
+      validarTransformaciónCeldaCon("ComerCereza()",gmcc,gm),
+      validarTransformaciónCeldaCon("ComerCereza()",gmccc,gmc),
+      validarBoolEnCelda("hayCereza()",False,v),
+      validarBoolEnCelda("hayCereza()",False,gm),
+      validarBoolEnCelda("hayCereza()",False,gmc),
+      validarBoolEnCelda("hayCereza()",True,gmcc),
+      validarBoolEnCelda("hayCereza()",True,gmccc),
+      validarTransformaciónCeldaCon("MorirGobsMan()",gm,gmm),
+      validarTransformaciónCeldaCon("MorirGobsMan()",gmc,gmcm),
+      validarBoolEnCelda("hayFantasma()",False,gs(4)),
+      validarBoolEnCelda("hayFantasma()",True,gs(5)),
+      validarBoolEnCelda("hayFantasma()",False,gs(6))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
 def guiaI1(fechaInicio):
   return {
     "tipo":"SECCION",
@@ -5235,7 +5539,444 @@ def guiaI1(fechaInicio):
     "disponible":{"desde":fechaInicio},
     "actividades":[
       linkGuía("I1", 39223, "7/Gobs-Man%20%28Recorridos%29.pdf"),
+      guiaI1_ej1(fechaInicio),
+      guiaI1_ej2(fechaInicio),
+      guiaI1_ej3(fechaInicio),
+      guiaI1_ej4(fechaInicio),
+      guiaI1_ej5(fechaInicio),
+      guiaI1_ej6(fechaInicio),
+      guiaI1_ej7(fechaInicio),
+      guiaI1_ej9(fechaInicio)
     ]
+  }
+
+# Ms. Gobs-man
+  # Ms. Gobsman viva: 1 Azul
+  # Ms. Gobsman muerta: 2 Azul
+  # Coco: 1 Negro
+  # Cereza: 2 Negro
+  # Frutilla: 1 Rojo
+  # Fantasma: 5 Azul
+  # Puntos: Verde
+
+preMGm0 = 'procedure MoverMsGobsManAl_(dirección) {\nif (nroBolitas(Azul)==2 || nroBolitas(Azul)==7){BOOM("Ms. Gobs-Man no se puede mover porque está muerta.")}\nif (nroBolitas(Azul)/=1 && nroBolitas(Azul)/=6){BOOM("Ms. Gobs-Man no está en la celda actual.")}\nif (not puedeMover(dirección)){BOOM("Ms. Gobs-Man no se puede mover en esa dirección porque ya está sobre el borde.")}\nSacar(Azul)Mover(dirección)Poner(Azul)}\nprocedure LlevarMsGobsManAlBorde_(dirección) {\nif (nroBolitas(Azul)==2 || nroBolitas(Azul)==7){BOOM("Ms. Gobs-Man no se puede mover porque está muerta.")}\nif (nroBolitas(Azul)/=1 && nroBolitas(Azul)/=6){BOOM("Ms. Gobs-Man no está en la celda actual.")}\nSacar(Azul)IrAlBorde(dirección)Poner(Azul)}\nprocedure ComerCoco() {\nif (nroBolitas(Azul)==2 || nroBolitas(Azul)==7){BOOM("Ms. Gobs-Man no puede comer porque está muerta.")}\nif (nroBolitas(Azul)/=1 && nroBolitas(Azul)/=6){BOOM("Ms. Gobs-Man no está en la celda actual.")}\nif (not hayCoco()){BOOM("No hay coco en la celda actual")}\nSacar(Negro)}\nprocedure ComerCereza() {\nif (nroBolitas(Azul)==2 || nroBolitas(Azul)==7){BOOM("Ms. Gobs-Man no puede comer porque está muerta.")}\nif (nroBolitas(Azul)/=1 && nroBolitas(Azul)/=6){BOOM("Ms. Gobs-Man no está en la celda actual.")}\nif (not hayCereza()){BOOM("No hay cereza en la celda actual")}\nSacar(Negro)Sacar(Negro)}\nfunction hayCereza() {return (nroBolitas(Negro)==2 || nroBolitas(Negro)==3)}\nprocedure MorirMsGobsMan(){\nif (nroBolitas(Azul)==2 || nroBolitas(Azul)==7){BOOM("Ms. Gobs-Man ya está muerta.")}\nif (nroBolitas(Azul)/=1 && nroBolitas(Azul)/=6){BOOM("Ms. Gobs-Man no está en la celda actual.")}\nPoner(Azul)}\nfunction hayFantasma() {return (nroBolitas(Azul)==5 || nroBolitas(Azul)==6 || nroBolitas(Azul)==7)}\nfunction hayCoco() {return (nroBolitas(Negro)==1 || nroBolitas(Negro)==3)}'
+
+preMGm1 = preMGm0 + '\nfunction hayFrutilla(){return(nroBolitas(Rojo)==1)}'
+
+preMGm2 = preMGm1 + '\nprocedure Mostrar_PuntosEnPantalla(cantidadDePuntosAMostrar){\nif(nroBolitas(Azul)/=1 && nroBolitas(Azul)/=2 && nroBolitas(Azul)/=6 && nroBolitas(Azul)/=7){BOOM("Ms. Gobs-Man no está en la celda actual.")}\nif (hayCoco() || hayCereza() || hayFrutilla()) {BOOM("No se pueden mostrar los puntos porque hay elementos para comer en la celda actual.")}\nrepeat(nroBolitas(Verde)){Sacar(Verde)}\nrepeat(cantidadDePuntosAMostrar){Poner(Verde)}}\nprocedure ComerFrutilla(){\nif (nroBolitas(Azul)==2 || nroBolitas(Azul)==7){BOOM("Ms. Gobs-Man no puede comer porque está muerta.")}\nif (nroBolitas(Azul)/=1 && nroBolitas(Azul)/=6){BOOM("Ms. Gobs-Man no está en la celda actual.")}\nif (not hayFrutilla()){BOOM("No hay frutilla en la celda actual")}\nSacar(Rojo)}'
+
+preMGm3 = preMGm2 + '\nfunction tamañoDelTablero(){IrAlBorde(Oeste)w:=1;while(puedeMover(Este)){Mover(Este)w:=w+1}IrAlBorde(Sur)h:=1;while(puedeMover(Norte)){Mover(Norte)h:=h+1}return(w*h)}'
+
+preMGm4 = preMGm3 + '\nprocedure PararCabezalEnMsGobsMan(){IrAlBorde(Sur)IrAlBorde(Oeste)while(nroBolitas(Azul)/=1 && nroBolitas(Azul)/=6){if(puedeMover(Este)){Mover(Este)}else{Mover(Norte)IrAlBorde(Oeste)}}}\nprocedure MoverFantasmaAl_(dirección){\nif (not hayFantasma()){BOOM("No hay fantasma en la celda actual.")}\nif (not puedeMover(dirección)){BOOM("El fantasma no se puede mover en esa dirección porque ya está sobre el borde.")}\nrepeat(5){Sacar(Azul)}Mover(dirección)repeat(5){Poner(Azul)}}'
+
+def cCocoM(): # Celda con coco
+  return c(0,1,0,0)
+
+def cCerezaM(): # Celda con cereza
+  return c(0,2,0,0)
+
+def cCocoCerezaM(): # Celda con coco y cereza
+  return c(0,3,0,0)
+
+def cFrutilla(): # Celda con frutilla
+  return c(0,0,1,0)
+
+def cFantasmaM(): # Celda con fantasma
+  return c(5,0,0,0)
+
+def AgregarCerezaM(celda):
+  celda['n'] += 2
+
+def AgregarFrutilla(celda):
+  celda['r'] = 1
+
+def AgregarFantasmaM(celda):
+  celda['a'] += 5
+
+def guiaI2_ej10(fecha):
+  cc = cCocoM()
+  gm = cGobsman()
+  gmc = cCocoM()
+  AgregarGobsman(gmc)
+  cC = cCerezaM()
+  gmC = cCerezaM()
+  AgregarGobsman(gmC)
+  cCc = cCocoCerezaM()
+  gmCc = cCocoCerezaM()
+  AgregarGobsman(gmCc)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI2_ej10",
+    "nombre":"10. puntajeAObtenerEnCeldaActual (i)",
+    "enunciado": 'Dado que el cabezal se encuentra en alguna celda, se espera poder determinar cuántos puntos obtendrá Ms. Gobs-Man si come todo lo que hay en dicha celda. Note que la celda puede tener un coco, una cereza, ambos o estar vacía. Un coco otorga a Ms. Gobs-Man 100 puntos, y una cereza otorga 2000 puntos. Escriba la función: <code>puntajeAObtenerEnCeldaActual()</code> que describe los puntos a obtener en la celda actual. A continuación se muestran algunas posibles celdas a analizar y los puntos que se deberían obtener:<br><br>Ver imágenes en <a href="https://aulas.gobstones.org/pluginfile.php/39222/mod_resource/content/4/Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf" target="_blank">la guía</a>.',
+    "pre":preMGm0,
+    "run_data":[
+      validarNumEnCelda("puntajeAObtenerEnCeldaActual()",0,v),
+      validarNumEnCelda("puntajeAObtenerEnCeldaActual()",0,gm),
+      validarNumEnCelda("puntajeAObtenerEnCeldaActual()",100,cc),
+      validarNumEnCelda("puntajeAObtenerEnCeldaActual()",100,gmc),
+      validarNumEnCelda("puntajeAObtenerEnCeldaActual()",2000,cC),
+      validarNumEnCelda("puntajeAObtenerEnCeldaActual()",2000,gmC),
+      validarNumEnCelda("puntajeAObtenerEnCeldaActual()",2100,cCc),
+      validarNumEnCelda("puntajeAObtenerEnCeldaActual()",2100,gmCc)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI2_ej11(fecha):
+  cc = cCocoM()
+  cC = cCerezaM()
+  cCc = cCocoCerezaM()
+  cf = cFrutilla()
+  cfc = cCocoM()
+  AgregarFrutilla(cfc)
+  cfC = cCerezaM()
+  AgregarFrutilla(cfC)
+  cfCc = cCocoCerezaM()
+  AgregarFrutilla(cfCc)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI2_ej11",
+    "nombre":"11. puntajeAObtenerEnCeldaActual (ii)",
+    "enunciado": 'Se nos plantea ahora que además de cerezas y cocos, las celdas pueden contener frutillas (O fresas, si prefiere). Las frutillas otorgan 500 puntos solamente, pero pueden encontrarse en cualquier celda, por lo que ahora tenemos las siguientes posibilidades:<br><br>Ver imágenes en <a href="https://aulas.gobstones.org/pluginfile.php/39222/mod_resource/content/4/Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf" target="_blank">la guía</a>.<br><br>Debe replantear la función <code>puntajeAObtenerEnCeldaActual()</code> para tener en cuenta dicha situación. Si su estrategia anterior fue buena, entonces este cambio no debería redundar en demasiado trabajo. Si por el contrario la solución no fue buena, le llevará más esfuerzo (Si fuera este último caso, lo invitamos a repensar si está separando el problema en las subtareas correctas, o ver si puede realizar más). Ah, por cierto, casi se nos olvida, también cuenta con la primitiva siguiente:'+código("function hayFrutilla()<br>&nbsp;PROPÓSITO: Indica si hay una frutilla en la celda actual.<br>&nbsp;PRECONDICIÓNES: Ninguna.")+atención+': Piense si su solución escala correctamente si hubieran otras tres posibles frutas (ej. naranjas, bananas y manzanas).',
+    "pre":preMGm1,
+    "run_data":[
+      validarNumEnCelda("puntajeAObtenerEnCeldaActual()",0,v),
+      validarNumEnCelda("puntajeAObtenerEnCeldaActual()",100,cc),
+      validarNumEnCelda("puntajeAObtenerEnCeldaActual()",2000,cC),
+      validarNumEnCelda("puntajeAObtenerEnCeldaActual()",2100,cCc),
+      validarNumEnCelda("puntajeAObtenerEnCeldaActual()",500,cf),
+      validarNumEnCelda("puntajeAObtenerEnCeldaActual()",600,cfc),
+      validarNumEnCelda("puntajeAObtenerEnCeldaActual()",2500,cfC),
+      validarNumEnCelda("puntajeAObtenerEnCeldaActual()",2600,cfCc)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI2_ej12(fecha):
+  gm = cGobsman()
+  gmc = cCocoM()
+  AgregarGobsman(gmc)
+  gmC = cCerezaM()
+  AgregarGobsman(gmC)
+  gmCc = cCocoCerezaM()
+  AgregarGobsman(gmCc)
+  gmf = cFrutilla()
+  AgregarGobsman(gmf)
+  gmfc = cCocoM()
+  AgregarFrutilla(gmfc)
+  AgregarGobsman(gmfc)
+  gmfC = cCerezaM()
+  AgregarFrutilla(gmfC)
+  AgregarGobsman(gmfC)
+  gmfCc = cCocoCerezaM()
+  AgregarFrutilla(gmfCc)
+  AgregarGobsman(gmfCc)
+  gmPtos = lambda p : c(1, 0, 0, p)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI2_ej12",
+    "nombre":"12. ComerLoQueHayEnLaCeldaYMostrarPuntos",
+    "enunciado": 'Por cierto, para mostrar esos cuadraditos verdes con los puntos que vimos en los ejemplos anteriores se utilizó una muy útil primitiva que nos proporcionaron:'+código("procedure Mostrar_PuntosEnPantalla(cantidadDePuntosAMostrar)<br>&nbsp;PROPÓSITO: Muestra en la pantalla la cantidad de puntos dados como argumento.<br>&nbsp;OBSERVACIÓN: Los puntos se muestran como un número en un recuadro verde en la esquina de la celda.<br>&nbsp;PRECONDICIÓNES:<br>&nbsp;&nbsp;* No debe haber elementos para comer en la celda actual.<br>&nbsp;&nbsp;* El cabezal se encuentra sobre Ms. Gobs-Man.<br>&nbsp;PARÁMETROS:<br>&nbsp;&nbsp;* cantidadDePuntosAMostrar: Número - Los puntos a mostrar en la pantalla.")+'Ahora queremos asegurarnos de poder mostrar los puntos correspondientes a lo que Ms. Gobs-Man efectivamente vaya a comer en la celda actual.<br><br>Se espera que usted cree el procedimiento <code>ComerLoQueHayEnLaCeldaYMostrarPuntos()</code> que haga que Ms. Gobs-Man coma todo lo que hay en la celda en donde está parada, y que se muestre en dicha celda los puntos que se obtienen tras comer lo que allí había.<br><br>Probablemente necesite también del procedimiento siguiente como primitiva:'+código("procedure ComerFrutilla()<br>&nbsp;PROPÓSITO: Come la frutilla de la celda actual.<br>&nbsp;PRECONDICIÓNES:<br>&nbsp;&nbsp;* Hay una frutilla en la celda actual.<br>&nbsp;&nbsp;* El cabezal se encuentra sobre Ms. Gobs-Man."),
+    "pre":preMGm2+"\nprogram{ComerLoQueHayEnLaCeldaYMostrarPuntos()}",
+    "run_data":[
+      validarTransformaciónCelda(gm,gmPtos(0)),
+      validarTransformaciónCelda(gmc,gmPtos(100)),
+      validarTransformaciónCelda(gmC,gmPtos(2000)),
+      validarTransformaciónCelda(gmCc,gmPtos(2100)),
+      validarTransformaciónCelda(gmf,gmPtos(500)),
+      validarTransformaciónCelda(gmfc,gmPtos(600)),
+      validarTransformaciónCelda(gmfC,gmPtos(2500)),
+      validarTransformaciónCelda(gmfCc,gmPtos(2600))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI2_ej13(fecha):
+  t1 = t0Gm(8,6,5,2) # 8x6 (48 x 100pts = 4800)
+  for x in [(0,1),(1,4),(5,5),(6,5)]:
+    CambiarCeldaTablero(t1,x,v) # - 4 x 100pts = 4400
+  for x in [(0,3),(3,2),(3,4),(5,1)]:
+    CambiarCeldaTablero(t1,x,cCerezaM()) # - 4 x 100pts + 4 x 2000pts = 12000
+  for x in [(1,1),(1,5),(3,5),(7,0)]:
+    CambiarCeldaTablero(t1,x,cFrutilla()) # - 4 x 100pts + 4 x 500pts = 13600
+  for x in [(2,1),(6,3),(6,4),(7,0),(7,3)]:
+    CambiarCeldaTablero(t1,x,AgregarCerezaM) # + 5 x 2000pts = 23600
+  for x in [(4,3),(4,5),(6,3),(7,2)]:
+    CambiarCeldaTablero(t1,x,AgregarFrutilla) # + 4 x 500pts = 25600
+  t2 = t0Gm(3,4,1,2) # 3x4 (12 x 100pts = 1200)
+  for x in [(0,1),(1,1),(2,1)]:
+    CambiarCeldaTablero(t2,x,v) # - 3 x 100pts = 900
+  for x in [(0,3),(1,0),(1,3)]:
+    CambiarCeldaTablero(t2,x,cCerezaM()) # - 3 x 100pts + 3 x 2000pts = 6600
+  for x in [(0,2),(2,0),(2,2)]:
+    CambiarCeldaTablero(t2,x,cFrutilla()) # - 3 x 100pts + 3 x 500pts = 7800
+  for x in [(0,0),(2,0),(1,2)]:
+    CambiarCeldaTablero(t2,x,AgregarCerezaM) # + 3 x 2000pts = 13800
+  for x in [(0,0),(1,3),(2,3)]:
+    CambiarCeldaTablero(t2,x,AgregarFrutilla) # + 3 x 500pts = 15300
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI2_ej13",
+    "nombre":"13. cantidadDePuntosEnElNivel",
+    "enunciado": 'Se desea saber cuántos puntos es posible obtener en un nivel determinado. Esto dependerá por supuesto de la cantidad de celdas que haya en dicho nivel, así como de que haya en cada celda (cocos, cerezas, frutillas, combinaciones de estas o nada). Se pide entonces realice la función <code>cantidadDePuntosEnElNivel()</code> que indique la cantidad total de puntos que se pueden obtener en el nivel. Por ejemplo, en el siguiente nivel se obtienen 18700 puntos (considerando que en el lugar en donde inicia Ms. Gobs-Man no hay nada). Puede asumir que el cabezal se encuentra sobre Ms. Gobs-Man.<br><br>Ver imagen en <a href="https://aulas.gobstones.org/pluginfile.php/39222/mod_resource/content/4/Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf" target="_blank">la guía</a>.<br><br>'+atención+': Para calcular los puntos no es necesario mover a Ms. Gobs-Man, sino sólo el cabezal. Sin embargo, si movemos a Ms. Gobs-Man tampoco representará un problema, pues las funciones no tienen efecto, sino que describen valores.',
+    "pre":preMGm2,
+    "run_data":[
+      validarNumEnTablero("cantidadDePuntosEnElNivel()",25600,t1),
+      validarNumEnTablero("cantidadDePuntosEnElNivel()",15300,t2)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI2_ej14(fecha):
+  t1 = t0Gm(8,6,5,2)
+  t2 = t0Gm(3,4,1,2)
+  CambiarCeldaTablero(t2,(0,1),AgregarFantasmaM)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI2_ej14",
+    "nombre":"14. hayAlgúnFantasmaEnElNivel",
+    "enunciado": 'Es interesante poder determinar si Ms. Gobs-Man va a morir a causa de cruzarse con un fantasma o no (Recordemos que en un nivel puede o no haber fantasmas). Se desea entonces la función <code>hayAlgúnFantasmaEnElNivel()</code> que indica si hay un fantasma en el nivel. Por cierto, puede asumir que el cabezal se encuentra sobre Ms. Gobs-Man.<br>'+pista+': Esta función es muy parecida a buscar un fantasma y luego morir, pero en lugar de morir debo indicar si encontré o no el fantasma. Note que no necesita variables para resolver el problema.',
+    "pre":preMGm2,
+    "run_data":[
+      validarBoolEnTablero("hayAlgúnFantasmaEnElNivel()",False,t1),
+      validarBoolEnTablero("hayAlgúnFantasmaEnElNivel()",True,t2)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI2_ej15(fecha):
+  t1 = t0Gm(8,6,5,2) # 8x6 (48 x 100pts = 4800)
+  for x in [(0,1),(1,4),(5,5),(6,5)]:
+    CambiarCeldaTablero(t1,x,v) # - 4 x 100pts = 4400
+  for x in [(0,3),(3,2),(3,4),(5,1)]:
+    CambiarCeldaTablero(t1,x,cCerezaM()) # - 4 x 100pts + 4 x 2000pts = 12000
+  for x in [(1,1),(1,5),(3,5),(7,0)]:
+    CambiarCeldaTablero(t1,x,cFrutilla()) # - 4 x 100pts + 4 x 500pts = 13600
+  for x in [(2,1),(6,3),(6,4),(7,0),(7,3)]:
+    CambiarCeldaTablero(t1,x,AgregarCerezaM) # + 5 x 2000pts = 23600
+  for x in [(4,3),(4,5),(6,3),(7,2)]:
+    CambiarCeldaTablero(t1,x,AgregarFrutilla) # + 4 x 500pts = 25600
+  t2 = t0Gm(3,4,1,2)
+  for x in [(0,1),(2,1)]:
+    CambiarCeldaTablero(t2,x,v)
+  for x in [(0,3),(1,3)]:
+    CambiarCeldaTablero(t2,x,cCerezaM())
+  for x in [(0,2),(2,2)]:
+    CambiarCeldaTablero(t2,x,cFrutilla())
+  for x in [(0,0),(2,0),(1,2)]:
+    CambiarCeldaTablero(t2,x,AgregarCerezaM)
+  for x in [(0,0),(2,0),(1,3),(2,3)]:
+    CambiarCeldaTablero(t2,x,AgregarFrutilla)
+  '''
+   | C   | fC  | fc  | > | 2000 | 2500 |  600 |
+   | f   | gmC | f   | > |  500 | 2000 |  500 |
+   |     | cF  |     | > |    0 | XXXX |    0 |
+   | fCc | c   | fCc | > | 2600 |  100 | 2600 |
+
+   NE: 2600+500+2000+100 = 5200
+   EN: 2600+100+2600 = 5300
+   NO: 2600+500+600+100 = 3800
+  '''
+  CambiarCeldaTablero(t2,(1,1),AgregarFantasmaM)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI2_ej15",
+    "nombre":"15. cantidadDePuntosEnNivelHacia_Y_",
+    "enunciado": 'Ms. Gobs-Man puede cruzarse con un fantasma en el camino, y en ese caso, el juego termina en ese momento. Es decir, los puntos totales que acumula Ms. Gobs-Man en un nivel no siempre son el total de las cosas que hay en el tablero, sino solamente aquellas que "come" hasta que encuentra el fantasma, si es que hubiera uno. En ese sentido, las direcciones hacia las cuales Ms. Gobs-Man realiza un recorrido comiendo lo que encuentra es importante. Si parte de la celda Sur-Oeste y se mueve primero al Este y luego al Norte, podría conseguir menos puntos (o más) que si parte de la celda Norte-Este y se mueve al Sur y al Oeste, por poner un ejemplo.<br><br>Por eso es interesante poder calcular cuantos puntos obtendrá Ms. Gobs-Man hasta toparse con un fantasma (si hubiera uno), si realiza un recorrido en dos direcciones determinadas, dadas por parámetro. Se pide escriba <code>cantidadDePuntosEnNivelHacia_Y_(direcciónPrincipal, direcciónSecundaria)</code>, una función que dadas dos direcciones indica cuántos puntos acumularía Ms. Gobs-Man en un recorrido en dicha dirección. Nuevamente, el cabezal arranca sobre Ms. Gobs-Man.<br><br>En el ejemplo siguiente, si el recorrido se realiza hacia el Este y el Sur (partiendo de la esquina Norte-Oeste) solo se obtendrán 2900 puntos, mientras que si se realiza hacia el Oeste y el Sur (partiendo de la esquina Norte-Este) se obtendrán 5000. Otras direcciones darán otros puntajes.<br><br>Ver imagen en <a href="https://aulas.gobstones.org/pluginfile.php/39222/mod_resource/content/4/Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf" target="_blank">la guía</a>.',
+    "pre":preMGm2,
+    "run_data":[
+      validarNumEnTablero("cantidadDePuntosEnNivelHacia_Y_(Sur,Este)",25600,t1),
+      validarNumEnTablero("cantidadDePuntosEnNivelHacia_Y_(Norte,Este)",5200,t2),
+      validarNumEnTablero("cantidadDePuntosEnNivelHacia_Y_(Este,Norte)",5300,t2),
+      validarNumEnTablero("cantidadDePuntosEnNivelHacia_Y_(Norte,Oeste)",3800,t2)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI2_ej16(fecha):
+  t2 = t0Gm(3,4,1,2)
+  for x in [(0,1),(2,1)]:
+    CambiarCeldaTablero(t2,x,v)
+  for x in [(0,3),(1,3)]:
+    CambiarCeldaTablero(t2,x,cCerezaM())
+  for x in [(0,2),(2,2)]:
+    CambiarCeldaTablero(t2,x,cFrutilla())
+  for x in [(0,0),(2,0),(1,2)]:
+    CambiarCeldaTablero(t2,x,AgregarCerezaM)
+  for x in [(0,0),(2,0),(1,3),(2,3)]:
+    CambiarCeldaTablero(t2,x,AgregarFrutilla)
+  '''
+   | C   | fC  | fc  | > | 2000 | 2500 |  600 |
+   | f   | gmC | f   | > |  500 | 2000 |  500 |
+   |     | cF  |     | > |    0 | XXXX |    0 |
+   | fCc | c   | fCc | > | 2600 |  100 | 2600 |
+
+   NE: 2600+500+2000+100 = 5200
+   EN: 2600+100+2600 = 5300
+   NO: 2600+500+600+100 = 3800
+  '''
+  CambiarCeldaTablero(t2,(1,1),AgregarFantasmaM)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI2_ej16",
+    "nombre":"16. esMejorRecorridoHacia_Y_QueHacia_Y_",
+    "enunciado": 'Se desea saber cuál de dos opciones de recorridos es más conveniente realizar. Por ejemplo, es mejor recorrer hacia el Norte y el Este, que hacia el Sur y el Este (siempre considerando mejor aquel recorrido en donde se obtienen más puntos). Para determinarlo, se pide que escriba la función <code>esMejorRecorridoHacia_Y_QueHacia_Y_(dirPrincipal1, dirSecundaria1, dirPrincipal2, dirSecundaria2)</code>, que indica si un recorrido en <code>dirPrincipal1</code> y <code>dirSecundaria1</code> acumula efectivamente más puntos que un recorrido en <code>dirPrincipal2</code> y <code>dirSecundaria2</code>.<br>Si consideramos el ejemplo anterior, la función llamada como <code>esMejorRecorridoHacia_Y_QueHacia_Y_(Este, Sur, Oeste, Sur)</code> describe <code>Falso</code>, pues en el recorrido Este Sur se acumulaban solo 2900 puntos, mientras que en el Oeste-Sur eran 5000. <code>esMejorRecorridoHacia_Y_QueHacia_Y_(Oeste, Sur, Este, Sur)</code> describe <code>Verdadero</code> por la misma razón.',
+    "pre":preMGm2,
+    "run_data":[
+      validarBoolEnTablero("esMejorRecorridoHacia_Y_QueHacia_Y_(Norte,Este,Este,Norte)",False,t2),
+      validarBoolEnTablero("esMejorRecorridoHacia_Y_QueHacia_Y_(Norte,Este,Norte,Oeste)",True,t2)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI2_ej17(fecha):
+  t1 = t0Gm(8,6,5,2)
+  '''
+  |.|.|.|.|.|.|.|.|
+  |.|.|.|.|.|.|.|.|
+  |.|.|.|.|.|.|.|.|
+  |.|.|.|.|.|G|.|.|
+  |.|.|.|.|.|.|.|.|
+  |.|.|.|.|.|.|.|.|
+  '''
+  t2 = t0Gm(3,4,1,2)
+  '''
+  |.|.|.|
+  |.|G|.|
+  |.|.|.|
+  |.|.|.|
+  '''
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI2_ej17",
+    "nombre":"17. masDeLaMitadDelNivelSiVaHacia_Y_",
+    "enunciado": 'Queremos también poder determinar si Ms. Gobs-Man ha logrado llegar a un punto en donde está cerca de finalizar el nivel, en particular, si completó más de la mitad del mismo. Para esto, se le pide implementar la función <code>masDeLaMitadDelNivelSiVaHacia_Y_(dirPrincipal, dirSecundaria)</code> que indica si Ms. Gobs-Man pasó más de la mitad del nivel recorriendo hacia dirPrincipal y dirSecundaria. Note que sabemos nuevamente que el cabezal está sobre Ms. Gobs-Man, y también contamos con esta útil primitiva:'+código("function tamañoDelTablero()<br>&nbsp;PROPÓSITO: Denota el número total de celdas del tablero (nxm).<br>&nbsp;PRECONDICIÓN: Ninguna.")+ayuda("Ayuda")+': Tené en cuenta que Ms. Gobs-Man viene de las direcciones opuestas a aquellas hacia las cuales está recorriendo, y queremos saber cuántas ubicaciones ya visitó.',
+    "pre":preMGm3,
+    "run_data":[
+      validarBoolEnTablero("masDeLaMitadDelNivelSiVaHacia_Y_(Este,Norte)",False,t1),
+      validarBoolEnTablero("masDeLaMitadDelNivelSiVaHacia_Y_(Norte,Este)",True,t1),
+      validarBoolEnTablero("masDeLaMitadDelNivelSiVaHacia_Y_(Este,Sur)",False,t2),
+      validarBoolEnTablero("masDeLaMitadDelNivelSiVaHacia_Y_(Oeste,Norte)",True,t2)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI2_ej18(fecha):
+  cc = cCocoM()
+  gm = cGobsman()
+  gmc = cCocoM()
+  AgregarGobsman(gmc)
+  gmcc = cCerezaM()
+  AgregarGobsman(gmcc)
+  gmccc = cCocoCerezaM()
+  AgregarGobsman(gmccc)
+  gmm = cGobsman(False)
+  gmcm = cCocoM()
+  AgregarGobsman(gmcm,False)
+  cf = cFrutilla()
+  gmf = cFrutilla()
+  AgregarGobsman(gmf)
+  gmPtos = lambda p : c(1, 0, 0, p)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI2_ej18",
+    "nombre":"18. Primitivas",
+    "enunciado": 'El equipo de desarrollo se ha dado cuenta de que al utilizar la misma representación en términos de bolitas para Ms. Gobs-Man que para Gobs-Man, trae serias complicaciones. Por eso se pensó en una representación alternativa, que permita diferenciar mejor los elementos. Eso sí, algunas primitivas ahora son más complicadas y requieren operadores lógicos más complejos.<ul><li>Una bolita negra representa un coco.</li><li>Dos bolitas negras representan una cereza.</li><li>Tres bolitas negras en una celda indican que en la misma hay tanto un coco como una cereza.</li><li>Una bolita roja representa una frutilla.</li><li>Una bolita azul representa a Ms. Gobs-Man, dos, si estuviera muerta.</li><li>Cinco bolitas azules representan un fantasma.</li><li>Los puntos en una celda se representan con bolitas verdes (Tantas como puntos).</li></ul><br>Se pide cambie las primitivas anteriormente realizadas en Gobs-Man (<code>ComerCoco()</code>, <code>ComerCereza()</code>, <code>hayCereza()</code> y <code>hayFantasma()</code>) para reflejar la nueva representación, así como también implementar las primitivas que son exclusivas de Ms. Gobs-Man (<code>MoverMsGobsManAl_(dirección)</code>, <code>LlevarMsGobsManAlBorde_(dirección)</code>, <code>MorirMsGobsMan()</code>, <code>hayCoco()</code>, <code>hayFrutilla()</code>, <code>Mostrar_PuntosEnPantalla(cantidadDePuntosAMostrar)</code>, <code>ComerFrutilla()</code> y <code>tamañoDelTablero()</code>).',
+    "run_data":[{
+      "pre":"program{MoverMsGobsManAl_(Este)}",
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[gm,v],[v,v]]},
+      "tf":{"head":[1,0],"width":2,"height":2,"board":[[v,v],[gm,v]]}
+    },{
+      "pre":"program{MoverMsGobsManAl_(Sur)}",
+      "t0":{"head":[0,1],"width":2,"height":2,"board":[[cc,gmc],[cc,cc]]},
+      "tf":{"head":[0,0],"width":2,"height":2,"board":[[gmc,cc],[cc,cc]]}
+    },{
+      "pre":"program{LlevarMsGobsManAlBorde_(Oeste)}",
+      "t0":{"head":[0,0],"width":1,"height":1,"board":[[gmc]]},
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[gmc]]}
+    },{
+      "pre":"program{LlevarMsGobsManAlBorde_(Norte)}",
+      "t0":{"head":[0,1],"width":1,"height":10,"board":[[cc,gmc,cc,cc,v,v,cc,cc,cc,v]]},
+      "tf":{"head":[0,9],"width":1,"height":10,"board":[[cc,cc,cc,cc,v,v,cc,cc,cc,gm]]}
+    },
+      validarTransformaciónCeldaCon("ComerCoco()",gmc,gm),
+      validarTransformaciónCeldaCon("ComerCoco()",gmccc,gmcc),
+      validarTransformaciónCeldaCon("ComerCereza()",gmcc,gm),
+      validarTransformaciónCeldaCon("ComerCereza()",gmccc,gmc),
+      validarTransformaciónCeldaCon("ComerFrutilla()",gmf,gm),
+      validarBoolEnCelda("hayCereza()",False,v),
+      validarBoolEnCelda("hayCereza()",False,gm),
+      validarBoolEnCelda("hayCereza()",False,gmc),
+      validarBoolEnCelda("hayCereza()",True,gmcc),
+      validarBoolEnCelda("hayCereza()",True,gmccc),
+      validarBoolEnCelda("hayCereza()",False,cf),
+      validarBoolEnCelda("hayCoco()",False,v),
+      validarBoolEnCelda("hayCoco()",False,gm),
+      validarBoolEnCelda("hayCoco()",True,gmc),
+      validarBoolEnCelda("hayCoco()",False,gmcc),
+      validarBoolEnCelda("hayCoco()",True,gmccc),
+      validarBoolEnCelda("hayCoco()",False,cf),
+      validarBoolEnCelda("hayFrutilla()",False,v),
+      validarBoolEnCelda("hayFrutilla()",True,cf),
+      validarBoolEnCelda("hayFrutilla()",False,gm),
+      validarBoolEnCelda("hayFrutilla()",True,gmf),
+      validarTransformaciónCeldaCon("MorirMsGobsMan()",gm,gmm),
+      validarTransformaciónCeldaCon("MorirMsGobsMan()",gmc,gmcm),
+      validarBoolEnCelda("hayFantasma()",False,a_s(4)),
+      validarBoolEnCelda("hayFantasma()",True,a_s(5)),
+      validarBoolEnCelda("hayFantasma()",True,a_s(6)),
+      validarBoolEnCelda("hayFantasma()",True,a_s(7)),
+      validarBoolEnCelda("hayFantasma()",False,a_s(8)),
+      validarTransformaciónCeldaCon("Mostrar_PuntosEnPantalla(10)",gm,gmPtos(10)),
+      validarTransformaciónCeldaCon("Mostrar_PuntosEnPantalla(20)",gmPtos(15),gmPtos(20)),
+      validarTransformaciónCeldaCon("Mostrar_PuntosEnPantalla(50)",gmPtos(100),gmPtos(50)),
+      validarNumEnTablero("tamañoDelTablero()",1,{"head":[0,0],"width":1,"height":1,"board":[[v]]}),
+      validarNumEnTablero("tamañoDelTablero()",20,{"head":[3,2],"width":4,"height":5,"board":tv(4,5)}),
+      validarNumEnTablero("tamañoDelTablero()",6,{"head":[1,1],"width":3,"height":2,"board":tv(3,2)})
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI2_ej19(fecha):
+  g = cGobsman()
+  f = cFantasmaM()
+  gf = cFantasmaM()
+  AgregarGobsman(gf)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI2_ej19",
+    "nombre":"19. MoverFantasmaHaciaMsGobsMan",
+    "enunciado": 'No todo es diversión al programar a Ms. Gobs-Man, porque también tenemos que programar a los malos. En este caso el cabezal se encuentra sobre un fantasma, y queremos mover al fantasma hacia donde está Ms. Gobs-Man. Para ello, debemos calcular dónde está Ms. Gobs-Man y determinar hacia dónde moverse el fantasma. Para ello contamos con las siguientes primitivas:'+código("procedure PararCabezalEnMsGobsMan()<br>&nbsp;PROPÓSITO: Posiciona el cabezal sobre Ms. Gobs-Man.<br>&nbsp;PRECONDICIÓN: Ms. Gobs-Man está viva en el tablero.")+código("procedure MoverFantasmaAl_(dirección)<br>&nbsp;PROPÓSITO: Mueve al fantasma de la celda actual una celda hacia la dirección dada.<br>&nbsp;PRECONDICIÓN: El cabezal se encuentra sobre un fantasma.<br>&nbsp;PARÁMETRO:<br>&nbsp;&nbsp;* dirección: Dirección - La dirección a la cual mover el fantasma.")+'Se pide entonces que realice el procedimiento <code>MoverFantasmaHaciaMsGobsMan()</code> que mueve el fantasma hacia Ms. Gobs-Man una celda, utilizando el siguiente criterio.<ul><li>Si Ms. Gobs-Man se encuentra en una fila y columna distinta a la de Ms. Gobs-Man, mueve el fantasma en diagonal hacia las direcciones en las que se encuentre Ms. Gobs-Man.</li><li>Si Ms. Gobs-Man se encuentra en la misma fila que el fantasma, solo lo mueve una celda sobre la columna actual, en dirección a Ms. Gobs-Man.</li><li>Si Ms. Gobs-Man se encuentra en la misma columna que el fantasma, solo lo mueve una celda sobre la columna actual, en dirección a Ms. Gobs-Man.</li></ul>Realizar ese procedimiento no es fácil, y es conveniente descomponer el problema en tareas mucho más pequeñas y simples. Es por eso que nuestro equipo de analistas ya ha planteado una serie de funciones que pueden serle útiles para solucionar el problema usando una estrategia top-down. A saber, se espera utilice estas funciones (y las implemente) para solucionar el procedimiento anteriormente mencionado:<ul><li><code>elFantasmaDebeMoverseHorizontalmente()</code> que indica si el fantasma no se encuentra en la misma columna que Ms. Gobs-Man.</li><li><code>elFantasmaDebeMoverseVerticalmente()</code> que indica si el fantasma no se encuentra en la misma fila que Ms. Gobs-Man.</li><li><code>direcciónHorizontalAMoverElFantasma()</code> que dado que el fantasma no está en la misma columna que Ms. Gobs-Man, describe la dirección a la cual el fantasma se debería mover para quedar más cerca que Ms. Gobs-Man en términos de columnas (Este u Oeste).</li><li><code>direcciónVerticalAMoverElFantasma()</code> que dado que el fantasma no está en la misma fila que Ms. Gobs-Man, describe la dirección a la cual el fantasma se debería mover para quedar más cerca que Ms. Gobs-Man en términos de filas (Norte o Sur).</li></ul>A su vez, se recomienda realizar las siguientes funciones para solucionar las anteriores:<ul><li><code>filaDondeEstáElFantasma()</code> que describe el número de fila donde se encuentra el fantasma.</li><li><code>columnaDondeEstáElFantasma()</code> que describe el número de columna donde se encuentra el fantasma.</li><li><code>filaDondeEstáMsGobsMan()</code> que describe el número de fila donde se encuentra Ms.Gobs-Man.</li><li><code>columnaDondeEstáMsGobsMan()</code> que describe el número de columna donde se encuentra Ms. Gobs-Man.</li></ul>',
+    "pre":preMGm4+"\nprogram{MoverFantasmaHaciaMsGobsMan()}",
+    "run_data":[{
+      "t0":{"head":[0,1],"width":1,"height":10,"board":[[v,f,v,v,v,v,v,v,g,v]]},
+      "tf":{"head":[0,2],"width":1,"height":10,"board":[[v,v,f,v,v,v,v,v,g,v]]}
+    },{
+      "t0":{"head":[1,0],"width":2,"height":2,"board":[[v,g],[f,v]]},
+      "tf":{"head":[0,1],"width":2,"height":2,"board":[[v,gf],[v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI2_ej20(fecha):
+  g = cGobsman()
+  f = cFantasmaM()
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI2_ej20",
+    "nombre":"20. elFantasmaSeComeráAMsGobsManAContinuación",
+    "enunciado": 'Se desea saber con la función <code>elFantasmaSeComeráAMsGobsManAContinuación()</code> si, tras mover el fantasma una única vez más, este alcanzará a Ms. Gobs-Man. Puede asumir que el cabezal está sobre el fantasma.',
+    "pre":preMGm4,
+    "run_data":[
+      validarBoolEnTablero("elFantasmaSeComeráAMsGobsManAContinuación()",True,
+        {"head":[1,0],"width":2,"height":2,"board":[[v,g],[f,v]]}
+      ),
+      validarBoolEnTablero("elFantasmaSeComeráAMsGobsManAContinuación()",False,
+        {"head":[0,1],"width":1,"height":10,"board":[[v,f,v,v,v,v,v,v,g,v]]}
+      )
+    ],
+    "disponible":{"desde":fecha}
   }
 
 def guiaI2(fechaInicio):
@@ -5246,6 +5987,17 @@ def guiaI2(fechaInicio):
     "disponible":{"desde":fechaInicio},
     "actividades":[
       linkGuía("I2", 39222, "4/Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf"),
+      guiaI2_ej10(fechaInicio),
+      guiaI2_ej11(fechaInicio),
+      guiaI2_ej12(fechaInicio),
+      guiaI2_ej13(fechaInicio),
+      guiaI2_ej14(fechaInicio),
+      guiaI2_ej15(fechaInicio),
+      guiaI2_ej16(fechaInicio),
+      guiaI2_ej17(fechaInicio),
+      guiaI2_ej18(fechaInicio),
+      guiaI2_ej19(fechaInicio),
+      guiaI2_ej20(fechaInicio)
     ]
   }
 
