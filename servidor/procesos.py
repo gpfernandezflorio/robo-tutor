@@ -37,7 +37,7 @@ def ejecutarConTimeout(comando, timeout, ruta):
   }
 
 # USER_RT = 'rtTest'
-MEM_MAX_MB = 1024
+MEM_MAX_MB = 10 * 1024
 MEM_MAX_KB = MEM_MAX_MB * 1024
 MEM_MAX_B =  MEM_MAX_KB * 1024
 
