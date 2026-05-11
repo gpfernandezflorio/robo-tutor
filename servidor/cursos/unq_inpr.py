@@ -112,9 +112,9 @@ def celdaCambiadaPorBooleano(celda, b):
 def programParaValidarBoolEnCelda(expresión):
   return "program {Poner(choose Verde when ("+expresión+") Rojo otherwise)}"
 
-def validarBoolEnCelda(expresión, b, celda):
+def validarBoolEnCelda(expresión, b, celda, pre=""):
   return {
-    "pre":programParaValidarBoolEnCelda(expresión),
+    "pre":pre+programParaValidarBoolEnCelda(expresión),
     "t0":{"head":[0,0],"width":1,"height":1,"board":[[celda]]},
     "tf":{"head":[0,0],"width":1,"height":1,"board":[[
       celdaCambiadaPorBooleano(celda, b)
@@ -6001,6 +6001,829 @@ def guiaI2(fechaInicio):
     ]
   }
 
+def e10_2(s):
+  return enPapel+" Se quiere modelar una serie de partidos politicos de un país, y poder realizar consultas sobre los mismos. Se cuenta entonces con la siguiente tabla de información:"+tablaHtml([["Partido"],["Democracia por la Verdad"],["Unidos por la República"],["Liberales por la Libertad"],["Izquierda de los Obreros"]])+"Se quiere entonces crear un tipo de datos variante PartidoPolítico que modele a los partidos mencionados. Además se les brinda la siguiente función como primitiva:"+código("function cantidadDeVotosDe_(unPartido)<br>&nbsp;/*<br>&nbsp;&nbsp;PROPÓSITO: Indica la cantidad de votos que recibió un partido.<br>&nbsp;&nbsp;PARÁMETROS<br>&nbsp;&nbsp;&nbsp;* unPartido: PartidoPolítico - El partido político del cual saber su cantidad de votos.<br>&nbsp;&nbsp;TIPO: Número<br>&nbsp;&nbsp;PRECONDICIÓN: Ninguna<br>&nbsp;*/")+"Luego escriba la siguiente función:<br>"+s+"<br><br><b>Nota</b>: no incluir la definición del tipo <code>PartidoPolítico</code> al enviar este ejercicio. Suponer que está definido como un variante cuyos casos son <code>DemocraciaPorLaVerdad</code>, <code>UnidosPorLaRepública</code>, <code>LiberalesPorLaLibertad</code> y <code>IzquierdaDeLosObreros</code>."
+
+pre10_2_tipo = "type PartidoPolítico is variant {\n  case DemocraciaPorLaVerdad {}\n  case UnidosPorLaRepública {}\n  case LiberalesPorLaLibertad {}\n  case IzquierdaDeLosObreros {}\n}"
+
+def pre10_2_prim(v1,v2,v3,v4):
+  return "function cantidadDeVotosDe_(unPartido) {\n  return (choose "+str(v1)+" when (unPartido == DemocraciaPorLaVerdad) "+str(v2)+" when (unPartido == UnidosPorLaRepública) "+str(v3)+" when (unPartido == LiberalesPorLaLibertad) "+str(v4)+" otherwise)\n}"
+
+def guia10_ej2a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej2a",
+    "nombre":"2. Partidos políticos (a)",
+    "enunciado": e10_2("<code>tieneMásVotantes_Que_</code> que dados dos partidos indique si el primero tiene más votos que el segundo."),
+    "pre":pre10_2_tipo,
+    "run_data":[
+      validarBoolEnCelda("tieneMásVotantes_Que_(DemocraciaPorLaVerdad, UnidosPorLaRepública)",True,v,pre10_2_prim(25,14,11,3)),
+      validarBoolEnCelda("tieneMásVotantes_Que_(DemocraciaPorLaVerdad, UnidosPorLaRepública)",False,v,pre10_2_prim(14,14,11,3)),
+      validarBoolEnCelda("tieneMásVotantes_Que_(IzquierdaDeLosObreros, LiberalesPorLaLibertad)",True,v,pre10_2_prim(25,14,11,13))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej2b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej2b",
+    "nombre":"2. Partidos políticos (b)",
+    "enunciado": e10_2("<code>elQueTieneMásVotos</code> que describe el partido con más votantes."),
+    "pre":pre10_2_tipo,
+    "run_data":[
+      validarBoolEnCelda("elQueTieneMásVotos()==DemocraciaPorLaVerdad",True,v,pre10_2_prim(25,14,11,3)),
+      validarBoolEnCelda("elQueTieneMásVotos()==IzquierdaDeLosObreros",True,v,pre10_2_prim(25,14,11,33))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej2c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej2c",
+    "nombre":"2. Partidos políticos (c)",
+    "enunciado": e10_2("<code>habráBallotage</code> que indica si en estas elecciones habrá ballotage. Esto se da cuando el partido con más votos no acumula más del 50% de los votos totales y no hay una diferencia de más del 10% sobre entre el primero y el segundo candidato."),
+    "pre":pre10_2_tipo,
+    "run_data":[
+      validarBoolEnCelda("habráBallotage()",False,v,pre10_2_prim(25,18,12,3)), # Tot: 58, 50%: 29, %1: 43%, %2: 31%, diff: 12%
+      validarBoolEnCelda("habráBallotage()",False,v,pre10_2_prim(1,0,24,27)), # Tot: 52, 50%: 26, %1: 51%, %2: 46%, diff: 5%
+      validarBoolEnCelda("habráBallotage()",True,v,pre10_2_prim(4,2,34,30)) # Tot: 70, 50%: 35, %1: 48%, %2: 42%, diff: 6%
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def e10_3(s):
+  return enPapel+" Declare el tipo variante Palo y el tipo registro Carta y escriba la siguiente función. No se olvide de probar en Gobstones la función que realiza para saber si el resultado es correcto.<br>"+s+"<br><br><b>Nota</b>: no incluir la definición de los tipos <code>Palo</code> ni <code>Carta</code> al enviar este ejercicio. Suponer que están definidos como en las diapositivas de las clases teóricas."
+
+pre10_3_tipos = "type Palo is variant {\n  case Espadas {}\n  case Bastos {}\n  case Oros {}\n  case Copas {}\n}\ntype Carta is record {\n  field número\n  field palo\n}"
+
+def guia10_ej3a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej3a",
+    "nombre":"3. Jugamos con cartas (a)",
+    "enunciado": e10_3("<code>anchoDeEspadas</code> que describe la carta 1 de Espadas."),
+    "pre":pre10_3_tipos,
+    "run_data":[
+      validarBoolEnCelda("anchoDeEspadas()==Carta(número <- 1, palo <- Espadas)",True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej3b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej3b",
+    "nombre":"3. Jugamos con cartas (b)",
+    "enunciado": e10_3("<code>anchoDeBastos</code> que describe la carta 1 de Bastos."),
+    "pre":pre10_3_tipos,
+    "run_data":[
+      validarBoolEnCelda("anchoDeBastos()==Carta(número <- 1, palo <- Bastos)",True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej3c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej3c",
+    "nombre":"3. Jugamos con cartas (c)",
+    "enunciado": e10_3("<code>laCarta_de_</code> que dado un número y un palo que describe la carta con dicho número y dicho palo."),
+    "pre":pre10_3_tipos,
+    "run_data":[
+      validarBoolEnCelda("laCarta_de_(3,Copas)==Carta(número <- 3, palo <- Copas)",True,v),
+      validarBoolEnCelda("laCarta_de_(6,Oros)==Carta(número <- 6, palo <- Oros)",True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej3d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej3d",
+    "nombre":"3. Jugamos con cartas (d)",
+    "enunciado": e10_3("<code>esUnAncho_</code> que indica si la carta dada es un 1."),
+    "pre":pre10_3_tipos,
+    "run_data":[
+      validarBoolEnCelda("esUnAncho_(Carta(número <- 6, palo <- Oros))",False,v),
+      validarBoolEnCelda("esUnAncho_(Carta(número <- 1, palo <- Oros))",True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej3e(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej3e",
+    "nombre":"3. Jugamos con cartas (e)",
+    "enunciado": e10_3("<code>esFigura_</code> que dada una carta, indica si la misma es una figura (las figuras son los 10s, los 11s y los 12s)."),
+    "pre":pre10_3_tipos,
+    "run_data":[
+      validarBoolEnCelda("esFigura_(Carta(número <- 3, palo <- Copas))",False,v),
+      validarBoolEnCelda("esFigura_(Carta(número <- 11, palo <- Copas))",True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej3f(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej3f",
+    "nombre":"3. Jugamos con cartas (f)",
+    "enunciado": e10_3("<code>esDeOro_</code> que indica si la carta dada es de Oros."),
+    "pre":pre10_3_tipos,
+    "run_data":[
+      validarBoolEnCelda("esDeOro_(Carta(número <- 3, palo <- Copas))",False,v),
+      validarBoolEnCelda("esDeOro_(Carta(número <- 3, palo <- Oros))",True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej3g(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej3g",
+    "nombre":"3. Jugamos con cartas (g)",
+    "enunciado": e10_3("<code>tieneUnNúmeroMásGrande_Que_</code> que dadas dos cartas indica si la primera carta tiene un número más grande que la segunda."),
+    "pre":pre10_3_tipos,
+    "run_data":[
+      validarBoolEnCelda("tieneUnNúmeroMásGrande_Que_(Carta(número <- 10, palo <- Copas), Carta(número <- 5, palo <- Oros))",True,v),
+      validarBoolEnCelda("tieneUnNúmeroMásGrande_Que_(Carta(número <- 3, palo <- Copas), Carta(número <- 6, palo <- Oros))",False,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej3h(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej3h",
+    "nombre":"3. Jugamos con cartas (h)",
+    "enunciado": e10_3("<code>sonDelMismoPalo_Y_</code> que dadas dos cartas, indica si estas tienen el mismo palo."),
+    "pre":pre10_3_tipos,
+    "run_data":[
+      validarBoolEnCelda("sonDelMismoPalo_Y_(Carta(número <- 3, palo <- Copas), Carta(número <- 6, palo <- Oros))",False,v),
+      validarBoolEnCelda("sonDelMismoPalo_Y_(Carta(número <- 3, palo <- Oros), Carta(número <- 6, palo <- Oros))",True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej3i(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej3i",
+    "nombre":"3. Jugamos con cartas (i)",
+    "enunciado": e10_3("<code>valorParaEnvidoDe_</code> que describa el número que aporta la carta dada en el canto del envido. El número se corresponde al número de la carta, si la misma no es figura, y cero, si fuera figura.<br>"+atención+": Si ya sabe jugar al truco, tenga en cuenta que se está preguntando el valor que aportaría una única carta, no una jugada de multiples cartas."),
+    "pre":pre10_3_tipos,
+    "run_data":[
+      validarNumEnCelda("valorParaEnvidoDe_(Carta(número <- 3, palo <- Copas))",3,v),
+      validarNumEnCelda("valorParaEnvidoDe_(Carta(número <- 6, palo <- Oros))",6,v),
+      validarNumEnCelda("valorParaEnvidoDe_(Carta(número <- 11, palo <- Espadas))",0,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej3j(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej3j",
+    "nombre":"3. Jugamos con cartas (j)",
+    "enunciado": e10_3("<code>mayorValorEntre_Y_</code> que describe el valor más grande entre dos cartas, según lo que aporta cada una para el envido. Por ejemplo, si las cartas son un 7 y un 12, describe 7, pues el 12 no aporta nada para el envido."),
+    "pre":pre10_3_tipos,
+    "run_data":[
+      validarNumEnCelda("mayorValorEntre_Y_(Carta(número <- 3, palo <- Copas),Carta(número <- 6, palo <- Oros))",6,v),
+      validarNumEnCelda("mayorValorEntre_Y_(Carta(número <- 10, palo <- Copas),Carta(número <- 4, palo <- Oros))",4,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej3k(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej3k",
+    "nombre":"3. Jugamos con cartas (k)",
+    "enunciado": e10_3("<code>sumaParaElEnvidoCon_Y_</code> que dadas dos cartas, describe el número que tienen las mismas para el envido. El envido se calcula como la suma los valores del envido de cada carta más 20, si las cartas son del mismo palo, o como el mayor valor entre ellas, cuando son de distinto palo."),
+    "pre":pre10_3_tipos,
+    "run_data":[
+      validarNumEnCelda("sumaParaElEnvidoCon_Y_(Carta(número <- 3, palo <- Copas), Carta(número <- 6, palo <- Oros))",6,v),
+      validarNumEnCelda("sumaParaElEnvidoCon_Y_(Carta(número <- 5, palo <- Oros), Carta(número <- 6, palo <- Oros))",31,v),
+      validarNumEnCelda("sumaParaElEnvidoCon_Y_(Carta(número <- 5, palo <- Oros), Carta(número <- 12, palo <- Oros))",25,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej3l(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej3l",
+    "nombre":"3. Jugamos con cartas (l)",
+    "enunciado": e10_3("<code>sonMejores_Y_Que_Y_</code> que dadas 4 cartas, donde las dos primeras son las cartas del primer jugador para cantar envido, y las segundas dos las del segundo jugador, indica si el envido del primer jugador es más grande que el envido del segundo jugador."),
+    "pre":pre10_3_tipos,
+    "run_data":[
+      validarBoolEnCelda("sonMejores_Y_Que_Y_(" + \
+        "Carta(número <- 3, palo <- Copas)," + \
+        "Carta(número <- 6, palo <- Oros)," + \
+        "Carta(número <- 2, palo <- Espadas)," + \
+        "Carta(número <- 4, palo <- Oros))",True,v),
+      validarBoolEnCelda("sonMejores_Y_Que_Y_(" + \
+        "Carta(número <- 3, palo <- Copas)," + \
+        "Carta(número <- 4, palo <- Copas)," + \
+        "Carta(número <- 2, palo <- Espadas)," + \
+        "Carta(número <- 5, palo <- Espadas))",False,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def e10_4(s):
+  return "Dado el siguiente tipo de registro:"+código("type Celda is record {<br>&nbsp;/*<br>&nbsp;&nbsp;PROPÓSITO: Modelar una celda del tablero.<br>&nbsp;&nbsp;INV.REP.: Los números son todos &gt;=0<br>&nbsp;*/<br>&nbsp;field cantidadDeAzules // tipo: Número<br>&nbsp;field cantidadDeNegras // tipo: Número<br>&nbsp;field cantidadDeRojas // tipo: Número<br>&nbsp;field cantidadDeVerdes // tipo: Número<br>}")+"Se pide que realice la siguiente función o el siguiente procedimiento:<br>"+s
+
+pre10_4_tipo = "type Celda is record {\n  field cantidadDeAzules\n  field cantidadDeNegras\n  field cantidadDeRojas\n  field cantidadDeVerdes\n}"
+
+def guia10_ej4a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej4a",
+    "nombre":"4. Las viejas y queridas celdas, ahora con sabor a datos (a)",
+    "enunciado": e10_4("<code>celdaActual</code> que lee la información de la celda en donde está el cabezal y retorna un dato de tipo Celda."),
+    "pre":pre10_4_tipo,
+    "run_data":[
+      validarBoolEnCelda("celdaActual()==Celda(" + \
+        "cantidadDeAzules <- 2," +\
+        "cantidadDeNegras <- 3," +\
+        "cantidadDeRojas <- 0," +\
+        "cantidadDeVerdes <- 9)",
+        True,c(2,3,0,9)),
+      validarBoolEnCelda("celdaActual()==Celda(" + \
+        "cantidadDeAzules <- 6," +\
+        "cantidadDeNegras <- 1," +\
+        "cantidadDeRojas <- 5," +\
+        "cantidadDeVerdes <- 3)",
+        True,c(6,1,5,3))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej4b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej4b",
+    "nombre":"4. Las viejas y queridas celdas, ahora con sabor a datos (b)",
+    "enunciado": e10_4("<code>EscribirEnCelda_</code> que dado el dato de una calda, escribe la información de este en el tablero en la celda actual."),
+    "pre":pre10_4_tipo,
+    "run_data":[
+      validarTransformaciónCeldaCon("EscribirEnCelda_(Celda(" + \
+        "cantidadDeAzules <- 2," +\
+        "cantidadDeNegras <- 3," +\
+        "cantidadDeRojas <- 0," +\
+        "cantidadDeVerdes <- 9))",c(6,1,5,3),c(2,3,0,9))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej4c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej4c",
+    "nombre":"4. Las viejas y queridas celdas, ahora con sabor a datos (c)",
+    "enunciado": e10_4("<code>tienenMismaCantidadDeRojas_Y_</code> que dados dos datos del tipo celda, indica si efectivamente ambos tienen la misma cantidad de bolitas rojas."),
+    "pre":pre10_4_tipo,
+    "run_data":[
+      validarBoolEnCelda("tienenMismaCantidadDeRojas_Y_(Celda(" + \
+        "cantidadDeAzules <- 2," +\
+        "cantidadDeNegras <- 3," +\
+        "cantidadDeRojas <- 0," +\
+        "cantidadDeVerdes <- 9)," +\
+      "Celda(" + \
+        "cantidadDeAzules <- 6," +\
+        "cantidadDeNegras <- 1," +\
+        "cantidadDeRojas <- 5," +\
+        "cantidadDeVerdes <- 3))",
+        False,v),
+      validarBoolEnCelda("tienenMismaCantidadDeRojas_Y_(Celda(" + \
+        "cantidadDeAzules <- 2," +\
+        "cantidadDeNegras <- 3," +\
+        "cantidadDeRojas <- 5," +\
+        "cantidadDeVerdes <- 9)," +\
+      "Celda(" + \
+        "cantidadDeAzules <- 6," +\
+        "cantidadDeNegras <- 1," +\
+        "cantidadDeRojas <- 5," +\
+        "cantidadDeVerdes <- 3))",
+        True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def e10_5(s):
+  return "Implementar la siguiente función:<br>"+s+"<br><br><b>Nota</b>: no incluir la definición del tipo <code>Persona</code> al enviar este ejercicio. Suponer que los campos del registro se llaman <code>nroDni</code>, <code>domicilio</code> y <code>esDonanteDeÓrganos</code>."
+
+pre10_5_tipo = "type Persona is record {\n  field nroDni\n  field domicilio\n  field esDonanteDeÓrganos\n}"
+
+def guia10_ej5b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej5b",
+    "nombre":"5. Mis primeras personas (b)",
+    "enunciado": e10_5("<code>sonConvivientes_Y_</code>, que dadas dos personas indique si comparten domicilio."),
+    "pre":pre10_5_tipo,
+    "run_data":[
+      validarBoolEnCelda('sonConvivientes_Y_(Persona(' + \
+        'nroDni <- "33",' +\
+        'domicilio <- "SV 44",' +\
+        'esDonanteDeÓrganos <- True),' +\
+      'Persona(' + \
+        'nroDni <- "55",' +\
+        'domicilio <- "SV 44",' +\
+        'esDonanteDeÓrganos <- False))',
+        True,v),
+      validarBoolEnCelda('sonConvivientes_Y_(Persona(' + \
+        'nroDni <- "44",' +\
+        'domicilio <- "SV 33",' +\
+        'esDonanteDeÓrganos <- False),' +\
+      'Persona(' + \
+        'nroDni <- "44",' +\
+        'domicilio <- "SV 44",' +\
+        'esDonanteDeÓrganos <- False))',
+        False,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej5c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej5c",
+    "nombre":"5. Mis primeras personas (c)",
+    "enunciado": e10_5("<code>personaNacidaDe_</code> que, dada una persona madre, describe a una nueva persona que haya nacido de la misma, y por lo tanto conviva con la madre, no tenga DNI asignado y en principio se indica que no es donante de órganos.<br>Para registrar el DNI sin asignar, escribir la función <code>sinAsignar</code>, que denote el string vacío y utilizarla adecuadamente."),
+    "pre":pre10_5_tipo,
+    "run_data":[
+      validarBoolEnCelda('sinAsignar()==""',True,v),
+      validarBoolEnCelda('personaNacidaDe_(Persona(' + \
+        'nroDni <- "33",' +\
+        'domicilio <- "SV 44",' +\
+        'esDonanteDeÓrganos <- True))==' +\
+      'Persona(' + \
+        'nroDni <- "",' +\
+        'domicilio <- "SV 44",' +\
+        'esDonanteDeÓrganos <- False)',
+        True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej5d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej5d",
+    "nombre":"5. Mis primeras personas (d)",
+    "enunciado": e10_5("<code>persona_RegistradaCon_</code>, que dada una persona con DNI sin asignar y un DNI de registro, describe a la persona pero con el DNI asignado al dado."),
+    "pre":pre10_5_tipo,
+    "run_data":[
+      validarBoolEnCelda('persona_RegistradaCon_(Persona(' + \
+        'nroDni <- "",' +\
+        'domicilio <- "SV 44",' +\
+        'esDonanteDeÓrganos <- False),"99")==' +\
+      'Persona(' + \
+        'nroDni <- "99",' +\
+        'domicilio <- "SV 44",' +\
+        'esDonanteDeÓrganos <- False)',
+        True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej5e(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej5e",
+    "nombre":"5. Mis primeras personas (e)",
+    "enunciado": e10_5("<code>persona_ConDomicilioNuevoEn_</code>, que recibe una persona y un nuevo domicilio y describe a la persona con el domicilio cambiado."),
+    "pre":pre10_5_tipo,
+    "run_data":[
+      validarBoolEnCelda('persona_ConDomicilioNuevoEn_(Persona(' + \
+        'nroDni <- "99",' +\
+        'domicilio <- "SV 44",' +\
+        'esDonanteDeÓrganos <- False),"SV 65")==' +\
+      'Persona(' + \
+        'nroDni <- "99",' +\
+        'domicilio <- "SV 65",' +\
+        'esDonanteDeÓrganos <- False)',
+        True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej5f(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej5f",
+    "nombre":"5. Mis primeras personas (f)",
+    "enunciado": e10_5("<code>persona_ConSituaciónComoDonanteCambiada</code>, que recibe una persona y retorna la persona con su situación como donante cambiada."),
+    "pre":pre10_5_tipo,
+    "run_data":[
+      validarBoolEnCelda('persona_ConSituaciónComoDonanteCambiada(Persona(' + \
+        'nroDni <- "99",' +\
+        'domicilio <- "SV 65",' +\
+        'esDonanteDeÓrganos <- False))==' +\
+      'Persona(' + \
+        'nroDni <- "99",' +\
+        'domicilio <- "SV 65",' +\
+        'esDonanteDeÓrganos <- True)',
+        True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def e10_6(s):
+  return "Declarar un tipo de registros llamado <code>Empleado</code> que contenga la identidad del empleado modelada con el registro <code>Persona</code>, el puesto dentro de la empresa, representado por un tipo variante llamado <code>Puesto</code> dado a continuación, y un sueldo modelado como un <code>Número</code> en pesos (sin centavos)."+código("type Puesto is variant {<br>&nbsp;/*<br>&nbsp;&nbsp;PROPÓSITO: Modelar los diferentes puestos que hay dentro de una empresa de software<br>&nbsp;*/<br>&nbsp;case GestorDeProyecto {}<br>&nbsp;case LíderDeProyecto {}<br>&nbsp;case Desarrollador {}<br>&nbsp;case Operador {}<br>}")+"Implementar la siguiente función:<br>"+s+"<br><br><b>Nota</b>: no incluir las definiciones de los tipos al enviar este ejercicio. Suponer que los campos del registro <code>Persona</code> se llaman <code>nroDni</code>, <code>domicilio</code> y <code>esDonanteDeÓrganos</code> y que los campos del registro <code>Empleado</code> se llaman <code>identidad</code>, <code>puesto</code> y <code>sueldo</code>."
+
+pre10_6_tipo = pre10_5_tipo + "type Empleado is record {\n  field identidad\n  field puesto\n  field sueldo\n}\ntype Puesto is variant {\n  case GestorDeProyecto {}\n  case LíderDeProyecto {}\n  case Desarrollador {}\n  case Operador {}\n}"
+
+def guia10_ej6a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej6a",
+    "nombre":"6. Mis primeras personas ahora van a laburar (a)",
+    "enunciado": e10_6("<code>empleado_ConSueldoActualizadoA_</code>, que dado un empleado y un nuevo sueldo, describa al empleado con el sueldo actualizado."),
+    "pre":pre10_6_tipo,
+    "run_data":[
+      validarBoolEnCelda('empleado_ConSueldoActualizadoA_(Empleado(identidad <- Persona(' + \
+        'nroDni <- "99",' +\
+        'domicilio <- "SV 65",' +\
+        'esDonanteDeÓrganos <- True), puesto <- Operador, sueldo <- 100), 200)==' +\
+      'Empleado(identidad <- Persona(' + \
+        'nroDni <- "99",' +\
+        'domicilio <- "SV 65",' +\
+        'esDonanteDeÓrganos <- True), puesto <- Operador, sueldo <- 200)',
+        True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej6b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej6b",
+    "nombre":"6. Mis primeras personas ahora van a laburar (b)",
+    "enunciado": e10_6("<code>empleado_ConNuevoPuesto_</code>, que dado un empleado y un nuevo puesto, describa al empleado con el puesto actualizado."),
+    "pre":pre10_6_tipo,
+    "run_data":[
+      validarBoolEnCelda('empleado_ConNuevoPuesto_(Empleado(identidad <- Persona(' + \
+        'nroDni <- "99",' +\
+        'domicilio <- "SV 65",' +\
+        'esDonanteDeÓrganos <- True), puesto <- Operador, sueldo <- 100), LíderDeProyecto)==' +\
+      'Empleado(identidad <- Persona(' + \
+        'nroDni <- "99",' +\
+        'domicilio <- "SV 65",' +\
+        'esDonanteDeÓrganos <- True), puesto <- LíderDeProyecto, sueldo <- 100)',
+        True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej6c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej6c",
+    "nombre":"6. Mis primeras personas ahora van a laburar (c)",
+    "enunciado": e10_6("<code>categoríaDelPuesto_</code>, que dado un valor de tipo puesto devuelve su categoría según la siguiente tabla:"+tablaHtml([["GestorDeProyecto", "4"],["LíderDeProyecto", "3"],["Desarrollador", "2"],["Operador", "1"]])),
+    "pre":pre10_6_tipo,
+    "run_data":[
+      validarNumEnCelda("categoríaDelPuesto_(GestorDeProyecto)",4,v),
+      validarNumEnCelda("categoríaDelPuesto_(LíderDeProyecto)",3,v),
+      validarNumEnCelda("categoríaDelPuesto_(Desarrollador)",2,v),
+      validarNumEnCelda("categoríaDelPuesto_(Operador)",1,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej6d(fecha):
+  e1 = 'Empleado(identidad <- Persona(' + \
+    'nroDni <- "91",' +\
+    'domicilio <- "SV 65",' +\
+    'esDonanteDeÓrganos <- True), puesto <- Desarrollador, sueldo <- 200)'
+  e2 = 'Empleado(identidad <- Persona(' + \
+    'nroDni <- "92",' +\
+    'domicilio <- "SV 68",' +\
+    'esDonanteDeÓrganos <- True), puesto <- LíderDeProyecto, sueldo <- 150)'
+  e3 = 'Empleado(identidad <- Persona(' + \
+    'nroDni <- "93",' +\
+    'domicilio <- "SV 90",' +\
+    'esDonanteDeÓrganos <- True), puesto <- Operador, sueldo <- 110)'
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej6d",
+    "nombre":"6. Mis primeras personas ahora van a laburar (d)",
+    "enunciado": e10_6("<code>empleadoConMayorCargoEntre_Y_</code>, que dado un empleado y un nuevo puesto, describa al empleado con el puesto actualizado."),
+    "pre":pre10_6_tipo,
+    "run_data":[
+      validarBoolEnCelda('empleadoConMayorCargoEntre_Y_('+e1+','+e2+')=='+e2,True,v),
+      validarBoolEnCelda('empleadoConMayorCargoEntre_Y_('+e2+','+e3+')=='+e2,True,v),
+      validarBoolEnCelda('empleadoConMayorCargoEntre_Y_('+e1+','+e3+')=='+e1,True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej6e(fecha):
+  e1 = 'Empleado(identidad <- Persona(' + \
+    'nroDni <- "91",' +\
+    'domicilio <- "SV 65",' +\
+    'esDonanteDeÓrganos <- True), puesto <- Desarrollador, sueldo <- 200)'
+  e2 = 'Empleado(identidad <- Persona(' + \
+    'nroDni <- "92",' +\
+    'domicilio <- "SV 68",' +\
+    'esDonanteDeÓrganos <- True), puesto <- LíderDeProyecto, sueldo <- 150)'
+  e3 = 'Empleado(identidad <- Persona(' + \
+    'nroDni <- "93",' +\
+    'domicilio <- "SV 90",' +\
+    'esDonanteDeÓrganos <- True), puesto <- Operador, sueldo <- 200)'
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej6e",
+    "nombre":"6. Mis primeras personas ahora van a laburar (e)",
+    "enunciado": e10_6("<code>tienenIgualSueldo_Y_</code>, que dados dos empleados indique si ambas cobran lo mismo."),
+    "pre":pre10_6_tipo,
+    "run_data":[
+      validarBoolEnCelda('tienenIgualSueldo_Y_('+e1+','+e2+')',False,v),
+      validarBoolEnCelda('tienenIgualSueldo_Y_('+e2+','+e3+')',False,v),
+      validarBoolEnCelda('tienenIgualSueldo_Y_('+e1+','+e3+')',True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej6f(fecha):
+  e1 = lambda sueldo: 'Empleado(identidad <- Persona(' + \
+    'nroDni <- "91",' +\
+    'domicilio <- "SV 65",' +\
+    'esDonanteDeÓrganos <- True), puesto <- Desarrollador, sueldo <- '+str(sueldo)+')'
+  e2 = lambda sueldo: 'Empleado(identidad <- Persona(' + \
+    'nroDni <- "92",' +\
+    'domicilio <- "SV 68",' +\
+    'esDonanteDeÓrganos <- True), puesto <- LíderDeProyecto, sueldo <- '+str(sueldo)+')'
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej6f",
+    "nombre":"6. Mis primeras personas ahora van a laburar (f)",
+    "enunciado": e10_6("<code>empleado_ConAumentoEn_PorBonoDeFinalizaciónDeProyecto</code>, que dado un empleado y un porcentaje de aumento describa al empleado con el sueldo actualizado en ese porcentaje. El porcentaje de aumento es un número del 0 al 100. El monto en el que se incrementa depende del porcentaje (i.e. si el porcentaje es 20%, cuando el sueldo es 100, el nuevo sueldo es 120, cuando el sueldo es 200 el nuevo sueldo es 240, y cuando el sueldo es 150, el nuevo sueldo es 180)."),
+    "pre":pre10_6_tipo,
+    "run_data":[
+      validarBoolEnCelda('empleado_ConAumentoEn_PorBonoDeFinalizaciónDeProyecto('+e1(100)+',20)=='+e1(120),True,v),
+      validarBoolEnCelda('empleado_ConAumentoEn_PorBonoDeFinalizaciónDeProyecto('+e1(200)+',60)=='+e1(320),True,v),
+      validarBoolEnCelda('empleado_ConAumentoEn_PorBonoDeFinalizaciónDeProyecto('+e2(300)+',25)=='+e2(375),True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej6g(fecha):
+  e1 = lambda domicilio: 'Empleado(identidad <- Persona(' + \
+    'nroDni <- "91",' +\
+    'domicilio <- "'+domicilio+'",' +\
+    'esDonanteDeÓrganos <- True), puesto <- Desarrollador, sueldo <- 200)'
+  e2 = lambda domicilio: 'Empleado(identidad <- Persona(' + \
+    'nroDni <- "92",' +\
+    'domicilio <- "'+domicilio+'",' +\
+    'esDonanteDeÓrganos <- True), puesto <- LíderDeProyecto, sueldo <- 150)'
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej6g",
+    "nombre":"6. Mis primeras personas ahora van a laburar (g)",
+    "enunciado": e10_6("<code>empleado_ConDomicilioActualizadoA_</code> que dado un empleado y un nuevo domicilio, describe el empleado en donde la identidad se ha actualizado para contener el nuevo domicilio."),
+    "pre":pre10_6_tipo,
+    "run_data":[
+      validarBoolEnCelda('empleado_ConDomicilioActualizadoA_('+e1("SV 34")+',"SV 40")=='+e1("SV 40"),True,v),
+      validarBoolEnCelda('empleado_ConDomicilioActualizadoA_('+e2("SV 11")+',"Av 11")=='+e2("Av 11"),True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+nota10_9 = "<br><br><b>Nota</b>: no incluir la definición del tipo <code>Fecha</code> al enviar este ejercicio."
+
+def e10_9(s):
+  return "Escribir la siguiente función sobre fechas:<br>"+s+nota10_9
+
+pre10_9_tipo = "type Fecha is record {\n  field día\n  field mes\n  field año\n}\ntype Mes is variant {\n case Enero {}\n case Febrero {}\n case Marzo {}\n case Abril {}\n case Mayo {}\n case Junio {}\n case Julio {}\n case Agosto {}\n case Septiembre {}\n case Octubre {}\n case Noviembre {}\n case Diciembre {}\n}"
+
+def f(d,m,a):
+  return 'Fecha(día <- '+str(d)+', mes <- '+m+', año <- '+str(a)+')'
+
+def guia10_ej9a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej9a",
+    "nombre":"9. Y ahora puedo calcular cosas sobre las fechas (a)",
+    "enunciado": e10_9("<code>esDíaDeÑoquis_</code>, que indica si el día dado es un 29."),
+    "pre":pre10_9_tipo,
+    "run_data":[
+      validarBoolEnCelda('esDíaDeÑoquis_('+f(29,"Abril",1997)+')',True,v),
+      validarBoolEnCelda('esDíaDeÑoquis_('+f(11,"Mayo",2005)+')',False,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej9b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej9b",
+    "nombre":"9. Y ahora puedo calcular cosas sobre las fechas (b)",
+    "enunciado": e10_9("<code>esDelPrimerSemestre_</code>, que indica si el día determinado por la fecha dada es uno del primer semestre (entre el 1ro de enero y el 31 de julio).<br>"+resaltado("AYUDA")+": Considere implementar una función auxiliar <code>númeroDelMes_</code> que describa el número de un mes dado, y otra que le permita determinar si un mes es anterior a otro."),
+    "pre":pre10_9_tipo,
+    "run_data":[
+      validarBoolEnCelda('esDelPrimerSemestre_('+f(29,"Abril",1997)+')',True,v),
+      validarBoolEnCelda('esDelPrimerSemestre_('+f(11,"Agosto",2005)+')',False,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej9c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej9c",
+    "nombre":"9. Y ahora puedo calcular cosas sobre las fechas (c)",
+    "enunciado": e10_9("<code>esFechaDeAñoBisiesto_</code>, que dada una fecha, indica si la misma cae dentro de un año bisiesto.<br>"+resaltado("AYUDA")+": Para saber si un año es bisiesto, hay que verificar que el año sea múltiplo de 4, pero no de 100 a menos que sea múltiplo de 400. Por ejemplo, 1796, 1896 y 1996 son bisiestos (son múltiplos de 4 y no de 100), pero 1800 y 1900 NO lo son (son múltiplos de 4 y de 100, pero no de 400); en cambio 2000 ES bisiesto (es múltiplo de 4, de 100 y de 400)."),
+    "pre":pre10_9_tipo,
+    "run_data":[
+      validarBoolEnCelda('esFechaDeAñoBisiesto_('+f(29,"Abril",1896)+')',True,v),
+      validarBoolEnCelda('esFechaDeAñoBisiesto_('+f(29,"Abril",1800)+')',False,v),
+      validarBoolEnCelda('esFechaDeAñoBisiesto_('+f(29,"Abril",2000)+')',True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej9d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej9d",
+    "nombre":"9. Y ahora puedo calcular cosas sobre las fechas (d)",
+    "enunciado": e10_9("<code>primerDíaDelInviernoDe_</code>, que describa el primer día del invierno del año dado (en el hemisferio sur)."),
+    "pre":pre10_9_tipo,
+    "run_data":[
+      validarBoolEnCelda('primerDíaDelInviernoDe_(1997)=='+f(21,"Junio",1997),True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej9e(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej9e",
+    "nombre":"9. Y ahora puedo calcular cosas sobre las fechas (e)",
+    "enunciado": e10_9("<code>últimoDíaDelInviernoDe_</code>, que describa el último día del invierno del año dado (en el hemisferio sur)."),
+    "pre":pre10_9_tipo,
+    "run_data":[
+      validarBoolEnCelda('últimoDíaDelInviernoDe_(1997)=='+f(20,"Septiembre",1997),True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej9f(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej9f",
+    "nombre":"9. Y ahora puedo calcular cosas sobre las fechas (f)",
+    "enunciado": e10_9("<code>esMásAntigua_Que_</code>, que dadas dos fechas indique si la primera es anterior a la segunda.<br>"+resaltado("AYUDA")+": Considere primero comparar por año, si no se pudiera determinar en base a este pues son iguales, considerar los meses, y si con los meses no se pudiera determinar, considerar el día."),
+    "pre":pre10_9_tipo,
+    "run_data":[
+      validarBoolEnCelda('esMásAntigua_Que_('+f(13,"Abril",1997)+','+f(6,"Febrero",2001)+')',True,v),
+      validarBoolEnCelda('esMásAntigua_Que_('+f(6,"Febrero",2001)+','+f(13,"Abril",1997)+')',False,v),
+      validarBoolEnCelda('esMásAntigua_Que_('+f(13,"Abril",1997)+','+f(6,"Mayo",1997)+')',True,v),
+      validarBoolEnCelda('esMásAntigua_Que_('+f(3,"Mayo",1997)+','+f(6,"Mayo",1997)+')',True,v),
+      validarBoolEnCelda('esMásAntigua_Que_('+f(13,"Mayo",1997)+','+f(6,"Mayo",1997)+')',False,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej9g(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej9g",
+    "nombre":"9. Y ahora puedo calcular cosas sobre las fechas (g)",
+    "enunciado": e10_9("<code>esInviernoEl_</code>, que dada una fecha indica si el día dado es uno del invierno.<br>"+resaltado("AYUDA")+": considerar utilizar las funciones de los 3 puntos anteriores."),
+    "pre":pre10_9_tipo,
+    "run_data":[
+      validarBoolEnCelda('esInviernoEl_('+f(4,"Febrero",1997)+')',False,v),
+      validarBoolEnCelda('esInviernoEl_('+f(19,"Junio",1997)+')',False,v),
+      validarBoolEnCelda('esInviernoEl_('+f(21,"Junio",1997)+')',True,v),
+      validarBoolEnCelda('esInviernoEl_('+f(27,"Junio",1997)+')',True,v),
+      validarBoolEnCelda('esInviernoEl_('+f(12,"Agosto",1997)+')',True,v),
+      validarBoolEnCelda('esInviernoEl_('+f(20,"Septiembre",1997)+')',True,v),
+      validarBoolEnCelda('esInviernoEl_('+f(24,"Septiembre",1997)+')',False,v),
+      validarBoolEnCelda('esInviernoEl_('+f(11,"Noviembre",1997)+')',False,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej9h(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej9h",
+    "nombre":"9. Y ahora puedo calcular cosas sobre las fechas (h)",
+    "enunciado": "Escriba también <code>esVeranoEl_</code>, <code>esPrimaveraEl_</code> y <code>esOtoñoEl_</code>, siguiendo la misma estrategia que la utilizada para <code>esInviernoEl_</code>."+nota10_9,
+    "pre":pre10_9_tipo,
+    "run_data":[
+      validarBoolEnCelda('esVeranoEl_('+f(21,"Diciembre",1997)+')',True,v),
+      validarBoolEnCelda('esOtoñoEl_('+f(21,"Marzo",1997)+')',True,v),
+      validarBoolEnCelda('esPrimaveraEl_('+f(21,"Septiembre",1997)+')',True,v),
+      validarBoolEnCelda('esVeranoEl_('+f(21,"Septiembre",1997)+')',False,v),
+      validarBoolEnCelda('esOtoñoEl_('+f(21,"Diciembre",1997)+')',False,v),
+      validarBoolEnCelda('esPrimaveraEl_('+f(21,"Marzo",1997)+')',False,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej9i(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej9i",
+    "nombre":"9. Y ahora puedo calcular cosas sobre las fechas (i)",
+    "enunciado": e10_9("<code>estaciónDe_</code>, que dada una fecha retorna la estación del año en la que ocurre la fecha. Para ello, definir un tipo variante <code>Estación</code> que modela las estaciones del año."),
+    "pre":pre10_9_tipo,
+    "run_data":[
+      validarBoolEnCelda('estaciónDe_('+f(29,"Abril",1997)+')==Otoño',True,v),
+      validarBoolEnCelda('estaciónDe_('+f(11,"Agosto",2005)+')==Invierno',True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej9j(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej9j",
+    "nombre":"9. Y ahora puedo calcular cosas sobre las fechas (j)",
+    "enunciado": e10_9("<code>cuántosAñosPasaronEntre_Y_</code>, que dadas dos fechas describa el número de años que hay entre las dos fechas (no tiene en cuenta períodos de menos de 1 año -- o sea, si la distancia es menor a 1 año, describe 0)."),
+    "pre":pre10_9_tipo,
+    "run_data":[
+      validarNumEnCelda('cuántosAñosPasaronEntre_Y_('+f(29,"Abril",1997)+','+f(11,"Diciembre",1997)+')',0,v),
+      validarNumEnCelda('cuántosAñosPasaronEntre_Y_('+f(29,"Abril",1997)+','+f(11,"Marzo",1997)+')',0,v),
+      validarNumEnCelda('cuántosAñosPasaronEntre_Y_('+f(29,"Abril",1997)+','+f(11,"Marzo",1999)+')',2,v),
+      validarNumEnCelda('cuántosAñosPasaronEntre_Y_('+f(29,"Abril",1997)+','+f(11,"Mayo",1999)+')',3,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej9k(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej9k",
+    "nombre":"9. Y ahora puedo calcular cosas sobre las fechas (k)",
+    "enunciado": e10_9("<code>siguienteFecha_</code>, que dada una fecha, devuelve la fecha del día siguiente.<br>"+resaltado("AYUDA")+": usar funciones auxiliares <code>siguienteDíaParaDía_YMes_</code> y <code>siguienteMesParaDía_YMes_</code>."),
+    "pre":pre10_9_tipo,
+    "run_data":[
+      validarBoolEnCelda('siguienteFecha_('+f(29,"Abril",1997)+')=='+f(30,"Abril",1997),True,v),
+      validarBoolEnCelda('siguienteFecha_('+f(30,"Abril",1997)+')=='+f(1,"Mayo",1997),True,v),
+      validarBoolEnCelda('siguienteFecha_('+f(1,"Mayo",1997)+')=='+f(2,"Mayo",1997),True,v),
+      validarBoolEnCelda('siguienteFecha_('+f(31,"Diciembre",1997)+')=='+f(1,"Enero",1998),True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia10_ej9l(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej9l",
+    "nombre":"9. Y ahora puedo calcular cosas sobre las fechas (l)",
+    "enunciado": e10_9("<code>previoFecha_</code>, que dada una fecha, devuelve la fecha del día anterior.<br>"+resaltado("AYUDA")+": usar funciones auxiliares <code>previoDíaParaDía_YMes_</code> y <code>previoMesParaDía_YMes_</code>."),
+    "pre":pre10_9_tipo,
+    "run_data":[
+      validarBoolEnCelda('previoFecha_('+f(30,"Abril",1997)+')=='+f(29,"Abril",1997),True,v),
+      validarBoolEnCelda('previoFecha_('+f(1,"Mayo",1997)+')=='+f(30,"Abril",1997),True,v),
+      validarBoolEnCelda('previoFecha_('+f(2,"Mayo",1997)+')=='+f(1,"Mayo",1997),True,v),
+      validarBoolEnCelda('previoFecha_('+f(1,"Enero",1998)+')=='+f(31,"Diciembre",1997),True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+# def guia10_ej9m(fecha):
+#   return {
+#     "tipo":"CODIGO",
+#     "id":"guia10_ej9m",
+#     "nombre":"9. Y ahora puedo calcular cosas sobre las fechas (m)",
+#     "enunciado": e10_9("<code>EscribirCalendarioDeAño_</code> que escriba en el tablero en forma vertical todas las fechas del año dado, usando la representación del ejercicio anterior, con la primera más al Norte del tablero, y la última más al Sur. No se olvide sus precondiciones."),
+#     "pre":pre10_9_tipo,
+#     "run_data":[
+#       ???
+#     ],
+#     "disponible":{"desde":fecha}
+#   }
+
+def guia10_ej9n(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia10_ej9n",
+    "nombre":"9. Y ahora puedo calcular cosas sobre las fechas (n)",
+    "enunciado": enPapel+"Dada la siguiente función primitiva:"+código("function hayCumpleañosEn_(unaFecha)<br>&nbsp;/*<br>&nbsp;&nbsp;PROPÓSITO: Indica si en la fecha dada hay un cumpleaños de alguno de los creadores de Gobstones<br>&nbsp;&nbsp;PARÁMETROS:<br>&nbsp;&nbsp;&nbsp;* unaFecha : Fecha - La fecha de la cual saber si hay un cumpleaños<br>&nbsp;&nbsp;TIPO: Booleano<br>&nbsp;&nbsp;PRECONDICIÓN: Ninguna<br>&nbsp;*/")+"Escriba las funciones <code>primerCumpleañosDelAño_</code> y <code>últimoCumpleañosDelAño_</code> que dado un año describen la fecha en la que se da el primero de los cumpleaños del año, y la última, respectivamente."+nota10_9,
+    "pre":pre10_9_tipo+"function hayCumpleañosEn_(unaFecha) {return (" + \
+      "(día(unaFecha)==12 && mes(unaFecha)==Marzo) ||" + \
+      "(día(unaFecha)==19 && mes(unaFecha)==Mayo) || " + \
+      "(día(unaFecha)==3 && mes(unaFecha)==Junio) || " + \
+      "(día(unaFecha)==22 && mes(unaFecha)==Octubre)" + \
+    ")}",
+    "run_data":[
+      validarBoolEnCelda('primerCumpleañosDelAño_(1997)=='+f(12,"Marzo",1997),True,v),
+      validarBoolEnCelda('últimoCumpleañosDelAño_(2005)=='+f(22,"Octubre",2005),True,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
 def guia10(fechaInicio):
   return {
     "tipo":"SECCION",
@@ -6009,6 +6832,50 @@ def guia10(fechaInicio):
     "disponible":{"desde":fechaInicio},
     "actividades":[
       linkGuía(10, 39158, "19/P10.%20Tipos%20Personalizado.pdf"),
+      guia10_ej2a(fechaInicio),
+      guia10_ej2b(fechaInicio),
+      guia10_ej2c(fechaInicio),
+      guia10_ej3a(fechaInicio),
+      guia10_ej3b(fechaInicio),
+      guia10_ej3c(fechaInicio),
+      guia10_ej3d(fechaInicio),
+      guia10_ej3e(fechaInicio),
+      guia10_ej3f(fechaInicio),
+      guia10_ej3g(fechaInicio),
+      guia10_ej3h(fechaInicio),
+      guia10_ej3i(fechaInicio),
+      guia10_ej3j(fechaInicio),
+      guia10_ej3k(fechaInicio),
+      guia10_ej3l(fechaInicio),
+      guia10_ej4a(fechaInicio),
+      guia10_ej4b(fechaInicio),
+      guia10_ej4c(fechaInicio),
+      guia10_ej5b(fechaInicio),
+      guia10_ej5c(fechaInicio),
+      guia10_ej5d(fechaInicio),
+      guia10_ej5e(fechaInicio),
+      guia10_ej5f(fechaInicio),
+      guia10_ej6a(fechaInicio),
+      guia10_ej6b(fechaInicio),
+      guia10_ej6c(fechaInicio),
+      guia10_ej6d(fechaInicio),
+      guia10_ej6e(fechaInicio),
+      guia10_ej6f(fechaInicio),
+      guia10_ej6g(fechaInicio),
+      guia10_ej9a(fechaInicio),
+      guia10_ej9b(fechaInicio),
+      guia10_ej9c(fechaInicio),
+      guia10_ej9d(fechaInicio),
+      guia10_ej9e(fechaInicio),
+      guia10_ej9f(fechaInicio),
+      guia10_ej9g(fechaInicio),
+      guia10_ej9h(fechaInicio),
+      guia10_ej9i(fechaInicio),
+      guia10_ej9j(fechaInicio),
+      guia10_ej9k(fechaInicio),
+      guia10_ej9l(fechaInicio),
+      # guia10_ej9m(fechaInicio),
+      guia10_ej9n(fechaInicio)
     ]
   }
 
