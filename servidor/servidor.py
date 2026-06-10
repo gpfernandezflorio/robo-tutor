@@ -14,12 +14,16 @@ mensajesServidor = {
     "cuestionario":dame_data_cuestionario
   },
   "FILE":{
-    "":"../index.html",
-    "index.html":"../index.html",
+    "":"../../campus/index.html",
+    "index.html":"../../campus/index.html",
+    "settings.js":"../../campus/settings.js",
+    "campus.css":"../../campus/campus.css",
+    "campus.js":"../../campus/campus.js",
     # "admin":"admin.html",
-    "favicon.ico":"../favicon.ico"
+    "favicon.ico":"../../campus/favicon.ico"
   },
   "FILE_STARTS":{
-    "csv":lambda x : 'locales/' + x + '.csv'
+    "csv":lambda x : 'locales/' + x + '.csv',
+    "include":lambda x : '../../campus/include/' + x
   }
 }
