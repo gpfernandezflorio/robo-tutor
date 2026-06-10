@@ -18,6 +18,7 @@ from cursos.alc import CURSOS as cursos_alc
 from cursos.dc_ip import CURSOS as dc_ip
 from cursos.epliGbs import CURSOS as epliGbs
 from cursos.epliPy import CURSOS as epliPy
+from cursos.pensamiento_computacional import CURSOS as cursos_pensamiento_computacional
 
 CURSOS = {}
 
@@ -41,6 +42,9 @@ for c in epliGbs:
 
 for c in epliPy:
   CURSOS[c] = epliPy[c]
+
+for c in cursos_pensamiento_computacional:
+  CURSOS[c] = cursos_pensamiento_computacional[c]
 
 LOCAL_DIR = 'locales'
 if not os.path.isdir(LOCAL_DIR):
