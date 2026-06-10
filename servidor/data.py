@@ -408,7 +408,7 @@ def mostrar_resultado(resultado):
     r += " - " + resultado["error"].split("\n")[0]
   return r
 
-entries = ["usuario","actividad","respuesta","resultado","duracion"]
+entries = ["usuario","actividad","respuesta","resultado","duracion","ip"]
 
 def commit(jsonObj, v):
   if "ejercicio" in jsonObj:
@@ -416,10 +416,8 @@ def commit(jsonObj, v):
       jsonObj["ejercicio"] = jsonObj["ejercicio"]["id"]
   else:
     jsonObj["ejercicio"] = "-"
-  data_form = {}
   data_csv = [str(datetime.datetime.now())]
   for x in entries:
-    data_form[x] = jsonObj[x]
     data_csv.append(limpiar_csv(str(jsonObj[x]).replace('"','""')))
   cursos = []
   if "curso" in jsonObj:
@@ -428,7 +426,7 @@ def commit(jsonObj, v):
     cursos = cursosUsuario(jsonObj["usuario"])
   for curso in cursos:
     guardarLocal(",".join(data_csv), curso)
-    guardarDrive(data_form, curso, v)
+    guardarDrive(jsonObj, curso, v)
 
 def guardarDrive(data, curso, v):
   planillaCurso = planillaDeCurso(curso)

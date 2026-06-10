@@ -114,6 +114,7 @@ class HandlerAC(moduloHTTPRequest):
       self.responder({'resultado':"SERVER_BUG"})
       return
     try:
+      jsonObject["ip"] = self.client_address[0]
       CONFIG["DATA"]["json"] = jsonObject
       for msg in CONFIG["msgs"]["POST"]:
         if (self.path == "/" + msg):
