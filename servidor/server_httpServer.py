@@ -146,6 +146,21 @@ class HandlerAC(moduloHTTPRequest):
       self._set_response(404)
       print("Archivo {} no econtrado".format(self.path))
 
+def tipo_archivo(filename):
+    # if filename[-4:] == '.css':
+    #     return 'text/css'
+    # if filename[-5:] == '.json':
+    #     return 'application/json'
+    # if filename[-3:] == '.js':
+    #     return 'application/javascript'
+    if filename[-4:] == '.ico':
+        return 'image/x-icon'
+    # if filename[-4:] == '.svg':
+    #     return 'image/svg+xml'
+    if filename[-4:] == '.csv':
+        return 'text/csv'
+    return 'text/html'
+
 class ServerAC(ThreadingMixIn, moduloHTTPServer):
     """ This class allows to handle requests in separated threads.
         No further content needed, don't touch this. """

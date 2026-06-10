@@ -38,21 +38,6 @@ def mi_ip():
     s.connect(('8.8.8.8', 1))  # connect() for UDP doesn't send packets
     return s.getsockname()[0]
 
-def tipo_archivo(filename):
-    # if filename[-4:] == '.css':
-    #     return 'text/css'
-    # if filename[-5:] == '.json':
-    #     return 'application/json'
-    # if filename[-3:] == '.js':
-    #     return 'application/javascript'
-    if filename[-4:] == '.ico':
-        return 'image/x-icon'
-    # if filename[-4:] == '.svg':
-    #     return 'image/svg+xml'
-    if filename[-4:] == '.csv':
-        return 'text/csv'
-    return 'text/html'
-
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='Server')
