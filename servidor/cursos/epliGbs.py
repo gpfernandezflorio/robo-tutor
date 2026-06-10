@@ -25,8 +25,8 @@ def textoEstímulo(estímulo):
     "<h1>Valoración de la consigna propuesta</h1>"
   ]
 def textoPregunta(i):
-    return preguntasEstímulo[i-1]
-    # return "<h1>" + nPreguntas[i-1] + "</h1>" + preguntasEstímulo[i-1]
+  return preguntasEstímulo[i-1]
+  # return "<h1>" + nPreguntas[i-1] + "</h1>" + preguntasEstímulo[i-1]
 # nPreguntas = [
 #   "Primera pregunta",
 #   "Segunda pregunta",

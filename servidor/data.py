@@ -16,7 +16,8 @@ from cursos.exactas_programa import CURSOS as cursos_exactas_programa
 from cursos.taller_programacion import CURSOS as cursos_taller_programacion
 from cursos.alc import CURSOS as cursos_alc
 from cursos.dc_ip import CURSOS as dc_ip
-from cursos.epli import CURSOS as epli
+from cursos.epliGbs import CURSOS as epliGbs
+from cursos.epliPy import CURSOS as epliPy
 
 CURSOS = {}
 
@@ -35,8 +36,11 @@ for c in cursos_alc:
 for c in dc_ip:
   CURSOS[c] = dc_ip[c]
 
-for c in epli:
-  CURSOS[c] = epli[c]
+for c in epliGbs:
+  CURSOS[c] = epliGbs[c]
+
+for c in epliPy:
+  CURSOS[c] = epliPy[c]
 
 LOCAL_DIR = 'locales'
 if not os.path.isdir(LOCAL_DIR):
