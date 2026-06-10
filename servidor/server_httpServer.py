@@ -158,6 +158,8 @@ def tipo_archivo(filename):
         return 'image/x-icon'
     # if filename[-4:] == '.svg':
     #     return 'image/svg+xml'
+    if filename[-4:] == '.png':
+        return 'image/png'
     if filename[-4:] == '.csv':
         return 'text/csv'
     return 'text/html'

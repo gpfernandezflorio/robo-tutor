@@ -24,6 +24,7 @@ mensajesServidor = {
   },
   "FILE_STARTS":{
     "csv":lambda x : 'locales/' + x + '.csv',
-    "include":lambda x : '../../campus/include/' + x
+    "include":lambda x : '../../campus/include/' + x,
+    "img":lambda x : '../../campus/img/' + x
   }
 }
