@@ -1667,6 +1667,26 @@ D. `5`
 # print(len(todosLosEstímulos))
 
 sujetos = [
+  "progreval01",
+  "progreval02",
+  "progreval03",
+  "progreval04",
+  "progreval05",
+  "progreval06",
+  "progreval07",
+  "progreval08",
+  "progreval09",
+  "progreval10",
+  "progreval11",
+  "progreval12",
+  "progreval13",
+  "progreval14",
+  "progreval15",
+  "progreval16",
+  "progreval17",
+  "progreval18",
+  "progreval19",
+  "progreval20"
 ]
 
 estímulosPorSujeto = [ # Índices de los estímulos asignados a cada sujeto
