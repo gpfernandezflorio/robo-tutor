@@ -1,3 +1,39 @@
+estudiantes_tm = [
+  "estudiante_ficticio"
+]
+estudiantes_grado = [
+
+]
+estudiantes_tt = [
+
+]
+
+def tp_final(coms, fechas, estudiantes):
+  return {
+    "tipo":"CUESTIONARIO",
+    "id":"tp_final_tm",
+    "nombre":"TP Final - " + coms,
+    "puedenReintentar":False,
+    "puedenSaltearPreguntas":False,
+    "puedenRetroceder":False,
+    "preguntas":[{
+      "tipo":"TEXTO_LIBRE",
+      "titulo":"TP Final",
+      "pregunta":"Copiá y pegá acá tu solución."
+    },{
+      "tipo":"SOLO_TEXTO",
+      "titulo":"TP Final",
+      "pregunta":"Respuesta enviada."
+    }],
+    "disponible":{
+      "desde":fechas[0],
+      "hasta":fechas[1]
+    },
+    "visible":{
+      "usuariosSi":estudiantes
+    }
+  }
+
 CURSOS = {
   "pensamiento_computacional_2026_1c":{
     "nombre":"Pensamiento Computacional - 2026 1C",
@@ -11,25 +47,42 @@ CURSOS = {
     "institucion":"Facultad de Ciencias Exactas y Naturales (FCEyN) - UBA",
     "lenguaje":"Python",
     "lenguaje_display":"none",
-    "actividades":[{
-      "tipo":"CODIGO",
-      "id":"tp_final_tm",
-      "nombre":"TP Final",
-      "enunciado":"-",
-      "disponible":{"desde":"10/6/2026-7:00","hasta":"12/6/2026-11:30"}
-    },{
-      "tipo":"CODIGO",
-      "id":"tp_final_grado",
-      "nombre":"TP Final",
-      "enunciado":"-",
-      "disponible":{"desde":"12/6/2026-13:00","hasta":"12/6/2026-17:30"}
-    },{
-      "tipo":"CODIGO",
-      "id":"tp_final_tt",
-      "nombre":"TP Final",
-      "enunciado":"-",
-      "disponible":{"desde":"13/6/2026-13:00","hasta":"13/6/2026-17:30"}
-    }],
+    "actividades":[
+    # {
+    #   "tipo":"CODIGO",
+    #   "id":"tp_final_tm",
+    #   "nombre":"TP Final - Comisiones 290001 a 29003 (viernes mañana)",
+    #   "enunciado":"-",
+    #   "visible":{"desde":"12/6/2026-7:00","hasta":"12/6/2026-11:30"}
+    # },{
+    #   "tipo":"CODIGO",
+    #   "id":"tp_final_grado",
+    #   "nombre":"TP Final - Comisión grado (viernes tarde)",
+    #   "enunciado":"-",
+    #   "visible":{"desde":"12/6/2026-13:00","hasta":"12/6/2026-17:30"}
+    # },{
+    #   "tipo":"CODIGO",
+    #   "id":"tp_final_tt",
+    #   "nombre":"TP Final - Comisiones 290004 y 29005 (sábado tarde)",
+    #   "enunciado":"-",
+    #   "visible":{"desde":"13/6/2026-13:00","hasta":"13/6/2026-17:30"}
+    # }
+      tp_final(
+        "Comisiones 290001 a 29003 (viernes mañana)",
+        ["12/6/2026-7:00","12/6/2026-11:30"],
+        estudiantes_tm
+      ),
+      tp_final(
+        "Comisión grado (viernes tarde)",
+        ["12/6/2026-13:00","12/6/2026-17:30"],
+        estudiantes_grado
+      ),
+      tp_final(
+        "Comisiones 290004 y 29005 (sábado tarde)",
+        ["13/6/2026-13:00","13/6/2026-17:30"],
+        estudiantes_tt
+      )
+    ],
     "planilla":{
       "url":"1FAIpQLSeYrKZ_juXRRzPew_77qTMHyw_4LdZ0DXcCSARhpNttSFKJIQ",
       "campos":{
