@@ -114,7 +114,7 @@ class HandlerAC(moduloHTTPRequest):
       self.responder({'resultado':"SERVER_BUG"})
       return
     try:
-      jsonObject["ip"] = self.client_address[0]
+      jsonObject["ip"] = self.ipCliente()
       CONFIG["DATA"]["json"] = jsonObject
       for msg in CONFIG["msgs"]["POST"]:
         if (self.path == "/" + msg):
@@ -126,6 +126,15 @@ class HandlerAC(moduloHTTPRequest):
       CONFIG["fail"](CONFIG["DATA"])
       print(CONFIG["DATA"]["e"])
       self.responder({'resultado':"SERVER_BUG"})
+
+  def ipCliente(self):
+    forwarded_for = self.headers.get('X-Forwarded-For')
+    if forwarded_for:
+      return forwarded_for.split(',')[0].strip()
+    real_ip = self.headers.get('X-Real-IP')
+    if real_ip:
+      return real_ip
+    return self.client_address[0]
 
   def error(self, msg):
     print(msg)
