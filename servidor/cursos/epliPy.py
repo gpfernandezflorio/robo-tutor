@@ -19,7 +19,11 @@ def textoEstímulo(estímulo):
     estímulo[0], # La presentación (Esta es una consigna ...)
     "<h1>Consigna</h1>",
     { 'md':estímulo[1], # La consigna en sí
-      'css':"border: solid 5pt #ddd;background-color: #f8f8f8;padding: 12px;"
+      'css':{
+        border: "solid 5pt #ddd",
+        "background-color": "#f8f8f8",
+        padding: "12px"
+      }
     },
     "<h1>Valoración de la consigna propuesta</h1>"
   ]
