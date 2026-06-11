@@ -1,5 +1,5 @@
 estudiantes_tm = [
-  "estudiante_ficticio"
+
 ]
 estudiantes_grado = [
 
@@ -8,10 +8,10 @@ estudiantes_tt = [
 
 ]
 
-def tp_final(coms, fechas, estudiantes):
+def tp_final(id, coms, fechas, estudiantes):
   return {
     "tipo":"CUESTIONARIO",
-    "id":"tp_final_tm",
+    "id":"tp_final_"+id,
     "nombre":"TP Final - " + coms,
     "puedenReintentar":False,
     "puedenSaltearPreguntas":False,
@@ -67,17 +67,18 @@ CURSOS = {
     #   "enunciado":"-",
     #   "visible":{"desde":"13/6/2026-13:00","hasta":"13/6/2026-17:30"}
     # }
-      tp_final(
+      tp_final("prueba","Prueba",["10/6/2026-10:00","14/6/2026-18:00"],["estudiante_ficticio"]),
+      tp_final("tm",
         "Comisiones 290001 a 29003 (viernes mañana)",
         ["12/6/2026-7:00","12/6/2026-11:30"],
         estudiantes_tm
       ),
-      tp_final(
+      tp_final("grado",
         "Comisión grado (viernes tarde)",
         ["12/6/2026-13:00","12/6/2026-17:30"],
         estudiantes_grado
       ),
-      tp_final(
+      tp_final("tt",
         "Comisiones 290004 y 29005 (sábado tarde)",
         ["13/6/2026-13:00","13/6/2026-17:30"],
         estudiantes_tt
