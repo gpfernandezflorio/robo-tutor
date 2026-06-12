@@ -17,6 +17,18 @@ def tp_final(id, coms, fechas, estudiantes):
     "puedenSaltearPreguntas":False,
     "puedenRetroceder":False,
     "preguntas":[{
+      "tipo":"MULTI",
+      "titulo":"TP Final",
+      "contenido":"Ingresá los datos del labo y la pc.",
+      "preguntas":[{
+        "tipo":"TEXTO_LIBRE",
+        "pregunta":"Labo (4 dígitos)"
+      },{
+        "tipo":"TEXTO_LIBRE",
+        "pregunta":"PC dentro del labo (5 dígitos, contando el punto en el medio)"
+      }]
+    },
+    {
       "tipo":"TEXTO_LIBRE",
       "titulo":"TP Final",
       "pregunta":"Copiá y pegá acá tu solución."
@@ -28,10 +40,10 @@ def tp_final(id, coms, fechas, estudiantes):
     "disponible":{
       "desde":fechas[0],
       "hasta":fechas[1]
-    },
-    "visible":{
-      "usuariosSi":estudiantes
-    }
+    }#,
+    #"visible":{
+    #  "usuariosSi":estudiantes
+    #}
   }
 
 CURSOS = {
@@ -67,20 +79,20 @@ CURSOS = {
     #   "enunciado":"-",
     #   "visible":{"desde":"13/6/2026-13:00","hasta":"13/6/2026-17:30"}
     # }
-      tp_final("prueba","Prueba",["10/6/2026-10:00","14/6/2026-18:00"],["estudiante_ficticio"]),
+      # tp_final("prueba","Prueba",["10/6/2026-10:00","14/6/2026-18:00"],["estudiante_ficticio"]),
       tp_final("tm",
         "Comisiones 290001 a 29003 (viernes mañana)",
-        ["12/6/2026-7:00","12/6/2026-11:30"],
+        ["12/6/2026-7:00","12/6/2026-12:00"],
         estudiantes_tm
       ),
       tp_final("grado",
         "Comisión grado (viernes tarde)",
-        ["12/6/2026-13:00","12/6/2026-17:30"],
+        ["12/6/2026-13:00","12/6/2026-18:00"],
         estudiantes_grado
       ),
       tp_final("tt",
         "Comisiones 290004 y 29005 (sábado tarde)",
-        ["13/6/2026-13:00","13/6/2026-17:30"],
+        ["13/6/2026-13:00","13/6/2026-18:00"],
         estudiantes_tt
       )
     ],
