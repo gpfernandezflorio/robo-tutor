@@ -82,17 +82,17 @@ CURSOS = {
       # tp_final("prueba","Prueba",["10/6/2026-10:00","14/6/2026-18:00"],["estudiante_ficticio"]),
       tp_final("tm",
         "Comisiones 290001 a 29003 (viernes mañana)",
-        ["12/6/2026-7:00","12/6/2026-12:00"],
+        ["3/7/2026-7:00","3/7/2026-12:00"],
         estudiantes_tm
       ),
       tp_final("grado",
         "Comisión grado (viernes tarde)",
-        ["12/6/2026-13:00","12/6/2026-18:00"],
+        ["3/7/2026-13:00","3/7/2026-18:00"],
         estudiantes_grado
       ),
       tp_final("tt",
         "Comisiones 290004 y 29005 (sábado tarde)",
-        ["13/6/2026-13:00","13/6/2026-18:00"],
+        ["4/7/2026-13:00","4/7/2026-18:00"],
         estudiantes_tt
       )
     ],
