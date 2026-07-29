@@ -879,8 +879,7 @@ Ordenar las siguientes expresiones para obtener una condición que sea verdadera
 9. >=
 10. &&
 11. ||
-```'''],['''Se quiere crear una consigna del tipo '<b>OPCIÓN MÚLTIPLE CON RESPUESTA ÚNICA</b>' para evaluar '<b>EVALUACIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna debe estar diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. ''','''```markdown
-Consigna:
+```'''],['''Se quiere crear una consigna del tipo '<b>OPCIÓN MÚLTIPLE CON RESPUESTA ÚNICA</b>' para evaluar '<b>EVALUACIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna debe estar diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. ''','''Consigna:
 
 En un tablero de Gobstones, se quiere saber en qué caso la siguiente expresión se evalúa como verdadera:
 
@@ -891,9 +890,7 @@ Opciones:
 1. Hay 1 bolita roja y 3 bolitas azules.
 2. Hay 2 bolitas rojas y 4 bolitas azules.
 3. Hay 3 bolitas rojas y 2 bolitas azules.
-4. Hay 0 bolitas rojas y 0 bolitas azules.
-```'''],['''Se quiere crear una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna debe estar diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, se puede suponer que los estudiantes cuentan con los siguientes conocimientos previos: Seguimiento de funciones y directivas de selección.''','''````markdown
-Consigna:
+4. Hay 0 bolitas rojas y 0 bolitas azules.'''],['''Se quiere crear una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna debe estar diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. Además, se puede suponer que los estudiantes cuentan con los siguientes conocimientos previos: Seguimiento de funciones y directivas de selección.''','''Consigna:
 
 Una biblioteca barrial presta libros especiales solo si se cumplen ciertas condiciones. Para recibir un libro especial, la persona debe ser socia activa y, además, debe ser mayor de edad o tener autorización registrada.
 
@@ -907,7 +904,7 @@ function PuedeRetirarLibroEspecial(esSociaActiva, edad, tieneAutorizacion) {
         return (False)
     }
 }
-````
+```
 '''],['''Se quiere crear una consigna del tipo '<b>COMPLECIÓN DE ESPACIOS VACÍOS</b>' para evaluar '<b>DEFINICIÓN</b> de <b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad <b>INTERMEDIO</b>. La consigna debe estar diseñada para estudiantes de <b>NIVEL UNIVERSITARIO</b> y para ser resuelta en el lenguaje de programación <b>GOBSTONES</b>. ''','''**Consigna (Compleción de espacios vacíos – Nivel Intermedio)**
 **Tema:** Definición de Expresión Lógica en Gobstones
 **Dominio:** Control de inventario en un depósito automatizado de bolitas de colores

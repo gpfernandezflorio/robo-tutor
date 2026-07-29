@@ -252,8 +252,7 @@ Opciones:
 2. El resultado es `False`, porque al ser `temperatura = 28`, la primera condición `(temperatura > 30)` no se cumple y eso invalida toda la expresión controlada por el operador `or`.
 3. El resultado es `True`, porque la subexpresión `not humedad_baja` resulta en `False`, lo que obliga al operador `and` a dar un resultado positivo.
 4. El resultado es `False`, porque la condición `temperatura > 25` es `True`, pero al aplicarse el operador `and` con una humedad que no es baja, el valor final se cancela.
-'''],['''Se quiere crear una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b>' de '<b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad '<b>INTERMEDIO</b>' (Expresiones lógicas cuyos términos son expresiones básicas y/o variables booleanas relacionados mediante operadores lógicos). La consigna debe estar diseñada para estudiantes de '<b>NIVEL UNIVERSITARIO</b>' y para ser resuelta en el lenguaje de programación '<b>PYTHON</b>'. Además, se puede suponer que los estudiantes cuentan con los siguientes conocimientos previos: Seguimiento de funciones y directivas de selección.''','''```markdown
-La plataforma de streaming de música "SoundWave" está experimentando fallas en su sistema de reproducción automática para usuarios con cuentas gratuitas. Según las políticas de la empresa, un usuario tiene permitido escuchar la siguiente canción de forma automática solo si no ha superado el límite diario de canciones (que es de 15 canciones) y, además, se cumple alguna de las siguientes dos condiciones: que tenga activa la opción de reproducción aleatoria o bien que la canción pertenezca a una lista de reproducción patrocinada. 
+'''],['''Se quiere crear una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b>' de '<b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad '<b>INTERMEDIO</b>' (Expresiones lógicas cuyos términos son expresiones básicas y/o variables booleanas relacionados mediante operadores lógicos). La consigna debe estar diseñada para estudiantes de '<b>NIVEL UNIVERSITARIO</b>' y para ser resuelta en el lenguaje de programación '<b>PYTHON</b>'. Además, se puede suponer que los estudiantes cuentan con los siguientes conocimientos previos: Seguimiento de funciones y directivas de selección.''','''La plataforma de streaming de música "SoundWave" está experimentando fallas en su sistema de reproducción automática para usuarios con cuentas gratuitas. Según las políticas de la empresa, un usuario tiene permitido escuchar la siguiente canción de forma automática solo si no ha superado el límite diario de canciones (que es de 15 canciones) y, además, se cumple alguna de las siguientes dos condiciones: que tenga activa la opción de reproducción aleatoria o bien que la canción pertenezca a una lista de reproducción patrocinada. 
 
 Los desarrolladores detectaron que el sistema está salteando canciones incorrectamente o deteniendo la reproducción de forma imprevista. Tu tarea es revisar el código de la función `puede_reproducir_siguiente`, identificar la línea exacta donde se encuentra el fallo en la evaluación de los permisos y señalar cuál es el error cometido.
 
@@ -1152,14 +1151,13 @@ Ordená los siguientes fragmentos para construir una única expresión en Python
 7. `(`
 8. `)`
 
-'''],['''Se quiere crear una consigna del tipo '<b>OPCIÓN MÚLTIPLE CON RESPUESTA ÚNICA</b>' para evaluar '<b>EVALUACIÓN</b>' de '<b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad '<b>INTERMEDIO</b>' (Expresiones lógicas cuyos términos son expresiones básicas y/o variables booleanas relacionados mediante operadores lógicos). La consigna debe estar diseñada para estudiantes de '<b>NIVEL UNIVERSITARIO</b>' y para ser resuelta en el lenguaje de programación '<b>PYTHON</b>'. ''','''````markdown
-Consigna:
+'''],['''Se quiere crear una consigna del tipo '<b>OPCIÓN MÚLTIPLE CON RESPUESTA ÚNICA</b>' para evaluar '<b>EVALUACIÓN</b>' de '<b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad '<b>INTERMEDIO</b>' (Expresiones lógicas cuyos términos son expresiones básicas y/o variables booleanas relacionados mediante operadores lógicos). La consigna debe estar diseñada para estudiantes de '<b>NIVEL UNIVERSITARIO</b>' y para ser resuelta en el lenguaje de programación '<b>PYTHON</b>'. ''','''Consigna:
 
 En un sistema de inscripción a un taller, se usa la siguiente expresión en Python:
 
 ```python
 edad >= 18 and tiene_cupo
-````
+```
 
 ¿Qué valores hacen que la expresión se evalúe como `True`?
 
@@ -1170,7 +1168,7 @@ Opciones:
 3. `edad = 20`, `tiene_cupo = True`
 4. `edad = 16`, `tiene_cupo = False`
 
-```'''],['''Se quiere crear una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b>' de '<b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad '<b>INTERMEDIO</b>' (Expresiones lógicas cuyos términos son expresiones básicas y/o variables booleanas relacionados mediante operadores lógicos). La consigna debe estar diseñada para estudiantes de '<b>NIVEL UNIVERSITARIO</b>' y para ser resuelta en el lenguaje de programación '<b>PYTHON</b>'. Además, se puede suponer que los estudiantes cuentan con los siguientes conocimientos previos: Seguimiento de funciones y directivas de selección.''','''**Consigna:**
+'''],['''Se quiere crear una consigna del tipo '<b>SEÑALAMIENTO DE OCURRENCIA</b>' para evaluar '<b>DEPURACIÓN</b>' de '<b>EXPRESIÓN LÓGICA</b>' con un nivel de complejidad '<b>INTERMEDIO</b>' (Expresiones lógicas cuyos términos son expresiones básicas y/o variables booleanas relacionados mediante operadores lógicos). La consigna debe estar diseñada para estudiantes de '<b>NIVEL UNIVERSITARIO</b>' y para ser resuelta en el lenguaje de programación '<b>PYTHON</b>'. Además, se puede suponer que los estudiantes cuentan con los siguientes conocimientos previos: Seguimiento de funciones y directivas de selección.''','''**Consigna:**
 
 ```python
 def debe_aplicar_descuento(edad, es_socio, monto_compra):
@@ -1512,13 +1510,11 @@ def total_cuadernos_recibidos():
 
 '''],['''Se quiere crear una consigna del tipo '<b>RESPUESTA ABIERTA</b>' para evaluar '<b>IMPLEMENTACIÓN</b>' de '<b>REPETICIÓN</b>' con un nivel de complejidad '<b>BÁSICO</b>' (Repetición simple, cantidad fija de iteraciones). La consigna debe estar diseñada para estudiantes de '<b>NIVEL UNIVERSITARIO</b>' y para ser resuelta en el lenguaje de programación '<b>PYTHON</b>'. Además, se puede suponer que los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''**Consigna:**
 
-```markdown
 En una biblioteca escolar se quiere registrar la cantidad de páginas leídas durante una semana.
 
 Escribir una función en Python llamada `total_paginas_semana(paginas_por_dia)` que reciba una lista con exactamente 7 números enteros, donde cada número representa la cantidad de páginas leídas en un día de la semana.
 
 La función debe devolver el total de páginas leídas en toda la semana.
-```
 
 '''],['''Se quiere crear una consigna del tipo '<b>PARSONS</b>' para evaluar '<b>IMPLEMENTACIÓN</b>' de '<b>REPETICIÓN</b>' con un nivel de complejidad '<b>BÁSICO</b>' (Repetición simple, cantidad fija de iteraciones). La consigna debe estar diseñada para estudiantes de '<b>NIVEL UNIVERSITARIO</b>' y para ser resuelta en el lenguaje de programación '<b>PYTHON</b>'. Además, se puede suponer que los estudiantes cuentan con los siguientes conocimientos previos: Definición e Implementación de funciones.''','''**Consigna:**
 
