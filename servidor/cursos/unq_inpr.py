@@ -6985,6 +6985,14 @@ def linkMoodle(n, mId, l):
     "url":urlMoodle(mId, l)
   }
 
+def encuestaInicial():
+  return {
+    "tipo":"LINK",
+    "id":"encuestaInicial",
+    "nombre":"Encuesta Inicial",
+    "url":"https://gpfernandezflorio.github.io/links?dst=ei_q"
+  }
+
 CURSOS = {
   "inpr_unq_2026_s2":{
     "nombre":"Introducción a la Programación - UNQ (2026s2)",
@@ -7004,6 +7012,7 @@ CURSOS = {
       {"key":"NEST_CMD","max":1}
     ],
     "actividades":[
+      encuestaInicial(),
       guia1("2026s2","13/8/2026-8:00"),
       guia2("2026s2","13/8/2026-8:00"),
       guia3("2026s2","14/8/2026-8:00"),
