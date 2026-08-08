@@ -87,6 +87,45 @@ observación = ayuda("OBSERVACIÓN")
 ejemplo = ayuda("EJEMPLO")
 aclaración = ayuda("Aclaración")
 
+guíasEnMoodle = {
+  "2026s2":{
+     "1":[41811,25,"P1.%20Programas%20y%20Contratos.pdf"],
+     "2":[41829,22,"P2.%20Procedimientos%20y%20Estrategias%20de%20Solucio%CC%81n.pdf"],
+     "3":[41848,23,"P3.%20Repeticiones%20Simples.pdf"],
+     "4":[41864,21,"P4.%20Para%CC%81metros.pdf"],
+     "5":[41882,18,"P5.%20Expresiones%20y%20tipos.pdf"],
+     "6":[41900,25,"P6.%20Alternativas%20Condicionales.pdf"],
+     "7":[41913,23,"P7.%20Funciones%20simples.pdf"],
+     "8":[41931,19,"P8.%20Repetici%C3%B3n%20condicional%2C%20recorridos.pdf"],
+     "9":[41953,18,"P9.%20Variables%20y%20Funciones%20con%20Procesamiento.pdf"],
+    "10":[41972,19,"P10.%20Tipos%20Personalizado.pdf"],
+    "11":[41994,11,"P11.%20Listas.pdf"],
+    "I1":[42037,7,"Gobs-Man%20%28Recorridos%29.pdf"],
+    "I2":[42036,4,"Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf"],
+    "I3":[42044,8,"Pr%C3%A1ctica%2011%20-%20Ejercicios%20Integradores%20%5B2023-11-06%5D.pdf"],
+    "I4":[42043,3,"Comidas%20Gobianas%20%5B2023-11-06%5D.pdf"],
+    "I5":[42042,3,"Compumundo%20Hiper%20Mega%20Red%20%5B2023-11-06%5D.pdf"]
+  },
+  "2026s1":{
+     "1":[38997,25,"P1.%20Programas%20y%20Contratos.pdf"],
+     "2":[39015,22,"P2.%20Procedimientos%20y%20Estrategias%20de%20Solucio%CC%81n.pdf"],
+     "3":[39034,23,"P3.%20Repeticiones%20Simples.pdf"],
+     "4":[39050,21,"P4.%20Para%CC%81metros.pdf"],
+     "5":[39068,18,"P5.%20Expresiones%20y%20tipos.pdf"],
+     "6":[39086,25,"P6.%20Alternativas%20Condicionales.pdf"],
+     "7":[39099,23,"P7.%20Funciones%20simples.pdf"],
+     "8":[39117,19,"P8.%20Repetici%C3%B3n%20condicional%2C%20recorridos.pdf"],
+     "9":[39139,18,"P9.%20Variables%20y%20Funciones%20con%20Procesamiento.pdf"],
+    "10":[39158,19,"P10.%20Tipos%20Personalizado.pdf"],
+    "11":[39180,11,"P11.%20Listas.pdf"],
+    "I1":[39223,7,"Gobs-Man%20%28Recorridos%29.pdf"],
+    "I2":[39222,4,"Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf"],
+    "I3":[39230,8,"Pr%C3%A1ctica%2011%20-%20Ejercicios%20Integradores%20%5B2023-11-06%5D.pdf"],
+    "I4":[39229,3,"Comidas%20Gobianas%20%5B2023-11-06%5D.pdf"],
+    "I5":[39228,2,"Compumundo%20Hiper%20Mega%20Red%20%5B2023-11-06%5D.pdf"]
+  }
+}
+
 def img(ruta):
   return "Ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39068/mod_resource/content/18/P5.%20Expresiones%20y%20tipos.pdf' target='_blank'>la guía</a>." if ruta.startswith("5") else "Ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39086/mod_resource/content/25/P6.%20Alternativas%20Condicionales.pdf' target='_blank'>la guía</a>."
   # return '<img src="'+rutaAlServidor()+'/servidor/cursos/unq_inpr/'+ruta+'"></img>'
@@ -690,14 +729,14 @@ def guia1_ej11(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia1(fechaInicio):
+def guia1(curso, fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guia1",
     "nombre":"Práctica 1 - Programas y Contratos",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      linkGuía(1, 38997, "25/P1.%20Programas%20y%20Contratos.pdf"),
+      linkGuía(1, curso),
       guia1_ej1(fechaInicio),
       guia1_ej2(fechaInicio),
       guia1_ej3(fechaInicio),
@@ -875,13 +914,13 @@ def guia2_ej5(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia2_ej6(fecha):
+def guia2_ej6(fecha, curso):
   b = c(0,5,9,1) # Un azulejo
   return {
     "tipo":"CODIGO",
     "id":"guia2_ej6",
     "nombre":"6. Guarda de azulejos en L",
-    "enunciado":"Hacer un procedimiento <code>PonerGuardaEnL()</code>, que arme una guarda en L como muestra la figura (ver figura en <a href='https://aulas.gobstones.org/pluginfile.php/39015/mod_resource/content/22/P2.%20Procedimientos%20y%20Estrategias%20de%20Solucio%CC%81n.pdf' target='_blank'>la guía</a>), dejando el cabezal en la posición inicial.<br>¿Pensaste en reutilizar el procedimiento definido antes, o empezaste a escribirlo de nuevo? Dado que ahora se cuenta con la subtarea definida en el ejercicio anterior, la metodología <em>top-down</em> se puede enriquecer con la reutilización de procedimientos ya realizados; esto puede hacer que ciertas divisiones en subtareas, que permiten esa reutilización, sean más sencillas que otras.",
+    "enunciado":"Hacer un procedimiento <code>PonerGuardaEnL()</code>, que arme una guarda en L como muestra la figura (ver figura en "+enlaceGuía(2,curso)+"), dejando el cabezal en la posición inicial.<br>¿Pensaste en reutilizar el procedimiento definido antes, o empezaste a escribirlo de nuevo? Dado que ahora se cuenta con la subtarea definida en el ejercicio anterior, la metodología <em>top-down</em> se puede enriquecer con la reutilización de procedimientos ya realizados; esto puede hacer que ciertas divisiones en subtareas, que permiten esa reutilización, sean más sencillas que otras.",
     "pre":"program { PonerGuardaEnL() }",
     "run_data":[{
       "t0":{"head":[1,2],"width":6,"height":6,"board":[
@@ -1138,7 +1177,7 @@ def guia2_ej8h(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia2_ej9(fecha):
+def guia2_ej9(fecha, curso):
   T = rs(3) # Número 3
   S = rs(6) # Número 6
   N = rs(9) # Número 9
@@ -1147,7 +1186,7 @@ def guia2_ej9(fecha):
     "tipo":"CODIGO",
     "id":"guia2_ej9",
     "nombre":"9. Reloj Analógico",
-    "enunciado":["Dibujar un reloj analógico de agujas en un tablero cuadriculado puede ser un desafío. Una simplificación posible sería representar solamente algunos de los números que aparecen en el mismo: el 12 arriba, el 3 a la derecha, el 9 a la izquierda y el 6 abajo.<br>Construir un procedimiento <code>DibujarRelojAnalógicoSimplificado()</code>, que ponga los números del reloj tal como se indicó, alrededor del casillero actual. El tamaño del reloj será de 2 celdas de \"radio\" (suponiendo que miramos al reloj como un círculo).<br>Utilizar el comando <code>DibujarRelojAnalógicoSimplificado()</code> en un tablero inicial vacío de 5",{"tex":"\\times"},"5 con la celda inicial en el centro del mismo, es el siguiente: (ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39015/mod_resource/content/22/P2.%20Procedimientos%20y%20Estrategias%20de%20Solucio%CC%81n.pdf' target='_blank'>la guía</a>).<br>"+recordar+" Escribir el contrato en primer lugar, y en caso de utilizar división en subtareas, en seguir la metodología <em>top-down</em> para las mismas (primero su nombre y su contrato, usarlas, y recién luego definirlas con la misma metodología)."],
+    "enunciado":["Dibujar un reloj analógico de agujas en un tablero cuadriculado puede ser un desafío. Una simplificación posible sería representar solamente algunos de los números que aparecen en el mismo: el 12 arriba, el 3 a la derecha, el 9 a la izquierda y el 6 abajo.<br>Construir un procedimiento <code>DibujarRelojAnalógicoSimplificado()</code>, que ponga los números del reloj tal como se indicó, alrededor del casillero actual. El tamaño del reloj será de 2 celdas de \"radio\" (suponiendo que miramos al reloj como un círculo).<br>Utilizar el comando <code>DibujarRelojAnalógicoSimplificado()</code> en un tablero inicial vacío de 5",{"tex":"\\times"},"5 con la celda inicial en el centro del mismo, es el siguiente: (ver imagen en "+enlaceGuía(2, curso)+").<br>"+recordar+" Escribir el contrato en primer lugar, y en caso de utilizar división en subtareas, en seguir la metodología <em>top-down</em> para las mismas (primero su nombre y su contrato, usarlas, y recién luego definirlas con la misma metodología)."],
     "pre":"program {DibujarRelojAnalógicoSimplificado()}",
     "run_data":[{
       "t0":{"head":[2,2],"width":5,"height":5,"board":[
@@ -1160,14 +1199,14 @@ def guia2_ej9(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia2(fechaInicio):
+def guia2(curso, fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guia2",
     "nombre":"Práctica 2 - Procedimientos y estrategia de solución",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      linkGuía(2, 39015, "22/P2.%20Procedimientos%20y%20Estrategias%20de%20Solucio%CC%81n.pdf"),
+      linkGuía(2, curso),
       guia2_ej2a(fechaInicio),
       guia2_ej2b(fechaInicio),
       guia2_ej2c(fechaInicio),
@@ -1177,7 +1216,7 @@ def guia2(fechaInicio):
       guia2_ej3d(fechaInicio),
       guia2_ej4(fechaInicio),
       guia2_ej5(fechaInicio),
-      guia2_ej6(fechaInicio),
+      guia2_ej6(fechaInicio, curso),
       guia2_ej7a(fechaInicio),
       guia2_ej7b(fechaInicio),
       guia2_ej7c(fechaInicio),
@@ -1190,7 +1229,7 @@ def guia2(fechaInicio):
       guia2_ej8f(fechaInicio),
       guia2_ej8g(fechaInicio),
       guia2_ej8h(fechaInicio),
-      guia2_ej9(fechaInicio)
+      guia2_ej9(fechaInicio, curso)
     ]
   }
 
@@ -1258,13 +1297,13 @@ def guia3_ej4(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia3_ej5(fecha):
+def guia3_ej5(fecha, curso):
   b = c(0,1,1,0) # Celda con una negra y una roja
   return {
     "tipo":"CODIGO",
     "id":"guia3_ej5",
     "nombre":"5. Dibujando un rectángulo con repeticiones",
-    "enunciado":"Escribir un procedimiento <code>DibujarRectánguloRojoYNegroDe5x3()</code> que dibuje un rectángulo sólido de 5 celdas de largo por 3 de alto, similar al realizado en <b><em>\"<a href='https://aulas.gobstones.org/pluginfile.php/39015/mod_resource/content/22/P2.%20Procedimientos%20y%20Estrategias%20de%20Solucio%CC%81n.pdf' target='_blank'>P2. 2. Por Arriba</a>\"</em></b>, pero esta vez, utilice repetición para solucionar el problema.",
+    "enunciado":"Escribir un procedimiento <code>DibujarRectánguloRojoYNegroDe5x3()</code> que dibuje un rectángulo sólido de 5 celdas de largo por 3 de alto, similar al realizado en <b><em>\""+enlaceGuía(2, curso, "P2. 2. Por Arriba")+"\"</em></b>, pero esta vez, utilice repetición para solucionar el problema.",
     "pre":"program {DibujarRectánguloRojoYNegroDe5x3()}",
     "run_data":[{
       "t0":{"head":[0,2],"width":5,"height":5,"board":[
@@ -1306,19 +1345,19 @@ def guia3_ej6(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia3(fechaInicio):
+def guia3(curso, fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guia3",
     "nombre":"Práctica 3 - Repeticiones Simples",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      linkGuía(3, 39034, "23/P3.%20Repeticiones%20Simples.pdf"),
+      linkGuía(3, curso),
       guia3_ej1(fechaInicio),
       guia3_ej2(fechaInicio),
       guia3_ej3(fechaInicio),
       guia3_ej4(fechaInicio),
-      guia3_ej5(fechaInicio),
+      guia3_ej5(fechaInicio, curso),
       guia3_ej6(fechaInicio)
     ]
   }
@@ -1403,12 +1442,12 @@ def guia4_ej4(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia4_ej7(fecha):
+def guia4_ej7(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia4_ej7",
     "nombre":"7. Multi Arcoiris",
-    "enunciado":"Utilizando el procedimiento <code>Pintar3Puntos_</code> definido en el ejercicio anterior (ver el enunciado en <a href='https://aulas.gobstones.org/pluginfile.php/39050/mod_resource/content/21/P4.%20Para%CC%81metros.pdf' target='_blank'>la guía</a>), construir el procedimiento <code>PintarArcoiris()</code> que ponga el tablero de la derecha cuando el tablero inicial es el de la izquierda (ver imágenes de los tableros en <a href='https://aulas.gobstones.org/pluginfile.php/39050/mod_resource/content/21/P4.%20Para%CC%81metros.pdf' target='_blank'>la guía</a>). ¡A no ser como Nova, y empezar escribiendo el contrato!<br><br><b>Nota</b>: no incluir la definición del procedimiento <code>Pintar3Puntos_(colorPunto)</code> al enviar este ejercicio.",
+    "enunciado":"Utilizando el procedimiento <code>Pintar3Puntos_</code> definido en el ejercicio anterior (ver el enunciado en "+enlaceGuía(4, curso)+"), construir el procedimiento <code>PintarArcoiris()</code> que ponga el tablero de la derecha cuando el tablero inicial es el de la izquierda (ver imágenes de los tableros en "+enlaceGuía(4, curso)+"). ¡A no ser como Nova, y empezar escribiendo el contrato!<br><br><b>Nota</b>: no incluir la definición del procedimiento <code>Pintar3Puntos_(colorPunto)</code> al enviar este ejercicio.",
     "pre":"program {PintarArcoiris()}\nprocedure Pintar3Puntos_(c){\n  Poner(c)\n  repeat(3) {Mover(Este)}\n  Poner(c)\n  repeat(3) {Mover(Este)}\n  Poner(c)\n  repeat(6) {Mover(Oeste)}\n}",
     "run_data":[{
       "t0":{"head":[1,1],"width":10,"height":3,"board":[
@@ -1527,12 +1566,12 @@ def guia4_ej12(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia4_ej13(fecha):
+def guia4_ej13(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia4_ej13",
     "nombre":"13. Escribiendo fechas",
-    "enunciado":"Construir un procedimiento <code>EscribirFechaConDía_Mes_Año_(día, mes, año)</code>, que permita representar cualquier fecha dados el día, mes y año (como números). La representación debe ser la misma utilizada en el ejercicio anterior donde se registró el Día de la Memoria (ver enunciado en <a href='https://aulas.gobstones.org/pluginfile.php/39015/mod_resource/content/22/P2.%20Procedimientos%20y%20Estrategias%20de%20Solucio%CC%81n.pdf' target='_blank'>la guía 2</a>): Azul para el día, Rojo para el mes y Verde para el año, en tres celdas hacia el Este.<br><br>"+recordar+" Debe comenzarse por escribir el contrato; en este caso puede resultar útil escribir también una observación con la representación a utilizar.",
+    "enunciado":"Construir un procedimiento <code>EscribirFechaConDía_Mes_Año_(día, mes, año)</code>, que permita representar cualquier fecha dados el día, mes y año (como números). La representación debe ser la misma utilizada en el ejercicio anterior donde se registró el Día de la Memoria (ver enunciado en "+enlaceGuía(2, curso, "la guía 2")+"): Azul para el día, Rojo para el mes y Verde para el año, en tres celdas hacia el Este.<br><br>"+recordar+" Debe comenzarse por escribir el contrato; en este caso puede resultar útil escribir también una observación con la representación a utilizar.",
     "run_data":[{
       "pre":"program {EscribirFechaConDía_Mes_Año_(2,6,11)}",
       "t0":{"head":[1,1],"width":4,"height":2,"board":[[v,v],[v,v],[v,v],[v,v]]},
@@ -1565,7 +1604,7 @@ def guia4_ej14(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia4_ej15(fecha):
+def guia4_ej15(fecha, curso):
   T = rs(3) # Número 3
   S = rs(6) # Número 6
   N = rs(9) # Número 9
@@ -1574,7 +1613,7 @@ def guia4_ej15(fecha):
     "tipo":"CODIGO",
     "id":"guia4_ej15",
     "nombre":"15. Reloj analógico simplificado generalizado",
-    "enunciado":"Generalizar el ejercicio del reloj analógico simplificado de la práctica 2 (ver el enunciado en <a href='https://aulas.gobstones.org/pluginfile.php/39015/mod_resource/content/22/P2.%20Procedimientos%20y%20Estrategias%20de%20Solucio%CC%81n.pdf' target='_blank'>la guía</a>) para que se pueda pasar el radio como argumento. O sea, se le pide escribir un procedimiento <code>DibujarRelojAnalógicoSimplificadoDeRadio_(radio)</code> que ponga los números del reloj como en el programa original, pero donde el radio recibido por parámetro indica la distancia al centro del reloj: mientras más grande es el radio, más alejados están los números del centro.<br>Por ejemplo, el programa del ejercicio anterior podría obtenerse invocando al procedimiento con el comando <code>DibujarRelojAnalógicoSimplificadoDeRadio_(2)</code>.",
+    "enunciado":"Generalizar el ejercicio del reloj analógico simplificado de la práctica 2 (ver el enunciado en "+enlaceGuía(2, curso)+") para que se pueda pasar el radio como argumento. O sea, se le pide escribir un procedimiento <code>DibujarRelojAnalógicoSimplificadoDeRadio_(radio)</code> que ponga los números del reloj como en el programa original, pero donde el radio recibido por parámetro indica la distancia al centro del reloj: mientras más grande es el radio, más alejados están los números del centro.<br>Por ejemplo, el programa del ejercicio anterior podría obtenerse invocando al procedimiento con el comando <code>DibujarRelojAnalógicoSimplificadoDeRadio_(2)</code>.",
     "run_data":[{
       "pre":"program {DibujarRelojAnalógicoSimplificadoDeRadio_(1)}",
       "t0":{"head":[2,2],"width":5,"height":5,"board":[
@@ -1595,15 +1634,15 @@ def guia4_ej15(fecha):
     "disponible":{"desde":fecha}
   }
 
-def e4_18(e):
-  return "Continuaremos representando el bosque que comenzamos en la práctica 2 (ver el enunciado en <a href='https://aulas.gobstones.org/pluginfile.php/39015/mod_resource/content/22/P2.%20Procedimientos%20y%20Estrategias%20de%20Solucio%CC%81n.pdf' target='_blank'>la guía</a>). Esta vez queremos ser capaces de poner o sacar múltiples elementos de una sola vez.<br><br>"+importante+": para realizar este ejercicio se espera haya realizado la parte 1 de <a href='https://aulas.gobstones.org/pluginfile.php/39015/mod_resource/content/22/P2.%20Procedimientos%20y%20Estrategias%20de%20Solucio%CC%81n.pdf' target='_blank'>la Práctica 2</a>. Si aún no lo hizo, se recomienda volver y realizar el mismo previo a solucionar el ejercicio actual."+código(e)
+def e4_18(e, curso):
+  return "Continuaremos representando el bosque que comenzamos en la práctica 2 (ver el enunciado en "+enlaceGuía(2, curso)+"). Esta vez queremos ser capaces de poner o sacar múltiples elementos de una sola vez.<br><br>"+importante+": para realizar este ejercicio se espera haya realizado la parte 1 de "+enlaceGuía(2, curso, "la Práctica 2")+". Si aún no lo hizo, se recomienda volver y realizar el mismo previo a solucionar el ejercicio actual."+código(e)
 
-def guia4_ej18a(fecha):
+def guia4_ej18a(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia4_ej18a",
     "nombre":"18. El bosque, parte 2 (a)",
-    "enunciado":e4_18("Poner_Semillas(cantidadDeSemillasAPoner)"),
+    "enunciado":e4_18("Poner_Semillas(cantidadDeSemillasAPoner)", curso),
     "run_data":[{
       "pre":"program {Poner_Semillas(3)}",
       "t0":{"head":[0,0],"width":1,"height":1,"board":[[rs(1)]]},
@@ -1616,12 +1655,12 @@ def guia4_ej18a(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia4_ej18b(fecha):
+def guia4_ej18b(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia4_ej18b",
     "nombre":"18. El bosque, parte 2 (b)",
-    "enunciado":e4_18("Sacar_Semillas(cantidadDeSemillasASacar)"),
+    "enunciado":e4_18("Sacar_Semillas(cantidadDeSemillasASacar)", curso),
     "run_data":[{
       "pre":"program {Sacar_Semillas(2)}",
       "t0":{"head":[0,0],"width":1,"height":1,"board":[[rs(2)]]},
@@ -1634,12 +1673,12 @@ def guia4_ej18b(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia4_ej18c(fecha):
+def guia4_ej18c(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia4_ej18c",
     "nombre":"18. El bosque, parte 2 (c)",
-    "enunciado":e4_18("Poner_Árboles(cantidadDeÁrbolesAPoner)"),
+    "enunciado":e4_18("Poner_Árboles(cantidadDeÁrbolesAPoner)", curso),
     "run_data":[{
       "pre":"program {Poner_Árboles(4)}",
       "t0":{"head":[0,0],"width":1,"height":1,"board":[[gs(2)]]},
@@ -1652,12 +1691,12 @@ def guia4_ej18c(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia4_ej18d(fecha):
+def guia4_ej18d(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia4_ej18d",
     "nombre":"18. El bosque, parte 2 (d)",
-    "enunciado":e4_18("Sacar_Árboles(cantidadDeÁrbolesASacar)"),
+    "enunciado":e4_18("Sacar_Árboles(cantidadDeÁrbolesASacar)", curso),
     "run_data":[{
       "pre":"program {Sacar_Árboles(5)}",
       "t0":{"head":[0,0],"width":1,"height":1,"board":[[gs(5)]]},
@@ -1670,12 +1709,12 @@ def guia4_ej18d(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia4_ej18e(fecha):
+def guia4_ej18e(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia4_ej18e",
     "nombre":"18. El bosque, parte 2 (e)",
-    "enunciado":e4_18("Poner_Nutrientes(cantidadDeNutrientesAPoner)"),
+    "enunciado":e4_18("Poner_Nutrientes(cantidadDeNutrientesAPoner)", curso),
     "run_data":[{
       "pre":"program {Poner_Nutrientes(1)}",
       "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
@@ -1688,12 +1727,12 @@ def guia4_ej18e(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia4_ej18f(fecha):
+def guia4_ej18f(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia4_ej18f",
     "nombre":"18. El bosque, parte 2 (f)",
-    "enunciado":e4_18("Sacar_Nutrientes(cantidadDeNutrientesASacar)"),
+    "enunciado":e4_18("Sacar_Nutrientes(cantidadDeNutrientesASacar)", curso),
     "run_data":[{
       "pre":"program {Sacar_Nutrientes(3)}",
       "t0":{"head":[0,0],"width":1,"height":1,"board":[[a_s(9)]]},
@@ -1706,33 +1745,33 @@ def guia4_ej18f(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia4(fechaInicio):
+def guia4(curso, fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guia4",
     "nombre":"Práctica 4 - Parámetros",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      linkGuía(4, 39050, "21/P4.%20Para%CC%81metros.pdf"),
+      linkGuía(4, curso),
       guia4_ej1(fechaInicio),
       guia4_ej2(fechaInicio),
       guia4_ej3(fechaInicio),
       guia4_ej4(fechaInicio),
-      guia4_ej7(fechaInicio),
+      guia4_ej7(fechaInicio, curso),
       guia4_ej8(fechaInicio),
       guia4_ej9(fechaInicio),
       guia4_ej10(fechaInicio),
       guia4_ej11(fechaInicio),
       guia4_ej12(fechaInicio),
-      guia4_ej13(fechaInicio),
+      guia4_ej13(fechaInicio, curso),
       guia4_ej14(fechaInicio),
-      guia4_ej15(fechaInicio),
-      guia4_ej18a(fechaInicio),
-      guia4_ej18b(fechaInicio),
-      guia4_ej18c(fechaInicio),
-      guia4_ej18d(fechaInicio),
-      guia4_ej18e(fechaInicio),
-      guia4_ej18f(fechaInicio)
+      guia4_ej15(fechaInicio, curso),
+      guia4_ej18a(fechaInicio, curso),
+      guia4_ej18b(fechaInicio, curso),
+      guia4_ej18c(fechaInicio, curso),
+      guia4_ej18d(fechaInicio, curso),
+      guia4_ej18e(fechaInicio, curso),
+      guia4_ej18f(fechaInicio, curso)
     ]
   }
 
@@ -2059,12 +2098,12 @@ def guia5_ej1(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia5_ej2(fecha):
+def guia5_ej2(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia5_ej2",
     "nombre":"2. Moviendo según me indican las bolitas",
-    "enunciado":"Escribir el procedimiento <code>Mover_SegúnColor_(dirección,color)</code>, que mueve el cabezal en la dirección dada tantas celdas como bolitas de color dado hay en la celda actual. Como ejemplos se ofrecen los resultados de evaluar el comando <code>Mover_SegúnColor_(Este, Negro)</code>, en diferentes tableros iniciales (ver imágenes en <a href='https://aulas.gobstones.org/pluginfile.php/39068/mod_resource/content/18/P5.%20Expresiones%20y%20tipos.pdf' target='_blank'>la guía</a>).<br><br>"+importante+":  En el último caso, como la celda no tiene bolitas negras (o sea tiene 0 bolitas negras), entonces el cabezal se mueve 0 celdas hacia el Este (O sea, no se mueve). Para probar correctamente su código, pruebe pasando como argumento otras direcciones y colores.",
+    "enunciado":"Escribir el procedimiento <code>Mover_SegúnColor_(dirección,color)</code>, que mueve el cabezal en la dirección dada tantas celdas como bolitas de color dado hay en la celda actual. Como ejemplos se ofrecen los resultados de evaluar el comando <code>Mover_SegúnColor_(Este, Negro)</code>, en diferentes tableros iniciales (ver imágenes en "+enlaceGuía(5, curso)+").<br><br>"+importante+":  En el último caso, como la celda no tiene bolitas negras (o sea tiene 0 bolitas negras), entonces el cabezal se mueve 0 celdas hacia el Este (O sea, no se mueve). Para probar correctamente su código, pruebe pasando como argumento otras direcciones y colores.",
     "run_data":[{
       "pre":"program {Mover_SegúnColor_(Norte, Negro)}",
       "t0":{"head":[0,0],"width":1,"height":5,"board":[[ns(3),v,v,v,v]]},
@@ -2152,12 +2191,12 @@ def guia5_ej3d(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia5_ej4(fecha):
+def guia5_ej4(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia5_ej4",
     "nombre":"4. La banda de la gloriosa River Plate",
-    "enunciado":"Escribir <code>DibujarLaBandaGloriosaDeAncho_(ancho)</code> que dibuja una banda diagonal de color Rojo de cuatro celdas de alto y de tantas celdas de largo como indique el parámetro ancho (dibujando hacia arriba y hacia la derecha). El procedimiento debe poder ser ejecutado en tableros en donde la banda entra justa en el tablero como se muestra a continuación (ver figura en <a href='https://aulas.gobstones.org/pluginfile.php/39068/mod_resource/content/18/P5.%20Expresiones%20y%20tipos.pdf' target='_blank'>la guía</a>).<br>La imágen muestra el resultado de ejecutar el procedimiento como <code>DibujarLaBandaGloriosaDeAncho_(6)</code>, con el cabezal posicionado en la esquina Sur-Oeste del tablero al inicio.<br>"+importante+": Si la banda tiene 6 celdas de largo, el argumento pasado debe ser 6, no 5. Tenga en cuenta que deberá utilizar expresiones en algún lugar de su código para solucionar el problema.",
+    "enunciado":"Escribir <code>DibujarLaBandaGloriosaDeAncho_(ancho)</code> que dibuja una banda diagonal de color Rojo de cuatro celdas de alto y de tantas celdas de largo como indique el parámetro ancho (dibujando hacia arriba y hacia la derecha). El procedimiento debe poder ser ejecutado en tableros en donde la banda entra justa en el tablero como se muestra a continuación (ver figura en "+enlaceGuía(5, curso)+").<br>La imágen muestra el resultado de ejecutar el procedimiento como <code>DibujarLaBandaGloriosaDeAncho_(6)</code>, con el cabezal posicionado en la esquina Sur-Oeste del tablero al inicio.<br>"+importante+": Si la banda tiene 6 celdas de largo, el argumento pasado debe ser 6, no 5. Tenga en cuenta que deberá utilizar expresiones en algún lugar de su código para solucionar el problema.",
     "run_data":[{
       "pre":"program {DibujarLaBandaGloriosaDeAncho_(1)}",
       "t0":{"head":[0,0],"width":1,"height":4,"board":[[v,v,v,v]]},
@@ -2292,21 +2331,21 @@ def guia5_ej9(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia5(fechaInicio):
+def guia5(curso, fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guia5",
     "nombre":"Práctica 5 - Expresiones y Tipos",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      linkGuía(5, 39068, "18/P5.%20Expresiones%20y%20tipos.pdf"),
+      linkGuía(5, curso),
       guia5_ej1(fechaInicio),
-      guia5_ej2(fechaInicio),
+      guia5_ej2(fechaInicio, curso),
       guia5_ej3a(fechaInicio),
       guia5_ej3b(fechaInicio),
       guia5_ej3c(fechaInicio),
       guia5_ej3d(fechaInicio),
-      guia5_ej4(fechaInicio),
+      guia5_ej4(fechaInicio, curso),
       guia5_ej5a(fechaInicio),
       guia5_ej5b(fechaInicio),
       guia5_ej6(fechaInicio),
@@ -2796,12 +2835,12 @@ def guia6_ej4c(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia6_ej5b(fecha):
+def guia6_ej5b(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia6_ej5b",
     "nombre":"5. ¡Nuevamente Nova tiene problemas! (b)",
-    "enunciado":enPapel+" Ayudar a Nova a generalizar este procedimiento, escribiendo <code>SacarExactamente_BolitasDeColor_(cantidadASacar, colorASAcar)</code> (ver el enunciado del inciso anterior en <a href='https://aulas.gobstones.org/pluginfile.php/39086/mod_resource/content/25/P6.%20Alternativas%20Condicionales.pdf' target='_blank'>la guía</a>)",
+    "enunciado":enPapel+" Ayudar a Nova a generalizar este procedimiento, escribiendo <code>SacarExactamente_BolitasDeColor_(cantidadASacar, colorASAcar)</code> (ver el enunciado del inciso anterior en "+enlaceGuía(6, curso)+")",
     "run_data":[{
       "pre":"program {SacarExactamente_BolitasDeColor_(3, Rojo)}",
       "t0":{"head":[0,0],"width":1,"height":1,"board":[[rs(8)]]},
@@ -2814,15 +2853,15 @@ def guia6_ej5b(fecha):
     "disponible":{"desde":fecha}
   }
 
-def e6_6(conEjemplos, s):
-  return 'En este ejercicio utilizaremos el tablero de Gobstones para representar cuentas bancarias. Cada celda representará a una cuenta bancaria, y en cada una de ellas puede haber dinero en distintas monedas, que representaremos con distintos colores:<ul><li>bolitas negras para pesos argentinos.</li><li>bolitas verdes para dólares estadounidenses.</li><li>bolitas azules para euros.</li><li>bolitas rojas para yuanes chinos.</li></ul>Se pueden hacer tres operaciones: depósitos, extracciones y conversiones a divisa extranjera. Las extracciones pueden hacerse en cualquier moneda, pero los depósitos siempre serán en pesos.<br><br>En el caso en que se quiera depositar un monto en una moneda extranjera, se aplicará automáticamente la conversión a pesos según el precio de venta dado en la siguiente tabla:<br><table style="justify-self:center;"><tr><td colspan="2" style="border:solid 1px;">Precios de venta</td></tr><tr><td style="border:solid 1px;">1 dólar</td><td style="border:solid 1px;">80 pesos</td></tr><tr><td style="border:solid 1px;">1 euro</td><td style="border:solid 1px;">90 pesos</td></tr><tr><td style="border:solid 1px;">1 yuan</td><td style="border:solid 1px;">12 pesos</td></tr></table><br>En cuanto a la conversión a divisa extranjera, el banco actualmente aplica las siguientes tarifas para la compra de divisa:<br><table style="justify-self:center;"><tr><td colspan="2" style="border:solid 1px;">Precios de compra</td></tr><tr><td style="border:solid 1px;">100 pesos</td><td style="border:solid 1px;">1 dólar</td></tr><tr><td style="border:solid 1px;">115 pesos</td><td style="border:solid 1px;">1 euro</td></tr><tr><td style="border:solid 1px;">17 pesos</td><td style="border:solid 1px;">1 yuan</td></tr></table><br>Realizar el siguiente procedimiento para poder manipular la cuenta:<br><br>'+s+(" (ver el ejemplo en <a href='https://aulas.gobstones.org/pluginfile.php/39086/mod_resource/content/25/P6.%20Alternativas%20Condicionales.pdf' target='_blank'>la guía</a>)." if conEjemplos else ".")
+def e6_6(conEjemplos, s, curso):
+  return 'En este ejercicio utilizaremos el tablero de Gobstones para representar cuentas bancarias. Cada celda representará a una cuenta bancaria, y en cada una de ellas puede haber dinero en distintas monedas, que representaremos con distintos colores:<ul><li>bolitas negras para pesos argentinos.</li><li>bolitas verdes para dólares estadounidenses.</li><li>bolitas azules para euros.</li><li>bolitas rojas para yuanes chinos.</li></ul>Se pueden hacer tres operaciones: depósitos, extracciones y conversiones a divisa extranjera. Las extracciones pueden hacerse en cualquier moneda, pero los depósitos siempre serán en pesos.<br><br>En el caso en que se quiera depositar un monto en una moneda extranjera, se aplicará automáticamente la conversión a pesos según el precio de venta dado en la siguiente tabla:<br><table style="justify-self:center;"><tr><td colspan="2" style="border:solid 1px;">Precios de venta</td></tr><tr><td style="border:solid 1px;">1 dólar</td><td style="border:solid 1px;">80 pesos</td></tr><tr><td style="border:solid 1px;">1 euro</td><td style="border:solid 1px;">90 pesos</td></tr><tr><td style="border:solid 1px;">1 yuan</td><td style="border:solid 1px;">12 pesos</td></tr></table><br>En cuanto a la conversión a divisa extranjera, el banco actualmente aplica las siguientes tarifas para la compra de divisa:<br><table style="justify-self:center;"><tr><td colspan="2" style="border:solid 1px;">Precios de compra</td></tr><tr><td style="border:solid 1px;">100 pesos</td><td style="border:solid 1px;">1 dólar</td></tr><tr><td style="border:solid 1px;">115 pesos</td><td style="border:solid 1px;">1 euro</td></tr><tr><td style="border:solid 1px;">17 pesos</td><td style="border:solid 1px;">1 yuan</td></tr></table><br>Realizar el siguiente procedimiento para poder manipular la cuenta:<br><br>'+s+(" (ver el ejemplo en "+enlaceGuía(6, curso)+"." if conEjemplos else ".")
 
-def guia6_ej6a(fecha):
+def guia6_ej6a(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia6_ej6a",
     "nombre":"6. ¿Vamos al banco? - Parte 1 (a)",
-    "enunciado":e6_6(True, "<code>Depositar_EnMoneda_ComoPesos(cantidadADepositar, moneda)</code>, que dada una cantidad de dinero a depositar y un color que representa la moneda en la que está representado ese monto, agrega a la cuenta la cantidad de pesos equivalente a lo indicado para depositar. En este procedimiento hay que aplicar la conversión indicada para el precio de venta"),
+    "enunciado":e6_6(True, "<code>Depositar_EnMoneda_ComoPesos(cantidadADepositar, moneda)</code>, que dada una cantidad de dinero a depositar y un color que representa la moneda en la que está representado ese monto, agrega a la cuenta la cantidad de pesos equivalente a lo indicado para depositar. En este procedimiento hay que aplicar la conversión indicada para el precio de venta", curso),
     "run_data":[{
       "pre":"program {Depositar_EnMoneda_ComoPesos(10, Negro)}",
       "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
@@ -2835,12 +2874,12 @@ def guia6_ej6a(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia6_ej6b(fecha):
+def guia6_ej6b(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia6_ej6b",
     "nombre":"6. ¿Vamos al banco? - Parte 1 (b)",
-    "enunciado":e6_6(True, "<code>ExtraerHasta_EnMoneda_(cantidadAExtraer, moneda)</code>, que dada una cantidad de dinero a extraer y un color que representa la moneda en la que se va a extraer, remueve de la cuenta la cantidad que se indica. Si no hubiera tanto dinero como el solicitado, se extrae todo lo que haya"),
+    "enunciado":e6_6(True, "<code>ExtraerHasta_EnMoneda_(cantidadAExtraer, moneda)</code>, que dada una cantidad de dinero a extraer y un color que representa la moneda en la que se va a extraer, remueve de la cuenta la cantidad que se indica. Si no hubiera tanto dinero como el solicitado, se extrae todo lo que haya", curso),
     "run_data":[{
       "pre":"program {ExtraerHasta_EnMoneda_(10, Negro)}",
       "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
@@ -2857,12 +2896,12 @@ def guia6_ej6b(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia6_ej6c(fecha):
+def guia6_ej6c(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia6_ej6c",
     "nombre":"6. ¿Vamos al banco? - Parte 1 (c)",
-    "enunciado":e6_6(True, "<code>ConvertirHasta_PesosA_(pesosAConvertir, moneda)</code>, que dada una cantidad de pesos a convertir y un color que representa la moneda en la cual se quiere convertir, remueve los pesos de la cuenta y agrega la moneda solicitada. Si en la cuenta hubiera menos pesos de lo solicitado, se convierte todo lo que haya")+"<br>El último ejemplo es interesante: se piden convertir 100 pesos a dólares pero no hay 10 pesos en la cuenta, por lo que se va a intentar convertir el total de pesos que haya, 90. Con 90 pesos, no se llega a comprar ningún dólar, y como Gobstones solo trabaja con números enteros, no es posible tener medio dólar, por lo que queda en cero dólares.",
+    "enunciado":e6_6(True, "<code>ConvertirHasta_PesosA_(pesosAConvertir, moneda)</code>, que dada una cantidad de pesos a convertir y un color que representa la moneda en la cual se quiere convertir, remueve los pesos de la cuenta y agrega la moneda solicitada. Si en la cuenta hubiera menos pesos de lo solicitado, se convierte todo lo que haya", curso)+"<br>El último ejemplo es interesante: se piden convertir 100 pesos a dólares pero no hay 10 pesos en la cuenta, por lo que se va a intentar convertir el total de pesos que haya, 90. Con 90 pesos, no se llega a comprar ningún dólar, y como Gobstones solo trabaja con números enteros, no es posible tener medio dólar, por lo que queda en cero dólares.",
     "run_data":[{
       "pre":"program {ConvertirHasta_PesosA_(200, Verde)}",
       "t0":{"head":[0,0],"width":1,"height":1,"board":[[c(0,299,0,10)]]},
@@ -2879,13 +2918,13 @@ def guia6_ej6c(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia6_ej6d(fecha):
+def guia6_ej6d(fecha, curso):
   b = lambda p, d : c(10,p,10,d)
   return {
     "tipo":"CODIGO",
     "id":"guia6_ej6d",
     "nombre":"6. ¿Vamos al banco? - Parte 1 (d)",
-    "enunciado":e6_6(False, "<code>RealizarCorridaCambiaria()</code>, que dado un tablero de 1 única fila y 10 columnas, donde cada celda representa una cuenta bancaria, se realiza una corrida cambiaria, donde en cada cuenta se cambia la totalidad de los pesos a dólares. No es relevante la ubicación final del cabezal"),
+    "enunciado":e6_6(False, "<code>RealizarCorridaCambiaria()</code>, que dado un tablero de 1 única fila y 10 columnas, donde cada celda representa una cuenta bancaria, se realiza una corrida cambiaria, donde en cada cuenta se cambia la totalidad de los pesos a dólares. No es relevante la ubicación final del cabezal", curso),
     "run_data":[{
       "pre":"program {RealizarCorridaCambiaria()}",
       "t0":{"head":[5,0],"width":10,"height":1,"board":[
@@ -2898,14 +2937,14 @@ def guia6_ej6d(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia6(fechaInicio):
+def guia6(curso, fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guia6",
     "nombre":"Práctica 6 - Alternativas Condicionales",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      linkGuía(6, 39086, "25/P6.%20Alternativas%20Condicionales.pdf"),
+      linkGuía(6, curso),
       guia6_ej1(fechaInicio),
       guia6_ej2a(fechaInicio),
       guia6_ej2b(fechaInicio),
@@ -2920,11 +2959,11 @@ def guia6(fechaInicio):
       guia6_ej4b(fechaInicio),
       guia6_ej4c(fechaInicio),
       # guia6_ej5a(fechaInicio), ¿Cuestionario?
-      guia6_ej5b(fechaInicio),
-      guia6_ej6a(fechaInicio),
-      guia6_ej6b(fechaInicio),
-      guia6_ej6c(fechaInicio),
-      guia6_ej6d(fechaInicio)
+      guia6_ej5b(fechaInicio, curso),
+      guia6_ej6a(fechaInicio, curso),
+      guia6_ej6b(fechaInicio, curso),
+      guia6_ej6c(fechaInicio, curso),
+      guia6_ej6d(fechaInicio, curso)
     ]
   }
 
@@ -3137,15 +3176,15 @@ def guia7_ej2c(fecha):
     "disponible":{"desde":fecha}
   }
 
-def e7_3(s):
-  return "Escribir la siguiente función para el juego ¡A la batalla! de la <a href='https://aulas.gobstones.org/pluginfile.php/39068/mod_resource/content/18/P5.%20Expresiones%20y%20tipos.pdf' target='_blank'>práctica 5</a>, donde en las celdas del tablero se representan soldados (los aliados con una bolita de color Negro y los enemigos con una bolita de color Rojo por cada soldado).<br>"+s
+def e7_3(s, curso):
+  return "Escribir la siguiente función para el juego ¡A la batalla! de "+enlaceGuía(5, curso, "la práctica 5")+", donde en las celdas del tablero se representan soldados (los aliados con una bolita de color Negro y los enemigos con una bolita de color Rojo por cada soldado).<br>"+s
 
-def guia7_ej3a(fecha):
+def guia7_ej3a(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej3a",
     "nombre":"3. ¡A la batalla!, parte 2 (a)",
-    "enunciado":e7_3("<code>cantidadDeSoldadosDe_(colorDelEjército)</code>, que describe la cantidad de soldados de la celda actual del ejército dado."),
+    "enunciado":e7_3("<code>cantidadDeSoldadosDe_(colorDelEjército)</code>, que describe la cantidad de soldados de la celda actual del ejército dado.", curso),
     "run_data":[
       validarNumEnCelda("cantidadDeSoldadosDe_(Negro)",0,v),
       validarNumEnCelda("cantidadDeSoldadosDe_(Negro)",5,c(0,5,8,0)),
@@ -3154,12 +3193,12 @@ def guia7_ej3a(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia7_ej3b(fecha):
+def guia7_ej3b(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej3b",
     "nombre":"3. ¡A la batalla!, parte 2 (b)",
-    "enunciado":"Vuelva a escribir <code>EnviarAliadosParaDuplicarEnemigos()</code> y <code>PelearLaBatalla()</code>, que realizó en la <a href='https://aulas.gobstones.org/pluginfile.php/39068/mod_resource/content/18/P5.%20Expresiones%20y%20tipos.pdf' target='_blank'>práctica 5</a>, ahora haciendo uso de la función hecha en el punto a (<code>cantidadDeSoldadosDe_</code>).<br><br><b>Nota</b>: no incluir la definición de la función <code>cantidadDeSoldadosDe_</code> al enviar este ejercicio.",
+    "enunciado":"Vuelva a escribir <code>EnviarAliadosParaDuplicarEnemigos()</code> y <code>PelearLaBatalla()</code>, que realizó en "+enlaceGuía(5, curso, "la práctica 5")+", ahora haciendo uso de la función hecha en el punto a (<code>cantidadDeSoldadosDe_</code>).<br><br><b>Nota</b>: no incluir la definición de la función <code>cantidadDeSoldadosDe_</code> al enviar este ejercicio.",
     "pre":"function cantidadDeSoldadosDe_(c){return (nroBolitas(c))}",
     "run_data":[{
       "pre":"program {EnviarAliadosParaDuplicarEnemigos()}",
@@ -3193,12 +3232,12 @@ def guia7_ej3b(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia7_ej3c(fecha):
+def guia7_ej3c(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej3c",
     "nombre":"3. ¡A la batalla!, parte 2 (c)",
-    "enunciado":e7_3("<code>esCeldaIndefensa()</code> que indica si no hay soldados aliados en la celda actual."),
+    "enunciado":e7_3("<code>esCeldaIndefensa()</code> que indica si no hay soldados aliados en la celda actual.", curso),
     "pre":programParaValidarBoolEnCelda("esCeldaIndefensa()"),
     "run_data":[{
       "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
@@ -3213,12 +3252,12 @@ def guia7_ej3c(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia7_ej3d(fecha):
+def guia7_ej3d(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej3d",
     "nombre":"3. ¡A la batalla!, parte 2 (d)",
-    "enunciado":e7_3("<code>estadoDeEmergencia()</code> que indica si existen más de 100 soldados enemigos, y además la celda está indefensa."),
+    "enunciado":e7_3("<code>estadoDeEmergencia()</code> que indica si existen más de 100 soldados enemigos, y además la celda está indefensa.", curso),
     "pre":programParaValidarBoolEnCelda("estadoDeEmergencia()"),
     "run_data":[{
       "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
@@ -3242,12 +3281,12 @@ def guia7_ej3d(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia7_ej3e(fecha):
+def guia7_ej3e(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej3e",
     "nombre":"3. ¡A la batalla!, parte 2 (e)",
-    "enunciado":e7_3("<code>hayAlMenos_AliadosPorCada_Atacantes(cantidadDefensa, cantidadAtaque)</code> que indica si hay por lo menos <code>cantidadDefensa</code> soldados aliados por cada <code>cantidadAtaque</code> soldados enemigos en la celda actual. Por ejemplos si en la celda actual hubiera 10 soldados aliados y 5 enemigos, la función invocada como <code>hayAlMenos_AliadosPorCada_Atacantes(2, 1)</code>, describiría Verdadero, pues hay al menos dos aliados por cada atacante. Si se invocara con esos mismos argumentos en una celda donde hay 7 aliados y 5 enemigos, describiría Falso."),
+    "enunciado":e7_3("<code>hayAlMenos_AliadosPorCada_Atacantes(cantidadDefensa, cantidadAtaque)</code> que indica si hay por lo menos <code>cantidadDefensa</code> soldados aliados por cada <code>cantidadAtaque</code> soldados enemigos en la celda actual. Por ejemplos si en la celda actual hubiera 10 soldados aliados y 5 enemigos, la función invocada como <code>hayAlMenos_AliadosPorCada_Atacantes(2, 1)</code>, describiría Verdadero, pues hay al menos dos aliados por cada atacante. Si se invocara con esos mismos argumentos en una celda donde hay 7 aliados y 5 enemigos, describiría Falso.", curso),
     "run_data":[
       # validarBoolEnCelda("hayAlMenos_AliadosPorCada_Atacantes(15,1)", True, v),
       validarBoolEnCelda("hayAlMenos_AliadosPorCada_Atacantes(2,1)", True, c(0,10,5,0)),
@@ -3256,12 +3295,12 @@ def guia7_ej3e(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia7_ej3f(fecha):
+def guia7_ej3f(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej3f",
     "nombre":"3. ¡A la batalla!, parte 2 (f)",
-    "enunciado":e7_3("<code>aliadosNecesariosParaDefensaEficazContra_(cantidadDeSoldadosEnemigosAdicionales)</code> que describe el número de soldados aliados que faltan para defender la celda actual si a ella se suman la cantidad de soldados enemigos dada. Tener en cuenta que en la celda actual puede ser que haya soldados, pero que es precondición de esta función que no hay suficientes aliados. Recordemos que 2 soldados enemigos pelean contra 3 soldados aliados y todos mueren."),
+    "enunciado":e7_3("<code>aliadosNecesariosParaDefensaEficazContra_(cantidadDeSoldadosEnemigosAdicionales)</code> que describe el número de soldados aliados que faltan para defender la celda actual si a ella se suman la cantidad de soldados enemigos dada. Tener en cuenta que en la celda actual puede ser que haya soldados, pero que es precondición de esta función que no hay suficientes aliados. Recordemos que 2 soldados enemigos pelean contra 3 soldados aliados y todos mueren.", curso),
     "run_data":[
       # validarNumEnCelda("aliadosNecesariosParaDefensaEficazContra_(0)",0,v),
       validarNumEnCelda("aliadosNecesariosParaDefensaEficazContra_(0)",1,c(0,2,2,0)),
@@ -3455,63 +3494,63 @@ def guia7_ej5e(fecha):
     "disponible":{"desde":fecha}
   }
 
-def e7_6(s, recordarTabla):
-  return "Continuaremos utilizando el mismo dominio del banco de la práctica anterior. Esta vez, vamos a realizar funciones que nos permitan abstraernos de la representación subyacente, así como simplificar cálculos en nuestras operaciones.<br><br>Se pide entonces que realice la siguiente función:<br><br>"+s+ ("<br><br>Recordar las tablas con los precios de compra y venta en <a href='https://aulas.gobstones.org/pluginfile.php/39086/mod_resource/content/25/P6.%20Alternativas%20Condicionales.pdf' target='_blank'>la guía anterior</a>." if recordarTabla else "")
+def e7_6(s, recordarTabla, curso):
+  return "Continuaremos utilizando el mismo dominio del banco de la práctica anterior. Esta vez, vamos a realizar funciones que nos permitan abstraernos de la representación subyacente, así como simplificar cálculos en nuestras operaciones.<br><br>Se pide entonces que realice la siguiente función:<br><br>"+s+ ("<br><br>Recordar las tablas con los precios de compra y venta en "+enlaceGuía(6, curso, "la guía anterior")+"." if recordarTabla else "")
 
-def guia7_ej6a(fecha):
+def guia7_ej6a(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej6a",
     "nombre":"6. ¿Vamos al banco? - Parte 2 (a)",
-    "enunciado":e7_6("<code>pesos()</code> que describe el color con el que se representan los pesos en el tablero, Negro.", False),
+    "enunciado":e7_6("<code>pesos()</code> que describe el color con el que se representan los pesos en el tablero, Negro.", False, curso),
     "run_data":[
       validarColorEnCelda("pesos()","n",v)
     ],
     "disponible":{"desde":fecha}
   }
 
-def guia7_ej6b(fecha):
+def guia7_ej6b(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej6b",
     "nombre":"6. ¿Vamos al banco? - Parte 2 (b)",
-    "enunciado":e7_6("<code>dólares()</code> que describe el color con el que se representan los dólares en el tablero, Verde.", False),
+    "enunciado":e7_6("<code>dólares()</code> que describe el color con el que se representan los dólares en el tablero, Verde.", False, curso),
     "run_data":[
       validarColorEnCelda("dólares()","v",v)
     ],
     "disponible":{"desde":fecha}
   }
 
-def guia7_ej6c(fecha):
+def guia7_ej6c(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej6c",
     "nombre":"6. ¿Vamos al banco? - Parte 2 (c)",
-    "enunciado":e7_6("<code>euros()</code> que describe el color con el que se representan los euros en el tablero, Azul.", False),
+    "enunciado":e7_6("<code>euros()</code> que describe el color con el que se representan los euros en el tablero, Azul.", False, curso),
     "run_data":[
       validarColorEnCelda("euros()","a",v)
     ],
     "disponible":{"desde":fecha}
   }
 
-def guia7_ej6d(fecha):
+def guia7_ej6d(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej6d",
     "nombre":"6. ¿Vamos al banco? - Parte 2 (d)",
-    "enunciado":e7_6("<code>yuanes()</code> que describe el color con el que se representan los yuanes en el tablero, Rojo.", False),
+    "enunciado":e7_6("<code>yuanes()</code> que describe el color con el que se representan los yuanes en el tablero, Rojo.", False, curso),
     "run_data":[
       validarColorEnCelda("yuanes()","r",v)
     ],
     "disponible":{"desde":fecha}
   }
 
-def guia7_ej6e(fecha):
+def guia7_ej6e(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej6e",
     "nombre":"6. ¿Vamos al banco? - Parte 2 (e)",
-    "enunciado":e7_6("<code>ahorrosEn_(moneda)</code> que dada una moneda, indica la cantidad de unidades de esa moneda en la cuenta actual.", False),
+    "enunciado":e7_6("<code>ahorrosEn_(moneda)</code> que dada una moneda, indica la cantidad de unidades de esa moneda en la cuenta actual.", False, curso),
     "run_data":[
       validarNumEnCelda("ahorrosEn_(Negro)",0,v),
       validarNumEnCelda("ahorrosEn_(Negro)",5,c(0,5,8,0)),
@@ -3520,12 +3559,12 @@ def guia7_ej6e(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia7_ej6f(fecha):
+def guia7_ej6f(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej6f",
     "nombre":"6. ¿Vamos al banco? - Parte 2 (f)",
-    "enunciado":e7_6("<code>cuantosDolaresSePuedeComprarCon_Pesos(cantidadDePesos)</code> que indica la cantidad de dólares que se pueden comprar con una cantidad de pesos dada.", True),
+    "enunciado":e7_6("<code>cuantosDolaresSePuedeComprarCon_Pesos(cantidadDePesos)</code> que indica la cantidad de dólares que se pueden comprar con una cantidad de pesos dada.", True, curso),
     "run_data":[
       validarNumEnCelda("cuantosDolaresSePuedeComprarCon_Pesos(0)",0,v),
       validarNumEnCelda("cuantosDolaresSePuedeComprarCon_Pesos(50)",0,v),
@@ -3536,12 +3575,12 @@ def guia7_ej6f(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia7_ej6g(fecha):
+def guia7_ej6g(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej6g",
     "nombre":"6. ¿Vamos al banco? - Parte 2 (g)",
-    "enunciado":e7_6("<code>cuantosEurosSePuedeComprarCon_Pesos(cantidadDePesos)</code> que indica la cantidad de euros que se pueden comprar con una cantidad de pesos dada.", True),
+    "enunciado":e7_6("<code>cuantosEurosSePuedeComprarCon_Pesos(cantidadDePesos)</code> que indica la cantidad de euros que se pueden comprar con una cantidad de pesos dada.", True, curso),
     "run_data":[
       validarNumEnCelda("cuantosEurosSePuedeComprarCon_Pesos(0)",0,v),
       validarNumEnCelda("cuantosEurosSePuedeComprarCon_Pesos(100)",0,v),
@@ -3552,12 +3591,12 @@ def guia7_ej6g(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia7_ej6h(fecha):
+def guia7_ej6h(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej6h",
     "nombre":"6. ¿Vamos al banco? - Parte 2 (h)",
-    "enunciado":e7_6("<code>cuantosYuanesSePuedeComprarCon_Pesos(cantidadDePesos)</code> que indica la cantidad de yuanes que se pueden comprar con una cantidad de pesos dada.", True),
+    "enunciado":e7_6("<code>cuantosYuanesSePuedeComprarCon_Pesos(cantidadDePesos)</code> que indica la cantidad de yuanes que se pueden comprar con una cantidad de pesos dada.", True, curso),
     "run_data":[
       validarNumEnCelda("cuantosYuanesSePuedeComprarCon_Pesos(0)",0,v),
       validarNumEnCelda("cuantosYuanesSePuedeComprarCon_Pesos(15)",0,v),
@@ -3568,12 +3607,12 @@ def guia7_ej6h(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia7_ej6i(fecha):
+def guia7_ej6i(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej6i",
     "nombre":"6. ¿Vamos al banco? - Parte 2 (i)",
-    "enunciado":e7_6("<code>cuantosPesosSiVendo_Dólares(cantidadDeMonedaExtranjera)</code> que indica la cantidad de pesos a obtener si se venden (depositan) la cantidad de dólares dada.", True),
+    "enunciado":e7_6("<code>cuantosPesosSiVendo_Dólares(cantidadDeMonedaExtranjera)</code> que indica la cantidad de pesos a obtener si se venden (depositan) la cantidad de dólares dada.", True, curso),
     "run_data":[
       validarNumEnCelda("cuantosPesosSiVendo_Dólares(0)",0,v),
       validarNumEnCelda("cuantosPesosSiVendo_Dólares(1)",80,v),
@@ -3582,12 +3621,12 @@ def guia7_ej6i(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia7_ej6j(fecha):
+def guia7_ej6j(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej6j",
     "nombre":"6. ¿Vamos al banco? - Parte 2 (j)",
-    "enunciado":e7_6("<code>cuantosPesosSiVendo_Euros(cantidadDeMonedaExtranjera)</code> que indica la cantidad de pesos a obtener si se venden (depositan) la cantidad de euros dada.", True),
+    "enunciado":e7_6("<code>cuantosPesosSiVendo_Euros(cantidadDeMonedaExtranjera)</code> que indica la cantidad de pesos a obtener si se venden (depositan) la cantidad de euros dada.", True, curso),
     "run_data":[
       validarNumEnCelda("cuantosPesosSiVendo_Euros(0)",0,v),
       validarNumEnCelda("cuantosPesosSiVendo_Euros(1)",90,v),
@@ -3596,12 +3635,12 @@ def guia7_ej6j(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia7_ej6k(fecha):
+def guia7_ej6k(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia7_ej6k",
     "nombre":"6. ¿Vamos al banco? - Parte 2 (k)",
-    "enunciado":e7_6("<code>cuantosPesosSiVendo_Yuanes(cantidadDeMonedaExtranjera)</code> que indica la cantidad de pesos a obtener si se venden (depositan) la cantidad de yuanes dada.", True),
+    "enunciado":e7_6("<code>cuantosPesosSiVendo_Yuanes(cantidadDeMonedaExtranjera)</code> que indica la cantidad de pesos a obtener si se venden (depositan) la cantidad de yuanes dada.", True, curso),
     "run_data":[
       validarNumEnCelda("cuantosPesosSiVendo_Yuanes(0)",0,v),
       validarNumEnCelda("cuantosPesosSiVendo_Yuanes(1)",12,v),
@@ -3610,14 +3649,14 @@ def guia7_ej6k(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia7(fechaInicio):
+def guia7(curso, fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guia7",
     "nombre":"Práctica 7 - Funciones Simples",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      linkGuía(7, 39099, "23/P7.%20Funciones%20simples.pdf"),
+      linkGuía(7, curso),
       guia7_ej1a(fechaInicio),
       guia7_ej1b(fechaInicio),
       guia7_ej1c(fechaInicio),
@@ -3628,13 +3667,13 @@ def guia7(fechaInicio):
       guia7_ej2a(fechaInicio),
       guia7_ej2b(fechaInicio),
       guia7_ej2c(fechaInicio),
-      guia7_ej3a(fechaInicio),
-      # guia7_ej3b(fechaInicio), Por ahora no tiene sentido. Agregarlo cuando analice más cuestiones de calidad
+      guia7_ej3a(fechaInicio, curso),
+      # guia7_ej3b(fechaInicio, curso), Por ahora no tiene sentido. Agregarlo cuando analice más cuestiones de calidad
         # OJO: ya está implementado (aunque no testeado)
-      guia7_ej3c(fechaInicio),
-      guia7_ej3d(fechaInicio),
-      guia7_ej3e(fechaInicio),
-      guia7_ej3f(fechaInicio),
+      guia7_ej3c(fechaInicio, curso),
+      guia7_ej3d(fechaInicio, curso),
+      guia7_ej3e(fechaInicio, curso),
+      guia7_ej3f(fechaInicio, curso),
       guia7_ej4a(fechaInicio),
       guia7_ej4b(fechaInicio),
       guia7_ej5a(fechaInicio),
@@ -3642,17 +3681,17 @@ def guia7(fechaInicio):
       guia7_ej5c(fechaInicio),
       guia7_ej5d(fechaInicio),
       guia7_ej5e(fechaInicio),
-      guia7_ej6a(fechaInicio),
-      guia7_ej6b(fechaInicio),
-      guia7_ej6c(fechaInicio),
-      guia7_ej6d(fechaInicio),
-      guia7_ej6e(fechaInicio),
-      guia7_ej6f(fechaInicio),
-      guia7_ej6g(fechaInicio),
-      guia7_ej6h(fechaInicio),
-      guia7_ej6i(fechaInicio),
-      guia7_ej6j(fechaInicio),
-      guia7_ej6k(fechaInicio)#,
+      guia7_ej6a(fechaInicio, curso),
+      guia7_ej6b(fechaInicio, curso),
+      guia7_ej6c(fechaInicio, curso),
+      guia7_ej6d(fechaInicio, curso),
+      guia7_ej6e(fechaInicio, curso),
+      guia7_ej6f(fechaInicio, curso),
+      guia7_ej6g(fechaInicio, curso),
+      guia7_ej6h(fechaInicio, curso),
+      guia7_ej6i(fechaInicio, curso),
+      guia7_ej6j(fechaInicio, curso),
+      guia7_ej6k(fechaInicio, curso)#,
       # guia7_ej6l(fechaInicio) Por ahora no tiene sentido. Agregarlo cuando analice más cuestiones de calidad
         # OJO: Todavía no está implementado
     ]
@@ -3962,15 +4001,15 @@ def guia8_ej12(fecha):
     "disponible":{"desde":fecha}
   }
 
-def e8_13(s):
-  return "Se desea modelar el movimiento de mercadería en una sencilla red de depósitos, que tiene un depósito central, más un depósito local para cada punto cardinal. Para esto, se va a representar en el tablero un mapa muy simplificado.<ul><li>Tres bolitas negras marcan el depósito central,</li><li>dos bolitas negras marcan un depósito local,</li><li>una bolita negra marca el camino de central a local,</li><li>cada bolita azul marca una unidad de mercadería.</li></ul>Los depósitos locales forman una cruz, donde el centro es el depósito central. No se sabe a qué distancia están los depósitos locales del depósito central (ver ejemplo en <a href='https://aulas.gobstones.org/pluginfile.php/39117/mod_resource/content/19/P8.%20Repetici%C3%B3n%20condicional%2C%20recorridos.pdf' target='_blank'>la guía</a>).<br>Escribir:<br>"+s
+def e8_13(s, curso):
+  return "Se desea modelar el movimiento de mercadería en una sencilla red de depósitos, que tiene un depósito central, más un depósito local para cada punto cardinal. Para esto, se va a representar en el tablero un mapa muy simplificado.<ul><li>Tres bolitas negras marcan el depósito central,</li><li>dos bolitas negras marcan un depósito local,</li><li>una bolita negra marca el camino de central a local,</li><li>cada bolita azul marca una unidad de mercadería.</li></ul>Los depósitos locales forman una cruz, donde el centro es el depósito central. No se sabe a qué distancia están los depósitos locales del depósito central (ver ejemplo en "+enlaceGuía(8, curso)+").<br>Escribir:<br>"+s
 
-def guia8_ej13a(fecha):
+def guia8_ej13a(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia8_ej13a",
     "nombre":"13. Distribución de mercadería (a)",
-    "enunciado": e8_13("<code>esDepósitoCentral()</code> y <code>esDepósitoLocal()</code> que indican si el cabezal está, respectivamente, en el depósito central o en un depósito local."),
+    "enunciado": e8_13("<code>esDepósitoCentral()</code> y <code>esDepósitoLocal()</code> que indican si el cabezal está, respectivamente, en el depósito central o en un depósito local.", curso),
     "run_data":[
       validarBoolEnCelda("esDepósitoCentral()", False, ns(2)),
       validarBoolEnCelda("esDepósitoCentral()", True, ns(3)),
@@ -3982,12 +4021,12 @@ def guia8_ej13a(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia8_ej13b(fecha):
+def guia8_ej13b(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia8_ej13b",
     "nombre":"13. Distribución de mercadería (b)",
-    "enunciado": e8_13("<code>IrDeCentralAlLocal_(dirección)</code>, que mueve el cabezal del depósito central al depósito local que está en la dirección dada, suponiendo que el cabezal comience en el depósito central."),
+    "enunciado": e8_13("<code>IrDeCentralAlLocal_(dirección)</code>, que mueve el cabezal del depósito central al depósito local que está en la dirección dada, suponiendo que el cabezal comience en el depósito central.", curso),
     "run_data":[{
       "pre":"program{IrDeCentralAlLocal_(Norte)}",
       "t0":{"head":[0,2],"width":1,"height":4,"board":[[v,v,ns(3),ns(2)]]},
@@ -4000,12 +4039,12 @@ def guia8_ej13b(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia8_ej13c(fecha):
+def guia8_ej13c(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia8_ej13c",
     "nombre":"13. Distribución de mercadería (c)",
-    "enunciado": e8_13("<code>IrDelLocal_ACentral(dirección)</code>, que mueve el cabezal al depósito central, suponiendo que el cabezal está en el depósito local que está en la dirección dada.<br>"+aclaración+": si se pide <code>IrDelLocal_ACentral(Sur)</code>, quiere decir que el cabezal está en el depósito Sur, por lo tanto, debe moverse <em>hacia el Norte</em>."),
+    "enunciado": e8_13("<code>IrDelLocal_ACentral(dirección)</code>, que mueve el cabezal al depósito central, suponiendo que el cabezal está en el depósito local que está en la dirección dada.<br>"+aclaración+": si se pide <code>IrDelLocal_ACentral(Sur)</code>, quiere decir que el cabezal está en el depósito Sur, por lo tanto, debe moverse <em>hacia el Norte</em>.", curso),
     "run_data":[{
       "pre":"program{IrDelLocal_ACentral(Sur)}",
       "t0":{"head":[0,2],"width":1,"height":4,"board":[[v,v,ns(2),ns(3)]]},
@@ -4018,12 +4057,12 @@ def guia8_ej13c(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia8_ej13d(fecha):
+def guia8_ej13d(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia8_ej13d",
     "nombre":"13. Distribución de mercadería (d)",
-    "enunciado": e8_13("<code>Llevar_MercaderíasAlLocal_(cantidad, dirección)</code>, que lleva la cantidad de mercadería indicada del depósito central al depósito local que está en la dirección indicada. Si en el depósito central no hay suficiente cantidad de mercadería, no se hace nada. Se puede suponer que el cabezal está en el depósito central, y debe dejarse en el mismo lugar. Por ejemplo a partir del tablero inicial dado como ejemplo, <code>Llevar_MercaderíasAlLocal_(3, Sur)</code> tiene este efecto: (ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39117/mod_resource/content/19/P8.%20Repetici%C3%B3n%20condicional%2C%20recorridos.pdf' target='_blank'>la guía</a>)."),
+    "enunciado": e8_13("<code>Llevar_MercaderíasAlLocal_(cantidad, dirección)</code>, que lleva la cantidad de mercadería indicada del depósito central al depósito local que está en la dirección indicada. Si en el depósito central no hay suficiente cantidad de mercadería, no se hace nada. Se puede suponer que el cabezal está en el depósito central, y debe dejarse en el mismo lugar. Por ejemplo a partir del tablero inicial dado como ejemplo, <code>Llevar_MercaderíasAlLocal_(3, Sur)</code> tiene este efecto: (ver imagen en "+enlaceGuía(8, curso)+").", curso),
     "run_data":[{
       "pre":"program{Llevar_MercaderíasAlLocal_(5,Sur)}",
       "t0":{"head":[0,3],"width":1,"height":4,"board":[[v,v,ns(2),c(4,3,0,0)]]},
@@ -4036,12 +4075,12 @@ def guia8_ej13d(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia8_ej13e(fecha):
+def guia8_ej13e(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia8_ej13e",
     "nombre":"13. Distribución de mercadería (e)",
-    "enunciado": e8_13("<code>Traer_MercaderíasDelLocal_(cantidad, dirección)</code>, que lleva la cantidad de mercadería indicada del depósito local en la dirección indicada, al depósito central. Si en el depósito local indicado no hay suficiente cantidad de mercadería, no se hace nada. Se puede suponer que el cabezal está en el depósito central, y debe dejarse en el mismo lugar. Por ejemplo, a partir del tablero inicial, <code>Traer_MercaderíasDelLocal_(3, Sur)</code> tiene este efecto: (ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39117/mod_resource/content/19/P8.%20Repetici%C3%B3n%20condicional%2C%20recorridos.pdf' target='_blank'>la guía</a>)."),
+    "enunciado": e8_13("<code>Traer_MercaderíasDelLocal_(cantidad, dirección)</code>, que lleva la cantidad de mercadería indicada del depósito local en la dirección indicada, al depósito central. Si en el depósito local indicado no hay suficiente cantidad de mercadería, no se hace nada. Se puede suponer que el cabezal está en el depósito central, y debe dejarse en el mismo lugar. Por ejemplo, a partir del tablero inicial, <code>Traer_MercaderíasDelLocal_(3, Sur)</code> tiene este efecto: (ver imagen en "+enlaceGuía(8, curso)+").", curso),
     "run_data":[{
       "pre":"program{Traer_MercaderíasDelLocal_(5,Sur)}",
       "t0":{"head":[0,3],"width":1,"height":4,"board":[[v,v,ns(2),c(4,3,0,0)]]},
@@ -4054,12 +4093,12 @@ def guia8_ej13e(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia8_ej13f(fecha):
+def guia8_ej13f(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia8_ej13f",
     "nombre":"13. Distribución de mercadería (f)",
-    "enunciado": e8_13("<code>Mover_MercaderíasDelLocal_AlLocal_(cantidad, origen, destino)</code>, que mueve la cantidad indicada de mercadería del depósito local que está en dirección origen al que está en dirección destino. Si en el depósito origen no hay la cantidad de mercadería necesaria, no se hace nada. Nuevamente se puede suponer que el cabezal se encuentra en el depósito central. Por ejemplo, a partir del tablero inicial, <code>Mover_MercaderíasDelLocal_AlLocal_(3, Este, Sur)</code> tiene este efecto: (ver imagen en <a href='https://aulas.gobstones.org/pluginfile.php/39117/mod_resource/content/19/P8.%20Repetici%C3%B3n%20condicional%2C%20recorridos.pdf' target='_blank'>la guía</a>)."),
+    "enunciado": e8_13("<code>Mover_MercaderíasDelLocal_AlLocal_(cantidad, origen, destino)</code>, que mueve la cantidad indicada de mercadería del depósito local que está en dirección origen al que está en dirección destino. Si en el depósito origen no hay la cantidad de mercadería necesaria, no se hace nada. Nuevamente se puede suponer que el cabezal se encuentra en el depósito central. Por ejemplo, a partir del tablero inicial, <code>Mover_MercaderíasDelLocal_AlLocal_(3, Este, Sur)</code> tiene este efecto: (ver imagen en "+enlaceGuía(8, curso)+").", curso),
     "run_data":[{
       "pre":"program{Mover_MercaderíasDelLocal_AlLocal_(5,Sur,Norte)}",
       "t0":{"head":[0,3],"width":1,"height":5,"board":[[v,v,ns(2),c(14,3,0,0),ns(2)]]},
@@ -4317,14 +4356,14 @@ def guia8_ej14l(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia8(fechaInicio):
+def guia8(curso, fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guia8",
     "nombre":"Práctica 8 - Repetición Condicional y Recorridos",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      linkGuía(8, 39117, "19/P8.%20Repetici%C3%B3n%20condicional%2C%20recorridos.pdf"),
+      linkGuía(8, curso),
       guia8_ej1(fechaInicio),
       guia8_ej2(fechaInicio),
       guia8_ej3a(fechaInicio),
@@ -4340,12 +4379,12 @@ def guia8(fechaInicio):
       guia8_ej9(fechaInicio),
       guia8_ej10(fechaInicio),
       guia8_ej12(fechaInicio),
-      guia8_ej13a(fechaInicio),
-      guia8_ej13b(fechaInicio),
-      guia8_ej13c(fechaInicio),
-      guia8_ej13d(fechaInicio),
-      guia8_ej13e(fechaInicio),
-      guia8_ej13f(fechaInicio),
+      guia8_ej13a(fechaInicio, curso),
+      guia8_ej13b(fechaInicio, curso),
+      guia8_ej13c(fechaInicio, curso),
+      guia8_ej13d(fechaInicio, curso),
+      guia8_ej13e(fechaInicio, curso),
+      guia8_ej13f(fechaInicio, curso),
       guia8_ej14a(fechaInicio),
       guia8_ej14b(fechaInicio),
       guia8_ej14c(fechaInicio),
@@ -4563,12 +4602,12 @@ def guia9_ej13(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia9_ej14(fecha):
+def guia9_ej14(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guia9_ej14",
     "nombre":"14. Mi caminante se mueve",
-    "enunciado": 'La primitiva del ejercicio <b>"14. El Caminante"</b> de la <b><a href="https://aulas.gobstones.org/pluginfile.php/39117/mod_resource/content/19/P8.%20Repetici%C3%B3n%20condicional%2C%20recorridos.pdf" target="_blank">Práctica 8</a></b>, <code>direcciónDelCódigo_(código)</code>, puede implementarse con alternativa condicional de expresiones. Se pide que la implemente, y que pruebe ahora su código del caminante para verificar su correcto funcionamiento.',
+    "enunciado": 'La primitiva del ejercicio <b>"14. El Caminante"</b> de <b>'+enlaceGuía(8, curso, "la Práctica 8")+'</b>, <code>direcciónDelCódigo_(código)</code>, puede implementarse con alternativa condicional de expresiones. Se pide que la implemente, y que pruebe ahora su código del caminante para verificar su correcto funcionamiento.',
     "run_data":[
       validarDirEnCelda("direcciónDelCódigo_(1)","N",v),
       validarDirEnCelda("direcciónDelCódigo_(2)","E",v),
@@ -5181,14 +5220,14 @@ def guia9_ej39g(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia9(fechaInicio):
+def guia9(curso, fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guia9",
     "nombre":"Práctica 9 - Variables y Funciones con Procesamiento",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      linkGuía(9, 39139, "18/P9.%20Variables%20y%20Funciones%20con%20Procesamiento.pdf"),
+      linkGuía(9, curso),
       guia9_ej1(fechaInicio),
       guia9_ej2(fechaInicio),
       guia9_ej3(fechaInicio),
@@ -5203,7 +5242,7 @@ def guia9(fechaInicio):
         # OJO: ya está implementado (aunque no testeado)
       guia9_ej12(fechaInicio),
       guia9_ej13(fechaInicio),
-      guia9_ej14(fechaInicio),
+      guia9_ej14(fechaInicio, curso),
       guia9_ej15(fechaInicio),
       guia9_ej16(fechaInicio),
       guia9_ej17(fechaInicio),
@@ -5296,12 +5335,12 @@ def AgregarCereza(celda):
 def AgregarFantasma(celda):
   celda['v'] = 5
 
-def guiaI1_ej1(fecha):
+def guiaI1_ej1(fecha, curso):
   return {
     "tipo":"CODIGO",
     "id":"guiaI1_ej1",
     "nombre":"1. ComerTodosLosCocosDelNivel",
-    "enunciado": 'Al comenzar un nuevo "nivel" del juego, en cada celda del tablero hay un "coco" (pequeños puntos amarillos) que son el alimento natural de los seres como Gobs-Man. El objetivo de Gobs-Man es precisamente comerse todos los cocos del nivel. Para poder hacer esto, contamos con la siguiente primitiva adicional a las anteriores:'+código("procedure ComerCoco()<br>&nbsp;PROPÓSITO: Come el coco que hay en la celda actual.<br>&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;* Hay un coco en la celda actual.<br>&nbsp;&nbsp;* Gobs-Man está en la celda actual.")+'Se desea implementar el procedimiento <code>ComerTodosLosCocosDelNivel()</code>, que hace que Gobs-Man se coma absolutamente todos los cocos del nivel (tablero). Sabemos, <em>por precondición de dicho procedimiento, que hay un coco en cada celda del tablero</em> (incluida en la que inicia Gobs-Man). A continuación hay algunos posibles niveles de Gobs-Man (Note que son solo ejemplos, y que su solución tiene que funcionar en cualquiera de estos tableros, e incluso otros que cumplan las mismas características).<br><br>Ver imágenes en <a href="https://aulas.gobstones.org/pluginfile.php/39223/mod_resource/content/7/Gobs-Man%20%28Recorridos%29.pdf" target="_blank">la guía</a>.',
+    "enunciado": 'Al comenzar un nuevo "nivel" del juego, en cada celda del tablero hay un "coco" (pequeños puntos amarillos) que son el alimento natural de los seres como Gobs-Man. El objetivo de Gobs-Man es precisamente comerse todos los cocos del nivel. Para poder hacer esto, contamos con la siguiente primitiva adicional a las anteriores:'+código("procedure ComerCoco()<br>&nbsp;PROPÓSITO: Come el coco que hay en la celda actual.<br>&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;* Hay un coco en la celda actual.<br>&nbsp;&nbsp;* Gobs-Man está en la celda actual.")+'Se desea implementar el procedimiento <code>ComerTodosLosCocosDelNivel()</code>, que hace que Gobs-Man se coma absolutamente todos los cocos del nivel (tablero). Sabemos, <em>por precondición de dicho procedimiento, que hay un coco en cada celda del tablero</em> (incluida en la que inicia Gobs-Man). A continuación hay algunos posibles niveles de Gobs-Man (Note que son solo ejemplos, y que su solución tiene que funcionar en cualquiera de estos tableros, e incluso otros que cumplan las mismas características).<br><br>Ver imágenes en '+enlaceGuía("I1", curso)+'.',
     "pre":preGm1 + "\nprogram{ComerTodosLosCocosDelNivel()if(nroBolitas(Azul)/=1){Poner(Verde)}else{LlevarGobsManAlBorde_(Sur)LlevarGobsManAlBorde_(Oeste)}}",
     # # Si en algún momento habilito mensajes más descriptivos sobre por qué no se cumple el enunciado:
     # # Un objeto que define funciones para generar mensajes específicos para cada tipo de resultado:
@@ -5317,7 +5356,7 @@ def guiaI1_ej1(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guiaI1_ej2(fecha):
+def guiaI1_ej2(fecha, curso):
   t01 = tfGm(3,6,1,4)
   for c in [(0,0),(0,5),(2,0),(1,3),(2,5)]:
     CambiarCeldaTablero(t01, c, cCereza())
@@ -5329,7 +5368,7 @@ def guiaI1_ej2(fecha):
     "tipo":"CODIGO",
     "id":"guiaI1_ej2",
     "nombre":"2. ComerTodasLasCerezasDelNivel",
-    "enunciado": 'Gobs-Man también gusta de comer cerezas. En este caso queremos que Gobs-Man se coma absolutamente todas las cerezas del nivel. Ojo, a diferencia de los cocos, las cerezas no están en todas las celdas, sino que pueden aparecer en algunas celdas y en otras no, y nunca sabemos al arrancar un nivel en cuáles celdas estarán las cerezas. Para implementar esto necesitaremos unas nuevas primitivas:'+código("procedure ComerCereza()<br>&nbsp;PROPÓSITO: Come la cereza haya en la celda actual.<br>&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;* Hay una cereza en la celda actual.<br>&nbsp;&nbsp;* Gobs-Man está en la celda actual.")+código("function hayCereza()<br>&nbsp;PROPÓSITO: Indica si hay una cereza en la celda actual.<br>&nbsp;PRECONDICIÓN: Ninguna.")+'Ahora sí, implementemos el procedimiento <code>ComerTodasLasCerezasDelNivel()</code>, que hace que Gobs-Man se coma todas las cerezas del tablero. Note que los tableros iniciales posibles de este ejercicio no tienen cocos, sino que en cada celda puede haber una cereza, o no haber nada, como muestran los ejemplos de tableros iniciales a continuación:<br><br>Ver imágenes en <a href="https://aulas.gobstones.org/pluginfile.php/39223/mod_resource/content/7/Gobs-Man%20%28Recorridos%29.pdf" target="_blank">la guía</a>.',
+    "enunciado": 'Gobs-Man también gusta de comer cerezas. En este caso queremos que Gobs-Man se coma absolutamente todas las cerezas del nivel. Ojo, a diferencia de los cocos, las cerezas no están en todas las celdas, sino que pueden aparecer en algunas celdas y en otras no, y nunca sabemos al arrancar un nivel en cuáles celdas estarán las cerezas. Para implementar esto necesitaremos unas nuevas primitivas:'+código("procedure ComerCereza()<br>&nbsp;PROPÓSITO: Come la cereza haya en la celda actual.<br>&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;* Hay una cereza en la celda actual.<br>&nbsp;&nbsp;* Gobs-Man está en la celda actual.")+código("function hayCereza()<br>&nbsp;PROPÓSITO: Indica si hay una cereza en la celda actual.<br>&nbsp;PRECONDICIÓN: Ninguna.")+'Ahora sí, implementemos el procedimiento <code>ComerTodasLasCerezasDelNivel()</code>, que hace que Gobs-Man se coma todas las cerezas del tablero. Note que los tableros iniciales posibles de este ejercicio no tienen cocos, sino que en cada celda puede haber una cereza, o no haber nada, como muestran los ejemplos de tableros iniciales a continuación:<br><br>Ver imágenes en '+enlaceGuía("I1", curso)+'.',
     "pre":preGm2 + "\nprogram{ComerTodasLasCerezasDelNivel()if(nroBolitas(Azul)/=1){Poner(Verde)}else{LlevarGobsManAlBorde_(Sur)LlevarGobsManAlBorde_(Oeste)}}",
     # # Si en algún momento habilito mensajes más descriptivos sobre por qué no se cumple el enunciado:
     # # Un objeto que define funciones para generar mensajes específicos para cada tipo de resultado:
@@ -5372,7 +5411,7 @@ def guiaI1_ej3(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guiaI1_ej4(fecha):
+def guiaI1_ej4(fecha, curso):
   t01 = t0Gm(3,6,1,4)
   for c in [(0,0),(0,5),(2,0),(1,3),(2,5)]:
     CambiarCeldaTablero(t01, c, cCereza())
@@ -5383,7 +5422,7 @@ def guiaI1_ej4(fecha):
     "tipo":"CODIGO",
     "id":"guiaI1_ej4",
     "nombre":"4. ComerTodoLoQueSeEncuentreEnElNivel (ii)",
-    "enunciado": 'El programador del juego ha decidido hacer unos pequeños retoques a cómo inician los niveles. Ahora, en todas las celdas hay cocos, menos en aquellas donde hay una cereza. Es decir, en cada celda puede, o bien haber una cereza, o bien haber un coco (solo estará vacía la celda cuando Gobs-Man se haya comido todo lo de la celda, nunca al inicio del nivel). Debemos entonces volver a realizar <code>ComerTodoLoQueSeEncuentreEnElNivel()</code>, y en este caso, la solución no es tan sencilla como en el ejercicio anterior. A continuación, algunos posibles tableros iniciales de este caso:<br><br>Ver imágenes en <a href="https://aulas.gobstones.org/pluginfile.php/39223/mod_resource/content/7/Gobs-Man%20%28Recorridos%29.pdf" target="_blank">la guía</a>.<br><br>'+atención+': Note que no dispone de una primitiva "hayCoco" para solucionar el problema. Si su estrategia está realizada utilizando dicha primitiva, entonces es incorrecta.<br><br>'+atención+': Si a esta altura sus soluciones le están demandando el planteo de más de un recorrido, probablemente esté planteando recorridos sobre filas o columnas. Le proponemos plantee la solución en términos de un recorrido único sobre todas las celdas del tablero, o los siguientes ejercicios se volverán sumamente complicados.',
+    "enunciado": 'El programador del juego ha decidido hacer unos pequeños retoques a cómo inician los niveles. Ahora, en todas las celdas hay cocos, menos en aquellas donde hay una cereza. Es decir, en cada celda puede, o bien haber una cereza, o bien haber un coco (solo estará vacía la celda cuando Gobs-Man se haya comido todo lo de la celda, nunca al inicio del nivel). Debemos entonces volver a realizar <code>ComerTodoLoQueSeEncuentreEnElNivel()</code>, y en este caso, la solución no es tan sencilla como en el ejercicio anterior. A continuación, algunos posibles tableros iniciales de este caso:<br><br>Ver imágenes en '+enlaceGuía("I1", curso)+'.<br><br>'+atención+': Note que no dispone de una primitiva "hayCoco" para solucionar el problema. Si su estrategia está realizada utilizando dicha primitiva, entonces es incorrecta.<br><br>'+atención+': Si a esta altura sus soluciones le están demandando el planteo de más de un recorrido, probablemente esté planteando recorridos sobre filas o columnas. Le proponemos plantee la solución en términos de un recorrido único sobre todas las celdas del tablero, o los siguientes ejercicios se volverán sumamente complicados.',
     "pre":preGm2 + "\nprogram{ComerTodoLoQueSeEncuentreEnElNivel()if(nroBolitas(Azul)/=1){Poner(Verde)}else{LlevarGobsManAlBorde_(Sur)LlevarGobsManAlBorde_(Oeste)}}",
     # # Si en algún momento habilito mensajes más descriptivos sobre por qué no se cumple el enunciado:
     # # Un objeto que define funciones para generar mensajes específicos para cada tipo de resultado:
@@ -5399,7 +5438,7 @@ def guiaI1_ej4(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guiaI1_ej5(fecha):
+def guiaI1_ej5(fecha, curso):
   t01 = tfGm(3,6,1,4)
   f1 = (2,4)
   CambiarCeldaTablero(t01, f1, cFantasma())
@@ -5414,7 +5453,7 @@ def guiaI1_ej5(fecha):
     "tipo":"CODIGO",
     "id":"guiaI1_ej5",
     "nombre":"5. RecorrerNivelMuriendoEnElFantasma",
-    "enunciado": 'Gobs-Man puede toparse en algún momento con un fantasma. Si lo hace, Gobs-Man sufre un paro cardíaco que la hace morir en la celda en donde vió el espectro. Se sabe que existen ahora las siguientes primitivas:'+código("procedure MorirGobsMan()<br>&nbsp;PROPÓSITO: Hace que Gobs-Man muera, dejando su cuerpo en la celda actual.<br>&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;* El cabezal se encuentra sobre Gobs-Man")+código("function hayFantasma()<br>&nbsp;PROPÓSITO: Indica si hay un fantasma en la celda actual.<br>&nbsp;PRECONDICIÓN: Ninguna.")+atención+': Note que una vez muerto Gobs-Man no puede moverse. Es decir, los procedimientos que mueven a Gobs-Man tienen ahora una nueva precondición: Gobs-Man está vivo.<br><br>Se pide entonces hagamos una prueba sobre un nivel vacío (Es decir, en las celdas no hay cocos ni cerezas) donde Gobs-Man deberá moverse desde la celda más al Oeste y al Sur, hacia la celda más al Norte y al Este. Se garantiza que en algún lado del tablero habrá un fantasma, y Gob-Man debe morir en la celda en donde encuentre el mismo. Realice entonces el procedimiento <code>RecorrerNivelMuriendoEnElFantasma()</code>. Como es costumbre, dejamos algunos tableros iniciales:<br><br>Ver imágenes en <a href="https://aulas.gobstones.org/pluginfile.php/39223/mod_resource/content/7/Gobs-Man%20%28Recorridos%29.pdf" target="_blank">la guía</a>.',
+    "enunciado": 'Gobs-Man puede toparse en algún momento con un fantasma. Si lo hace, Gobs-Man sufre un paro cardíaco que la hace morir en la celda en donde vió el espectro. Se sabe que existen ahora las siguientes primitivas:'+código("procedure MorirGobsMan()<br>&nbsp;PROPÓSITO: Hace que Gobs-Man muera, dejando su cuerpo en la celda actual.<br>&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;* El cabezal se encuentra sobre Gobs-Man")+código("function hayFantasma()<br>&nbsp;PROPÓSITO: Indica si hay un fantasma en la celda actual.<br>&nbsp;PRECONDICIÓN: Ninguna.")+atención+': Note que una vez muerto Gobs-Man no puede moverse. Es decir, los procedimientos que mueven a Gobs-Man tienen ahora una nueva precondición: Gobs-Man está vivo.<br><br>Se pide entonces hagamos una prueba sobre un nivel vacío (Es decir, en las celdas no hay cocos ni cerezas) donde Gobs-Man deberá moverse desde la celda más al Oeste y al Sur, hacia la celda más al Norte y al Este. Se garantiza que en algún lado del tablero habrá un fantasma, y Gob-Man debe morir en la celda en donde encuentre el mismo. Realice entonces el procedimiento <code>RecorrerNivelMuriendoEnElFantasma()</code>. Como es costumbre, dejamos algunos tableros iniciales:<br><br>Ver imágenes en '+enlaceGuía("I1", curso)+'.',
     "pre":preGm3 + "\nprogram{RecorrerNivelMuriendoEnElFantasma()}",
     # mensajes: "Gobsman no murió" si hay una bolita azul en lugar de 2, etc.
     "run_data":[{
@@ -5427,7 +5466,7 @@ def guiaI1_ej5(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guiaI1_ej6(fecha):
+def guiaI1_ej6(fecha, curso):
   t01 = tfGm(3,6,1,4)
   f1 = (2,4)
   CambiarCeldaTablero(t01, f1, cFantasma())
@@ -5439,7 +5478,7 @@ def guiaI1_ej6(fecha):
     "tipo":"CODIGO",
     "id":"guiaI1_ej6",
     "nombre":"6. RecorrerNivelMuriendoSiHayFantasma",
-    "enunciado": 'Si bien hemos logrado que Gobs-Man muera en el lugar correcto, también se desea contemplar los niveles en donde tal vez no haya un fantasma. Es decir, ahora queremos volver a recorrer el nivel, pero esta vez, no tenemos la certeza de que hay un fantasma en el nivel. Si hay uno, Gobs-Man deberá morir allí, sino, Gobs-Man deberá quedar vivo en la última celda del recorrido. Realice entonces el procedimiento <code>RecorrerNivelMuriendoSiHayFantasma()</code> que solucione dicho problema. Los tableros iniciales son idénticos a los anteriores, pero, el fantasma podría no estar, como muestra el segundo tablero de ejemplo:<br><br>Ver imágenes en <a href="https://aulas.gobstones.org/pluginfile.php/39223/mod_resource/content/7/Gobs-Man%20%28Recorridos%29.pdf" target="_blank">la guía</a>.',
+    "enunciado": 'Si bien hemos logrado que Gobs-Man muera en el lugar correcto, también se desea contemplar los niveles en donde tal vez no haya un fantasma. Es decir, ahora queremos volver a recorrer el nivel, pero esta vez, no tenemos la certeza de que hay un fantasma en el nivel. Si hay uno, Gobs-Man deberá morir allí, sino, Gobs-Man deberá quedar vivo en la última celda del recorrido. Realice entonces el procedimiento <code>RecorrerNivelMuriendoSiHayFantasma()</code> que solucione dicho problema. Los tableros iniciales son idénticos a los anteriores, pero, el fantasma podría no estar, como muestra el segundo tablero de ejemplo:<br><br>Ver imágenes en '+enlaceGuía("I1", curso)+'.',
     "pre":preGm3 + "\nprogram{RecorrerNivelMuriendoSiHayFantasma()}",
     # mensajes: "Gobsman no murió" si hay una bolita azul en lugar de 2, etc.
     "run_data":[{
@@ -5531,20 +5570,20 @@ def guiaI1_ej9(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guiaI1(fechaInicio):
+def guiaI1(curso, fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guiaI1",
     "nombre":"Práctica integradora de Recorridos",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      linkGuía("I1", 39223, "7/Gobs-Man%20%28Recorridos%29.pdf"),
-      guiaI1_ej1(fechaInicio),
-      guiaI1_ej2(fechaInicio),
+      linkGuía("I1", curso),
+      guiaI1_ej1(fechaInicio, curso),
+      guiaI1_ej2(fechaInicio, curso),
       guiaI1_ej3(fechaInicio),
-      guiaI1_ej4(fechaInicio),
-      guiaI1_ej5(fechaInicio),
-      guiaI1_ej6(fechaInicio),
+      guiaI1_ej4(fechaInicio, curso),
+      guiaI1_ej5(fechaInicio, curso),
+      guiaI1_ej6(fechaInicio, curso),
       guiaI1_ej7(fechaInicio),
       guiaI1_ej9(fechaInicio)
     ]
@@ -5593,7 +5632,7 @@ def AgregarFrutilla(celda):
 def AgregarFantasmaM(celda):
   celda['a'] += 5
 
-def guiaI2_ej10(fecha):
+def guiaI2_ej10(fecha, curso):
   cc = cCocoM()
   gm = cGobsman()
   gmc = cCocoM()
@@ -5608,7 +5647,7 @@ def guiaI2_ej10(fecha):
     "tipo":"CODIGO",
     "id":"guiaI2_ej10",
     "nombre":"10. puntajeAObtenerEnCeldaActual (i)",
-    "enunciado": 'Dado que el cabezal se encuentra en alguna celda, se espera poder determinar cuántos puntos obtendrá Ms. Gobs-Man si come todo lo que hay en dicha celda. Note que la celda puede tener un coco, una cereza, ambos o estar vacía. Un coco otorga a Ms. Gobs-Man 100 puntos, y una cereza otorga 2000 puntos. Escriba la función: <code>puntajeAObtenerEnCeldaActual()</code> que describe los puntos a obtener en la celda actual. A continuación se muestran algunas posibles celdas a analizar y los puntos que se deberían obtener:<br><br>Ver imágenes en <a href="https://aulas.gobstones.org/pluginfile.php/39222/mod_resource/content/4/Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf" target="_blank">la guía</a>.',
+    "enunciado": 'Dado que el cabezal se encuentra en alguna celda, se espera poder determinar cuántos puntos obtendrá Ms. Gobs-Man si come todo lo que hay en dicha celda. Note que la celda puede tener un coco, una cereza, ambos o estar vacía. Un coco otorga a Ms. Gobs-Man 100 puntos, y una cereza otorga 2000 puntos. Escriba la función: <code>puntajeAObtenerEnCeldaActual()</code> que describe los puntos a obtener en la celda actual. A continuación se muestran algunas posibles celdas a analizar y los puntos que se deberían obtener:<br><br>Ver imágenes en '+enlaceGuía("I2", curso)+'.',
     "pre":preMGm0,
     "run_data":[
       validarNumEnCelda("puntajeAObtenerEnCeldaActual()",0,v),
@@ -5623,7 +5662,7 @@ def guiaI2_ej10(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guiaI2_ej11(fecha):
+def guiaI2_ej11(fecha, curso):
   cc = cCocoM()
   cC = cCerezaM()
   cCc = cCocoCerezaM()
@@ -5638,7 +5677,7 @@ def guiaI2_ej11(fecha):
     "tipo":"CODIGO",
     "id":"guiaI2_ej11",
     "nombre":"11. puntajeAObtenerEnCeldaActual (ii)",
-    "enunciado": 'Se nos plantea ahora que además de cerezas y cocos, las celdas pueden contener frutillas (O fresas, si prefiere). Las frutillas otorgan 500 puntos solamente, pero pueden encontrarse en cualquier celda, por lo que ahora tenemos las siguientes posibilidades:<br><br>Ver imágenes en <a href="https://aulas.gobstones.org/pluginfile.php/39222/mod_resource/content/4/Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf" target="_blank">la guía</a>.<br><br>Debe replantear la función <code>puntajeAObtenerEnCeldaActual()</code> para tener en cuenta dicha situación. Si su estrategia anterior fue buena, entonces este cambio no debería redundar en demasiado trabajo. Si por el contrario la solución no fue buena, le llevará más esfuerzo (Si fuera este último caso, lo invitamos a repensar si está separando el problema en las subtareas correctas, o ver si puede realizar más). Ah, por cierto, casi se nos olvida, también cuenta con la primitiva siguiente:'+código("function hayFrutilla()<br>&nbsp;PROPÓSITO: Indica si hay una frutilla en la celda actual.<br>&nbsp;PRECONDICIÓNES: Ninguna.")+atención+': Piense si su solución escala correctamente si hubieran otras tres posibles frutas (ej. naranjas, bananas y manzanas).',
+    "enunciado": 'Se nos plantea ahora que además de cerezas y cocos, las celdas pueden contener frutillas (O fresas, si prefiere). Las frutillas otorgan 500 puntos solamente, pero pueden encontrarse en cualquier celda, por lo que ahora tenemos las siguientes posibilidades:<br><br>Ver imágenes en '+enlaceGuía("I2", curso)+'.<br><br>Debe replantear la función <code>puntajeAObtenerEnCeldaActual()</code> para tener en cuenta dicha situación. Si su estrategia anterior fue buena, entonces este cambio no debería redundar en demasiado trabajo. Si por el contrario la solución no fue buena, le llevará más esfuerzo (Si fuera este último caso, lo invitamos a repensar si está separando el problema en las subtareas correctas, o ver si puede realizar más). Ah, por cierto, casi se nos olvida, también cuenta con la primitiva siguiente:'+código("function hayFrutilla()<br>&nbsp;PROPÓSITO: Indica si hay una frutilla en la celda actual.<br>&nbsp;PRECONDICIÓNES: Ninguna.")+atención+': Piense si su solución escala correctamente si hubieran otras tres posibles frutas (ej. naranjas, bananas y manzanas).',
     "pre":preMGm1,
     "run_data":[
       validarNumEnCelda("puntajeAObtenerEnCeldaActual()",0,v),
@@ -5692,7 +5731,7 @@ def guiaI2_ej12(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guiaI2_ej13(fecha):
+def guiaI2_ej13(fecha, curso):
   t1 = t0Gm(8,6,5,2) # 8x6 (48 x 100pts = 4800)
   for x in [(0,1),(1,4),(5,5),(6,5)]:
     CambiarCeldaTablero(t1,x,v) # - 4 x 100pts = 4400
@@ -5719,7 +5758,7 @@ def guiaI2_ej13(fecha):
     "tipo":"CODIGO",
     "id":"guiaI2_ej13",
     "nombre":"13. cantidadDePuntosEnElNivel",
-    "enunciado": 'Se desea saber cuántos puntos es posible obtener en un nivel determinado. Esto dependerá por supuesto de la cantidad de celdas que haya en dicho nivel, así como de que haya en cada celda (cocos, cerezas, frutillas, combinaciones de estas o nada). Se pide entonces realice la función <code>cantidadDePuntosEnElNivel()</code> que indique la cantidad total de puntos que se pueden obtener en el nivel. Por ejemplo, en el siguiente nivel se obtienen 18700 puntos (considerando que en el lugar en donde inicia Ms. Gobs-Man no hay nada). Puede asumir que el cabezal se encuentra sobre Ms. Gobs-Man.<br><br>Ver imagen en <a href="https://aulas.gobstones.org/pluginfile.php/39222/mod_resource/content/4/Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf" target="_blank">la guía</a>.<br><br>'+atención+': Para calcular los puntos no es necesario mover a Ms. Gobs-Man, sino sólo el cabezal. Sin embargo, si movemos a Ms. Gobs-Man tampoco representará un problema, pues las funciones no tienen efecto, sino que describen valores.',
+    "enunciado": 'Se desea saber cuántos puntos es posible obtener en un nivel determinado. Esto dependerá por supuesto de la cantidad de celdas que haya en dicho nivel, así como de que haya en cada celda (cocos, cerezas, frutillas, combinaciones de estas o nada). Se pide entonces realice la función <code>cantidadDePuntosEnElNivel()</code> que indique la cantidad total de puntos que se pueden obtener en el nivel. Por ejemplo, en el siguiente nivel se obtienen 18700 puntos (considerando que en el lugar en donde inicia Ms. Gobs-Man no hay nada). Puede asumir que el cabezal se encuentra sobre Ms. Gobs-Man.<br><br>Ver imagen en '+enlaceGuía("I2", curso)+'.<br><br>'+atención+': Para calcular los puntos no es necesario mover a Ms. Gobs-Man, sino sólo el cabezal. Sin embargo, si movemos a Ms. Gobs-Man tampoco representará un problema, pues las funciones no tienen efecto, sino que describen valores.',
     "pre":preMGm2,
     "run_data":[
       validarNumEnTablero("cantidadDePuntosEnElNivel()",25600,t1),
@@ -5745,7 +5784,7 @@ def guiaI2_ej14(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guiaI2_ej15(fecha):
+def guiaI2_ej15(fecha, curso):
   t1 = t0Gm(8,6,5,2) # 8x6 (48 x 100pts = 4800)
   for x in [(0,1),(1,4),(5,5),(6,5)]:
     CambiarCeldaTablero(t1,x,v) # - 4 x 100pts = 4400
@@ -5783,7 +5822,7 @@ def guiaI2_ej15(fecha):
     "tipo":"CODIGO",
     "id":"guiaI2_ej15",
     "nombre":"15. cantidadDePuntosEnNivelHacia_Y_",
-    "enunciado": 'Ms. Gobs-Man puede cruzarse con un fantasma en el camino, y en ese caso, el juego termina en ese momento. Es decir, los puntos totales que acumula Ms. Gobs-Man en un nivel no siempre son el total de las cosas que hay en el tablero, sino solamente aquellas que "come" hasta que encuentra el fantasma, si es que hubiera uno. En ese sentido, las direcciones hacia las cuales Ms. Gobs-Man realiza un recorrido comiendo lo que encuentra es importante. Si parte de la celda Sur-Oeste y se mueve primero al Este y luego al Norte, podría conseguir menos puntos (o más) que si parte de la celda Norte-Este y se mueve al Sur y al Oeste, por poner un ejemplo.<br><br>Por eso es interesante poder calcular cuantos puntos obtendrá Ms. Gobs-Man hasta toparse con un fantasma (si hubiera uno), si realiza un recorrido en dos direcciones determinadas, dadas por parámetro. Se pide escriba <code>cantidadDePuntosEnNivelHacia_Y_(direcciónPrincipal, direcciónSecundaria)</code>, una función que dadas dos direcciones indica cuántos puntos acumularía Ms. Gobs-Man en un recorrido en dicha dirección. Nuevamente, el cabezal arranca sobre Ms. Gobs-Man.<br><br>En el ejemplo siguiente, si el recorrido se realiza hacia el Este y el Sur (partiendo de la esquina Norte-Oeste) solo se obtendrán 2900 puntos, mientras que si se realiza hacia el Oeste y el Sur (partiendo de la esquina Norte-Este) se obtendrán 5000. Otras direcciones darán otros puntajes.<br><br>Ver imagen en <a href="https://aulas.gobstones.org/pluginfile.php/39222/mod_resource/content/4/Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf" target="_blank">la guía</a>.',
+    "enunciado": 'Ms. Gobs-Man puede cruzarse con un fantasma en el camino, y en ese caso, el juego termina en ese momento. Es decir, los puntos totales que acumula Ms. Gobs-Man en un nivel no siempre son el total de las cosas que hay en el tablero, sino solamente aquellas que "come" hasta que encuentra el fantasma, si es que hubiera uno. En ese sentido, las direcciones hacia las cuales Ms. Gobs-Man realiza un recorrido comiendo lo que encuentra es importante. Si parte de la celda Sur-Oeste y se mueve primero al Este y luego al Norte, podría conseguir menos puntos (o más) que si parte de la celda Norte-Este y se mueve al Sur y al Oeste, por poner un ejemplo.<br><br>Por eso es interesante poder calcular cuantos puntos obtendrá Ms. Gobs-Man hasta toparse con un fantasma (si hubiera uno), si realiza un recorrido en dos direcciones determinadas, dadas por parámetro. Se pide escriba <code>cantidadDePuntosEnNivelHacia_Y_(direcciónPrincipal, direcciónSecundaria)</code>, una función que dadas dos direcciones indica cuántos puntos acumularía Ms. Gobs-Man en un recorrido en dicha dirección. Nuevamente, el cabezal arranca sobre Ms. Gobs-Man.<br><br>En el ejemplo siguiente, si el recorrido se realiza hacia el Este y el Sur (partiendo de la esquina Norte-Oeste) solo se obtendrán 2900 puntos, mientras que si se realiza hacia el Oeste y el Sur (partiendo de la esquina Norte-Este) se obtendrán 5000. Otras direcciones darán otros puntajes.<br><br>Ver imagen en '+enlaceGuía("I2", curso)+'.',
     "pre":preMGm2,
     "run_data":[
       validarNumEnTablero("cantidadDePuntosEnNivelHacia_Y_(Sur,Este)",25600,t1),
@@ -5979,20 +6018,20 @@ def guiaI2_ej20(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guiaI2(fechaInicio):
+def guiaI2(curso, fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guiaI2",
     "nombre":"Práctica integradora de Funciones Simples y Con Procesamiento, Alternativa de Expresiones y Variables",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      linkGuía("I2", 39222, "4/Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf"),
-      guiaI2_ej10(fechaInicio),
-      guiaI2_ej11(fechaInicio),
+      linkGuía("I2", curso),
+      guiaI2_ej10(fechaInicio, curso),
+      guiaI2_ej11(fechaInicio, curso),
       guiaI2_ej12(fechaInicio),
-      guiaI2_ej13(fechaInicio),
+      guiaI2_ej13(fechaInicio, curso),
       guiaI2_ej14(fechaInicio),
-      guiaI2_ej15(fechaInicio),
+      guiaI2_ej15(fechaInicio, curso),
       guiaI2_ej16(fechaInicio),
       guiaI2_ej17(fechaInicio),
       guiaI2_ej18(fechaInicio),
@@ -6824,14 +6863,14 @@ def guia10_ej9n(fecha):
     "disponible":{"desde":fecha}
   }
 
-def guia10(fechaInicio):
+def guia10(curso, fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guia10",
     "nombre":"Práctica 10 - Tipos de Datos Personalizados",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      linkGuía(10, 39158, "19/P10.%20Tipos%20Personalizado.pdf"),
+      linkGuía(10, curso),
       guia10_ej2a(fechaInicio),
       guia10_ej2b(fechaInicio),
       guia10_ej2c(fechaInicio),
@@ -6879,59 +6918,120 @@ def guia10(fechaInicio):
     ]
   }
 
-def guia11(fechaInicio):
+def guia11(curso, fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guia11",
     "nombre":"Práctica 11 - Listas",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      linkGuía(11, 39180, "11/P11.%20Listas.pdf"),
+      linkGuía(11, curso),
     ]
   }
 
-def guiaI3(fechaInicio):
+def guiaI3(curso, fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guiaI3",
     "nombre":"Ejercicios Integradores",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      linkGuía("I3", 39230, "8/Pr%C3%A1ctica%2011%20-%20Ejercicios%20Integradores%20%5B2023-11-06%5D.pdf"),
+      linkGuía("I3", curso),
     ]
   }
 
-def guiaI4(fechaInicio):
+def guiaI4(curso, fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guiaI4",
     "nombre":"Práctica integradora de Registros y Listas",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      linkGuía("I4", 39229, "3/Comidas%20Gobianas%20%5B2023-11-06%5D.pdf"),
+      linkGuía("I4", curso),
     ]
   }
 
-def guiaI5(fechaInicio):
+def guiaI5(curso, fechaInicio):
   return {
     "tipo":"SECCION",
     "id":"guiaI5",
     "nombre":"Compumundo Hiper Mega Red",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      linkGuía("I5", 39228, "2/Compumundo%20Hiper%20Mega%20Red%20%5B2023-11-06%5D.pdf"),
+      linkGuía("I5", curso),
     ]
   }
 
-def linkGuía(n, mId, l):
+def enlaceGuía(n, curso, opt_texto=None):
+  inforGuía = guíasEnMoodle[curso][str(n)]
+  return "<a href='"+urlGuía(n, curso)+"' target='_blank'>" + ("la guía" if (opt_texto is None) else opt_texto) + "</a>"
+
+def urlGuía(n, curso):
+  inforGuía = guíasEnMoodle[curso][str(n)]
+  return urlMoodle(inforGuía[0], str(inforGuía[1]) + "/" + inforGuía[2])
+
+def linkGuía(n, curso):
+  inforGuía = guíasEnMoodle[curso][str(n)]
+  return linkMoodle(n, inforGuía[0], str(inforGuía[1]) + "/" + inforGuía[2])
+
+def urlMoodle(mId, l):
+  return "https://aulas.gobstones.org/pluginfile.php/" + str(mId) + "/mod_resource/content/" + l
+
+def linkMoodle(n, mId, l):
   return {
     "tipo":"LINK",
     "id":"linkGuia" + str(n),
     "nombre":"Guía en pdf",
-    "url":"https://aulas.gobstones.org/pluginfile.php/" + str(mId) + "/mod_resource/content/" + l
+    "url":urlMoodle(mId, l)
   }
 
 CURSOS = {
+  "inpr_unq_2026_s2":{
+    "nombre":"Introducción a la Programación - UNQ (2026s2)",
+    "anio":"2026",
+    "edicion":"Segundo Semestre",
+    "descripcion":"Curso correspondiente a la materia Introducción a la Programación para las carreras Licenciatura en Informática, Tecnicatura en Programación Informática y Licenciatura en Bioinformática de la Universidad Nacional de Quilmes",
+    "responsable":{
+      "nombre":"Equipo de Intro",
+      "contacto":"tpi-doc-inpr (AT) listas.unq.edu.ar"
+    },
+    "institucion":"Universidad Nacional de Quilmes (UNQ)",
+    "lenguaje":"Gobstones",
+    "lenguaje_display":"none",
+    "analisisCodigo":[
+      # {"key":"CMD_X_LINE"},
+      # {"key":"INDENT"},
+      {"key":"NEST_CMD","max":1}
+    ],
+    "actividades":[
+      guia1("2026s2","13/8/2026-8:00"),
+      guia2("2026s2","13/8/2026-8:00"),
+      guia3("2026s2","14/8/2026-8:00"),
+      guia4("2026s2","21/8/2026-8:00"),
+      guia5("2026s2","21/8/2026-8:00"),
+      guia6("2026s2","28/8/2026-8:00"),
+      guia7("2026s2","28/8/2026-8:00"),
+      guia8("2026s2","4/9/2026-8:00"),
+      guia9("2026s2","11/9/2026-8:00"),
+      guiaI1("2026s2","18/9/2026-8:00"),
+      guiaI2("2026s2","18/9/2026-8:00"),
+      guia10("2026s2","16/10/2026-8:00")
+      # guia11("2026s2","23/11/2026-8:00"),
+      # guiaI3("2026s2","6/11/2026-8:00"),
+      # guiaI4("2026s2","6/11/2026-8:00"),
+      # guiaI5("2026s2","6/11/2026-8:00")
+    ],
+    "planilla":{
+      "url":"1FAIpQLSccr1YI-WU2w5G9zQxauUPY9BFOrN9U4uGS_g1wL_2kZTdz6g",
+      "campos":{
+        "usuario":"9867257",
+        "actividad":"1165966175",
+        "respuesta":"1778184894",
+        "resultado":"1496208069",
+        "duracion":"1460244707"
+      }
+    }
+  },
   "inpr_unq_2026_s1":{
     "nombre":"Introducción a la Programación - UNQ (2026s1)",
     "anio":"2026",
@@ -6950,22 +7050,22 @@ CURSOS = {
       {"key":"NEST_CMD","max":1}
     ],
     "actividades":[
-      guia1("16/3/2026-8:00"),
-      guia2("23/3/2026-8:00"),
-      guia3("30/3/2026-8:00"),
-      guia4("30/3/2026-8:00"),
-      guia5("6/4/2026-8:00"),
-      guia6("13/4/2026-8:00"),
-      guia7("13/4/2026-8:00"),
-      guia8("20/4/2026-8:00"),
-      guia9("27/4/2026-8:00"),
-      guiaI1("4/5/2026-8:00"),
-      guiaI2("4/5/2026-8:00"),
-      guia10("11/5/2026-8:00"),
-      guia11("18/5/2026-8:00"),
-      guiaI3("1/6/2026-8:00"),
-      guiaI4("1/6/2026-8:00"),
-      guiaI5("1/6/2026-8:00")
+      guia1("2026s1", "16/3/2026-8:00"),
+      guia2("2026s1", "23/3/2026-8:00"),
+      guia3("2026s1", "30/3/2026-8:00"),
+      guia4("2026s1", "30/3/2026-8:00"),
+      guia5("2026s1", "6/4/2026-8:00"),
+      guia6("2026s1", "13/4/2026-8:00"),
+      guia7("2026s1", "13/4/2026-8:00"),
+      guia8("2026s1", "20/4/2026-8:00"),
+      guia9("2026s1", "27/4/2026-8:00"),
+      guiaI1("2026s1", "4/5/2026-8:00"),
+      guiaI2("2026s1", "4/5/2026-8:00"),
+      guia10("2026s1", "11/5/2026-8:00")
+      # guia11("2026s1", "18/5/2026-8:00"),
+      # guiaI3("2026s1", "1/6/2026-8:00"),
+      # guiaI4("2026s1", "1/6/2026-8:00"),
+      # guiaI5("2026s1", "1/6/2026-8:00")
     ],
     "planilla":{
       "url":"1FAIpQLScBYC_P5dbFA0v9e-GDTw65KMFn5PIM9IX0jZmHSTUXdyW5oA",
