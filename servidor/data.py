@@ -19,6 +19,7 @@ from cursos.dc_ip import CURSOS as dc_ip
 from cursos.epliGbs import CURSOS as epliGbs
 from cursos.epliPy import CURSOS as epliPy
 from cursos.pensamiento_computacional import CURSOS as cursos_pensamiento_computacional
+from cursos.prueba import CURSOS as cursos_de_prueba
 
 CURSOS = {}
 
@@ -45,6 +46,9 @@ for c in epliPy:
 
 for c in cursos_pensamiento_computacional:
   CURSOS[c] = cursos_pensamiento_computacional[c]
+
+for c in cursos_de_prueba:
+  CURSOS[c] = cursos_de_prueba[c]
 
 LOCAL_DIR = 'locales'
 if not os.path.isdir(LOCAL_DIR):
@@ -366,8 +370,13 @@ def intentoCodigo(jsonObj, verb):
         jsonObj["ejercicio"] = CURSOS[curso]["actividades_por_id"][ejercicio]
         jsonObj["analisisCodigo"] = reglasDeAnalisisDeCodigo(jsonObj, CURSOS[curso])
         resultado = run_code(jsonObj, verb)
-  # else: # Ejercicio libre o usuario anónimo:
-  #   resultado = run_code(jsonObj)
+      else:
+        LOG("login inválido.\nActividad no habilitada: "+usuario+"\nCurso: "+curso+"\nActividad: "+ejercicio)
+    else:
+      LOG("login inválido.\nUsuario: "+usuario+"\nContraseña: "+contrasenia+"\nCurso: "+curso)
+  else: # Ejercicio libre o usuario anónimo:
+    # resultado = run_code(jsonObj)
+    LOG("Login inválido.\nFaltan campos: "+jsonObj.keys())
   if resultado["resultado"] != "Falla" and "usuario" in jsonObj:
     if ("duracion" in resultado):
       jsonObj["duracion"] = "{:.2f}".format(resultado["duracion"])
@@ -378,6 +387,10 @@ def intentoCodigo(jsonObj, verb):
     jsonObj["resultado"] = mostrar_resultado(resultado)
     commit(jsonObj, verb)
   return resultado
+
+def LOG(x):
+  if ejecutandoLocal():
+    print(x)
 
 def validarRespuesta(pregunta, respuesta):
   resultado = {}

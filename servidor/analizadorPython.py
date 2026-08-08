@@ -52,6 +52,28 @@ class AnalizadorPython(Analizador):
   def nombreNodo_(self, nodo):
     # PRE: nodo es de tipo Nombre
     return nodo.id
+  def tiposComandos(self):
+    return [
+      ast.Expression, # Porque se puede usar como un comando
+      ast.Expr, # ídem
+      ast.Return,
+      ast.Delete,
+      ast.Assign,
+      ast.AugAssign,
+      ast.AnnAssign,
+      ast.Raise,
+      ast.Assert,
+      ast.For,
+      ast.AsyncFor,
+      ast.While,
+      ast.If,
+      ast.With,
+      ast.AsyncWith,
+      ast.Try,
+      ast.Pass,
+      ast.Break,
+      ast.Continue
+    ]
   def tiposComandosCompuestos(self):
     return [
       ast.For,

@@ -85,6 +85,9 @@ def errorConcepto(n):
 def calidadNest():
   return "No está bueno anidar comandos compuestos"
 
+def calidadCmdXLine():
+  return "No está bueno escribir más de un comando por línea"
+
 cursos = [{
   "id":"inpr_unq_2026_s1",
   "l":"Gobstones",
@@ -214,6 +217,25 @@ cursos = [{
       {"src":"().__class__","res":"EVIL","error":errorNombre("__class__")}
     ]
   }]
+},{
+  "id":"curso_ficticio_python",
+  "l":"Python",
+  "ejs":[{
+    "id":"cmdXLine",
+    "i":[{"src":"x = 1;x = 0","res":"Calidad","error":calidadCmdXLine()},
+      {"src":"x = 1\nx = 0","res":"OK"},
+      {"src":"x = len([1]) + len([])\nx = [len([1,2,len([1,2,3])]) - (1+1*2)][len([])]","res":"OK"}
+    ]
+  }]
+},{
+  "id":"curso_ficticio_gobstones",
+  "l":"Gobstones",
+  "ejs":[{
+    "id":"cmdXLine",
+    "i":[{"src":"function fun0(){x := 0;return(x)}","res":"Calidad","error":calidadCmdXLine()},
+      {"src":"function fun0(){x := 0\nreturn(x)}","res":"OK"}
+    ]
+  }]
 }]
 
 n = 0
@@ -230,7 +252,7 @@ for c in cursos:
       todosLosIntentos.append({
         "send":{
           "src":i["src"],
-          "lenguaje":c["l"],
+          "lenguaje":ej["l"] if ("l" in ej) else c["l"],
           "usuario":"estudiante_ficticio",
           "contrasenia":"123456",
           "curso":c["id"],

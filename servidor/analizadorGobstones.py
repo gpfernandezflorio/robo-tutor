@@ -31,6 +31,19 @@ class AnalizadorGobstones(Analizador):
   def nombreNodo_(self, nodo):
     # PRE: nodo es de tipo Nombre
     return nodo["_value"]
+  def tiposComandos(self):
+    return [
+      "N_StmtProcedureCall",
+      "N_StmtAssignVariable",
+      "N_StmtAssignTuple",
+      "N_StmtIf",
+      "N_StmtRepeat",
+      "N_StmtForeach",
+      "N_StmtWhile",
+      "N_StmtSwitch",
+      # "N_StmtBlock", Este no porque inicia en la misma línea que el anterior
+      "N_StmtReturn"
+    ]
   def tiposComandosCompuestos(self):
     return [
       "N_StmtIf",

@@ -13,7 +13,25 @@ def reglaComandosAnidados(analizador, AST, código, regla):
   )
 
 def reglaUnComandoPorLinea(analizador, AST, código, regla):
-  return []
+  líneasConflictivas = {}
+  nodoAnterior = None
+  líneaAnterior = 0
+  for nodo in analizador.nodosDeTipo_(AST, analizador.tiposComandos()):
+    nuevaLínea = analizador.líneaDeNodo_(nodo)
+    if líneaAnterior > 0 and not (nodoAnterior is None):
+      if (líneaAnterior == nuevaLínea and not (líneaAnterior in líneasConflictivas)):
+        líneasConflictivas[líneaAnterior] = {
+          "msg":"No está bueno escribir más de un comando por línea",
+          "línea":líneaAnterior,
+          "columna":analizador.columnaDeNodo_(nodo)
+        }
+    nodoAnterior = nodo
+    líneaAnterior = nuevaLínea
+  resultado = []
+  for l in líneasConflictivas:
+    resultado.append(líneasConflictivas[l])
+  return resultado
+
 
 def reglaIndentacion(analizador, AST, código, regla):
   return []

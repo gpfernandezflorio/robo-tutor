@@ -31,6 +31,8 @@ class AnalizadorHaskell(Analizador):
   def nombreNodo_(self, nodo):
     # PRE: nodo es de tipo Nombre
     return nodo["valor"]
+  def tiposComandos(self):
+    return [] # No hay comandos en Haskell
   def tiposComandosCompuestos(self):
     return [] # No hay comandos compuestos en Haskell
   def tiposRepeticiónSimple(self):
