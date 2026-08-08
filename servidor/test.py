@@ -233,7 +233,9 @@ cursos = [{
   "ejs":[{
     "id":"cmdXLine",
     "i":[{"src":"function fun0(){x := 0;return(x)}","res":"Calidad","error":calidadCmdXLine()},
-      {"src":"function fun0(){x := 0\nreturn(x)}","res":"OK"}
+      {"src":"function fun0(){x := 0\nreturn(x)}","res":"OK"},
+      {"src":"function fun0(){Poner(Rojo)Poner(Rojo)Poner(Rojo)return(0)}","res":"Calidad","error":calidadCmdXLine()},
+      {"src":"function fun0(){Poner(Rojo)\nPoner(Rojo)\nPoner(Rojo)\nreturn(0)}","res":"OK"}
     ]
   }]
 }]
