@@ -10,8 +10,7 @@ import json
 
 todosLosIntentos = []
 
-def nombreRepeticiónSimple():
-  return "repetición simple"
+from msg import *
 
 def idConMayus():
   return "un identificador con mayúsculas"
@@ -67,28 +66,23 @@ def errorProcNoDef(n):
 def errorDobleDefProc(n, d1, d2):
   return 'El procedimiento "'+n+'" está definido dos veces: en '+("(?)" if (d1 is None) else ("la línea "+str(d1)))+" y en la línea "+str(d2)+"\nLínea: "+str(d2)
 
-def errorTimeout():
-  return "La ejecución demoró más de lo permitido"
-
-def errorNombre(n):
-  return "No está permitido usar '"+n+"'"
-
-def errorImport():
-  return "No está permitido importar módulos"
-
-def errorRaise():
-  return "No está permitido generar excepciones"
-
-def errorConcepto(n):
-  return "No está permitido usar "+n
-
-def calidadNest():
-  return "No está bueno anidar comandos compuestos"
-
-def calidadCmdXLine():
-  return "No está bueno escribir más de un comando por línea"
-
 cursos = [{
+  "id":"inpr_unq_2026_s2",
+  "l":"Gobstones",
+  "ejs":[{
+    "id":"guia1_ej1",
+    "i":[{"src":"program{\nSacar(Rojo)\nPoner(Verde)\n}","res":"Calidad","error":mensajeIndentaciónSubordinada},
+      {"src":"program{\n  Sacar(Rojo)\nPoner(Verde)\n}","res":"Calidad","error":mensajeIndentaciónSubordinada},
+      {"src":"program{\n  Sacar(Rojo)\n  Poner(Verde)\n}","res":"OK"}
+    ]
+  },{
+    "id":"guia2_ej2a",
+    "i":[
+      {"src":"procedure DibujarRectánguloRojoYNegroDe5x3() {\nDibujarLíneaRojaYNegraDeTamaño5HaciaElEste()\n}","res":"Calidad","error":mensajeIndentaciónSubordinada},
+      {"src":"procedure DibujarRectánguloRojoYNegroDe5x3() {\n  DibujarLíneaRojaYNegraDeTamaño5HaciaElEste()\n}","res":"NO"},
+    ]
+  }]
+},{ # Sólo valida comandos compuestos anidados de calidad.
   "id":"inpr_unq_2026_s1",
   "l":"Gobstones",
   "ejs":[{
@@ -116,13 +110,13 @@ cursos = [{
     "id":"guia2_ej5",
     "i":[{"src":"","res":"Except","error":errorProcNoDef("RegistrarElDíaDeLaMemoria")},
       {"src":"procedure RegistrarElDíaDeLaMemoria() {\n  repeat(24) {Poner(Azul)}\n  repeat(3) {Poner(Rojo)}\n  repeat(1976) {Poner(Verde)}\n}",
-        "res":"Calidad","error":errorConcepto(nombreRepeticiónSimple())
+        "res":"Calidad","error":mensajeRepeticiónSimpleNoPermitida
       },
       {"src":"procedure RegistrarElDíaDeLaMemoria() {\n  PonerDía()\n  PonerMes()\n  PonerAño()\n}\n\n" +\
         "procedure PonerDía() {repeat(24){Poner(Azul)}}\n\n" +\
         "procedure PonerMes() {repeat(3){Poner(Rojo)}}\n\n" +\
         "procedure PonerAño() {repeat(1976){Poner(Verde)}}",
-        "res":"Calidad","error":errorConcepto(nombreRepeticiónSimple())
+        "res":"Calidad","error":mensajeRepeticiónSimpleNoPermitida
       },
       {"src":"procedure RegistrarElDíaDeLaMemoria() {\n  Poner20A()Poner4A()Mover(Este)\n  Poner3R()Mover(Este)\n"+\
         "  Poner1000V()Poner900V()Poner70V()Poner6V()\n  Mover(Oeste)Mover(Oeste)\n}\n\n" +\
@@ -168,7 +162,7 @@ cursos = [{
         "\n  repeat(h-1) {Mover(Sur)}\n}","res":"OK"},
       {"src":"procedure DibujarBandaDeAlto_YAncho_DeColor_(h,w,c){\nrepeat(w-1) {\n  repeat(h-1) {Poner(c)Mover(Norte)}\n  Poner(c)" +\
         "\n  repeat(h-1) {Mover(Sur)}\nMover(Este)Mover(Norte)\n}\n  repeat(h-1) {Poner(c)Mover(Norte)}\n  Poner(c)" +\
-        "\n  repeat(h-1) {Mover(Sur)}\nrepeat(w-1) {Mover(Oeste)Mover(Sur)}\n}","res":"Calidad","error":calidadNest()}
+        "\n  repeat(h-1) {Mover(Sur)}\nrepeat(w-1) {Mover(Oeste)Mover(Sur)}\n}","res":"Calidad","error":mensajeComandosCompuestosAnidados}
     ]
   },{
     "id":"guia5_ej9",
@@ -194,12 +188,12 @@ cursos = [{
   },{
     "id":"guia8_ej1",
     "i":[{"src":"procedure IrAlBorde_(dirección) {\n  IrAlBorde(dirección)\n}",
-      "res":"Calidad","error":errorNombre("IrAlBorde")
+      "res":"Calidad","error":primitivaNoPermitida("IrAlBorde")
     }]
   },{
     "id":"guia8_ej2",
     "i":[{"src":"procedure SacarTodasLasDeColor_(color) {\n  repeat(nroBolitas(color)) { Sacar(color) }\n}",
-      "res":"Calidad","error":errorNombre("nroBolitas")
+      "res":"Calidad","error":primitivaNoPermitida("nroBolitas")
     }]
   }]
 },{
@@ -208,13 +202,13 @@ cursos = [{
   "ejs":[{
     "id":"error_relativo",
     "i":[{"src":"def error_relativo(x,y):\n  return 0","res":"NO"},
-      {"src":"while True:\n  pass","res":"Except","error":errorTimeout()},
-      {"src":"print(1)","res":"EVIL","error":errorNombre("print")},
-      {"src":"exit(1)","res":"EVIL","error":errorNombre("exit")},
-      {"src":"import os","res":"EVIL","error":errorImport()},
-      {"src":"raise 'X'","res":"EVIL","error":errorRaise()},
-      {"src":"__import__('os')","res":"EVIL","error":errorNombre("__import__")},
-      {"src":"().__class__","res":"EVIL","error":errorNombre("__class__")}
+      {"src":"while True:\n  pass","res":"Except","error":mensajeTimeout},
+      {"src":"print(1)","res":"EVIL","error":primitivaNoPermitida("print")},
+      {"src":"exit(1)","res":"EVIL","error":primitivaNoPermitida("exit")},
+      {"src":"import os","res":"EVIL","error":mensajeImportarNoPermitido},
+      {"src":"raise 'X'","res":"EVIL","error":mensajeExcepcionesNoPermitidas},
+      {"src":"__import__('os')","res":"EVIL","error":primitivaNoPermitida("__import__")},
+      {"src":"().__class__","res":"EVIL","error":primitivaNoPermitida("__class__")}
     ]
   }]
 },{
@@ -222,7 +216,7 @@ cursos = [{
   "l":"Python",
   "ejs":[{
     "id":"cmdXLine",
-    "i":[{"src":"x = 1;x = 0","res":"Calidad","error":calidadCmdXLine()},
+    "i":[{"src":"x = 1;x = 0","res":"Calidad","error":mensajeMásDeUnComandoPorLínea},
       {"src":"x = 1\nx = 0","res":"OK"},
       {"src":"x = len([1]) + len([])\nx = [len([1,2,len([1,2,3])]) - (1+1*2)][len([])]","res":"OK"}
     ]
@@ -232,10 +226,17 @@ cursos = [{
   "l":"Gobstones",
   "ejs":[{
     "id":"cmdXLine",
-    "i":[{"src":"function fun0(){x := 0;return(x)}","res":"Calidad","error":calidadCmdXLine()},
+    "i":[{"src":"function fun0(){x := 0;return(x)}","res":"Calidad","error":mensajeMásDeUnComandoPorLínea},
       {"src":"function fun0(){x := 0\nreturn(x)}","res":"OK"},
-      {"src":"function fun0(){Poner(Rojo)Poner(Rojo)Poner(Rojo)return(0)}","res":"Calidad","error":calidadCmdXLine()},
+      {"src":"function fun0(){Poner(Rojo)Poner(Rojo)Poner(Rojo)return(0)}","res":"Calidad","error":mensajeMásDeUnComandoPorLínea},
       {"src":"function fun0(){Poner(Rojo)\nPoner(Rojo)\nPoner(Rojo)\nreturn(0)}","res":"OK"}
+    ]
+  },{
+    "id":"indentNest",
+    "i":[{"src":"function fun0(){\nreturn(0)\n}","res":"Calidad","error":mensajeIndentaciónSubordinada},
+      {"src":"function fun0(){\n return(0)\n   }","res":"OK"},
+      {"src":"function fun0(){\n\treturn(0)\n\t\t\t}","res":"OK"},
+      {"src":"function fun0(){\n  \t\t   return(0)\n}","res":"OK"}
     ]
   }]
 }]

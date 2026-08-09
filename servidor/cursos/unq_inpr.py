@@ -6818,7 +6818,7 @@ CURSOS = {
     "lenguaje_display":"none",
     "analisisCodigo":[
       {"key":"CMD_X_LINE"},
-      # {"key":"INDENT"},
+      {"key":"INDENT_NEST"},
       {"key":"NEST_CMD","max":1}
     ],
     "actividades":[
@@ -6910,7 +6910,7 @@ CURSOS = {
   #   "lenguaje_display":"none",
   #   "analisisCodigo":[
   #     {"key":"CMD_X_LINE"},
-  #     {"key":"INDENT"},
+  #     {"key":"INDENT_NEST"},
   #     {"key":"NEST_CMD","max":1}
   #   ],
   #   "actividades":[

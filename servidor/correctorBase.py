@@ -1,5 +1,6 @@
 import os
 from procesos import ejecutarConTimeout
+from msg import mensajeTimeout
 
 def timeoutDefault():
   return 2
@@ -92,7 +93,7 @@ class Corrector(object):
       f.close()
       resultadoEjecucion = ejecutarConTimeout(self.comando, timeout, ruta)
       if resultadoEjecucion["resultado"] == "TIMEOUT":
-        return {"resultado":"Except", "error":"La ejecución demoró más de lo permitido"}
+        return {"resultado":"Except", "error":mensajeTimeout}
       duraciones.append(resultadoEjecucion["duracion"])
       self.AdaptarResultado(resultadoEjecucion, code, code_run, aridad)
       ## Buscar errores

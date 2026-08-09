@@ -21,6 +21,9 @@ class AnalizadorGobstones(Analizador):
     return hijosDeNodo_(nodo)
   def nodoMadreDe_(self, nodo):
     return nodo["_madre"]
+  def es_NodoSubordinadoDe_(self, nodoHijo, nodoMadre):
+    # Para saber si tengo que indentar (falso si el nodo madre es la raíz)
+    return not ("_tag" in nodoMadre) or nodoMadre["_tag"] != "N_Main"
   def es_NodoDeTipo_(self, nodo, tipo):
     if not (nodo is None) and ("_tag" in nodo):
       tipos = tipo if type(tipo) == type([]) else [tipo]

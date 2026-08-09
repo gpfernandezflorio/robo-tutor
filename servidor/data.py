@@ -371,7 +371,7 @@ def intentoCodigo(jsonObj, verb):
         jsonObj["analisisCodigo"] = reglasDeAnalisisDeCodigo(jsonObj, CURSOS[curso])
         resultado = run_code(jsonObj, verb)
       else:
-        LOG("login inválido.\nActividad no habilitada: "+usuario+"\nCurso: "+curso+"\nActividad: "+ejercicio)
+        LOG("login inválido.\nActividad no habilitada.\nUsuario: "+usuario+"\nCurso: "+curso+"\nActividad: "+ejercicio)
     else:
       LOG("login inválido.\nUsuario: "+usuario+"\nContraseña: "+contrasenia+"\nCurso: "+curso)
   else: # Ejercicio libre o usuario anónimo:

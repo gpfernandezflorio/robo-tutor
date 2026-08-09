@@ -21,6 +21,9 @@ class AnalizadorHaskell(Analizador):
     return hijosDeNodo_(nodo)
   def nodoMadreDe_(self, nodo):
     return nodo.["_madre"]
+  def es_NodoSubordinadoDe_(self, nodoHijo, nodoMadre):
+    # Para saber si tengo que indentar
+    return True
   def es_NodoDeTipo_(self, nodo, tipo):
     if not (nodo is None):
       tipos = tipo if type(tipo) == type([]) else [tipo]
