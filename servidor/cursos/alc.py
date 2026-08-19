@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
-traza = {
+## EJERCICIOS (definidos como funciones que toman como único parámetro la fecha a partir de la cual se pueden resolver).
+
+def traza(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"traza",
   "nombre":"5. Traza",
@@ -9,9 +12,12 @@ traza = {
   "pre":"import numpy as np",
   "run_data":[
     {"assert":"traza(np.array([[1,0,0,0,0],[0,1,0,0,0],[0,0,1,0,0],[0,0,0,1,0],[0,0,0,0,1]]))==5"}
-  ]
+  ],
+  "disponible":{"desde":fecha}
 }
-traspuesta = {
+
+def traspuesta(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"traspuesta",
   "nombre":"6. Traspuesta",
@@ -20,9 +26,12 @@ traspuesta = {
   "pre":"import numpy as np",
   "run_data":[
     {"assert":"np.array_equal(traspuesta(np.array([[1,2],[3,4]])),np.array([[1,3],[2,4]]))"}
-  ]
+  ],
+  "disponible":{"desde":fecha}
 }
-producto = {
+
+def producto(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"producto",
   "nombre":"8. Producto",
@@ -31,9 +40,12 @@ producto = {
   "pre":"import numpy as np",
   "run_data":[
     {"assert":"np.array_equal(calcularAx(np.array([[1,2],[3,4]]),np.array([1,1])),np.array([3,7]))"}
-  ]
+  ],
+  "disponible":{"desde":fecha}
 }
-esDiagonalDominante = {
+
+def esDiagonalDominante(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"esDiagonalDominante",
   "nombre":"11. Diagonalmente dominante",
@@ -42,24 +54,12 @@ esDiagonalDominante = {
   "pre":"import numpy as np",
   "run_data":[
     {"assert":"esDiagonalmenteDominante(np.array([[10,1,1],[-2,8,1],[2,-1,-10]]))"}
-  ]
+  ],
+  "disponible":{"desde":fecha}
 }
 
-fechas = {
-  "1":"25/9/2025-8:30",
-  "2":"29/9/2025-8:30",
-  "3":"1/10/2025-8:30",
-  "4":"3/10/2025-8:30"
-}
-
-def etiqueta(id, texto):
+def error(fecha):
   return {
-    "tipo":"SECCION",
-    "id":id,
-    "nombre":texto
-  }
-
-error = {
   "tipo":"CODIGO",
   "id":"error",
   "nombre":"error",
@@ -74,10 +74,11 @@ def error(x,y):\n\
   "run_data":[
     # FALTAN TESTS!
   ],
-  "disponible":{"desde":fechas["1"]}
+  "disponible":{"desde":fecha}
 }
 
-error_relativo = {
+def error_relativo(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"error_relativo",
   "nombre":"error_relativo",
@@ -95,10 +96,11 @@ def error_relativo(x,y):\n\
     {"assert":"np.allclose(error_relativo(-1,-1),0)"},
     {"assert":"np.allclose(error_relativo(1,-1),2)"}
   ],
-  "disponible":{"desde":fechas["1"]}
+  "disponible":{"desde":fecha}
 }
 
-matricesIguales = {
+def matricesIguales(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"matricesIguales",
   "nombre":"matricesIguales",
@@ -116,10 +118,11 @@ def matricesIguales(A,B):\n\
     {"assert":"matricesIguales(np.linalg.inv(np.array([[1,2],[3,4]]))@np.array([[1,2],[3,4]]),np.eye(2))"},
     {"assert":"not matricesIguales(np.array([[1,2],[3,4]]).T,np.array([[1,2],[3,4]]))"}
   ],
-  "disponible":{"desde":fechas["1"]}
+  "disponible":{"desde":fecha}
 }
 
-rota = {
+def rota(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"rota",
   "nombre":"rota",
@@ -136,10 +139,11 @@ def rota(theta):\n\
     {"assert":"np.allclose(rota(np.pi/2), np.array([[0, -1],[1, 0]]))"},
     {"assert":"np.allclose(rota(np.pi), np.array([[-1, 0],[0, -1]]))"}
   ],
-  "disponible":{"desde":fechas["2"]}
+  "disponible":{"desde":fecha}
 }
 
-escala = {
+def escala(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"escala",
   "nombre":"escala",
@@ -156,10 +160,11 @@ def escala(s):\n\
     {"assert":"np.allclose(escala([1,1,1]), np.eye(3))"},
     {"assert":"np.allclose(escala([0.5,0.25]), np.array([[0.5,0],[0,0.25]]))"}
   ],
-  "disponible":{"desde":fechas["2"]}
+  "disponible":{"desde":fecha}
 }
 
-rota_y_escala = {
+def rota_y_escala(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"rota_y_escala",
   "nombre":"rota_y_escala",
@@ -176,10 +181,11 @@ def rota_y_escala(theta,s):\n\
     {"assert":"np.allclose(rota_y_escala(np.pi/2,[1,1]), np.array([[0,-1],[1,0]]))"},
     {"assert":"np.allclose(rota_y_escala(np.pi,[2,2]), np.array([[-2,0],[0,-2]]))"}
   ],
-  "disponible":{"desde":fechas["2"]}
+  "disponible":{"desde":fecha}
 }
 
-afin = {
+def afin(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"afin",
   "nombre":"afin",
@@ -211,10 +217,11 @@ def afin(theta,s,b):\n\
                 [0,0,1]]))\
     "}
   ],
-  "disponible":{"desde":fechas["2"]}
+  "disponible":{"desde":fecha}
 }
 
-trans_afin = {
+def trans_afin(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"trans_afin",
   "nombre":"trans_afin",
@@ -240,10 +247,11 @@ def trans_afin(v,theta,s,b):\n\
       np.array([4,7]))\
     "}
   ],
-  "disponible":{"desde":fechas["2"]}
+  "disponible":{"desde":fecha}
 }
 
-norma = {
+def norma(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"norma",
   "nombre":"norma",
@@ -261,10 +269,11 @@ def norma(x,p):\n\
     {"assert":"norma(np.random.rand(10),2)<=np.sqrt(10)"},
     {"assert":"norma(np.random.rand(10),2)>=0"}
   ],
-  "disponible":{"desde":fechas["3"]}
+  "disponible":{"desde":fecha}
 }
 
-normaliza = {
+def normaliza(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"normaliza",
   "nombre":"normaliza",
@@ -284,10 +293,11 @@ def norma(x,p):\n\
     {"assert":"all([np.allclose(norma(x,2),1) for x in normaliza([np.array([1]*k) for k in range(2,11)],1)])"},
     {"assert":"all([np.allclose(norma(x,'inf'),1) for x in normaliza([np.random.rand(k) for k in range(1,11)],'inf')])"}
   ],
-  "disponible":{"desde":fechas["3"]}
+  "disponible":{"desde":fecha}
 }
 
-normaMatMC = {
+def normaMatMC(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"normaMatMC",
   "nombre":"normaMatMC",
@@ -313,10 +323,11 @@ nMC3 = normaMatMC(A=A,q='inf',p='inf',Np=1000000)\
     {"assert":"np.allclose(np.abs(nMC2[1][0]),1,atol=1e-3) and np.allclose(np.abs(nMC2[1][1]),1,atol=1e-3)"},
     {"assert":"np.allclose(nMC3[0],normaExacta(A,'inf'),rtol=2e-1)"}
   ],
-  "disponible":{"desde":fechas["3"]}
+  "disponible":{"desde":fecha}
 }
 
-normaExacta = {
+def normaExacta(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"normaExacta",
   "nombre":"normaExacta",
@@ -336,10 +347,11 @@ def normaExacta(A,p=[1,'inf']):\n\
     {"assert":"normaExacta(np.random.random((10,10)),1)<=10"},
     {"assert":"normaExacta(np.random.random((4,4)),'inf')<=4)"}
   ],
-  "disponible":{"desde":fechas["3"]}
+  "disponible":{"desde":fecha}
 }
 
-condMC = {
+def condMC(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"condMC",
   "nombre":"condMC",
@@ -375,10 +387,11 @@ normaA = normaMatMC(A,2,2,10000)\n\
 normaA_ = normaMatMC(A_,2,2,10000)\n\
 ","assert":"np.allclose(normaA[0]*normaA_[0],condMC(A,2,10000),atol=1e-3)"}
   ],
-  "disponible":{"desde":fechas["3"]}
+  "disponible":{"desde":fecha}
 }
 
-condExacto = {
+def condExacto(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"condExacto",
   "nombre":"condExacto",
@@ -412,10 +425,11 @@ normaA_ = normaExacta(A_,'inf')\n\
 condA = condExacto(A,'inf')\
 ","assert":"np.allclose(normaA*normaA_,condA)"}
   ],
-  "disponible":{"desde":fechas["3"]}
+  "disponible":{"desde":fecha}
 }
 
-calculaLU = {
+def calculaLU(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"calculaLU",
   "nombre":"calculaLU",
@@ -453,10 +467,11 @@ L3,U3,nops3 = calculaLU(A3)\
     {"assert":"U3 is None"},
     {"assert":"nops3 == 0"}
   ],
-  "disponible":{"desde":fechas["4"]}
+  "disponible":{"desde":fecha}
 }
 
-res_tri = {
+def res_tri(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"res_tri",
   "nombre":"res_tri",
@@ -493,10 +508,11 @@ A3 = np.array([[1,-1,1],[0,1,-1],[0,0,1]])\
       "assert":"np.allclose(res_tri(A3,b,inferior=False),np.array([1,1,1]))"
     }
   ],
-  "disponible":{"desde":fechas["4"]}
+  "disponible":{"desde":fecha}
 }
 
-inversa = {
+def inversa(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"inversa",
   "nombre":"inversa",
@@ -525,10 +541,11 @@ while iter < ntest:\n\
       "assert":"assert(inversa(A) is None)"
     }
   ],
-  "disponible":{"desde":fechas["4"]}
+  "disponible":{"desde":fecha}
 }
 
-calculaLDV = {
+def calculaLDV(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"calculaLDV",
   "nombre":"calculaLDV",
@@ -560,10 +577,11 @@ L2,D2,V2,nops2 = calculaLDV(A2)\
     {"assert":"np.allclose(D2,D02,1e-3)"},
     {"assert":"np.allclose(V2,V02,1e-3)"}
   ],
-  "disponible":{"desde":fechas["4"]}
+  "disponible":{"desde":fecha}
 }
 
-esSDP = {
+def esSDP(fecha):
+  return {
   "tipo":"CODIGO",
   "id":"esSDP",
   "nombre":"esSDP",
@@ -596,74 +614,163 @@ V0 = np.array([[1,0,0],[1,1,0],[1,1+1e-10,1]]).T\n\
 A = L0 @ D0 @ V0\
     ","assert":"not esSDP(A)"}
   ],
-  "disponible":{"desde":fechas["4"]}
+  "disponible":{"desde":fecha}
 }
 
+fechas = {
+  "1":"11/8/2026-8:30",
+  "2":"18/8/2026-8:30",
+  "3":"25/8/2026-8:30",
+  "4":"1/9/2026-8:30",
+  "5":"8/9/2026-8:30",
+  "6":"15/9/2026-8:30",
+  "7":"22/9/2026-8:30",
+  "8":"6/10/2026-8:30",
+  "9":"13/10/2026-8:30"
+}
+
+# def etiqueta(id, texto):
+#   return {
+#     "tipo":"SECCION",
+#     "id":id,
+#     "nombre":texto
+#   }
+
+def labo(id, texto, actividades, fecha):
+  return {
+    "tipo":"SECCION",
+    "id":id,
+    "nombre":texto,
+    "disponible":{"desde":fecha},
+    "actividades":actividades
+  }
+
 CURSOS = {
-  "alc_prueba":{
-    "nombre":"Álgebra Lineal Computacional - FCEN-UBA (PRUEBA)",
-    "anio":"2025",
-    "edicion":"Prueba",
-    "descripcion":"Curso correspondiente a la materia Álgebra Lineal Computacional de la Facultad de Ciencias Exactas y Naturales (FCEyN), UBA",
-    "responsable":{
-      "nombre":"Equipo de ALC",
-      "contacto":"? (AT) ?"
-    },
-    "institucion":"Facultad de Ciencias Exactas y Naturales (FCEyN) - UBA",
-    "lenguaje":"Python",
-    "lenguaje_display":"none",
-    # "analisisCodigo":[
-    #   {"key":"CMD_X_LINE"},
-    #   {"key":"INDENT_NEST"},
-    #   {"key":"NEST_CMD","max":1}
-    # ],
-    "actividades":[
-      # traza,
-      # traspuesta,
-      # producto,
-      # esDiagonalDominante,
-      # etiqueta("labo1","Labo 01 (" + fechas["1"] + ")"),
-      etiqueta("labo1","Labo 01"),
-        # error,
-        error_relativo,
-        matricesIguales,
-      # etiqueta("labo2","Labo 02 (" + fechas["2"] + ")"),
-      etiqueta("labo2","Labo 02"),
-        rota,
-        escala,
-        rota_y_escala,
-        afin,
-        trans_afin,
-      # etiqueta("labo3","Labo 03 (" + fechas["3"] + ")"),
-      etiqueta("labo3","Labo 03"),
-        norma,
-        normaliza,
-        normaMatMC,
-        normaExacta,
-        condMC,
-        condExacto,
-      # etiqueta("labo4","Labo 04 (" + fechas["4"] + ")"),
-      etiqueta("labo4","Labo 04"),
-        calculaLU,
-        res_tri,
-        inversa,
-        calculaLDV,
-        esSDP
-    ],
-    "planilla":{
-      "url":"1FAIpQLSfijJIbAFHK5BNEJhi31q1kXa3Z_LuLdiZjz7_O9N4SGu58WA",
-      "campos":{
-        "usuario":"9867257",
-        "actividad":"1165966175",
-        "respuesta":"1778184894",
-        "resultado":"1496208069",
-        "duracion":"1460244707"
-      }
-    }
-  },
-  "alc_2025_c2":{
-    "nombre":"Álgebra Lineal Computacional - FCEN-UBA (2025 - 2C)",
-    "anio":"2025",
+  # "alc_prueba":{
+  #   "nombre":"Álgebra Lineal Computacional - FCEN-UBA (PRUEBA)",
+  #   "anio":"2025",
+  #   "edicion":"Prueba",
+  #   "descripcion":"Curso correspondiente a la materia Álgebra Lineal Computacional de la Facultad de Ciencias Exactas y Naturales (FCEyN), UBA",
+  #   "responsable":{
+  #     "nombre":"Equipo de ALC",
+  #     "contacto":"? (AT) ?"
+  #   },
+  #   "institucion":"Facultad de Ciencias Exactas y Naturales (FCEyN) - UBA",
+  #   "lenguaje":"Python",
+  #   "lenguaje_display":"none",
+  #   # "analisisCodigo":[
+  #   #   {"key":"CMD_X_LINE"},
+  #   #   {"key":"INDENT_NEST"},
+  #   #   {"key":"NEST_CMD","max":1}
+  #   # ],
+  #   "actividades":[
+  #     # traza,
+  #     # traspuesta,
+  #     # producto,
+  #     # esDiagonalDominante,
+  #     # etiqueta("labo1","Labo 01 (" + fechas["1"] + ")"),
+  #     etiqueta("labo1","Labo 01"),
+  #       # error,
+  #       error_relativo(fechas["1"]),
+  #       matricesIguales(fechas["1"]),
+  #     # etiqueta("labo2","Labo 02 (" + fechas["2"] + ")"),
+  #     etiqueta("labo2","Labo 02"),
+  #       rota(fechas["2"]),
+  #       escala(fechas["2"]),
+  #       rota_y_escala(fechas["2"]),
+  #       afin(fechas["2"]),
+  #       trans_afin(fechas["2"]),
+  #     # etiqueta("labo3","Labo 03 (" + fechas["3"] + ")"),
+  #     etiqueta("labo3","Labo 03"),
+  #       norma(fechas["3"]),
+  #       normaliza(fechas["3"]),
+  #       normaMatMC(fechas["3"]),
+  #       normaExacta(fechas["3"]),
+  #       condMC(fechas["3"]),
+  #       condExacto(fechas["3"]),
+  #     # etiqueta("labo4","Labo 04 (" + fechas["4"] + ")"),
+  #     etiqueta("labo4","Labo 04"),
+  #       calculaLU(fechas["4"]),
+  #       res_tri(fechas["4"]),
+  #       inversa(fechas["4"]),
+  #       calculaLDV(fechas["4"]),
+  #       esSDP(fechas["4"])
+  #   ],
+  #   "planilla":{
+  #     "url":"1FAIpQLSfijJIbAFHK5BNEJhi31q1kXa3Z_LuLdiZjz7_O9N4SGu58WA",
+  #     "campos":{
+  #       "usuario":"9867257",
+  #       "actividad":"1165966175",
+  #       "respuesta":"1778184894",
+  #       "resultado":"1496208069",
+  #       "duracion":"1460244707"
+  #     }
+  #   }
+  # },
+  # "alc_2025_c2":{
+  #   "nombre":"Álgebra Lineal Computacional - FCEN-UBA (2025 - 2C)",
+  #   "anio":"2025",
+  #   "edicion":"Segundo Cuatrimestre",
+  #   "descripcion":"Curso correspondiente a la materia Álgebra Lineal Computacional de la Facultad de Ciencias Exactas y Naturales (FCEyN), UBA",
+  #   "responsable":{
+  #     "nombre":"Equipo de ALC",
+  #     "contacto":"? (AT) ?"
+  #   },
+  #   "institucion":"Facultad de Ciencias Exactas y Naturales (FCEyN) - UBA",
+  #   "lenguaje":"Python",
+  #   "lenguaje_display":"none",
+  #   # "analisisCodigo":[
+  #   #   {"key":"CMD_X_LINE"},
+  #   #   {"key":"INDENT_NEST"},
+  #   #   {"key":"NEST_CMD","max":1}
+  #   # ],
+  #   "actividades":[
+  #     # traza,
+  #     # traspuesta,
+  #     # producto,
+  #     # esDiagonalDominante,
+  #     # etiqueta("labo1","Labo 01 (" + fechas["1"] + ")"),
+  #     etiqueta("labo1","Labo 01"),
+  #       # error,
+  #       error_relativo,
+  #       matricesIguales,
+  #     # etiqueta("labo2","Labo 02 (" + fechas["2"] + ")"),
+  #     etiqueta("labo2","Labo 02"),
+  #       rota,
+  #       escala,
+  #       rota_y_escala,
+  #       afin,
+  #       trans_afin,
+  #     # etiqueta("labo3","Labo 03 (" + fechas["3"] + ")"),
+  #     etiqueta("labo3","Labo 03"),
+  #       norma,
+  #       normaliza,
+  #       normaMatMC,
+  #       normaExacta,
+  #       condMC,
+  #       condExacto,
+  #     # etiqueta("labo4","Labo 04 (" + fechas["4"] + ")"),
+  #     etiqueta("labo4","Labo 04"),
+  #       calculaLU,
+  #       res_tri,
+  #       inversa,
+  #       calculaLDV,
+  #       esSDP
+  #   ],
+  #   "planilla":{
+  #     "url":"1FAIpQLSfijJIbAFHK5BNEJhi31q1kXa3Z_LuLdiZjz7_O9N4SGu58WA",
+  #     "campos":{
+  #       "usuario":"9867257",
+  #       "actividad":"1165966175",
+  #       "respuesta":"1778184894",
+  #       "resultado":"1496208069",
+  #       "duracion":"1460244707"
+  #     }
+  #   }
+  # },
+  "alc_2026_c2":{
+    "nombre":"Álgebra Lineal Computacional - FCEN-UBA (2026 - 2C)",
+    "anio":"2026",
     "edicion":"Segundo Cuatrimestre",
     "descripcion":"Curso correspondiente a la materia Álgebra Lineal Computacional de la Facultad de Ciencias Exactas y Naturales (FCEyN), UBA",
     "responsable":{
@@ -679,37 +786,37 @@ CURSOS = {
     #   {"key":"NEST_CMD","max":1}
     # ],
     "actividades":[
-      # traza,
-      # traspuesta,
-      # producto,
-      # esDiagonalDominante,
-      # etiqueta("labo1","Labo 01 (" + fechas["1"] + ")"),
-      etiqueta("labo1","Labo 01"),
-        # error,
-        error_relativo,
-        matricesIguales,
-      # etiqueta("labo2","Labo 02 (" + fechas["2"] + ")"),
-      etiqueta("labo2","Labo 02"),
-        rota,
-        escala,
-        rota_y_escala,
-        afin,
-        trans_afin,
-      # etiqueta("labo3","Labo 03 (" + fechas["3"] + ")"),
-      etiqueta("labo3","Labo 03"),
-        norma,
-        normaliza,
-        normaMatMC,
-        normaExacta,
-        condMC,
-        condExacto,
-      # etiqueta("labo4","Labo 04 (" + fechas["4"] + ")"),
-      etiqueta("labo4","Labo 04"),
-        calculaLU,
-        res_tri,
-        inversa,
-        calculaLDV,
-        esSDP
+      labo("labo1","Labo 01", [
+        # traza(fechas["1"]),
+        # traspuesta(fechas["1"]),
+        # producto(fechas["1"]),
+        # esDiagonalDominante(fechas["1"]),
+        # error(fechas["1"]),
+        error_relativo(fechas["1"]),
+        matricesIguales(fechas["1"])
+      ], fechas["1"]),
+      labo("labo2","Labo 02", [
+        rota(fechas["2"]),
+        escala(fechas["2"]),
+        rota_y_escala(fechas["2"]),
+        afin(fechas["2"]),
+        trans_afin(fechas["2"])
+      ], fechas["2"]),
+      labo("labo3","Labo 03", [
+        norma(fechas["3"]),
+        normaliza(fechas["3"]),
+        normaMatMC(fechas["3"]),
+        normaExacta(fechas["3"]),
+        condMC(fechas["3"]),
+        condExacto(fechas["3"])
+      ], fechas["3"]),
+      labo("labo4","Labo 04", [
+        calculaLU(fechas["4"]),
+        res_tri(fechas["4"]),
+        inversa(fechas["4"]),
+        calculaLDV(fechas["4"]),
+        esSDP(fechas["4"])
+      ], fechas["4"])
     ],
     "planilla":{
       "url":"1FAIpQLSfijJIbAFHK5BNEJhi31q1kXa3Z_LuLdiZjz7_O9N4SGu58WA",
