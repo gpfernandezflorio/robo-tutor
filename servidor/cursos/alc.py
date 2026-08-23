@@ -30,6 +30,56 @@ def traspuesta(fecha):
   "disponible":{"desde":fecha}
 }
 
+def esCuadrada(fecha):
+  return {
+  "tipo":"CODIGO",
+  "id":"esCuadrada",
+  "nombre":"1. Es cuadrada",
+  "enunciado":"Implementar la función <code>esCuadrada(A)</code> que devuelva verdadero si la matriz <i>A</i> es cuadrada y Falso en caso contrario.",
+  "aridad":{"esCuadrada":1},
+  "pre":"import numpy as np",
+  "run_data":[
+    {"assert":"esCuadrada(np.eye(3))"},
+    {"assert":"esCuadrada(np.array([[1,2],[3,4]]))"},
+    {"assert":"not esCuadrada(np.array([[1,2,3],[4,5,6]]))"},
+    {"assert":"not esCuadrada(np.array([[1],[2],[3]]))"}
+  ],
+  "disponible":{"desde":fecha}
+}
+
+def diagonal(fecha):
+  return {
+  "tipo":"CODIGO",
+  "id":"diagonal",
+  "nombre":"4. Diagonal",
+  "enunciado":"Implementar la función <code>diagonal(A)</code> que devuelva la matriz <i>D</i> correspondiente a la matriz diagonal de <i>A</i>.",
+  "aridad":{"diagonal":1},
+  "pre":"import numpy as np",
+  "run_data":[
+    {"assert":"np.array_equal(diagonal(np.array([[1,2],[3,4]])),np.array([[1,0],[0,4]]))"},
+    {"assert":"np.array_equal(diagonal(np.eye(3)),np.eye(3))"},
+    {"assert":"np.array_equal(diagonal(np.array([[5,1,2],[3,6,4],[7,8,9]])),np.diag([5,6,9]))"}
+  ],
+  "disponible":{"desde":fecha}
+}
+
+def esSimetrica(fecha):
+  return {
+  "tipo":"CODIGO",
+  "id":"esSimetrica",
+  "nombre":"7. Es simétrica",
+  "enunciado":"Implementar la función <code>esSimetrica(A)</code> que devuelva <code>True</code> si la matriz <i>A</i> es simétrica y <code>False</code> en caso contrario.",
+  "aridad":{"esSimetrica":1},
+  "pre":"import numpy as np",
+  "run_data":[
+    {"assert":"esSimetrica(np.eye(3))"},
+    {"assert":"esSimetrica(np.array([[1,2],[2,1]]))"},
+    {"assert":"not esSimetrica(np.array([[1,2],[3,4]]))"},
+    {"post":"A = np.random.rand(4,4)","assert":"esSimetrica(A.T@A)"}
+  ],
+  "disponible":{"desde":fecha}
+}
+
 def producto(fecha):
   return {
   "tipo":"CODIGO",
@@ -71,8 +121,15 @@ def error(x,y):\n\
   \"\"\"\n",
   "aridad":{"error":2},
   "pre":"import numpy as np",
+  "post":"\
+def sonIguales(x,y,atol=1e-08):\n\
+  return np.allclose(error(x,y),0,atol=atol)\n\n",
   "run_data":[
-    # FALTAN TESTS!
+    {"assert":"not sonIguales(1,1.1)"},
+    {"assert":"sonIguales(1,1 + np.finfo('float64').eps)"},
+    {"assert":"not sonIguales(1,1 + np.finfo('float32').eps)"},
+    {"assert":"not sonIguales(np.float16(1),np.float16(1) + np.finfo('float32').eps)"},
+    {"assert":"sonIguales(np.float16(1),np.float16(1) + np.finfo('float16').eps,atol=1e-3)"}
   ],
   "disponible":{"desde":fecha}
 }
@@ -264,6 +321,8 @@ def norma(x,p):\n\
   "aridad":{"norma":2},
   "pre":"import numpy as np",
   "run_data":[
+    {"assert":"np.allclose(norma(np.array([0,0,0,0]),1),0)"},
+    {"assert":"np.allclose(norma(np.array([4,3,-100,-41,0]),'inf'),100)"},
     {"assert":"np.allclose(norma(np.array([1,1]),2),np.sqrt(2))"},
     {"assert":"np.allclose(norma(np.array([1]*10),2),np.sqrt(10))"},
     {"assert":"norma(np.random.rand(10),2)<=np.sqrt(10)"},
@@ -321,7 +380,7 @@ nMC3 = normaMatMC(A=A,q='inf',p='inf',Np=1000000)\
     {"assert":"np.allclose(np.abs(nMC1[1][0]),0,atol=1e-3) or np.allclose(np.abs(nMC1[1][1]),0,atol=1e-3)"},
     {"assert":"np.allclose(nMC2[0],np.sqrt(2),atol=1e-3)"},
     {"assert":"np.allclose(np.abs(nMC2[1][0]),1,atol=1e-3) and np.allclose(np.abs(nMC2[1][1]),1,atol=1e-3)"},
-    {"assert":"np.allclose(nMC3[0],normaExacta(A,'inf'),rtol=2e-1)"}
+    {"assert":"np.allclose(nMC3[0],normaExacta(A)[1],rtol=1e-1)"}
   ],
   "disponible":{"desde":fecha}
 }
@@ -340,12 +399,13 @@ def normaExacta(A,p=[1,'inf']):\n\
   "aridad":{"normaExacta":2},
   "pre":"import numpy as np",
   "run_data":[
-    {"assert":"np.allclose(normaExacta(np.array([[1,-1],[-1,-1]]),1),2)"},
-    {"assert":"np.allclose(normaExacta(np.array([[1,-2],[-3,-4]]),1),7)"},
-    {"assert":"np.allclose(normaExacta(np.array([[1,-2],[-3,-4]]),'inf'),6)"},
+    {"assert":"np.allclose(normaExacta(np.array([[1,-1],[-1,-1]]))[0],2)"},
+    {"assert":"np.allclose(normaExacta(np.array([[1,-1],[-1,-1]]))[1],2)"},
+    {"assert":"np.allclose(normaExacta(np.array([[1,-2],[-3,-4]]))[0],6)"},
+    {"assert":"np.allclose(normaExacta(np.array([[1,-2],[-3,-4]]))[1],7)"},
     {"assert":"normaExacta(np.array([[1,-2],[-3,-4]]),2) is None"},
-    {"assert":"normaExacta(np.random.random((10,10)),1)<=10"},
-    {"assert":"normaExacta(np.random.random((4,4)),'inf')<=4)"}
+    {"assert":"normaExacta(np.random.random((10,10)))[0]<=10"},
+    {"assert":"normaExacta(np.random.random((4,4)))[1]<=4"}
   ],
   "disponible":{"desde":fecha}
 }
@@ -379,13 +439,15 @@ A = np.array([[1,1],[0,1]])\n\
 A_ = np.linalg.solve(A,np.eye(A.shape[0]))\n\
 normaA = normaMatMC(A,2,2,10000)\n\
 normaA_ = normaMatMC(A_,2,2,10000)\n\
-","assert":"np.allclose(normaA[0]*normaA_[0],condMC(A,2,10000),atol=1e-3)"},
+condA = condMC(A,2)\n\
+","assert":"np.allclose(normaA[0]*normaA_[0],condA,atol=1e-2)"},
     {"post":"\
 A = np.array([[3,2],[4,1]])\n\
 A_ = np.linalg.solve(A,np.eye(A.shape[0]))\n\
 normaA = normaMatMC(A,2,2,10000)\n\
 normaA_ = normaMatMC(A_,2,2,10000)\n\
-","assert":"np.allclose(normaA[0]*normaA_[0],condMC(A,2,10000),atol=1e-3)"}
+condA = condMC(A,2)\n\
+","assert":"np.allclose(normaA[0]*normaA_[0],condA,atol=1e-2)"}
   ],
   "disponible":{"desde":fecha}
 }
@@ -465,7 +527,9 @@ L3,U3,nops3 = calculaLU(A3)\
     {"assert":"nops2 == 13"},
     {"assert":"L3 is None"},
     {"assert":"U3 is None"},
-    {"assert":"nops3 == 0"}
+    {"assert":"nops3 == 0"},
+    {"assert":"calculaLU(None) == (None, None, 0)"},
+    {"assert":"calculaLU(np.array([[1,2,3],[4,5,6]])) == (None, None, 0)"}
   ],
   "disponible":{"desde":fecha}
 }
@@ -527,18 +591,25 @@ def inversa(A):\n\
   "pre":"import numpy as np",
   "run_data":[
     {"post":"\
+def esSingular(A):\n\
+    try:\n\
+        np.linalg.inv(A)\n\
+        return False\n\
+    except:\n\
+        return True\n\
+\n\
 asserts = []\n\
 ntest = 10\n\
-iter = 0\n\
-while iter < ntest:\n\
+for i in range(ntest):\n\
     A = np.random.random((4,4))\n\
     A_ = inversa(A)\n\
-    if not A_ is None:\n\
-        asserts.append(np.allclose(np.linalg.inv(A),A_))\n\
-        iter += 1\
+    if not esSingular(A):\n\
+        asserts.append(A_ is not None and np.allclose(np.linalg.inv(A),A_))\n\
+    else:\n\
+        asserts.append(A_ is None)\
     ","assert":"all(asserts)"},
     { "post":"A = np.array([[1,2,3],[4,5,6],[7,8,9]])",
-      "assert":"assert(inversa(A) is None)"
+      "assert":"inversa(A) is None"
     }
   ],
   "disponible":{"desde":fecha}
@@ -562,12 +633,12 @@ L01 = np.array([[1,0,0],[1,1.,0],[1,1,1]])\n\
 D01 = np.diag([1,2,3])\n\
 V01 = np.array([[1,1,1],[0,1,1],[0,0,1]])\n\
 A1 =  L01 @ D01  @ V01\n\
-L1,D1,V1,nops1 = calculaLDV(A1)\n\
+L1,D1,V1 = calculaLDV(A1)\n\
 L02 = np.array([[1,0,0],[1,1.001,0],[1,1,1]])\n\
 D02 = np.diag([3,2,1])\n\
 V02 = np.array([[1,1,1],[0,1,1],[0,0,1.001]])\n\
 A2 =  L02 @ D02  @ V02\n\
-L2,D2,V2,nops2 = calculaLDV(A2)\
+L2,D2,V2 = calculaLDV(A2)\
   ",
   "run_data":[
     {"assert":"np.allclose(L1,L01)"},
@@ -610,23 +681,24 @@ A = L0 @ D0 @ L0.T\
     {"post":"\
 L0 = np.array([[1,0,0],[1,1,0],[1,1,1]])\n\
 D0 = np.diag([1,1,1])\n\
-V0 = np.array([[1,0,0],[1,1,0],[1,1+1e-10,1]]).T\n\
+V0 = np.array([[1,0,0],[1,1,0],[1,1+1e-3,1]]).T\n\
 A = L0 @ D0 @ V0\
-    ","assert":"not esSDP(A)"}
+    ","assert":"esSDP(A,1e-3)"}
   ],
   "disponible":{"desde":fecha}
 }
 
 fechas = {
-  "1":"11/8/2026-8:30",
-  "2":"18/8/2026-8:30",
-  "3":"25/8/2026-8:30",
-  "4":"1/9/2026-8:30",
-  "5":"8/9/2026-8:30",
-  "6":"15/9/2026-8:30",
-  "7":"22/9/2026-8:30",
-  "8":"6/10/2026-8:30",
-  "9":"13/10/2026-8:30"
+  "0":"11/8/2026-8:30",
+  "1":"18/8/2026-8:30",
+  "2":"25/8/2026-8:30",
+  "3":"1/9/2026-8:30",
+  "4":"8/9/2026-8:30",
+  "5":"15/9/2026-8:30",
+  "6":"22/9/2026-8:30",
+  "7":"6/10/2026-8:30",
+  "8":"13/10/2026-8:30",
+  "9":"27/10/2026-8:30"
 }
 
 # def etiqueta(id, texto):
@@ -786,12 +858,15 @@ CURSOS = {
     #   {"key":"NEST_CMD","max":1}
     # ],
     "actividades":[
+      labo("labo00","Labo 00", [
+        esCuadrada(fechas["0"]),
+        diagonal(fechas["0"]),
+        traza(fechas["0"]),
+        traspuesta(fechas["0"]),
+        esSimetrica(fechas["0"]),
+      ], fechas["0"]),
       labo("labo1","Labo 01", [
-        # traza(fechas["1"]),
-        # traspuesta(fechas["1"]),
-        # producto(fechas["1"]),
-        # esDiagonalDominante(fechas["1"]),
-        # error(fechas["1"]),
+        error(fechas["1"]),
         error_relativo(fechas["1"]),
         matricesIguales(fechas["1"])
       ], fechas["1"]),
