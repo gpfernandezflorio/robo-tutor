@@ -66,7 +66,8 @@ guíasEnMoodle = {
     "I2":[42036,4,"Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf"],
     "I3":[42044,8,"Pr%C3%A1ctica%2011%20-%20Ejercicios%20Integradores%20%5B2023-11-06%5D.pdf"],
     "I4":[42043,3,"Comidas%20Gobianas%20%5B2023-11-06%5D.pdf"],
-    "I5":[42042,3,"Compumundo%20Hiper%20Mega%20Red%20%5B2023-11-06%5D.pdf"]
+    "I5":[42042,3,"Compumundo%20Hiper%20Mega%20Red%20%5B2023-11-06%5D.pdf"],
+    "E1":[1,1,""]
   },
   "2026s1":{
      "1":[38997,25,"P1.%20Programas%20y%20Contratos.pdf"],
@@ -6772,6 +6773,99 @@ def guiaI5(curso, fechaInicio):
     ]
   }
 
+def guber_1(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guber_1",
+    "nombre":"1) MoverVehículoVacíoAlNorte",
+    "enunciado": "Realice el procedimiento <code>MoverVehículoVacíoAlNorte</code> que mueve el vehículo al Norte una única ubicación, asumiendo que el cabezal está sobre el vehículo, y este se encuentra vacío.",
+    "pre":"program{MoverVehículoVacíoAlNorte()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[n,v],[v,v]]},
+      "tf":{"head":[0,1],"width":2,"height":2,"board":[[v,n],[v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guber_2(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guber_2",
+    "nombre":"2) RecogerSolicitanteConId5",
+    "enunciado": "Realice el procedimiento <code>RecogerSolicitanteConId5</code> que sube el solicitante con ID 5 al vehículo. Para ello se asume que el cabezal se encuentra sobre el vehículo, y en la ubicación del vehículo se encuentra el solicitante con el ID mencionado.",
+    "pre":"program{RecogerSolicitanteConId5()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[c(5,1,0,0),v],[v,v]]},
+      "tf":{"head":[0,0],"width":2,"height":2,"board":[[c(0,2,0,5),v],[v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guber_3(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guber_3",
+    "nombre":"3) LlevarPasajeroConId5ActualADestinoA5AlNorte",
+    "enunciado": "Se pide que realice el procedimiento <code>LlevarPasajeroConId5ActualADestinoA5AlNorte</code> que lleva el pasajero con el ID 5 a su destino (el cual se encuentra 5 celdas al Norte de la actual). Para esto se asume que el cabezal se encuentra sobre el vehículo y que tiene al pasajero con ID 5 a bordo. También se presupone que el destino del mencionado pasajero se encuentra en línea recta hacia el Norte a 5 celdas de la actual. Cabe aclarar que una vez que se llega al destino debe bajarse al pasajero en el destino. Bajarlo consiste simplemente en sacar las bolitas que representan al mismo y dejando al vehículo vacío.<br><br>Para resolver este problema deberá hacer uso de la siguiente primitiva:"+código("MoverVehículoConPasajeroConId_Al_<br>&nbsp;&nbsp;PROPÓSITO: Mueve el vehículo con el pasajero con el ID dado una ubicación en el mapa hacia la dirección dada. El cabezal termina sobre el vehículo.<br>&nbsp;&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;&nbsp;&nbsp;* El cabezal se encuentra sobre el vehículo.<br>&nbsp;&nbsp;&nbsp;&nbsp;* El vehículo tiene al pasajero con el ID dado.")+"Un ejemplo de uso de la primitiva anterior sería <code>MoverVehículoConPasajeroConId_Al_(3, Sur)</code>, lo cual mueve el vehículo con el pasajero con ID 3 una posición al Sur.",
+    "pre":"procedure MoverVehículoConPasajeroConId_Al_(id,dir){repeat(id){Sacar(Verde)}repeat(2){Sacar(Negro)}Mover(dir)repeat(id){Poner(Verde)}repeat(2){Poner(Negro)}}\nprogram{LlevarPasajeroConId5ActualADestinoA5AlNorte()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[c(0,2,0,5),v],[v,v]]},
+      "tf":{"head":[0,1],"width":2,"height":2,"board":[[v,c(0,2,0,5)],[v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guber_4(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guber_4",
+    "nombre":"4) RecogerSolicitanteConId_",
+    "enunciado": "Escriba el procedimiento <code>RecogerSolicitanteConId_</code> que dado un número de ID, sube al vehículo el solicitante con el ID mencionado. Se asume que el cabezal se encuentra sobre el vehículo, y que en la ubicación del mismo se encuentra el solicitante con el ID dado.",
+    "run_data":[{
+      "pre":"program{RecogerSolicitanteConId_(3)}",
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[c(3,1,0,0),v],[v,v]]},
+      "tf":{"head":[0,0],"width":2,"height":2,"board":[[c(0,2,0,3),v],[v,v]]}
+    },{
+      "pre":"program{RecogerSolicitanteConId_(7)}",
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[c(7,1,0,0),v],[v,v]]},
+      "tf":{"head":[0,0],"width":2,"height":2,"board":[[c(0,2,0,7),v],[v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guber_5(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guber_5",
+    "nombre":"5) RecogerSolicitanteAcá",
+    "enunciado": "Escriba el procedimiento <code>RecogerSolicitanteAcá</code> que recoge el solicitante en la celda actual subiendolo al vehículo. Puede asumir el cabezal sobre el vehículo y sobre un solicitante.",
+    "pre":"program{RecogerSolicitanteAcá()}",
+    "run_data":[{
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[c(3,1,0,0),v],[v,v]]},
+      "tf":{"head":[0,0],"width":2,"height":2,"board":[[c(0,2,0,3),v],[v,v]]}
+    },{
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[c(7,1,0,0),v],[v,v]]},
+      "tf":{"head":[0,0],"width":2,"height":2,"board":[[c(0,2,0,7),v],[v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guber(curso, fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guber",
+    "nombre":"Entrega 1 - Guber",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      #linkGuía("E1", curso),
+      guber_1(fechaInicio),
+      guber_2(fechaInicio),
+      guber_3(fechaInicio),
+      guber_4(fechaInicio),
+      guber_5(fechaInicio)
+    ]
+  }
+
 def enlaceGuía(n, curso, opt_texto=None):
   inforGuía = guíasEnMoodle[curso][str(n)]
   return "<a href='"+urlGuía(n, curso)+"' target='_blank'>" + ("la guía" if (opt_texto is None) else opt_texto) + "</a>"
@@ -6828,6 +6922,7 @@ CURSOS = {
       guia3("2026s2","14/8/2026-8:00"),
       guia4("2026s2","21/8/2026-8:00"),
       guia5("2026s2","21/8/2026-8:00"),
+      guber("2026s2","28/8/2026-8:00"),
       guia6("2026s2","28/8/2026-8:00"),
       guia7("2026s2","28/8/2026-8:00"),
       guia8("2026s2","4/9/2026-8:00"),
