@@ -376,7 +376,7 @@ def intentoCodigo(jsonObj, verb):
       LOG("login inválido.\nUsuario: "+usuario+"\nContraseña: "+contrasenia+"\nCurso: "+curso)
   else: # Ejercicio libre o usuario anónimo:
     # resultado = run_code(jsonObj)
-    LOG("Login inválido.\nFaltan campos: "+jsonObj.keys())
+    LOG("Login inválido.\nFaltan campos: "+str(jsonObj.keys()))
   if resultado["resultado"] != "Falla" and "usuario" in jsonObj:
     if ("duracion" in resultado):
       jsonObj["duracion"] = "{:.2f}".format(resultado["duracion"])
