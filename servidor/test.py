@@ -197,11 +197,15 @@ cursos = [{
     }]
   }]
 },{
-  "id":"alc_prueba",
+  "id":"curso_ficticio_python",
   "l":"Python",
   "ejs":[{
     "id":"error_relativo",
     "i":[{"src":"def error_relativo(x,y):\n  return 0","res":"NO"},
+      {"src":"","res":"NO","mensaje":mensajeFaltaDefinición("error_relativo")},
+      {"src":"def error_relativo(x):\n  return 0","res":"NO","mensaje":
+        mensajeFallaParámetros("error_relativo",2,1)
+      },
       {"src":"while True:\n  pass","res":"Except","error":mensajeTimeout},
       {"src":"print(1)","res":"EVIL","error":primitivaNoPermitida("print")},
       {"src":"exit(1)","res":"EVIL","error":primitivaNoPermitida("exit")},
@@ -210,15 +214,29 @@ cursos = [{
       {"src":"__import__('os')","res":"EVIL","error":primitivaNoPermitida("__import__")},
       {"src":"().__class__","res":"EVIL","error":primitivaNoPermitida("__class__")}
     ]
-  }]
-},{
-  "id":"curso_ficticio_python",
-  "l":"Python",
-  "ejs":[{
+  },{
     "id":"cmdXLine",
     "i":[{"src":"x = 1;x = 0","res":"Calidad","error":mensajeMásDeUnComandoPorLínea},
       {"src":"x = 1\nx = 0","res":"OK"},
-      {"src":"x = len([1]) + len([])\nx = [len([1,2,len([1,2,3])]) - (1+1*2)][len([])]","res":"OK"}
+      {"src":"x = len([1]) + len([])\nx = [len([1,2,len([1,2,3])]) - (1+1*2)][len([])]","res":"OK"},
+      {"src":"","res":"NO","mensaje":mensajeFaltaDefinición("x")}
+    ]
+  },{
+    "id":"eval_vals",
+    "i":[{"src":"x=0","res":"OK"},
+      {"src":"x=2","res":"NO"},
+      {"src":"x=1","res":"NO","mensaje":mensajeMenosDeUno},
+      {"src":"x=-1","res":"NO","mensaje":mensajeMásDeMenosUno},
+      {"src":"x=-2","res":"NO"}
+    ]
+  },{
+    "id":"eval_checks",
+    "i":[{"src":"x=0","res":"OK"},
+      {"src":"x=2","res":"NO","mensaje":fMsg(mensajeNoDebeSerPos,2)},
+      {"src":"x=1","res":"NO","mensaje":mensajeMenosDeUno},
+      {"src":"x=-1","res":"NO","mensaje":fMsg(mensajeNoDebeSerNeg,-1)},
+      {"src":"x=-2","res":"NO","mensaje":fMsg(mensajeNoDebeSerNeg,-2)},
+      {"src":"x=True","res":"NO","mensaje":fMsg(mensajeDebeSerNum,True)}
     ]
   }]
 },{
@@ -252,6 +270,8 @@ for c in cursos:
       res = {"resultado":i["res"]}
       if "error" in i:
         res["error"] = i["error"]
+      if "mensaje" in i:
+        res["mensaje"] = i["mensaje"]
       todosLosIntentos.append({
         "send":{
           "src":i["src"],
@@ -273,6 +293,11 @@ def Intentar(intento):
   print(n)
   resultado = sendCode(intento["send"])
   esperado = intento["res"]
+  # print("\n---\n")
+  # print(resultado)
+  # print("\n---\n")
+  # print(esperado)
+  # print("\n---\n")
   res = Validar(resultado, esperado)
   if not (res is None):
     print("\n---\n")
@@ -284,15 +309,24 @@ def Intentar(intento):
 
 def Validar(resultado, esperado):
   if resultado["resultado"] == esperado["resultado"]:
-    if "error" in esperado:
+    if esperado["resultado"] == "NO":
+      if "mensaje" in esperado:
+        if "mensaje" in resultado:
+          if resultado["mensaje"] == esperado["mensaje"]:
+            return None
+          return "Se esperaba que el mensaje fuera '" + esperado["mensaje"] + "' pero es '" + resultado["mensaje"] + "'"
+        return "Se esperaba que el resultado tuviera un mensaje pero no es así"
+      elif "mensaje" in resultado:
+        return "El resultado tiene un mensaje que no se esperaba: " + resultado["mensaje"]
+      return None
+    elif "error" in esperado:
       if "error" in resultado:
         if resultado["error"] == esperado["error"]:
           return None
         return "Se esperaba que el error fuera '" + esperado["error"] + "' pero es '" + resultado["error"] + "'"
       return "Se esperaba que el resultado tuviera un mensaje de error pero no es así"
     elif "error" in resultado:
-      if not ("error" in esperado):
-        return "El resultado tiene un mensaje de error que no se esperaba: " + resultado["error"]
+      return "El resultado tiene un mensaje de error que no se esperaba: " + resultado["error"]
     return None
   return "Se esperaba RES=" + esperado["resultado"] + " pero se obtuvo:" + resultado["resultado"] + "\n("+str(resultado)+")"
 

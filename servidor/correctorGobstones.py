@@ -13,10 +13,9 @@ class CorrectorGobstones(Corrector):
     resultadoAnalisisCodigo = analizarGobstones(código, reglas, extras)
     if not(resultadoAnalisisCodigo is None):
       if resultadoAnalisisCodigo["resultado"] == "Except":
-        errorMsg = resultadoAnalisisCodigo["errorMsg"] \
+        return {"resultado":"Except", "error":resultadoAnalisisCodigo["errorMsg"]} \
           if ("errorMsg" in resultadoAnalisisCodigo) \
           else buscar_falla_gobstones(resultadoAnalisisCodigo["error"], extras["desde"]-1)
-        return {"resultado":"Except", "error":errorMsg}
     return resultadoAnalisisCodigo
 
   def InicializarRun(self, run, ruta):
@@ -35,6 +34,9 @@ class CorrectorGobstones(Corrector):
   def AgregarCódigoResultado(self, code_run, assertCode):
     pass
 
+  def AgregarCódigoEvaluación(self, code_run, evalObj):
+    pass
+
   def buscarFalla(self, falla, code, code_run):
     return buscar_falla_gobstones(falla, code_run["lineasAdicionales"])
 
@@ -46,6 +48,10 @@ class CorrectorGobstones(Corrector):
         mostrar_excepcion(e)
       return {"resultado":"Except", "error":str(e)}
     ## Validar tablero final
+    if "vals" in run:
+      for res in vals:
+        if mismo_tablero(res["t"], salida):
+          return {"resultado":"NO", "mensaje":res["msg"]}
     if "tf" in run:
       tablero_esperado = run["tf"]
       tablero_obtenido = salida
@@ -118,9 +124,9 @@ def buscar_falla_gobstones(s, n):
       linea = int(l[11:-1]) - n
       if linea > 0:
         falla = LimpiarNúmerosDeLínea(falla, n) + "\nLínea: " + str(linea)
-      return falla
+      return {"resultado":"Except", "error":falla}
   print(s) # ¿error?
-  return falla
+  return {"resultado":"Except", "error":falla}
 
 def LimpiarNúmerosDeLínea(texto, n):
   res = ""

@@ -1,4 +1,8 @@
 from cursos.gbs import *
+from msg import *
+
+def fValEq(n):
+  return lambda x : x + " == " + str(n)
 
 def ejPythonParaEvaluar(id, nombre, evaluaciones):
   return {
@@ -8,9 +12,21 @@ def ejPythonParaEvaluar(id, nombre, evaluaciones):
     "enunciado":"Asignar 0 a la variable 'x'.",
     "run_data":[{
       "def":"x",
-      "post":"x == 0"
+      "assert":"x == 0"
     }],
     "analisisCodigo":evaluaciones
+  }
+
+def ejPythonConVals(id, nombre, ev):
+  return {
+    "tipo":"CODIGO",
+    "id":id,
+    "nombre":nombre,
+    "enunciado":"Asignar 0 a la variable 'x'.",
+    "run_data":[{
+      "def":"x",
+      "eval":ev
+    }]
   }
 
 def ejGobstonesParaEvaluar(id, nombre, evaluaciones):
@@ -39,9 +55,45 @@ CURSOS = {
     },
     "institucion":"Ninguna",
     "lenguaje":"Python",
-    "actividades":[ejPythonParaEvaluar("cmdXLine", "cmdXLine", [
+    "actividades":[{
+      "tipo":"CODIGO",
+      "id":"error_relativo",
+      "nombre":"error_relativo",
+      "enunciado":"Implementar la función <code>error_relativo</code>.",
+      "aridad":{"error_relativo":2},
+      "pre":"import numpy as np",
+      "run_data":[
+        {"assert":"np.allclose(error_relativo(1,1.1),0.1)"},
+        {"assert":"np.allclose(error_relativo(2,1),0.5)"},
+        {"assert":"np.allclose(error_relativo(-1,-1),0)"},
+        {"assert":"np.allclose(error_relativo(1,-1),2)"}
+      ]
+    },
+    ejPythonParaEvaluar("cmdXLine", "cmdXLine", [
       {"key":"CMD_X_LINE"}
-    ])]
+    ]),
+    ejPythonConVals("eval_vals","eval_vals",{"expr":"x","vals":{
+      "0":"OK",
+      "1":mensajeMenosDeUno,
+      "-1":mensajeMásDeMenosUno
+    }}),
+    ejPythonConVals("eval_checks","eval_checks",{"expr":"x","checks":[{
+      "fVal": lambda x : "type(" + x + ") != type(0)",
+      "msg": mensajeDebeSerNum
+    },{
+      "fVal": fValEq(1),
+      "msg": mensajeMenosDeUno,
+    },{
+      "fVal": lambda x : x + "< 0",
+      "msg": mensajeNoDebeSerNeg
+    },{
+      "fVal": lambda x : x + "> 0",
+      "msg": mensajeNoDebeSerPos
+    },{
+      "fVal": fValEq(0),
+      "msg": "OK",
+    }]})
+    ]
   },
   "curso_ficticio_gobstones":{
     "nombre":"Curso Ficticio Gobstones",
@@ -54,9 +106,11 @@ CURSOS = {
     },
     "institucion":"Ninguna",
     "lenguaje":"Gobstones",
-    "actividades":[ejGobstonesParaEvaluar("cmdXLine", "cmdXLine", [
+    "actividades":[
+      ejGobstonesParaEvaluar("cmdXLine", "cmdXLine", [
         {"key":"CMD_X_LINE"}
-      ]), ejGobstonesParaEvaluar("indentNest", "indentNest", [
+      ]),
+      ejGobstonesParaEvaluar("indentNest", "indentNest", [
         {"key":"INDENT_NEST"}
       ])
     ]

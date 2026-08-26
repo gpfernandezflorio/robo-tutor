@@ -8,6 +8,7 @@ def timeoutDefault():
 class Corrector(object):
   def __init__(self):
     self.globalPre = ""
+    self.globalPost = ""
 
   def AdaptarResultado(self, resultadoEjecucion, code, code_run, aridad):
     pass
@@ -24,7 +25,7 @@ class Corrector(object):
     code = {
       "pre":self.globalPre,
       "src":jsonObj["src"],
-      "post":""
+      "post":("\n\n" + self.globalPost) if len(self.globalPost) > 0 else ""
     }
     lineasAdicionales = code["pre"].count("\n")
     if "pre" in jsonObj["ejercicio"]:
@@ -85,6 +86,8 @@ class Corrector(object):
         code_run["post"] += "\n\n" + run["post"]
       if "assert" in run:
         self.AgregarCódigoResultado(code_run, run["assert"])
+      elif "eval" in run:
+        self.AgregarCódigoEvaluación(code_run, run["eval"])
       ## Ejecución del código entregado
       code_run["pre"] += "\n\n"
       code_run["lineasAdicionales"] = code_run["lineasAdicionales"] + 2
@@ -102,7 +105,7 @@ class Corrector(object):
           print(resultadoEjecucion["falla"])
         fallaReal = self.buscarFalla(resultadoEjecucion["falla"], code, code_run)
         if not (fallaReal is None):
-          return {"resultado":"Except", "error":fallaReal}
+          return fallaReal
       ## Validación final
       validaciónFinal = self.validaciónFinal(run, resultadoEjecucion, v)
       if not (validaciónFinal is None):

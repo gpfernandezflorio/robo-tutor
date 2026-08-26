@@ -28,12 +28,15 @@ class CorrectorHaskell(Corrector):
   def AgregarCódigoResultado(self, code_run, assertCode):
     code_run["post"] += "\n\nmain :: IO ()\nmain = do" + self.tmpAridad + "\n  if (" + assertCode + ")\n    then do\n      exitSuccess\n    else do\n      exitWith (ExitFailure 1)"
 
+  def AgregarCódigoEvaluación(self, code_run, evalObj):
+    pass
+
   def AdaptarResultado(self, resultadoEjecucion, code, code_run, aridad):
     # Haskell siempre devuelve errcode 0 y manda el verdadero exitcode a través del campo 'falla'
     AdaptarResultadoHaskell(resultadoEjecucion, code_run["lineasAdicionales"], len(code["src"].split("\n")), aridad)
 
   def buscarFalla(self, falla, code, code_run):
-    return falla # Ya la procesé en AdaptarResultado
+    return {"resultado":"Except", "error":falla} # Ya la procesé en AdaptarResultado
 
 correctorHaskell = CorrectorHaskell()
 

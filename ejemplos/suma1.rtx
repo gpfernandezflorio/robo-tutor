@@ -5,14 +5,14 @@
   "run_data":[{
     "pre":"x = 3\ny = 5",
     "def":"z",
-    "post":"z == 8"
+    "assert":"z == 8"
   }, {
     "pre":"x = 1\ny = 15",
     "def":"z",
-    "post":"z == 16"
+    "assert":"z == 16"
   }, {
     "pre":"x = 2\ny = 1",
     "def":"z",
-    "post":"z == 3"
+    "assert":"z == 3"
   }]
 }
