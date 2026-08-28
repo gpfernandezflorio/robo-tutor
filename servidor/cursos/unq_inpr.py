@@ -6778,7 +6778,7 @@ def guber_1(fecha):
     "tipo":"CODIGO",
     "id":"guber_1",
     "nombre":"1) MoverVehículoVacíoAlNorte",
-    "enunciado": "Realice el procedimiento <code>MoverVehículoVacíoAlNorte</code> que mueve el vehículo al Norte una única ubicación, asumiendo que el cabezal está sobre el vehículo, y este se encuentra vacío.",
+    "enunciado": "Realice el procedimiento <code>MoverVehículoVacíoAlNorte</code> que mueve tanto al cabezal como al vehículo al Norte una única ubicación, asumiendo que el cabezal está sobre el vehículo, y que este se encuentra vacío.",
     "pre":"program{MoverVehículoVacíoAlNorte()}",
     "run_data":[{
       "t0":{"head":[0,0],"width":2,"height":2,"board":[[n,v],[v,v]]},
@@ -6792,7 +6792,7 @@ def guber_2(fecha):
     "tipo":"CODIGO",
     "id":"guber_2",
     "nombre":"2) RecogerSolicitanteConId5",
-    "enunciado": "Realice el procedimiento <code>RecogerSolicitanteConId5</code> que sube el solicitante con ID 5 al vehículo. Para ello se asume que el cabezal se encuentra sobre el vehículo, y en la ubicación del vehículo se encuentra el solicitante con el ID mencionado.",
+    "enunciado": "Realice el procedimiento <code>RecogerSolicitanteConId5</code> que sube el solicitante con el ID 5 al vehículo. Para ello se asume que el cabezal se encuentra sobre el vehículo, y en la ubicación del vehículo se encuentra el solicitante con el ID mencionado.",
     "pre":"program{RecogerSolicitanteConId5()}",
     "run_data":[{
       "t0":{"head":[0,0],"width":2,"height":2,"board":[[c(5,1,0,0),v],[v,v]]},
@@ -6850,6 +6850,24 @@ def guber_5(fecha):
     "disponible":{"desde":fecha}
   }
 
+def guber_6(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guber_6",
+    "nombre":"6) MoverVehículoConPasajeroConId_Al_",
+    "enunciado": "Implemente el procedimiento <code>MoverVehículoConPasajeroConId_Al_</code> que fuera dado en el punto 3 como primitiva.",
+    "run_data":[{
+      "pre":"program{MoverVehículoConPasajeroConId_Al_(5,Norte)}",
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[c(0,2,0,5),v],[v,v]]},
+      "tf":{"head":[0,1],"width":2,"height":2,"board":[[v,c(0,2,0,5)],[v,v]]}
+    },{
+      "pre":"program{MoverVehículoConPasajeroConId_Al_(4,Este)}",
+      "t0":{"head":[0,0],"width":2,"height":2,"board":[[c(0,2,0,4),v],[v,v]]},
+      "tf":{"head":[1,0],"width":2,"height":2,"board":[[v,v],[c(0,2,0,4),v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
 def guber(curso, fechaInicio):
   return {
     "tipo":"SECCION",
@@ -6857,12 +6875,13 @@ def guber(curso, fechaInicio):
     "nombre":"Entrega 1 - Guber",
     "disponible":{"desde":fechaInicio},
     "actividades":[
-      #linkGuía("E1", curso),
+      # linkGuía("E1", curso),
       guber_1(fechaInicio),
       guber_2(fechaInicio),
       guber_3(fechaInicio),
       guber_4(fechaInicio),
-      guber_5(fechaInicio)
+      guber_5(fechaInicio),
+      guber_6(fechaInicio)
     ]
   }
 
