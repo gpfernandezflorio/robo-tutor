@@ -6809,8 +6809,8 @@ def guber_3(fecha):
     "enunciado": "Se pide que realice el procedimiento <code>LlevarPasajeroConId5ActualADestinoA5AlNorte</code> que lleva el pasajero con el ID 5 a su destino (el cual se encuentra 5 celdas al Norte de la actual). Para esto se asume que el cabezal se encuentra sobre el vehículo y que tiene al pasajero con ID 5 a bordo. También se presupone que el destino del mencionado pasajero se encuentra en línea recta hacia el Norte a 5 celdas de la actual. Cabe aclarar que una vez que se llega al destino debe bajarse al pasajero en el destino. Bajarlo consiste simplemente en sacar las bolitas que representan al mismo y dejando al vehículo vacío.<br><br>Para resolver este problema deberá hacer uso de la siguiente primitiva:"+código("MoverVehículoConPasajeroConId_Al_<br>&nbsp;&nbsp;PROPÓSITO: Mueve el vehículo con el pasajero con el ID dado una ubicación en el mapa hacia la dirección dada. El cabezal termina sobre el vehículo.<br>&nbsp;&nbsp;PRECONDICIONES:<br>&nbsp;&nbsp;&nbsp;&nbsp;* El cabezal se encuentra sobre el vehículo.<br>&nbsp;&nbsp;&nbsp;&nbsp;* El vehículo tiene al pasajero con el ID dado.")+"Un ejemplo de uso de la primitiva anterior sería <code>MoverVehículoConPasajeroConId_Al_(3, Sur)</code>, lo cual mueve el vehículo con el pasajero con ID 3 una posición al Sur.",
     "pre":"procedure MoverVehículoConPasajeroConId_Al_(id,dir){repeat(id){Sacar(Verde)}repeat(2){Sacar(Negro)}Mover(dir)repeat(id){Poner(Verde)}repeat(2){Poner(Negro)}}\nprogram{LlevarPasajeroConId5ActualADestinoA5AlNorte()}",
     "run_data":[{
-      "t0":{"head":[0,0],"width":2,"height":2,"board":[[c(0,2,0,5),v],[v,v]]},
-      "tf":{"head":[0,1],"width":2,"height":2,"board":[[v,c(0,2,0,5)],[v,v]]}
+      "t0":{"head":[0,0],"width":2,"height":6,"board":[[c(0,2,0,5),v,v,v,v,v],[v,v,v,v,v,v]]},
+      "tf":{"head":[0,5],"width":2,"height":6,"board":[[v,v,v,v,v,c(0,2,0,5)],[v,v,v,v,v,v]]}
     }],
     "disponible":{"desde":fecha}
   }
