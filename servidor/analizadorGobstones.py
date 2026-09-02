@@ -11,6 +11,15 @@ reglasCódigoMalicioso = {
   # No existe código malicioso en Gobstones
 }
 
+def nroLínea(nodo):
+  return nodo["_startPos"]["_line"]
+def madreNoEsMain(nodoMadre):
+  return not ("_tag" in nodoMadre) or nodoMadre["_tag"] != "N_Main"
+def hijoDeIfNoEsBlock(nodoMadre, nodoHijo):
+  return (not ("_tag" in nodoMadre) or nodoMadre["_tag"] != "N_StmtIf") \
+    or (not ("_tag" in nodoHijo) or nodoHijo["_tag"] != "N_StmtBlock") or \
+    nroLínea(nodoHijo) == nroLínea(nodoMadre)
+
 class AnalizadorGobstones(Analizador):
   def __init__(self, malicioso=reglasCódigoMalicioso.keys()):
     self.clavesReglasCódigoMalicioso = malicioso
@@ -23,7 +32,7 @@ class AnalizadorGobstones(Analizador):
     return nodo["_madre"]
   def es_NodoSubordinadoDe_(self, nodoHijo, nodoMadre):
     # Para saber si tengo que indentar (falso si el nodo madre es la raíz)
-    return not ("_tag" in nodoMadre) or nodoMadre["_tag"] != "N_Main"
+    return madreNoEsMain(nodoMadre) and hijoDeIfNoEsBlock(nodoMadre, nodoHijo)
   def es_NodoDeTipo_(self, nodo, tipo):
     if not (nodo is None) and ("_tag" in nodo):
       tipos = tipo if type(tipo) == type([]) else [tipo]
@@ -62,7 +71,7 @@ class AnalizadorGobstones(Analizador):
   def tiposExcepción(self):
     return [] # No hay excepciones en Gobstones
   def líneaDeNodo_(self, nodo):
-    return nodo["_startPos"]["_line"]
+    return nroLínea(nodo)
   def columnaDeNodo_(self, nodo):
     return nodo["_startPos"]["_column"]
   def actualizarNroLíneas(self, r, d):

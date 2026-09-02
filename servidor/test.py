@@ -81,6 +81,13 @@ cursos = [{
       {"src":"procedure DibujarRectánguloRojoYNegroDe5x3() {\nDibujarLíneaRojaYNegraDeTamaño5HaciaElEste()\n}","res":"Calidad","error":mensajeIndentaciónSubordinada},
       {"src":"procedure DibujarRectánguloRojoYNegroDe5x3() {\n  DibujarLíneaRojaYNegraDeTamaño5HaciaElEste()\n}","res":"NO"},
     ]
+  },{
+    "id":"guia6_ej3a",
+    "i":[
+      {"src":"procedure SacarUnaFicha_SiSePuede(colorDeLaFicha){\n  if(hayBolitas(colorDeLaFicha)) {\n  Sacar(colorDeLaFicha)\n  } else {\n    Poner(colorDeLaFicha)\n    Sacar(colorDeLaFicha)\n  }\n}","res":"Calidad","error":mensajeIndentaciónSubordinada},
+      {"src":"procedure SacarUnaFicha_SiSePuede(colorDeLaFicha){\n  if(hayBolitas(colorDeLaFicha)) {\n    Sacar(colorDeLaFicha)\n  } else {\n  Poner(colorDeLaFicha)\n    Sacar(colorDeLaFicha)\n  }\n}","res":"Calidad","error":mensajeIndentaciónSubordinada},
+      {"src":"procedure SacarUnaFicha_SiSePuede(colorDeLaFicha){\n  if(hayBolitas(colorDeLaFicha)) {\n    Sacar(colorDeLaFicha)\n  } else {\n    Poner(colorDeLaFicha)\n    Sacar(colorDeLaFicha)\n  }\n}","res":"OK"}
+    ]
   }]
 },{ # Sólo valida comandos compuestos anidados de calidad.
   "id":"inpr_unq_2026_s1",
