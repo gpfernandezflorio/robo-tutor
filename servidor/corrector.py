@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import os, shutil
-from correctorPython import correctorPython
-from correctorGobstones import correctorGobstones
-from correctorHaskell import correctorHaskell
+from correctorPython import CorrectorPython
+from correctorGobstones import CorrectorGobstones
+from correctorHaskell import CorrectorHaskell
 from utils import ejecutandoLocal
 
 def run_code(jsonObj, v):
@@ -16,11 +16,11 @@ def run_code(jsonObj, v):
       print("Falta lenguaje")
     return {"resultado":"Error", "error":"Falta lenguaje"}
   if (jsonObj["lenguaje"] == "Python"):
-    resultado = corregir(correctorPython, jsonObj, v)
+    resultado = corregir(CorrectorPython(), jsonObj, v)
   elif (jsonObj["lenguaje"] == "Haskell"):
-    resultado = corregir(correctorHaskell, jsonObj, v)
+    resultado = corregir(CorrectorHaskell(), jsonObj, v)
   elif (jsonObj["lenguaje"] == "Gobstones"):
-    resultado = corregir(correctorGobstones, jsonObj, v)
+    resultado = corregir(CorrectorGobstones(), jsonObj, v)
   else:
     if (v):
       print(jsonObj["lenguaje"])
@@ -31,12 +31,11 @@ def corregir(corrector, jsonObj, v):
   usuario = limpiar(jsonObj['usuario'])
   ruta = os.path.join('/','rtTest', usuario)
   if os.path.isdir(ruta):
-    shutil.rmtree(ruta)
+    return {'resultado':"Error", 'mensaje':"Demasiados intentos seguidos"}
   os.mkdir(ruta)
   os.chmod(ruta, 0o777)
   resultado = corrector.corregir(jsonObj, ruta, v)
-  if not ejecutandoLocal():
-    shutil.rmtree(ruta)
+  shutil.rmtree(ruta)
   return resultado
 
 def limpiar(textoOriginal):

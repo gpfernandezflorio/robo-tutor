@@ -82,8 +82,6 @@ class CorrectorGobstones(Corrector):
             return {"resultado":"NO"}
     return None
 
-correctorGobstones = CorrectorGobstones()
-
 def tablero_valido(t):
   return all(map(lambda x : x in t, ["head","width","height","board"]))
 

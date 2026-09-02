@@ -1,33 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import os, pwd
+import os
 from subprocess import Popen
-import signal
-import resource
-
-proceso_en_ejecucion = None
-
-def handler_timeout(s, f):
-  global proceso_en_ejecucion
-  if not (proceso_en_ejecucion is None):
-    try:
-      os.killpg(os.getpgid(proceso_en_ejecucion.pid), signal.SIGTERM)
-      proceso_en_ejecucion.kill()
-      proceso_en_ejecucion.terminate()
-    except Exception as e:
-      pass
-    proceso_en_ejecucion = None
-
-signal.signal(signal.SIGALRM, handler_timeout)
+import time
 
 def ejecutarConTimeout(comando, timeout, ruta):
-  global proceso_en_ejecucion
-  signal.alarm(timeout)
-  errcode, salida, falla = ejecutar(comando, ruta)
-  duracion = timeout - signal.alarm(0)
-  if proceso_en_ejecucion is None:
+  inicio = time.time()
+  errcode, salida, falla = ejecutar(comando, ruta, timeout)
+  duracion = time.time() - inicio
+  if duracion > timeout:
     return {"resultado":"TIMEOUT"}
-  proceso_en_ejecucion = None
   return {
     "resultado":"OK",
     "errcode":errcode,
@@ -36,47 +18,27 @@ def ejecutarConTimeout(comando, timeout, ruta):
     "duracion":duracion
   }
 
-# USER_RT = 'rtTest'
-MEM_MAX_MB = 10 * 1024
-MEM_MAX_KB = MEM_MAX_MB * 1024
-MEM_MAX_B =  MEM_MAX_KB * 1024
-
-def sacarPrivilegios(ruta):
-  os.setsid()
-  # os.system("ulimit -v " + str(MEM_MAX_KB))
-  os.chdir(ruta)
-  resource.setrlimit(resource.RLIMIT_AS, (MEM_MAX_B, MEM_MAX_B))
-  resource.setrlimit(resource.RLIMIT_RSS, (MEM_MAX_B, MEM_MAX_B))
-  # resource.setrlimit(resource.RLIMIT_STACK, (MEM_MAX_B, MEM_MAX_B))
-  # resource.setrlimit(resource.RLIMIT_DATA, (MEM_MAX_B, MEM_MAX_B))
-  # user_info = pwd.getpwnam(USER_RT)
-  # os.setgid(user_info.pw_gid)
-  # os.setuid(user_info.pw_uid)
-
-def ejecutar(cmd, ruta):
-  global proceso_en_ejecucion
+def ejecutar(cmd, ruta, timeout=None):
   RUTA_STDOUT = os.path.join(ruta, 'stdout.out')
   RUTA_STDERR = os.path.join(ruta, 'stderr.out')
-
-  fOut = open(RUTA_STDOUT,'w')
-  fErr = open(RUTA_STDERR,'w')
-  comandoAEjecutar = cmd
-  # comandoAEjecutar = "sudo -u " + USER_RT + " " + comandoAEjecutar
-  p = Popen(comandoAEjecutar, stdout=fOut, stderr=fErr, universal_newlines=True, shell=True, preexec_fn=lambda: sacarPrivilegios(ruta)
-    # , user=USER_RT
-  )
-  proceso_en_ejecucion = p
-  errcode = p.wait()
-  fOut.close()
-  fErr.close()
+  comandoAEjecutar = [
+    "python3",
+    "ejecucionProceso.py",
+    '"'+cmd+'"',
+    ruta
+  ]
+  if not (timeout is None):
+    comandoAEjecutar.append(str(timeout))
+  ejecucion = Popen(comandoAEjecutar)
+  errcode = ejecucion.wait()
   stdout = ""
   stderr = ""
   fOut = open(RUTA_STDOUT,'r')
   for line in fOut.read():
-      stdout += line
+    stdout += line
   fOut.close()
   fErr = open(RUTA_STDERR,'r')
   for line in fErr.read():
-      stderr += line
+    stderr += line
   fErr.close()
   return errcode, stdout, stderr

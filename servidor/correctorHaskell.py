@@ -38,8 +38,6 @@ class CorrectorHaskell(Corrector):
   def buscarFalla(self, falla, code, code_run):
     return {"resultado":"Except", "error":falla} # Ya la procesé en AdaptarResultado
 
-correctorHaskell = CorrectorHaskell()
-
 def AdaptarResultadoHaskell(resultadoOriginal, n, m, aridad):
   falla = None
   i = 0

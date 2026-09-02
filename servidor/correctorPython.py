@@ -63,8 +63,6 @@ class CorrectorPython(Corrector):
   def buscarFalla(self, falla, code, code_run):
     return buscar_falla_python(falla, code_run["lineasAdicionales"], len(code["src"].split("\n")))
 
-correctorPython = CorrectorPython()
-
 def buscar_falla_python(s, n, m):
   linea = None
   tb = []
