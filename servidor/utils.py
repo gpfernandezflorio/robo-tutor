@@ -41,6 +41,8 @@ def failCallback(dataFile,FILENAME="r"):
     return # Si estoy corriendo el servidor local probablemente esté haciendo pruebas
   if FILENAME in ["_loadJson","_readData"]:
     return # No vale la pena registrarlos
+  if ("e" in dataFile) and (dataFile["e"].startswith("[Errno 32] Broken pipe")):
+    return # No vale la pena registrarlos
   if not os.path.isdir(carpetaFallos):
     os.mkdir(carpetaFallos)
   nombreArchivo = lambda x : os.path.join(carpetaFallos, FILENAME + "_" + str(x) + ".json")
