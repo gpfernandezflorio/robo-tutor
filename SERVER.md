@@ -1,6 +1,6 @@
 # Crear el usuario que va a correr el servidor con permisos de administrados y asignarle una contraseña segura
 
-  `sudo useradd -m rtServer`
+  `sudo useradd -m -s rtServer`
 
   `sudo passwd rtServer`
 
@@ -16,7 +16,7 @@
 
 # Crear el usuario que va a correr los intentos enviados sin contraseña
 
-  `sudo useradd rtTest`
+  `sudo useradd -s rtTest`
 
   `sudo passwd -d rtTest`
 
@@ -35,3 +35,22 @@
 # Quitar acceso global al repositorio
 
   `chmod -R 770 /rtServer/robo-tutor`
+
+# Crear servicio
+
+  * Crear el archivo `/etc/systemd/system/rt.service` con el siguiente contenido:
+
+  ```
+  [Unit]
+  Description=RT
+  After=network.target
+
+  [Service]
+  WorkingDirectory=/home/gpfernandez/robo-tutor
+  ExecStart=sh /home/gpfernandez/robo-tutor/run.sh
+
+  [Install]
+  WantedBy=multi-user.target
+  ```
+
+  * Configurarlo para que se ejecute al inicio: `sudo systemctl enable rt`
