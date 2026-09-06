@@ -3,7 +3,7 @@ from subprocess import Popen
 import signal
 import resource
 
-# USER_RT = 'rtTest'
+USER_RT = 'rtTest'
 MEM_MAX_MB = 10 * 1024
 MEM_MAX_KB = MEM_MAX_MB * 1024
 MEM_MAX_B =  MEM_MAX_KB * 1024
@@ -37,9 +37,9 @@ def sacarPrivilegios(ruta):
   resource.setrlimit(resource.RLIMIT_RSS, (MEM_MAX_B, MEM_MAX_B))
   # resource.setrlimit(resource.RLIMIT_STACK, (MEM_MAX_B, MEM_MAX_B))
   # resource.setrlimit(resource.RLIMIT_DATA, (MEM_MAX_B, MEM_MAX_B))
-  # user_info = pwd.getpwnam(USER_RT)
-  # os.setgid(user_info.pw_gid)
-  # os.setuid(user_info.pw_uid)
+  user_info = pwd.getpwnam(USER_RT)
+  os.setgid(user_info.pw_gid)
+  os.setuid(user_info.pw_uid)
 
 def LanzarComando(cmd, ruta, RUTA_STDOUT, RUTA_STDERR, timeout):
   runner = Runner()
