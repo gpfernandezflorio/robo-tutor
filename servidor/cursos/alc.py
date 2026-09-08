@@ -575,6 +575,7 @@ def norma(x,p):\n\
     {"post":"vals = []\nfor i in range(4):\n    e = np.zeros(4)\n    e[i] = 1.0\n    vals.append(np.isclose(norma(e,2),1.0))","assert":"all(vals)"},
     {"assert":"np.isclose(norma(np.array([-2.0,-2.0,-2.0]),5),(3*(2.0**5))**(1/5))"}
   ],
+  "timeout":60,
   "disponible":{"desde":fecha}
 }
 
@@ -605,6 +606,7 @@ def norma(x,p):\n\
     {"post":"X = np.array([[3.0,4.0],[6.0,8.0]])\nX_copia = X.copy()\n_ = normaliza(X,2)","assert":"np.allclose(X,X_copia)"},
     {"post":"np.random.seed(2025)\nX = np.random.randn(100,50)\nXn = normaliza(X,2)\nvals = [np.isclose(norma(fila,2),1.0) for fila in Xn]","assert":"all(vals)"}
   ],
+  "timeout":60,
   "disponible":{"desde":fecha}
 }
 
@@ -642,6 +644,7 @@ nMC3 = normaMatMC(A=A,q='inf',p='inf',Np=1000000)\
     {"post":"A = np.array([[1.0,3.0],[-2.0,4.0]])\nnorma_mc, v = normaMatMC(A,q='inf',p=1,Np=10000)","assert":"np.isclose(norma_mc,4.0,atol=0.3)"},
     {"post":"np.random.seed(2026)\nQ, _ = np.linalg.qr(np.random.randn(3,3))\nD = np.diag([100.0,1.0,3.0])\nA = Q @ D @ Q.T\nautovector_esperado = Q[:,0]\nnorma_mc, v = normaMatMC(A,2,2,50000)","assert":"np.isclose(norma_mc,100.0,atol=1e-3) and (np.allclose(v,autovector_esperado,atol=1e-2) or np.allclose(v,-autovector_esperado,atol=1e-2))"}
   ],
+  "timeout":60,
   "disponible":{"desde":fecha}
 }
 
@@ -667,6 +670,7 @@ def normaExacta(A,p=[1,'inf']):\n\
     {"assert":"normaExacta(np.random.random((10,10)))[0]<=10"},
     {"assert":"normaExacta(np.random.random((4,4)))[1]<=4"}
   ],
+  "timeout":60,
   "disponible":{"desde":fecha}
 }
 
