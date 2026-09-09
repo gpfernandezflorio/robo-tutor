@@ -619,7 +619,7 @@ def normaMatMC(fecha):
   "base":"\
 def normaMatMC(A,q,p,Np):\n\
   \"\"\"\n\
-  Devuelve la norma ||A||\\_{q,p} y el vector x en el cual se alcanza el maximo.\n\
+  Devuelve la norma ||A||{q,p} y el vector x en el cual se alcanza el maximo.\n\
   \"\"\"\n",
   "aridad":{"normaMatMC":4},
   "pre":"import numpy as np",

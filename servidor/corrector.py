@@ -39,10 +39,14 @@ def corregir(corrector, jsonObj, v):
   return resultado
 
 def limpiar(textoOriginal):
-  resultado = ""
+  resultado = "__"
   for x in textoOriginal:
     if x in "1234567890qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM":
       resultado += x
     else:
       resultado += "_"
   return resultado
+
+for f in os.listdir(os.path.join('/','rtTest')):
+  if f.startswith("__") and os.path.isdir(os.path.join('/','rtTest',f)):
+    shutil.rmtree(os.path.join('/','rtTest',f))

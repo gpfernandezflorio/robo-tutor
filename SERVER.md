@@ -1,6 +1,8 @@
 # Crear el usuario que va a correr el servidor con permisos de administrados y asignarle una contraseña segura
 
-  `sudo useradd -m -s rtServer`
+  ## NOTA: Ahora que está configurado como servicio, este no debería ser necesario (porque ahora lo ejecuta root).
+
+  `sudo useradd -m -s /bin/bash rtServer`
 
   `sudo passwd rtServer`
 
@@ -16,7 +18,7 @@
 
 # Crear el usuario que va a correr los intentos enviados sin contraseña
 
-  `sudo useradd -s rtTest`
+  `sudo useradd -s /bin/bash rtTest`
 
   `sudo passwd -d rtTest`
 
@@ -46,11 +48,15 @@
   After=network.target
 
   [Service]
-  WorkingDirectory=/home/gpfernandez/robo-tutor
-  ExecStart=sh /home/gpfernandez/robo-tutor/run.sh
+  WorkingDirectory=/rtServer/robo-tutor
+  ExecStart=sh /rtServer/robo-tutor/run.sh
 
   [Install]
   WantedBy=multi-user.target
   ```
 
   * Configurarlo para que se ejecute al inicio: `sudo systemctl enable rt`
+
+# PRUEBAS
+
+* Asegurar que el usuario rtTest pueda ejecutar `node`.
