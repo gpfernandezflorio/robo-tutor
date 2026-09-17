@@ -3,7 +3,7 @@ SERVER_LUIGI = "http://192.168.0.11:8050"
 SERVER_TOSHI = "http://10.1.101.89:8050"
 SERVER_RT = "http://157.92.26.79:8060"
 
-SERVER = SERVER_PIKMIN
+SERVER = SERVER_RT
 
 import requests
 import json
