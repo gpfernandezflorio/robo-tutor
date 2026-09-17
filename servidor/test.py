@@ -3,7 +3,7 @@ SERVER_LUIGI = "http://192.168.0.11:8050"
 SERVER_TOSHI = "http://10.1.101.89:8050"
 SERVER_RT = "http://157.92.26.79:8060"
 
-SERVER = SERVER_RT
+SERVER = SERVER_PIKMIN
 
 import requests
 import json
@@ -87,6 +87,15 @@ cursos = [{
       {"src":"procedure SacarUnaFicha_SiSePuede(colorDeLaFicha){\n  if(hayBolitas(colorDeLaFicha)) {\n  Sacar(colorDeLaFicha)\n  } else {\n    Poner(colorDeLaFicha)\n    Sacar(colorDeLaFicha)\n  }\n}","res":"Calidad","error":mensajeIndentaciónSubordinada},
       {"src":"procedure SacarUnaFicha_SiSePuede(colorDeLaFicha){\n  if(hayBolitas(colorDeLaFicha)) {\n    Sacar(colorDeLaFicha)\n  } else {\n  Poner(colorDeLaFicha)\n    Sacar(colorDeLaFicha)\n  }\n}","res":"Calidad","error":mensajeIndentaciónSubordinada},
       {"src":"procedure SacarUnaFicha_SiSePuede(colorDeLaFicha){\n  if(hayBolitas(colorDeLaFicha)) {\n    Sacar(colorDeLaFicha)\n  } else {\n    Poner(colorDeLaFicha)\n    Sacar(colorDeLaFicha)\n  }\n}","res":"OK"}
+    ]
+  },{
+    "id":"guia7_ej2a",
+    "i":[
+      {"src":"function esCeldaVacía() {\n  return (not hayBolitas(Azul) &&\n          not hayBolitas(Negro) &&\n           not hayBolitas(Rojo) &&\n           not hayBolitas(Verde))\n}","res":"OK"},
+      {"src":"function esCeldaVacía() {\n  return (not hayBolitas(Azul) &&\n    not hayBolitas(Negro) &&\n    not hayBolitas(Rojo) &&\n    not hayBolitas(Verde)\n  )\n}","res":"OK"},
+      {"src":"function esCeldaVacía() {\n  return (not hayBolitas(Azul) &&\n    not hayBolitas(Negro) &&\n     not hayBolitas(Rojo) &&\n      not hayBolitas(Verde)\n  )\n}","res":"OK"},
+      {"src":"function esCeldaVacía() {\n  return (not hayBolitas(Azul) &&\n    not hayBolitas(Negro) &&\n   not hayBolitas(Rojo) &&\n    not hayBolitas(Verde)\n  )\n}","res":"Calidad","error":mensajeIndentaciónSubordinada},
+      {"src":"function esCeldaVacía() {\n  return (not hayBolitas(Azul) &&\n  not hayBolitas(Negro) &&\n    not hayBolitas(Rojo) &&\n    not hayBolitas(Verde)\n  )\n}","res":"Calidad","error":mensajeIndentaciónSubordinada}
     ]
   }]
 },{ # Sólo valida comandos compuestos anidados de calidad.

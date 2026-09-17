@@ -53,8 +53,34 @@ class AnalizadorGobstones(Analizador):
       "N_StmtForeach",
       "N_StmtWhile",
       "N_StmtSwitch",
-      # "N_StmtBlock", Este no porque inicia en la misma línea que el anterior
+      "N_StmtBlock",
       "N_StmtReturn"
+    ]
+  def tiposComandosParciales(self):
+    return [ # Son comandos pero no deben ser considerados comandos aparte al validar si hay más de uno en la misma línea
+      "N_StmtBlock"
+    ]
+  def tiposExpresiones(self):
+    return [
+      "N_ExprFunctionCall",
+      "N_ExprVariable",
+      "N_ExprConstantNumber",
+      "N_ExprConstantString",
+      "N_ExprList",
+      "N_ExprRange",
+      "N_ExprTuple",
+      "N_ExprStructure",
+      "N_ExprStructureUpdate",
+      "N_ExprChoose",
+      "N_ExprMatching"
+    ]
+  def tiposDefiniciones(self):
+    return [
+      "N_DefProgram",
+      "N_DefInteractiveProgram",
+      "N_DefProcedure",
+      "N_DefFunction",
+      "N_DefType"
     ]
   def tiposComandosCompuestos(self):
     return [

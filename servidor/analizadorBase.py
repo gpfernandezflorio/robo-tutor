@@ -25,6 +25,14 @@ class Analizador(object):
 
   def nodosDeTipo_(self, AST, tipo):
     return self.foldAST(lambda recs, x : aplanar(recs) + ([x] if self.es_NodoDeTipo_(x, tipo) else []), AST)
+  def es_UnComando(self, nodo):
+    return self.es_NodoDeTipo_(nodo, self.tiposComandos())
+  def es_UnComandoParcial(self, nodo):
+    return self.es_NodoDeTipo_(nodo, self.tiposComandosParciales())
+  def es_UnaExpresión(self, nodo):
+    return self.es_NodoDeTipo_(nodo, self.tiposExpresiones())
+  def es_UnaDefinición(self, nodo):
+    return self.es_NodoDeTipo_(nodo, self.tiposDefiniciones())
   def es_UnComandoCompuesto(self, nodo):
     return self.es_NodoDeTipo_(nodo, self.tiposComandosCompuestos())
   def es_RepeticiónSimple(self, nodo):

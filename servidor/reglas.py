@@ -22,7 +22,7 @@ def reglaUnComandoPorLinea(analizador, AST, código, regla):
   líneaAnterior = 0
   for nodo in analizador.nodosDeTipo_(AST, analizador.tiposComandos()):
     nuevaLínea = analizador.líneaDeNodo_(nodo)
-    if líneaAnterior > 0 and not (nodoAnterior is None):
+    if líneaAnterior > 0 and not (nodoAnterior is None) and not analizador.es_UnComandoParcial(AST):
       if (líneaAnterior == nuevaLínea and not (líneaAnterior in líneasConflictivas)):
         líneasConflictivas[líneaAnterior] = {
           "msg":mensajeMásDeUnComandoPorLínea,
@@ -39,27 +39,39 @@ def reglaUnComandoPorLinea(analizador, AST, código, regla):
 
 def reglaIndentacionPorAnidación(analizador, AST, código, regla):
   # Verifica que la indentación de cada línea anidada sea mayor a la línea del nodo que la contiene.
-  return reglaIndentacionPorAnidaciónDesde(analizador, AST, código, regla, 0, -1)
+  return reglaIndentacionPorAnidaciónDesde(analizador, AST, código, regla, 0, -1, -1)
 
-def reglaIndentacionPorAnidaciónDesde(analizador, nodo, código, regla, n, i):
+def reglaIndentacionPorAnidaciónDesde(analizador, nodo, código, regla, n, i, iÚltimoComandoODefinición):
   resultado = []
   líneaActual = analizador.líneaDeNodo_(nodo)
   indentaciónActual = i
+  iSiguienteComandoODefinición = iÚltimoComandoODefinición
   if líneaActual != n:
     columnaActual = analizador.columnaDeNodo_(nodo)
     indentaciónActual = indentaciónHasta(código, líneaActual, columnaActual)
-    if indentaciónActual <= i:
+    # print(sss(indentaciónActual) + (nodo["_tag"] if ("_tag" in nodo) else "sin tag") + " << " +
+    #   str(iÚltimoComandoODefinición)
+    # )
+    if indentaciónActual < i or indentaciónActual <= iÚltimoComandoODefinición:
       resultado.append({
           "msg":mensajeIndentaciónSubordinada,
           "línea":líneaActual,
           "columna":columnaActual
         })
+    if analizador.es_UnComando(nodo) or analizador.es_UnaDefinición(nodo):
+      iSiguienteComandoODefinición = indentaciónActual
   for nodoHijo in analizador.hijosDeNodo_(nodo):
     resultado += reglaIndentacionPorAnidaciónDesde(analizador, nodoHijo, código, regla, líneaActual,
-      indentaciónActual if analizador.es_NodoSubordinadoDe_(nodoHijo, nodo) else i
+      indentaciónActual if analizador.es_NodoSubordinadoDe_(nodoHijo, nodo) else i,
+      iSiguienteComandoODefinición if analizador.es_NodoSubordinadoDe_(nodoHijo, nodo) else iÚltimoComandoODefinición,
     )
   return resultado
 
+def sss(i):
+  r = ""
+  for j in range(i):
+    r+=" "
+  return r
 
 def indentaciónHasta(código, nLínea, nColumna):
   línea = código.split("\n")[nLínea-1]

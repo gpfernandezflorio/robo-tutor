@@ -25,6 +25,7 @@ def analizar(analizador, código, reglas, extras={}):
     if len(resultadoCódigoMalicioso) > 0:
       return {"resultado":"EVIL", "error":textoAPartirDeLista(resultadoCódigoMalicioso)}
   resultadoAnálisisCalidad = analizador.AnalizarAst(AST["ast"], código, reglas, desde, hasta)
+  # print(código)
   # MostrarAST(analizador.astMostrable(AST["ast"]))
   # print(list(map(lambda r: analizador.actualizarNroLíneas(r, desde), resultadoAnálisisCalidad)))
   if len(resultadoAnálisisCalidad) > 0:

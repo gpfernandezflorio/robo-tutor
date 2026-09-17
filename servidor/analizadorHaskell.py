@@ -36,6 +36,14 @@ class AnalizadorHaskell(Analizador):
     return nodo["valor"]
   def tiposComandos(self):
     return [] # No hay comandos en Haskell
+  def tiposComandosParciales(self):
+    return [] # No hay comandos en Haskell
+  def tiposExpresiones(self):
+    return [ # TODO
+    ]
+  def tiposDefiniciones(self):
+    return [ # TODO
+    ]
   def tiposComandosCompuestos(self):
     return [] # No hay comandos compuestos en Haskell
   def tiposRepeticiónSimple(self):

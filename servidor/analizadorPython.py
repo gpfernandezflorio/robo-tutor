@@ -77,6 +77,16 @@ class AnalizadorPython(Analizador):
       ast.Break,
       ast.Continue
     ]
+  def tiposComandosParciales(self):
+    return [ # Son comandos pero no deben ser considerados comandos aparte al validar si hay más de uno en la misma línea
+      # TODO
+    ]
+  def tiposExpresiones(self):
+    return [ # TODO
+    ]
+  def tiposDefiniciones(self):
+    return [ # TODO
+    ]
   def tiposComandosCompuestos(self):
     return [
       ast.For,
