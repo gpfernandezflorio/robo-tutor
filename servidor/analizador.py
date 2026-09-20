@@ -8,8 +8,6 @@ analizadorPython = AnalizadorPython()
 analizadorGobstones = AnalizadorGobstones()
 # analizadorHaskell = AnalizadorHaskell()
 
-import json
-
 def analizar(analizador, código, reglas, extras={}):
   desde = extras["desde"] if "desde" in extras else 1
   hasta = extras["hasta"] if "hasta" in extras else código.count("\n")+1
@@ -45,4 +43,5 @@ def textoAPartirDeLista(lista):
   return lista[0]["msg"] # Por ahora sólo devuelvo el primero porque las funciones de buscar_falla asumen que es uno sólo.
 
 def MostrarAST(ast):
+  import json
   print(json.dumps(ast, indent=2))
