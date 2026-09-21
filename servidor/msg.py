@@ -12,6 +12,8 @@ mensajeImportarNoPermitido = "No está permitido importar módulos"
 mensajeExcepcionesNoPermitidas = "No está permitido generar excepciones"
 mensajeTimeout = "La ejecución demoró más de lo permitido"
 
+mensajeContratosFaltantes = "No te olvides de los contratos"
+
 def mensajeFaltaDefinición(nombre):
   return "No se encuentra la definición de " + nombre
 def mensajeFallaParámetros(nombre, parámetrosEsperados, parámetrosReales):

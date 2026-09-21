@@ -1,3 +1,5 @@
+from msg import *
+
 ''' Regla general de documentación, valida varias cosas según los datos de 'regla':
   * 'pos' : ANTES | [DENTRO] - posición en la que se espera que se defina la documentación (antes de la declaración o dentro de ella).
 '''
@@ -16,6 +18,12 @@ def hallazgosDocEn(analizador, nodoDeclaración, AST, líneasDeCódigo, regla, p
   # print(documentación.replace(" ", ".").replace("\n", "\\n"))
   # print("<<")
   # analizador.MostrarAST(nodoDeclaración)
+  if soloEspaciosYSaltosDeLínea(documentación):
+    return [{
+      "msg":mensajeContratosFaltantes,
+      "línea":analizador.líneaDeNodo_(nodoDeclaración),
+      "columna":analizador.columnaDeNodo_(nodoDeclaración)
+    }]
   return []
 
 def documentaciónEn(analizador, nodoDeclaración, AST, líneasDeCódigo, pos):
@@ -55,3 +63,9 @@ def códigoEntre(líneasDeCódigo, iL, iC, fL, fC):
     if fC > 1:
       doc += "\n" + líneasDeCódigo[fL][:(fC-1)]
   return doc
+
+def soloEspaciosYSaltosDeLínea(texto):
+  for c in texto:
+    if not (c in [" ","\n"]):
+      return False
+  return True

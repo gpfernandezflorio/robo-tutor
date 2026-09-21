@@ -17,6 +17,21 @@ def ejPythonParaEvaluar(id, nombre, evaluaciones):
     "analisisCodigo":evaluaciones
   }
 
+def ejPythonFn(id, nombre, enunciado, f, args, vf, n, evaluaciones):
+  aridad = {}
+  aridad[f] = args
+  return {
+    "tipo":"CODIGO",
+    "id":id,
+    "nombre":nombre,
+    "enunciado":enunciado,
+    "run_data":[{
+      "aridad":aridad,
+      "assert":vf + "==" + str(n)
+    }],
+    "analisisCodigo":evaluaciones
+  }
+
 def ejPythonConVals(id, nombre, ev):
   return {
     "tipo":"CODIGO",
@@ -30,15 +45,18 @@ def ejPythonConVals(id, nombre, ev):
   }
 
 def ejGobstonesParaEvaluar(id, nombre, evaluaciones):
+  return ejGobstonesFn(id, nombre, "Implementar la función 'fun0' que devuelve siempre 0.", "fun0()", 0, evaluaciones)
+
+def ejGobstonesFn(id, nombre, enunciado, f, n, evaluaciones):
   return {
     "tipo":"CODIGO",
     "id":id,
     "nombre":nombre,
-    "enunciado":"Implementar la función 'fun0' que devuelve siempre 0.",
+    "enunciado":enunciado,
     "run_data":[{
-      "pre":programParaValidarNumEnCelda("fun0()"),
+      "pre":programParaValidarNumEnCelda(f),
       "t0":{"head":[0,0],"width":1,"height":1,"board":[[v]]},
-      "tf":{"head":[0,0],"width":1,"height":1,"board":[[v]]}
+      "tf":{"head":[0,0],"width":1,"height":1,"board":[[a_s(n)]]}
     }],
     "analisisCodigo":evaluaciones
   }
@@ -72,6 +90,14 @@ CURSOS = {
     ejPythonParaEvaluar("cmdXLine", "cmdXLine", [
       {"key":"CMD_X_LINE"}
     ]),
+    ejPythonFn("docsAntes", "docsAntes",
+      "Implementar la función 'fun0' que devuelve siempre 0.", "fun0", 0, "fun0()",
+      0, [{"key":"DOCS","pos":"ANTES"}]
+    ),
+    ejPythonFn("docsDentro", "docsDentro",
+      "Implementar la función 'fun0' que devuelve siempre 0.", "fun0", 0, "fun0()",
+      0, [{"key":"DOCS","pos":"DENTRO"}]
+    ),
     ejPythonConVals("eval_vals","eval_vals",{"expr":"x","vals":{
       "0":"OK",
       "1":mensajeMenosDeUno,
@@ -112,7 +138,17 @@ CURSOS = {
       ]),
       ejGobstonesParaEvaluar("indentNest", "indentNest", [
         {"key":"INDENT_NEST"}
-      ])
+      ]),
+      ejGobstonesParaEvaluar("docsAntes", "docsAntes", [
+        {"key":"DOCS","pos":"ANTES"}
+      ]),
+      ejGobstonesParaEvaluar("docsDentro", "docsDentro", [
+        {"key":"DOCS","pos":"DENTRO"}
+      ])#,
+      # ejGobstonesFn("docs", "docs",
+      #   "Implementar la función 'fun0' que devuelve siempre 0.", "fun0()",
+      #   0, [{"key":"DOCS"}]
+      # )
     ]
   }
 }

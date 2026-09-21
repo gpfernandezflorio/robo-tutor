@@ -7,6 +7,7 @@ SERVER = SERVER_RT
 
 import requests
 import json
+import time
 
 todosLosIntentos = []
 
@@ -254,6 +255,12 @@ cursos = [{
       {"src":"x=-2","res":"NO","mensaje":fMsg(mensajeNoDebeSerNeg,-2)},
       {"src":"x=True","res":"NO","mensaje":fMsg(mensajeDebeSerNum,True)}
     ]
+  },{
+    "id":"docsAntes",
+    "i":[]
+  },{
+    "id":"docsDentro",
+    "i":[]
   }]
 },{
   "id":"curso_ficticio_gobstones",
@@ -272,6 +279,12 @@ cursos = [{
       {"src":"function fun0(){\n\treturn(0)\n\t\t\t}","res":"OK"},
       {"src":"function fun0(){\n  \t\t   return(0)\n}","res":"OK"}
     ]
+  },{
+    "id":"docsAntes",
+    "i":[]
+  },{
+    "id":"docsDentro",
+    "i":[]
   }]
 }]
 
@@ -302,7 +315,16 @@ for c in cursos:
 
 def sendCode(data):
   r = requests.post(SERVER + "/code", data=json.dumps(data))
-  return r.json()
+  res = r.json()
+  data2 = {
+    "usuario":data["usuario"],
+    "contrasenia":data["contrasenia"]
+  }
+  while res['resultado'] == "WAIT":
+    time.sleep(1)
+    r = requests.post(SERVER + "/retrieve", data=json.dumps(data2))
+    res = r.json()
+  return res
 
 def Intentar(intento):
   global n
