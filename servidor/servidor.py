@@ -1,10 +1,11 @@
 from admin import admin_reset
-from data import dame_cursos, tryLogin, dame_data_cuestionario, intentoCodigo, respuestaCuestionario, open_ej
+from data import dame_cursos, tryLogin, dame_data_cuestionario, intentoCodigo, recuperarIntentoPendiente, respuestaCuestionario, open_ej
 
 mensajesServidor = {
   "POST":{
     "open":open_ej,
     "code":intentoCodigo,
+    "retrieve":recuperarIntentoPendiente, # Para cuando queda pendiente el resultado de la ejecución.
     "answer":respuestaCuestionario,
     "login":tryLogin,
     "cursos":dame_cursos,

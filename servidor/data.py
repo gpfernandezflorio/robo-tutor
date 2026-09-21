@@ -3,6 +3,7 @@
 import io, os, json
 import datetime
 import requests
+import threading
 from users import loginValido, cargarUsuariosEnCurso, usuarioEnCurso, cursosUsuario, rolesEnCurso
 from corrector import run_code
 from correctorBase import timeoutDefault
@@ -358,6 +359,8 @@ def respuestaCuestionario(jsonObj, verb):
           commit(jsonObj, verb)
   return resultado
 
+INTENTOS = {}
+
 def intentoCodigo(jsonObj, verb):
   resultado = {'resultado':"Falla"}
   if all(map(lambda x : x in jsonObj, ['usuario', 'contrasenia', 'curso', 'actividad'])):
@@ -369,7 +372,12 @@ def intentoCodigo(jsonObj, verb):
       if actividadHabilitada(usuario, curso, ejercicio):
         jsonObj["ejercicio"] = CURSOS[curso]["actividades_por_id"][ejercicio]
         jsonObj["analisisCodigo"] = reglasDeAnalisisDeCodigo(jsonObj, CURSOS[curso])
-        resultado = run_code(jsonObj, verb)
+        INTENTOS[usuario] = {
+          'estado':"PENDIENTE",
+          'jsonObj':jsonObj
+        }
+        threading.Thread(target=LanzarEjecuciónIntento, args=(usuario, jsonObj, verb)).start()
+        resultado['resultado'] = "WAIT"
       else:
         LOG("login inválido.\nActividad no habilitada.\nUsuario: "+usuario+"\nCurso: "+curso+"\nActividad: "+ejercicio)
     else:
@@ -377,6 +385,37 @@ def intentoCodigo(jsonObj, verb):
   else: # Ejercicio libre o usuario anónimo:
     # resultado = run_code(jsonObj)
     LOG("Login inválido.\nFaltan campos: "+str(jsonObj.keys()))
+  return resultado
+
+# THREAD
+def LanzarEjecuciónIntento(usuario, jsonObj, verb):
+  resultado = run_code(jsonObj, verb)
+  INTENTOS[usuario]['resultado'] = resultado
+  INTENTOS[usuario]['estado'] = "LISTO"
+
+def recuperarIntentoPendiente(jsonObj, verb):
+  resultado = {'resultado':"Falla"}
+  if all(map(lambda x : x in jsonObj, ['usuario', 'contrasenia'])):
+    usuario = jsonObj['usuario']
+    contrasenia = jsonObj['contrasenia']
+    if loginValido(usuario, contrasenia):
+      if usuario in INTENTOS:
+        if INTENTOS[usuario]['estado'] == "LISTO":
+          resultado = intentoPendiente(INTENTOS[usuario], verb)
+          del INTENTOS[usuario]
+        else: # INTENTOS[usuario]['estado'] == "PENDIENTE":
+          resultado['resultado'] = "WAIT"
+      else:
+        LOG("No hay intento pendiente para "+usuario)
+    else:
+      LOG("login inválido.\nUsuario: "+usuario+"\nContraseña: "+contrasenia)
+  else:
+    LOG("Login inválido.\nFaltan campos: "+str(jsonObj.keys()))
+  return resultado
+
+def intentoPendiente(intento, verb):
+  resultado = intento['resultado']
+  jsonObj = intento['jsonObj']
   if resultado["resultado"] != "Falla" and "usuario" in jsonObj:
     if ("duracion" in resultado):
       jsonObj["duracion"] = "{:.2f}".format(resultado["duracion"])
