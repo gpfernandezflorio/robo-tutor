@@ -30,6 +30,8 @@ class AnalizadorGobstones(Analizador):
     return hijosDeNodo_(nodo)
   def nodoMadreDe_(self, nodo):
     return nodo["_madre"]
+  def nodoHermanaMayorDe_(self, nodo):
+    return nodo["_hermanaMayor"]
   def es_NodoSubordinadoDe_(self, nodoHijo, nodoMadre):
     # Para saber si tengo que indentar (falso si el nodo madre es la raíz)
     return madreNoEsMain(nodoMadre) and hijoDeIfNoEsBlock(nodoMadre, nodoHijo)
@@ -100,6 +102,10 @@ class AnalizadorGobstones(Analizador):
     return nroLínea(nodo)
   def columnaDeNodo_(self, nodo):
     return nodo["_startPos"]["_column"]
+  def líneaFinDeNodo_(self, nodo):
+    return nodo["_endPos"]["_line"]
+  def columnaFinDeNodo_(self, nodo):
+    return nodo["_endPos"]["_column"] + 1
   def actualizarNroLíneas(self, r, d):
     if "línea" in r:
       r["línea"] = r["línea"] -d + 1
@@ -115,6 +121,27 @@ class AnalizadorGobstones(Analizador):
       else:
         c += 1
     return (l,c+1)
+  def nodoEnCuerpoDeDeclaración(self, nodo):
+    # PRE: nodo es de tipo Definición
+    if self.es_NodoDeTipo_(nodo, "N_DefProgram"):
+      hijas = self.hijosDeNodo_(nodo)
+      if len(hijas) > 0:
+        return self._primerNodoEnBloque(hijas[0])
+    elif self.es_NodoDeTipo_(nodo, ["N_DefProcedure","N_DefFunction"]):
+      hijas = self.hijosDeNodo_(nodo)
+      if len(hijas) > 2: # lleva parámetros
+        return self._primerNodoEnBloque(hijas[2])
+      elif len(hijas) > 1: # no lleva parámetros
+        return self._primerNodoEnBloque(hijas[1])
+    else: # TODO: self.es_NodoDeTipo_(nodo, ["N_DefInteractiveProgram","N_DefType"])
+      pass
+    return None
+  def _primerNodoEnBloque(self, bloque):
+    if self.es_NodoDeTipo_(bloque, "N_StmtBlock"):
+      nietas = self.hijosDeNodo_(bloque)
+      if len(nietas) > 0:
+        return nietas[0]
+    return None
   def astMostrable(self, ast):
     o = {}
     if not (ast is None):
@@ -145,7 +172,7 @@ def astGobstones(codigo, ruta="."):
   AST = json.loads(json.loads(salida))
   CorregirElseIfs(AST)
   AgregarTagNombre(AST)
-  AgregarAtributoMadre(AST)
+  AgregarAtributosMadreYHermanaMayor(AST)
   AST["_madre"] = None
   return {"ast":AST}
 
@@ -165,10 +192,13 @@ def CorregirElseIfs(nodo):
   for hijo in hijosDeNodo_(nodo):
     CorregirElseIfs(hijo)
 
-def AgregarAtributoMadre(nodo):
-  for hijo in hijosDeNodo_(nodo):
-    hijo["_madre"] = nodo
-    AgregarAtributoMadre(hijo)
+def AgregarAtributosMadreYHermanaMayor(nodo):
+  hijas = hijosDeNodo_(nodo)
+  for i in range(len(hijas)):
+    hija = hijas[i]
+    hija["_madre"] = nodo
+    hija["_hermanaMayor"] = hijas[i-1] if (i > 0) else None
+    AgregarAtributosMadreYHermanaMayor(hija)
 
 def AgregarTagNombre(nodo):
   if not ("_tag" in nodo) and ("_value" in nodo):

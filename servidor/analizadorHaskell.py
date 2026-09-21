@@ -21,6 +21,8 @@ class AnalizadorHaskell(Analizador):
     return hijosDeNodo_(nodo)
   def nodoMadreDe_(self, nodo):
     return nodo.["_madre"]
+  def nodoHermanaMayorDe_(self, nodo):
+    return nodo["_hermanaMayor"]
   def es_NodoSubordinadoDe_(self, nodoHijo, nodoMadre):
     # Para saber si tengo que indentar
     return True
@@ -56,12 +58,23 @@ class AnalizadorHaskell(Analizador):
     return líneaDeUbicación(nodo["en"]) if ("en" in nodo) else "?"
   def columnaDeNodo_(self, nodo):
     return columnaDeUbicación(nodo["en"]) if ("en" in nodo) else "?"
+  def líneaFinDeNodo_(self, nodo):
+    return finLíneaDeUbicación(nodo["en"]) if ("en" in nodo) else "?"
+  def columnaFinDeNodo_(self, nodo):
+    return finColumnaDeUbicación(nodo["en"]) if ("en" in nodo) else "?"
   def actualizarNroLíneas(self, r, d):
     # TODO
     return r
   def inicioCuerpoDeclaración(self, nodo, líneasDeCódigo):
+    # PRE: nodo es de tipo Definición
     # TODO
     return (0,0) # No tiene sentido en Haskell
+  def nodoEnCuerpoDeDeclaración(self, nodo):
+    # PRE: nodo es de tipo Definición
+    hijas = self.hijosDeNodo_(nodo)
+    if len(hijas) > 0:
+      return hijas[0]
+    return None
   def astMostrable(self, ast):
     # TODO
     return ast
@@ -81,7 +94,7 @@ def astHaskell(codigo, ruta="."):
   if haskellParser.falló():
     return {"error":haskellParser.errorMsg() + "\n\n" + haskellParser.ubicaciónATexto(haskellParser.errorLoc())}
   AST = haskellParser.ast()
-  AgregarAtributoMadre(AST)
+  AgregarAtributosMadreYHermanaMayor(AST)
   AST["_madre"] = None
   return {"ast":AST}
 
@@ -94,15 +107,22 @@ def hijosDeNodo_(nodo):
         hijosPorAhora.append(hijo)
   return hijosPorAhora
 
-def AgregarAtributoMadre(nodo):
-  for hijo in hijosDeNodo_(nodo):
-    hijo["_madre"] = nodo
-    AgregarAtributoMadre(hijo)
+def AgregarAtributosMadreYHermanaMayor(nodo):
+  hijas = hijosDeNodo_(nodo)
+  for i in range(len(hijas)):
+    hija = hijas[i]
+    hija["_madre"] = nodo
+    hija["_hermanaMayor"] = hijas[i-1] if (i > 0) else None
+    AgregarAtributosMadreYHermanaMayor(hija)
 
 def líneaDeUbicación(ubicación):
   return (ubicación["línea"] - 3) if ("línea" in ubicación) else "?"
 def columnaDeUbicación(ubicación):
   return ubicación["columna"] if ("columna" in ubicación) else "?"
+def finLíneaDeUbicación(ubicación):
+  return (ubicación["finLínea"] - 3) if ("finLínea" in ubicación) else "?"
+def finColumnaDeUbicación(ubicación):
+  return ubicación["finColumna"] if ("finColumna" in ubicación) else "?"
 
 class HaskellParser(object):
   def parse(self, salida):
@@ -187,17 +207,17 @@ class HaskellParser(object):
       return registro
     self.errorDesconocido("La ubicación no empieza con 'SrcLoc' ni con 'SrcSpanInfo'")
   def parsearSrcSpan(self):
-    # SrcSpan "..." l c
+    # SrcSpan "..." l c l c
     self.abreParen()
     if self.salida.startswith('SrcSpan '):
       self.AvanzarSalida(len('SrcSpan '))
       self.parsearString()
       línea = self.parsearNúmero()
       columna = self.parsearNúmero()
-      self.parsearNúmero()
-      self.parsearNúmero()
+      finLínea = self.parsearNúmero()
+      finColumna = self.parsearNúmero()
       self.cierraParen()
-      return {"línea":línea, "columna":columna}
+      return {"línea":línea, "columna":columna, "finLínea":finLínea, "finColumna":finColumna}
     self.errorDesconocido("La ubicación no empieza con 'SrcSpan'")
   def parsearString(self):
     # "..." | '...'

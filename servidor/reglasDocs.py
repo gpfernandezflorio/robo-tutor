@@ -11,7 +11,6 @@ def reglaDocumentación(analizador, AST, código, regla):
   return hallazgos
 
 def hallazgosDocEn(analizador, nodoDeclaración, AST, líneasDeCódigo, regla, pos):
-  # print(nodoDeclaración.keys())
   documentación = documentaciónEn(analizador, nodoDeclaración, AST, líneasDeCódigo, pos)
   # print(">>")
   # print(documentación.replace(" ", ".").replace("\n", "\\n"))
@@ -22,29 +21,37 @@ def hallazgosDocEn(analizador, nodoDeclaración, AST, líneasDeCódigo, regla, p
 def documentaciónEn(analizador, nodoDeclaración, AST, líneasDeCódigo, pos):
   doc = ""
   if pos == 'DENTRO':
-    hijos = analizador.hijosDeNodo_(nodoDeclaración)
-    if len(hijos) > 0:
-      primerHijo = hijos[0]
-      if analizador.es_UnComandoParcial(primerHijo):
-        nietos = analizador.hijosDeNodo_(primerHijo)
-        if len(nietos) > 0:
-          primerHijo = nietos[0]
-      fL = analizador.líneaDeNodo_(primerHijo)
-      fC = analizador.columnaDeNodo_(primerHijo)
+    nodoEnCuerpo = analizador.nodoEnCuerpoDeDeclaración(nodoDeclaración)
+    if not (nodoEnCuerpo is None):
+      fL = analizador.líneaDeNodo_(nodoEnCuerpo)
+      fC = analizador.columnaDeNodo_(nodoEnCuerpo)
       (iL, iC) = analizador.inicioCuerpoDeclaración(nodoDeclaración, líneasDeCódigo)
       # print(iL)
       # print(iC)
       # print(fL)
       # print(fC)
-      if iL == fL:
-        if fC >= iC:
-          doc += líneasDeCódigo[iL][(iC-1):(fC-1)]
-      elif fL > iL:
-        doc += líneasDeCódigo[iL][(iC-1):]
-        for l in range(iL+1, fL):
-          doc += "\n" + líneasDeCódigo[l]
-        if fC > 1:
-          doc += "\n" + líneasDeCódigo[fL][:(fC-1)]
+      doc += códigoEntre(líneasDeCódigo, iL, iC, fL, fC)
   else: # pos == 'ANTES'
-    pass # TODO
+    fL = analizador.líneaDeNodo_(nodoDeclaración)
+    fC = analizador.columnaDeNodo_(nodoDeclaración)
+    hermanaMayor = analizador.nodoHermanaMayorDe_(nodoDeclaración)
+    (iL, iC) = (1,1) if (hermanaMayor is None) else (analizador.líneaFinDeNodo_(hermanaMayor),analizador.columnaFinDeNodo_(hermanaMayor))
+    # print(iL)
+    # print(iC)
+    # print(fL)
+    # print(fC)
+    doc += códigoEntre(líneasDeCódigo, iL, iC, fL, fC)
+  return doc
+
+def códigoEntre(líneasDeCódigo, iL, iC, fL, fC):
+  doc = ""
+  if iL == fL:
+    if fC >= iC:
+      doc += líneasDeCódigo[iL][(iC-1):(fC-1)]
+  elif fL > iL:
+    doc += líneasDeCódigo[iL][(iC-1):]
+    for l in range(iL+1, fL):
+      doc += "\n" + líneasDeCódigo[l]
+    if fC > 1:
+      doc += "\n" + líneasDeCódigo[fL][:(fC-1)]
   return doc

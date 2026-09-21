@@ -42,6 +42,8 @@ class AnalizadorPython(Analizador):
     return hijosDeNodo_(nodo)
   def nodoMadreDe_(self, nodo):
     return nodo._madre
+  def nodoHermanaMayorDe_(self, nodo):
+    return nodo._hermanaMayor
   def es_NodoSubordinadoDe_(self, nodoHijo, nodoMadre):
     # Para saber si tengo que indentar
     return True
@@ -110,6 +112,10 @@ class AnalizadorPython(Analizador):
     return nodo.lineno if hasattr(nodo, 'lineno') else -1
   def columnaDeNodo_(self, nodo):
     return nodo.col_offset if hasattr(nodo, 'col_offset') else -1
+  def líneaFinDeNodo_(self, nodo):
+    return nodo.end_lineno if hasattr(nodo, 'end_lineno') else -1
+  def columnaFinDeNodo_(self, nodo):
+    return nodo.end_col_offset if hasattr(nodo, 'end_col_offset') else -1
   def actualizarNroLíneas(self, r, d):
     # TODO
     return r
@@ -124,6 +130,12 @@ class AnalizadorPython(Analizador):
       else:
         c += 1
     return (l,c+1)
+  def nodoEnCuerpoDeDeclaración(self, nodo):
+    # PRE: nodo es de tipo Definición
+    hijas = self.hijosDeNodo_(nodo)
+    if len(hijas) > 0:
+      return hijas[0]
+    return None
   def astMostrable(self, nodo):
     return {
       "tag":str(type(nodo))[12:-2] + (" - " + nodo.id if self.es_NodoDeTipo_(nodo, ast.Name) else ""),
@@ -134,7 +146,7 @@ class AnalizadorPython(Analizador):
 def astPython(código, ruta="."):
   try:
     AST = ast.parse(código)
-    AgregarAtributoMadre(AST)
+    AgregarAtributosMadreYHermanaMayor(AST)
     ConvertirColOffsetDeUtf8APosición(AST, [""] + código.split("\n"))
     AST._madre = None
     return {"ast":AST} # TODO
@@ -147,6 +159,11 @@ def ConvertirColOffsetDeUtf8APosición(nodo, líneasDeCódigo):
       nodo.col_offset = 1 + offsetUtf8APosición(líneasDeCódigo[nodo.lineno], nodo.col_offset)
     else:
       nodo.col_offset = -1
+  if hasattr(nodo, 'end_col_offset'):
+    if hasattr(nodo, 'lineno'):
+      nodo.end_col_offset = 1 + offsetUtf8APosición(líneasDeCódigo[nodo.lineno], nodo.end_col_offset)
+    else:
+      nodo.end_col_offset = -1
   for hijo in hijosDeNodo_(nodo):
     ConvertirColOffsetDeUtf8APosición(hijo, líneasDeCódigo)
 
@@ -424,10 +441,13 @@ def hijosComprehension(comprehension): # es una lista
 def hijosMatchCase(cases): # es una lista
   return aplanar(mapear(lambda x : ([x.pattern] + x.body + singularSiEsta(x.guard)), cases))
 
-def AgregarAtributoMadre(nodo):
-  for hijo in hijosDeNodo_(nodo):
-    hijo._madre = nodo
-    AgregarAtributoMadre(hijo)
+def AgregarAtributosMadreYHermanaMayor(nodo):
+  hijas = hijosDeNodo_(nodo)
+  for i in range(len(hijas)):
+    hija = hijas[i]
+    hija._madre = nodo
+    hija._hermanaMayor = hijas[i-1] if (i > 0) else None
+    AgregarAtributosMadreYHermanaMayor(hija)
 
 def hijosDeNodo_(nodo):
   return HIJOS[type(nodo).__name__](nodo)
