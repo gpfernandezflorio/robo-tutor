@@ -24,7 +24,7 @@ def analizar(analizador, código, reglas, extras={}):
       return {"resultado":"EVIL", "error":textoAPartirDeLista(resultadoCódigoMalicioso)}
   resultadoAnálisisCalidad = analizador.AnalizarAst(AST["ast"], código, reglas, desde, hasta)
   # print(código)
-  # MostrarAST(analizador.astMostrable(AST["ast"]))
+  # analizador.MostrarAST(AST["ast"])
   # print(list(map(lambda r: analizador.actualizarNroLíneas(r, desde), resultadoAnálisisCalidad)))
   if len(resultadoAnálisisCalidad) > 0:
     return {"resultado":"Calidad", "error":textoAPartirDeLista(resultadoAnálisisCalidad)}
@@ -41,7 +41,3 @@ def analizarHaskell(código, reglas, extras={}):
 
 def textoAPartirDeLista(lista):
   return lista[0]["msg"] # Por ahora sólo devuelvo el primero porque las funciones de buscar_falla asumen que es uno sólo.
-
-def MostrarAST(ast):
-  import json
-  print(json.dumps(ast, indent=2))

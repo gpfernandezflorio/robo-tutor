@@ -2,6 +2,7 @@
 
 from reglas import REGLAS, buscarNodosCon_YGenerar_
 from utils import aplanar, mapear
+import json
 
 class Analizador(object):
   def AnalizarCódigoMalicioso(self, AST, código, desde, hasta):
@@ -54,6 +55,8 @@ class Analizador(object):
       if self.es_UnComandoCompuesto(nodoActual):
         anidacionActual = anidacionActual + 1
     return anidacionActual
+  def MostrarAST(self, ast):
+    print(json.dumps(self.astMostrable(ast), indent=2))
 
 def AgregarDe_A_Si_(listaFuente, listaDestino, fVal):
   for x in listaFuente:

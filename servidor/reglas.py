@@ -24,7 +24,7 @@ def reglaUnComandoPorLinea(analizador, AST, código, regla):
     if not analizador.es_UnComandoParcial(nodo): # Ignoro los bloques
       nuevaLínea = analizador.líneaDeNodo_(nodo)
       if líneaAnterior > 0 and not (nodoAnterior is None):
-        # MostrarAST(analizador.astMostrable(AST))
+        # analizador.MostrarAST(AST)
         # print(nodo["_tag"] + " _ " + str(líneaAnterior) + " _ " + str(nuevaLínea))
         if (líneaAnterior == nuevaLínea and not (líneaAnterior in líneasConflictivas)):
           líneasConflictivas[líneaAnterior] = {
@@ -147,7 +147,3 @@ for concepto in conceptos:
   REGLAS["CONCEPT_" + concepto[0]] = lambda analizador, AST, código, regla : buscarNodosCon_YGenerar_(analizador, AST,
     lambda nodo : concepto[1](analizador, AST, código, regla, nodo), lambda nodo : concepto[2]
   )
-
-def MostrarAST(ast):
-  import json
-  print(json.dumps(ast, indent=2))
