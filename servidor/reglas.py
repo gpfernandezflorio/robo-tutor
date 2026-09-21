@@ -6,6 +6,7 @@
 # y devuelve una lista de hallazgos (vacía si no hay ninguno) donde cada hallazgo es un objeto con los campos 'msg' (el mensaje a mostrar), 'línea' (la línea donde se encontró el hallazgo) y 'columna' (la columna donde se encontró el hallazgo)
 
 from msg import *
+from reglasDocs import reglaDocumentación
 
 def reglaComandosAnidados(analizador, AST, código, regla):
   # Verifica que la profundidad de anidación de comandos no supere el umbral 'max'.
@@ -93,7 +94,8 @@ REGLAS = {
   "NEST_CMD":reglaComandosAnidados,
   "CMD_X_LINE":reglaUnComandoPorLinea,
   "INDENT_NEST":reglaIndentacionPorAnidación,
-  "NAME_VOID":reglaNombresProhibidos
+  "NAME_VOID":reglaNombresProhibidos,
+  "DOCS":reglaDocumentación
 }
 
 conceptos = [ # Cada uno verifica que no se use el concepto en cuestión.

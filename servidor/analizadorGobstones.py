@@ -104,6 +104,17 @@ class AnalizadorGobstones(Analizador):
     if "línea" in r:
       r["línea"] = r["línea"] -d + 1
     return r
+  def inicioCuerpoDeclaración(self, nodo, líneasDeCódigo):
+    # PRE: nodo es de tipo Definición
+    l = self.líneaDeNodo_(nodo)
+    c = self.columnaDeNodo_(nodo)
+    while líneasDeCódigo[l][c-1] != "{":
+      if c > len(líneasDeCódigo[l]):
+        l += 1
+        c = 1
+      else:
+        c += 1
+    return (l,c+1)
   def astMostrable(self, ast):
     o = {}
     if not (ast is None):

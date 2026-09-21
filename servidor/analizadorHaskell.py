@@ -59,6 +59,9 @@ class AnalizadorHaskell(Analizador):
   def actualizarNroLíneas(self, r, d):
     # TODO
     return r
+  def inicioCuerpoDeclaración(self, nodo, líneasDeCódigo):
+    # TODO
+    return (0,0) # No tiene sentido en Haskell
   def astMostrable(self, ast):
     # TODO
     return ast

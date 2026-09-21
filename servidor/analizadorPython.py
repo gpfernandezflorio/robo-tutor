@@ -85,7 +85,10 @@ class AnalizadorPython(Analizador):
     return [ # TODO
     ]
   def tiposDefiniciones(self):
-    return [ # TODO
+    return [
+      ast.FunctionDef,
+      ast.AsyncFunctionDef,
+      ast.ClassDef
     ]
   def tiposComandosCompuestos(self):
     return [
@@ -104,24 +107,53 @@ class AnalizadorPython(Analizador):
   def tiposExcepción(self):
     return [ast.Raise]
   def líneaDeNodo_(self, nodo):
-    return nodo.lineno
+    return nodo.lineno if hasattr(nodo, 'lineno') else -1
   def columnaDeNodo_(self, nodo):
-    return nodo.col_offset # OJO: es índice en UTF-8
+    return nodo.col_offset if hasattr(nodo, 'col_offset') else -1
   def actualizarNroLíneas(self, r, d):
     # TODO
     return r
-  def astMostrable(self, ast):
-    # TODO
-    return ast
+  def inicioCuerpoDeclaración(self, nodo, líneasDeCódigo):
+    # PRE: nodo es de tipo Definición
+    l = self.líneaDeNodo_(nodo)
+    c = self.columnaDeNodo_(nodo)
+    while líneasDeCódigo[l][c-1] != ":":
+      if c > len(líneasDeCódigo[l]):
+        l += 1
+        c = 1
+      else:
+        c += 1
+    return (l,c+1)
+  def astMostrable(self, nodo):
+    return {
+      "tag":str(type(nodo))[12:-2] + (" - " + nodo.id if self.es_NodoDeTipo_(nodo, ast.Name) else ""),
+      "pos":(self.líneaDeNodo_(nodo), self.columnaDeNodo_(nodo)),
+      "children":list(map(lambda x : self.astMostrable(x), self.hijosDeNodo_(nodo)))
+    }
 
-def astPython(codigo, ruta="."):
+def astPython(código, ruta="."):
   try:
-    AST = ast.parse(codigo)
+    AST = ast.parse(código)
     AgregarAtributoMadre(AST)
+    ConvertirColOffsetDeUtf8APosición(AST, [""] + código.split("\n"))
     AST._madre = None
     return {"ast":AST} # TODO
   except Exception as e:
     return {"error":str(e).replace("<unknown>, ","").replace("line","línea")}
+
+def ConvertirColOffsetDeUtf8APosición(nodo, líneasDeCódigo):
+  if hasattr(nodo, 'col_offset'):
+    if hasattr(nodo, 'lineno'):
+      nodo.col_offset = 1 + offsetUtf8APosición(líneasDeCódigo[nodo.lineno], nodo.col_offset)
+    else:
+      nodo.col_offset = -1
+  for hijo in hijosDeNodo_(nodo):
+    ConvertirColOffsetDeUtf8APosición(hijo, líneasDeCódigo)
+
+def offsetUtf8APosición(línea, offsetUtf8):
+  texto_en_bytes = línea.encode('utf-8')
+  bytes_parciales = texto_en_bytes[:offsetUtf8]
+  return len(bytes_parciales.decode('utf-8'))
 
 HIJOS = {
   "AST": lambda self : []
