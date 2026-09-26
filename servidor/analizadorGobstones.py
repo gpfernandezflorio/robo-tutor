@@ -15,10 +15,16 @@ def nroLínea(nodo):
   return nodo["_startPos"]["_line"]
 def madreNoEsMain(nodoMadre):
   return not ("_tag" in nodoMadre) or nodoMadre["_tag"] != "N_Main"
-def hijoDeIfNoEsBlock(nodoMadre, nodoHijo):
+def hijoDeIfNoEsBlock(nodoMadre, nodoHija):
   return (not ("_tag" in nodoMadre) or nodoMadre["_tag"] != "N_StmtIf") \
-    or (not ("_tag" in nodoHijo) or nodoHijo["_tag"] != "N_StmtBlock") or \
-    nroLínea(nodoHijo) == nroLínea(nodoMadre)
+    or (not ("_tag" in nodoHija) or nodoHija["_tag"] != "N_StmtBlock") or \
+    nroLínea(nodoHija) == nroLínea(nodoMadre)
+def hijoDeIfNoEsElseIf(nodoMadre, nodoHija):
+  return (not ("_tag" in nodoMadre) or (
+      nodoMadre["_tag"] != "N_StmtIf" and nodoMadre["_tag"] != "N_StmtElseIf"
+    )) \
+    or (not ("_tag" in nodoHija) or nodoHija["_tag"] != "N_StmtElseIf") or \
+    nroLínea(nodoHija) == nroLínea(nodoMadre)
 
 class AnalizadorGobstones(Analizador):
   def __init__(self, malicioso=reglasCódigoMalicioso.keys()):
@@ -32,9 +38,16 @@ class AnalizadorGobstones(Analizador):
     return nodo["_madre"]
   def nodoHermanaMayorDe_(self, nodo):
     return nodo["_hermanaMayor"]
-  def es_NodoSubordinadoDe_(self, nodoHijo, nodoMadre):
-    # Para saber si tengo que indentar (falso si el nodo madre es la raíz)
-    return madreNoEsMain(nodoMadre) and hijoDeIfNoEsBlock(nodoMadre, nodoHijo)
+  def es_NodoSubordinadoDe_(self, nodoHija, nodoMadre):
+    # Para saber si tengo que indentar
+    return (
+      # El nodo madre no es la raíz
+      madreNoEsMain(nodoMadre) and \
+      # Salvo que el nodo madre sea if y la hija sea bloque
+      hijoDeIfNoEsBlock(nodoMadre, nodoHija) and \
+      # Salvo que el nodo madre sea if (o elseif) y la hija sea elseif
+      hijoDeIfNoEsElseIf(nodoMadre, nodoHija)
+    )
   def es_NodoDeTipo_(self, nodo, tipo):
     if not (nodo is None) and ("_tag" in nodo):
       tipos = tipo if type(tipo) == type([]) else [tipo]
@@ -51,6 +64,7 @@ class AnalizadorGobstones(Analizador):
       "N_StmtAssignVariable",
       "N_StmtAssignTuple",
       "N_StmtIf",
+      "N_StmtElseIf", # Agregado a mano (no es del parser original)
       "N_StmtRepeat",
       "N_StmtForeach",
       "N_StmtWhile",

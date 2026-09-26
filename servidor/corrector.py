@@ -31,11 +31,15 @@ def corregir(corrector, jsonObj, v):
   usuario = limpiar(jsonObj['usuario'])
   ruta = os.path.join('/','rtTest', usuario)
   if os.path.isdir(ruta):
-    return {'resultado':"Error", 'mensaje':"Demasiados intentos seguidos"}
+    if ejecutandoLocal():
+      shutil.rmtree(ruta)
+    else:
+      return {'resultado':"Error", 'mensaje':"Demasiados intentos seguidos"}
   os.mkdir(ruta)
   os.chmod(ruta, 0o777)
   resultado = corrector.corregir(jsonObj, ruta, v)
-  shutil.rmtree(ruta)
+  if not ejecutandoLocal():
+    shutil.rmtree(ruta)
   return resultado
 
 def limpiar(textoOriginal):

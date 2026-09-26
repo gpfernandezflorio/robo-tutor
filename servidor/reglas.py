@@ -52,10 +52,10 @@ def reglaIndentacionPorAnidaciónDesde(analizador, nodo, código, regla, n, i, i
   if líneaActual != n:
     columnaActual = analizador.columnaDeNodo_(nodo)
     indentaciónActual = indentaciónHasta(código, líneaActual, columnaActual)
-    # print(sss(indentaciónActual) + (nodo["_tag"] if ("_tag" in nodo) else "sin tag") + " << " +
-    #   str(iÚltimoComandoODefinición)
-    # )
     if indentaciónActual < i or indentaciónActual <= iÚltimoComandoODefinición:
+      # print(sss(indentaciónActual) + (nodo["_tag"] if ("_tag" in nodo) else "sin tag") + " << " +
+      #   str(iÚltimoComandoODefinición)
+      # )
       resultado.append({
           "msg":mensajeIndentaciónSubordinada,
           "línea":líneaActual,
