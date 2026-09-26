@@ -1,4 +1,4 @@
-SERVER_PIKMIN = "http://192.168.0.29:8050"
+SERVER_PIKMIN = "http://192.168.1.7:8050"
 SERVER_LUIGI = "http://192.168.0.11:8050"
 SERVER_TOSHI = "http://10.1.101.89:8050"
 SERVER_RT = "http://157.92.26.79:8060"
@@ -67,6 +67,233 @@ def errorProcNoDef(n):
 def errorDobleDefProc(n, d1, d2):
   return 'El procedimiento "'+n+'" está definido dos veces: en '+("(?)" if (d1 is None) else ("la línea "+str(d1)))+" y en la línea "+str(d2)+"\nLínea: "+str(d2)
 
+soluciónI3_2 = '''function esCélulaViva() {
+  return (hayBolitas(Verde))
+}
+
+function unoSi_CeroSiNo(c) {
+  return (choose 1 when (c) 0 otherwise)
+}
+
+function nroDeVecinasVivas() {
+  return (nO() + nD())
+}
+
+function nO() {
+  d := minDir()
+  k := 0
+  while(d /= maxDir()) {
+    k := k + unoSi_CeroSiNo(hayVecinaVivaAl_(d))
+    d := siguiente(d)
+  }
+  return (k + unoSi_CeroSiNo(hayVecinaVivaAl_(d)))
+}
+
+function hayVecinaVivaAl_(d) {
+  return (puedeMover(d) && esVecinaVivaAl_(d))
+}
+
+function esVecinaVivaAl_(d) {
+  Mover(d)
+  return (esCélulaViva())
+}
+
+function nD() {
+  d := minDir()
+  k := 0
+  while(d /= maxDir()) {
+    k := k + unoSi_CeroSiNo(hayVecinaVivaAl_Horaria(d))
+    d := siguiente(d)
+  }
+  return (k + unoSi_CeroSiNo(hayVecinaVivaAl_Horaria(d)))
+}
+
+function hayVecinaVivaAl_Horaria(d) {
+  return (puedeMover(d) && puedeMover(siguiente(d)) && esVecinaVivaAl_Horaria(d))
+}
+
+function esVecinaVivaAl_Horaria(d) {
+  Mover(d)
+  Mover(siguiente(d))
+  return (esCélulaViva())
+}'''
+
+soluciónI3_3 = '''procedure PrepararCélulaActual() {
+  if (esCélulaViva() && nroDeVecinasVivas() < 2) {
+    MarcarCélulaParaSerEliminada()
+  } elseif (esCélulaViva() && nroDeVecinasVivas() > 3) {
+    MarcarCélulaParaSerEliminada()
+  } elseif (not esCélulaViva() && nroDeVecinasVivas() == 3) {
+    MarcarCélulaParaSerReanimada()
+  }
+}
+
+''' + soluciónI3_2
+
+soluciónI3_5 = '''procedure Simular_Ticks(cantidad) {
+  repeat(cantidad) {
+    PrepararTodas()
+    CompletarElPróximoTick()
+  }
+}
+
+procedure PrepararTodas() {
+  IrA0()
+  PrepararCélulaActual()
+  while (hayS()) {
+    IrAS()
+    PrepararCélulaActual()
+  }
+}
+
+procedure CompletarElPróximoTick() {
+  IrA0()
+  ProcesarCélulaActual()
+  while (hayS()) {
+    IrAS()
+    ProcesarCélulaActual()
+  }
+}
+
+procedure IrA0() {
+  IrAlBorde(Sur)
+  IrAlBorde(Oeste)
+}
+
+function hayS() {
+  return (puedeMover(Este) || puedeMover(Norte))
+}
+
+procedure IrAS() {
+  if (puedeMover(Este)) {
+    Mover(Este)
+  } else {
+    IrAlBorde(Oeste)
+    Mover(Norte)
+  }
+}
+
+procedure ProcesarCélulaActual() {
+  if (estáMarcadaParaSerEliminada()) {
+    EliminarCélula()
+  } elseif (estáMarcadaParaSerReaminada()) {
+    ReanimarCélula()
+  }
+}
+
+''' + soluciónI3_3
+
+soluciónI4_1 = '''function cantidadDeClubesEnLaConvención() {
+  n := 0
+  while(hayMotoqueroSinClub()) {
+    n := n + 1
+    IrAMotoqueroSinClub()
+    AsignarClub_AMotoquerosConectados(n)
+  }
+  return (n)
+}
+
+procedure AsignarClub_AMotoquerosConectados(n) {
+  IncluirEnElClubNúmero_(n)
+  while (hayMotoqueroSinClubConVecinoEn_(n)) {
+    IrHastaElMotoqueroSinClubConVecinoEn_(n)
+    IncluirEnElClubNúmero_(n)
+  }
+}
+
+procedure IrHastaElMotoqueroSinClubConVecinoEn_(n) {
+  IrA0()
+  while (not hayMotoqueroSinClubConVecinoEn_Acá(n)) {
+    IrAS()
+  }
+}
+
+function hayMotoqueroSinClubConVecinoEn_(n) {
+  IrA0()
+  while (hayS() && not hayMotoqueroSinClubConVecinoEn_Acá(n)) {
+    IrAS()
+  }
+  return (hayMotoqueroSinClubConVecinoEn_Acá(n))
+}
+
+function hayMotoqueroSinClubConVecinoEn_Acá(n) {
+  return (hayMotoqueroSinClubAcá() && hayVecinoEnClub_(n))
+}
+
+function hayVecinoEnClub_(n) {
+  d := minDir()
+  while (d /= maxDir() && not hayVecinoEnClub_Al_(n,d)) {
+    d := siguiente(d)
+  }
+  return (hayVecinoEnClub_Al_(n,d))
+}
+
+function hayVecinoEnClub_Al_(n,d) {
+  return (puedeMover(d) && hayVecinoEnClub_EnCeldaAl_(n,d))
+}
+
+function hayVecinoEnClub_EnCeldaAl_(n,d) {
+  Mover(d)
+  return (hayMotoqueroConClub_Acá(n))
+}
+
+function hayMotoqueroConClub_Acá(n) {
+  return (hayMotoqueroAcá() && elMotoqueroPerteneceAUnClub() && clubAlQuePerteneceUnMotoquero() == n)
+}
+
+procedure IrAMotoqueroSinClub() {
+  IrA0()
+  while (not hayMotoqueroSinClubAcá()) {
+    IrAS()
+  }
+}
+
+function hayMotoqueroSinClub() {
+  IrA0()
+  while (hayS() && not hayMotoqueroSinClubAcá()) {
+    IrAS()
+  }
+  return (hayMotoqueroSinClubAcá())
+}
+
+function hayMotoqueroSinClubAcá() {
+  return (hayMotoqueroAcá() && not elMotoqueroPerteneceAUnClub())
+}
+
+procedure IrA0() {
+  IrAlBorde(Sur)
+  IrAlBorde(Oeste)
+}
+
+function hayS() {
+  return (puedeMover(Este) || puedeMover(Norte))
+}
+
+procedure IrAS() {
+  if (puedeMover(Este)) {
+    Mover(Este)
+  } else {
+    IrAlBorde(Oeste)
+    Mover(Norte)
+  }
+}'''
+
+soluciónI4_2b = '''function cantidadDeMiembrosDelClub_(n) {
+  IrA0()
+  k := unoSi_CeroSiNo(hayMotoqueroConClub_Acá(n))
+  while (hayS()) {
+    IrAS()
+    k := k + unoSi_CeroSiNo(hayMotoqueroConClub_Acá(n))
+  }
+  return (k)
+}
+
+function unoSi_CeroSiNo(c) {
+  return (choose 1 when (c) 0 otherwise)
+}
+
+''' + soluciónI4_1
+
 cursos = [{
   "id":"inpr_unq_2026_s2",
   "l":"Gobstones",
@@ -98,6 +325,21 @@ cursos = [{
       {"src":"function esCeldaVacía() {\n  return (not hayBolitas(Azul) &&\n    not hayBolitas(Negro) &&\n   not hayBolitas(Rojo) &&\n    not hayBolitas(Verde)\n  )\n}","res":"Calidad","error":mensajeIndentaciónSubordinada},
       {"src":"function esCeldaVacía() {\n  return (not hayBolitas(Azul) &&\n  not hayBolitas(Negro) &&\n    not hayBolitas(Rojo) &&\n    not hayBolitas(Verde)\n  )\n}","res":"Calidad","error":mensajeIndentaciónSubordinada}
     ]
+  },{
+    "id":"guiaI3_ej2",
+    "i":[{"src":soluciónI3_2,"res":"OK"}]
+  },{
+    "id":"guiaI3_ej3",
+    "i":[{"src":soluciónI3_3,"res":"OK"}]
+  },{
+    "id":"guiaI3_ej5",
+    "i":[{"src":soluciónI3_5,"res":"OK"}]
+  },{
+    "id":"guiaI4_ej1",
+    "i":[{"src":soluciónI4_1,"res":"OK"}]
+  },{
+    "id":"guiaI4_ej2b",
+    "i":[{"src":soluciónI4_2b,"res":"OK"}]
   }]
 },{ # Sólo valida comandos compuestos anidados de calidad.
   "id":"inpr_unq_2026_s1",

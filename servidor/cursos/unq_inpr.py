@@ -64,10 +64,15 @@ guíasEnMoodle = {
     "11":[41994,11,"P11.%20Listas.pdf"],
     "I1":[42037,7,"Gobs-Man%20%28Recorridos%29.pdf"],
     "I2":[42036,4,"Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf"],
-    "I3":[42044,8,"Pr%C3%A1ctica%2011%20-%20Ejercicios%20Integradores%20%5B2023-11-06%5D.pdf"],
-    "I4":[42043,3,"Comidas%20Gobianas%20%5B2023-11-06%5D.pdf"],
-    "I5":[42042,3,"Compumundo%20Hiper%20Mega%20Red%20%5B2023-11-06%5D.pdf"],
-    "E1":[1,1,""]
+    "I3":[42032,2,"El%20Juego%20de%20la%20Vida%20%5B2023-11-06%5D.pdf"],
+    "I4":[42033,2,"Convención%20de%20Motoqueros%20%5B2023-11-06%5D.pdf"],
+    "I5":[42038,1,"P1.%20%20Buscaminas.pdf"],
+    "I6":[42050,1,"Integrador%20-%20Bomberman.pdf"],
+    "I7":[42026,2,"P1.%20Garry%20Gobster.pdf"]#,
+    # "I?":[42044,8,"Pr%C3%A1ctica%2011%20-%20Ejercicios%20Integradores%20%5B2023-11-06%5D.pdf"],
+    # "I?":[42043,3,"Comidas%20Gobianas%20%5B2023-11-06%5D.pdf"],
+    # "I?":[42042,3,"Compumundo%20Hiper%20Mega%20Red%20%5B2023-11-06%5D.pdf"],
+    # "E1":[1,1,""]
   },
   "2026s1":{
      "1":[38997,25,"P1.%20Programas%20y%20Contratos.pdf"],
@@ -82,10 +87,10 @@ guíasEnMoodle = {
     "10":[39158,19,"P10.%20Tipos%20Personalizado.pdf"],
     "11":[39180,11,"P11.%20Listas.pdf"],
     "I1":[39223,7,"Gobs-Man%20%28Recorridos%29.pdf"],
-    "I2":[39222,4,"Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf"],
-    "I3":[39230,8,"Pr%C3%A1ctica%2011%20-%20Ejercicios%20Integradores%20%5B2023-11-06%5D.pdf"],
-    "I4":[39229,3,"Comidas%20Gobianas%20%5B2023-11-06%5D.pdf"],
-    "I5":[39228,2,"Compumundo%20Hiper%20Mega%20Red%20%5B2023-11-06%5D.pdf"]
+    "I2":[39222,4,"Ms.%20Gobs-Man%20%28Funciones%20simples%20y%20con%20procesamiento%29%20%5B2023-04-24%5D.pdf"]#,
+    # "I?":[39230,8,"Pr%C3%A1ctica%2011%20-%20Ejercicios%20Integradores%20%5B2023-11-06%5D.pdf"],
+    # "I?":[39229,3,"Comidas%20Gobianas%20%5B2023-11-06%5D.pdf"],
+    # "I?":[39228,2,"Compumundo%20Hiper%20Mega%20Red%20%5B2023-11-06%5D.pdf"]
   }
 }
 
@@ -5851,6 +5856,388 @@ def guiaI2(curso, fechaInicio):
     ]
   }
 
+primJL = '''procedure MarcarCélulaParaSerEliminada() {if (not hayBolitas(Negro)) {Poner(Negro)}}
+procedure EliminarCélula() {if (hayBolitas(Negro)) {
+Sacar(Negro) if (hayBolitas(Verde)) {Sacar(Verde)}}}
+function estáMarcadaParaSerEliminada() {return (hayBolitas(Negro))}
+procedure MarcarCélulaParaSerReanimada() {if (not hayBolitas(Rojo)) {Poner(Rojo)}}
+procedure ReanimarCélula() {if (hayBolitas(Rojo)) {
+Sacar(Rojo) if (not hayBolitas(Verde)) {Poner(Verde)}}}
+function estáMarcadaParaSerReaminada() {return (hayBolitas(Rojo))}'''
+
+def guiaI3_ej1(fecha, curso):
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI3_ej1",
+    "nombre":"1. esCélulaViva",
+    "enunciado": 'Escribir la función <code>esCélulaViva()</code>, que indica si la célula en la celda actual está viva o no.',
+    "pre":primJL,
+    "run_data":[
+      validarBoolEnCelda("esCélulaViva()",True,g),
+      validarBoolEnCelda("esCélulaViva()",False,v)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI3_ej2(fecha, curso):
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI3_ej2",
+    "nombre":"2. nroDeVecinasVivas",
+    "enunciado": 'Escribir la función <code>nroDeVecinasVivas()</code> que describe el número de células vivas que son vecinas de la célula actual.',
+    "pre":primJL,
+    "run_data":[
+      validarNumEnCelda("nroDeVecinasVivas()",0,v),
+      validarNumEnCelda("nroDeVecinasVivas()",0,g),
+      validarNumEnTablero("nroDeVecinasVivas()",0,
+        {"head":[0,0],"width":2,"height":2,"board":[[g,v],[v,v]]}
+      ),
+      validarNumEnTablero("nroDeVecinasVivas()",0,
+        {"head":[1,1],"width":2,"height":2,"board":[[v,v],[v,g]]}
+      ),
+      validarNumEnTablero("nroDeVecinasVivas()",8,
+        {"head":[1,1],"width":3,"height":3,"board":[[g,g,g],[g,g,g],[g,g,g]]}
+      ),
+      validarNumEnTablero("nroDeVecinasVivas()",5,
+        {"head":[1,1],"width":3,"height":3,"board":[[g,v,g],[v,g,v],[g,g,g]]}
+      ),
+      validarNumEnTablero("nroDeVecinasVivas()",5,
+        {"head":[0,1],"width":3,"height":3,"board":[[g,g,g],[g,g,g],[g,g,g]]}
+      )
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI3_ej3(fecha, curso):
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI3_ej3",
+    "nombre":"3. PrepararCélulaActual",
+    "enunciado": 'Escribir <code>PrepararCélulaActual()</code>, que aplique las pautas de juego a la célula actual.',
+    "pre":primJL+"\nprogram{PrepararCélulaActual()}",
+    "run_data":[{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v]]},
+      "tf":{"head":[1,1],"width":3,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v]]}
+    },{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[g,g,g],[g,v,g],[g,v,g]]},
+      "tf":{"head":[1,1],"width":3,"height":3,"board":[[g,g,g],[g,v,g],[g,v,g]]}
+    },{
+      "t0":{"head":[0,0],"width":3,"height":3,"board":[[v,g,g],[g,g,g],[g,v,g]]},
+      "tf":{"head":[0,0],"width":3,"height":3,"board":[[r,g,g],[g,g,g],[g,v,g]]}
+    },{
+      "t0":{"head":[1,0],"width":3,"height":3,"board":[[v,g,g],[g,g,g],[g,v,g]]},
+      "tf":{"head":[1,0],"width":3,"height":3,"board":[[v,g,g],[g,g,g],[g,v,g]]}
+    },{
+      "t0":{"head":[1,0],"width":3,"height":3,"board":[[g,g,g],[g,g,g],[g,v,g]]},
+      "tf":{"head":[1,0],"width":3,"height":3,"board":[[g,g,g],[c(0,1,0,1),g,g],[g,v,g]]}
+    },{
+      "t0":{"head":[1,0],"width":3,"height":3,"board":[[v,v,g],[g,g,g],[v,v,g]]},
+      "tf":{"head":[1,0],"width":3,"height":3,"board":[[v,v,g],[c(0,1,0,1),g,g],[v,v,g]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI3_ej4(fecha, curso):
+  k = c(0,1,0,1)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI3_ej4",
+    "nombre":"4. CompletarElPróximoTick",
+    "enunciado": 'Escribir <code>CompletarElPróximoTick()</code>, que lee todas las marcas de eliminación/reanimación de células y las procesa (es decir, efectivamente elimina/reanima esas células). El resultado será un nuevo universo, en condiciones de poder evolucionar en un tick subsiguiente.',
+    "pre":primJL+"\nprogram{CompletarElPróximoTick()}",
+    "run_data":[{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v]]},
+      "tf":{"head":[],"width":3,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v]]}
+    },{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[g,v,g],[v,g,v],[g,v,g]]},
+      "tf":{"head":[],"width":3,"height":3,"board":[[g,v,g],[v,g,v],[g,v,g]]}
+    },{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[g,g,g],[g,g,g],[g,g,g]]},
+      "tf":{"head":[],"width":3,"height":3,"board":[[g,g,g],[g,g,g],[g,g,g]]}
+    },{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[r,g,r],[v,r,v],[k,g,k]]},
+      "tf":{"head":[],"width":3,"height":3,"board":[[g,g,g],[v,g,v],[v,g,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI3_ej5(fecha, curso):
+  k = c(0,1,0,1)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI3_ej5",
+    "nombre":"5. Simular_Ticks",
+    "enunciado": 'Escribir <code>Simular_Ticks(cantidad)</code>, que dada una <code>cantidad</code>, simula esa cantidad de ticks sobre el universo.',
+    "pre":primJL,
+    "run_data":[{
+      "pre":"program{Simular_Ticks(2)}",
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v]]},
+      "tf":{"head":[],"width":3,"height":3,"board":[[v,v,v],[v,v,v],[v,v,v]]}
+    },{
+      "pre":"program{Simular_Ticks(3)}",
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[v,v,v],[g,g,g],[v,v,v]]},
+      "tf":{"head":[],"width":3,"height":3,"board":[[v,g,v],[v,g,v],[v,g,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI3(curso, fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guiaI3",
+    "nombre":"Práctica integradora - El juego de la vida",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía("I3", curso),
+      guiaI3_ej1(fechaInicio, curso),
+      guiaI3_ej2(fechaInicio, curso),
+      guiaI3_ej3(fechaInicio, curso),
+      guiaI3_ej4(fechaInicio, curso),
+      guiaI3_ej5(fechaInicio, curso)
+    ]
+  }
+
+primCM = '''function hayMotoqueroAcá(){return (hayBolitas(Rojo))}
+function elMotoqueroPerteneceAUnClub(){if (not hayMotoqueroAcá()) {BOOM("No hay motoquero acá")}
+return (hayBolitas(Verde))}
+function clubAlQuePerteneceUnMotoquero(){if (not elMotoqueroPerteneceAUnClub()) {BOOM("Este motoquero no pertenece a ningún club")}
+return (nroBolitas(Verde))}
+procedure IncluirEnElClubNúmero_(númeroDeClub) {if (elMotoqueroPerteneceAUnClub()) {BOOM("Este motoquero ya pertenece a un club")}
+repeat(númeroDeClub){Poner(Verde)}}'''
+
+def guiaI4_ej1(fecha, curso):
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI4_ej1",
+    "nombre":"1. cantidadDeClubesEnLaConvención",
+    "enunciado": 'Realizar la función <code>cantidadDeClubesEnLaConvención()</code> que determine la cantidad total de clubes de motoqueros que hay en la convención.<br>Para ello se propone una estrategia <em>top-down</em> para contar los clubes que consiste en recorrer motoqueros sin club, asignando un número de club distinto y consecutivo a cada uno de los motoqueros sin club y todos los motoqueros conectados a este. El último número de club asignado debería permitir determinar la cantidad de clubes totales. Para esto se propone realizar las funciones y procedimientos de los siguientes incisos (aunque pueden requerirse o ser útil algunos adicionales).',
+    "pre":primCM,
+    "run_data":[
+      validarNumEnTablero('cantidadDeClubesEnLaConvención()',4,
+        {"head":[3,3],"width":6,"height":4,"board":[
+          [r,r,v,r],[r,v,v,r],[r,r,v,r],[v,v,v,r],[r,r,r,v],[v,r,v,r]
+        ]}
+      ),
+      validarNumEnTablero('cantidadDeClubesEnLaConvención()',3,
+        {"head":[3,3],"width":6,"height":4,"board":[
+          [r,r,v,r],[r,v,v,r],[r,r,v,r],[v,v,v,r],[r,r,r,v],[v,r,r,r]
+        ]}
+      ),
+      validarNumEnTablero('cantidadDeClubesEnLaConvención()',0,
+        {"head":[1,0],"width":2,"height":2,"board":[
+          [v,v],[v,v]
+        ]}
+      )
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI4_ej1a(fecha, curso):
+  mc = c(0,0,1,1)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI4_ej1a",
+    "nombre":"1. (a) hayMotoqueroSinClub",
+    "enunciado": 'La función <code>hayMotoqueroSinClub()</code> que indica si en la convención hay algún motoquero que todavía no tenga un club.',
+    "pre":primCM,
+    "run_data":[
+      validarBoolEnTablero('hayMotoqueroSinClub()',True,
+        {"head":[1,1],"width":2,"height":2,"board":[
+          [r,v],[v,v]
+        ]}
+      ),
+      validarBoolEnTablero('hayMotoqueroSinClub()',True,
+        {"head":[1,1],"width":3,"height":3,"board":[
+          [r,v,mc],[v,v,mc],[v,mc,mc]
+        ]}
+      ),
+      validarBoolEnTablero('hayMotoqueroSinClub()',False,
+        {"head":[1,1],"width":3,"height":3,"board":[
+          [v,v,mc],[v,v,mc],[v,mc,mc]
+        ]}
+      ),
+      validarBoolEnTablero('hayMotoqueroSinClub()',False,
+        {"head":[1,1],"width":3,"height":3,"board":[
+          [v,v,v],[v,v,v],[v,v,v]
+        ]}
+      )
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI4_ej1b(fecha, curso):
+  mc = c(0,0,1,1)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI4_ej1b",
+    "nombre":"1. (b) IrAMotoqueroSinClub",
+    "enunciado": 'El procedimiento <code>IrAMotoqueroSinClub()</code> que, asumiendo que hay un motoquero sin club, deja el cabezal sobre el mismo.',
+    "pre":primCM+"\nprogram{IrAMotoqueroSinClub()}",
+    "run_data":[{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[r,v,v],[v,mc,v],[v,mc,mc]]},
+      "tf":{"head":[0,0],"width":3,"height":3,"board":[[r,v,v],[v,mc,v],[v,mc,mc]]}
+    },{
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[mc,v,v],[v,r,v],[v,v,v]]},
+      "tf":{"head":[1,1],"width":3,"height":3,"board":[[mc,v,v],[v,r,v],[v,v,v]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI4_ej1c(fecha, curso):
+  mc = c(0,0,1,1)
+  mc2 = c(0,0,1,2)
+  mc3 = c(0,0,1,3)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI4_ej1c",
+    "nombre":"1. (c) AsignarClub_AMotoquerosConectados",
+    "enunciado": 'El procedimiento <code>AsignarClub_AMotoquerosConectados(númeroDeClub)</code> que dado un número de club, asigna al motoquero actual y a todos los motoqueros conectados a este, como pertenecientes al dicho club. Se puede asumir que estos motoqueros no tienen un club asignado. Este problema es a su vez complejo, y se propone la siguiente estrategia para solucionarlo. Notar que algunas subtareas en los ítems a continuación pueden ser útiles para solucionar este problema.<ul><li>Paso 1, marcar al motoquero actual como perteneciente al club dado.</li><li>Paso 2, buscar en la convención algún motoquero sin club que tenga como vecino un motoquero del club dado e ir hasta el mismo.</li><li>Repetir sucesivamente los pasos 1 y 2 hasta que no haya más motoqueros en la convención que sean vecinos de otros con el club dado.</li></ul>',
+    "pre":primCM,
+    "run_data":[{
+      "pre":"program{AsignarClub_AMotoquerosConectados(3)}",
+      "t0":{"head":[0,0],"width":3,"height":3,"board":[[r,v,v],[v,mc,v],[v,v,r]]},
+      "tf":{"head":[],"width":3,"height":3,"board":[[mc3,v,v],[v,mc,v],[v,v,r]]}
+    },{
+      "pre":"program{AsignarClub_AMotoquerosConectados(2)}",
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[mc,v,r],[v,r,v],[r,r,r]]},
+      "tf":{"head":[],"width":3,"height":3,"board":[[mc,v,r],[v,mc2,v],[mc2,mc2,mc2]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI4_ej1d(fecha, curso):
+  mc = c(0,0,1,1)
+  mc2 = c(0,0,1,2)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI4_ej1d",
+    "nombre":"1. (d) hayMotoqueroSinClubConVecinoEn_",
+    "enunciado": 'La función <code>hayMotoqueroSinClubConVecinoEn_(númeroDeClub)</code> que indica si en la convención hay algún motoquero sin club todavía que tenga de vecino otro motoquero que tenga por club <code>númeroDeClub</code>.',
+    "pre":primCM,
+    "run_data":[
+      validarBoolEnTablero('hayMotoqueroSinClubConVecinoEn_(2)',False,
+        {"head":[1,1],"width":2,"height":2,"board":[
+          [r,v],[v,v]
+        ]}
+      ),
+      validarBoolEnTablero('hayMotoqueroSinClubConVecinoEn_(2)',False,
+        {"head":[1,1],"width":3,"height":3,"board":[
+          [r,v,mc2],[v,v,mc2],[v,mc2,mc2]
+        ]}
+      ),
+      validarBoolEnTablero('hayMotoqueroSinClubConVecinoEn_(2)',False,
+        {"head":[1,1],"width":3,"height":3,"board":[
+          [mc2,v,mc],[v,r,mc],[v,mc,mc]
+        ]}
+      ),
+      validarBoolEnTablero('hayMotoqueroSinClubConVecinoEn_(1)',True,
+        {"head":[1,1],"width":3,"height":3,"board":[
+          [mc2,v,mc],[v,r,mc],[v,mc,mc]
+        ]}
+      )
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI4_ej1e(fecha, curso):
+  mc = c(0,0,1,1)
+  mc2 = c(0,0,1,2)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI4_ej1e",
+    "nombre":"1. (e) IrHastaElMotoqueroSinClubConVecinoEn_",
+    "enunciado": '<code>IrHastaElMotoqueroSinClubConVecinoEn_(númeroDeClub)</code> que posiciona el cabezal sobre un motoquero que no tenga club todavía y que tenga por vecino un motoquero en el club <code>númeroDeClub</code>.',
+    "pre":primCM,
+    "run_data":[{
+      "pre":"program{IrHastaElMotoqueroSinClubConVecinoEn_(2)}",
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[r,mc2,v],[v,v,v],[r,mc,mc]]},
+      "tf":{"head":[0,0],"width":3,"height":3,"board":[[r,mc2,v],[v,v,v],[r,mc,mc]]}
+    },{
+      "pre":"program{IrHastaElMotoqueroSinClubConVecinoEn_(1)}",
+      "t0":{"head":[1,1],"width":3,"height":3,"board":[[r,mc2,v],[v,v,v],[r,mc,mc]]},
+      "tf":{"head":[2,0],"width":3,"height":3,"board":[[r,mc2,v],[v,v,v],[r,mc,mc]]}
+    }],
+    "disponible":{"desde":fecha}
+  }
+
+# Este no se puede testear porque el resultado depende de la implementación...
+# def guiaI4_ej2(fecha, curso):
+#   return {
+#     "tipo":"CODIGO",
+#     "id":"guiaI4_ej2",
+#     "nombre":"2. clubConMásMotoqueros",
+#     "enunciado": 'Escribir la función <code>clubConMásMotoqueros()</code> que determina cuál es el club que tiene más motoqueros en la convención. Se propone como estrategia marcar primero los clubes, y luego contabilizar la cantidad de miembros de cada club, para luego saber cuál tiene más. De esto surgen los procedimientos y funciones de los siguientes incisos (nuevamente, realizar adicionales puede resultar útil).',
+#     "pre":primCM,
+#     "run_data":[
+#       validarNumEnTablero("clubConMásMotoqueros()",3,
+#         ...
+#       )
+#     ],
+#     "disponible":{"desde":fecha}
+#   }
+
+# Este tampoco.
+# def guiaI4_ej2a(fecha, curso):
+#   mc = c(0,0,1,1)
+#   mc2 = c(0,0,1,2)
+#   mc3 = c(0,0,1,3)
+#   return {
+#     "tipo":"CODIGO",
+#     "id":"guiaI4_ej2a",
+#     "nombre":"2. (a) AsignarClubATodosLosMotoqueros",
+#     "enunciado": 'El procedimiento <code>AsignarClubATodosLosMotoqueros()</code> que asigna un club a cada motoquero activo de la convención, y que sigue una estrategia similar a la del ejercicio 1.',
+#     "pre":primCM+"\nprogram{AsignarClubATodosLosMotoqueros()}",
+#     "run_data":[{
+#       "t0":{"head":[0,0],"width":3,"height":3,"board":[[r,v,v],[v,r,v],[v,v,r]]},
+#       "tf":{"head":[],"width":3,"height":3,"board":[[mc?,v,v],[v,mc?,v],[v,v,mc?]]}
+#     },{
+#       ...
+#     }],
+#     "disponible":{"desde":fecha}
+#   }
+
+def guiaI4_ej2b(fecha, curso):
+  mc = c(0,0,1,1)
+  mc2 = c(0,0,1,2)
+  return {
+    "tipo":"CODIGO",
+    "id":"guiaI4_ej2b",
+    "nombre":"2. (b) cantidadDeMiembrosDelClub_",
+    "enunciado": 'La función <code>cantidadDeMiembrosDelClub_(númeroDeClub)</code> que dado un número de club, describe la cantidad de miembros que posee el club dado.',
+    "pre":primCM,
+    "run_data":[
+      validarNumEnTablero('cantidadDeMiembrosDelClub_(2)',3,
+        {"head":[1,1],"width":4,"height":3,"board":[
+          [mc2,mc2,v],[mc2,v,v],[v,v,mc],[v,v,mc]
+        ]}
+      ),
+      validarNumEnTablero('cantidadDeMiembrosDelClub_(1)',2,
+        {"head":[1,1],"width":4,"height":3,"board":[
+          [mc2,mc2,v],[mc2,v,v],[v,v,mc],[v,v,mc]
+        ]}
+      )
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guiaI4(curso, fechaInicio):
+  return {
+    "tipo":"SECCION",
+    "id":"guiaI4",
+    "nombre":"Práctica integradora - La Convención de Motoqueros",
+    "disponible":{"desde":fechaInicio},
+    "actividades":[
+      linkGuía("I4", curso),
+      guiaI4_ej1(fechaInicio, curso),
+      guiaI4_ej1a(fechaInicio, curso),
+      guiaI4_ej1b(fechaInicio, curso),
+      guiaI4_ej1c(fechaInicio, curso),
+      guiaI4_ej1d(fechaInicio, curso),
+      guiaI4_ej1e(fechaInicio, curso),
+      guiaI4_ej2b(fechaInicio, curso)
+    ]
+  }
+
 def e10_2(s):
   return enPapel+" Se quiere modelar una serie de partidos politicos de un país, y poder realizar consultas sobre los mismos. Se cuenta entonces con la siguiente tabla de información:"+tablaHtml([["Partido"],["Democracia por la Verdad"],["Unidos por la República"],["Liberales por la Libertad"],["Izquierda de los Obreros"]])+"Se quiere entonces crear un tipo de datos variante PartidoPolítico que modele a los partidos mencionados. Además se les brinda la siguiente función como primitiva:"+código("function cantidadDeVotosDe_(unPartido)<br>&nbsp;/*<br>&nbsp;&nbsp;PROPÓSITO: Indica la cantidad de votos que recibió un partido.<br>&nbsp;&nbsp;PARÁMETROS<br>&nbsp;&nbsp;&nbsp;* unPartido: PartidoPolítico - El partido político del cual saber su cantidad de votos.<br>&nbsp;&nbsp;TIPO: Número<br>&nbsp;&nbsp;PRECONDICIÓN: Ninguna<br>&nbsp;*/")+"Luego escriba la siguiente función:<br>"+s+"<br><br><b>Nota</b>: no incluir la definición del tipo <code>PartidoPolítico</code> al enviar este ejercicio. Suponer que está definido como un variante cuyos casos son <code>DemocraciaPorLaVerdad</code>, <code>UnidosPorLaRepública</code>, <code>LiberalesPorLaLibertad</code> y <code>IzquierdaDeLosObreros</code>."
 
@@ -6740,38 +7127,38 @@ def guia11(curso, fechaInicio):
     ]
   }
 
-def guiaI3(curso, fechaInicio):
-  return {
-    "tipo":"SECCION",
-    "id":"guiaI3",
-    "nombre":"Ejercicios Integradores",
-    "disponible":{"desde":fechaInicio},
-    "actividades":[
-      linkGuía("I3", curso),
-    ]
-  }
+# def guiaI?(curso, fechaInicio):
+#   return {
+#     "tipo":"SECCION",
+#     "id":"guiaI?",
+#     "nombre":"Ejercicios Integradores",
+#     "disponible":{"desde":fechaInicio},
+#     "actividades":[
+#       linkGuía("I?", curso),
+#     ]
+#   }
 
-def guiaI4(curso, fechaInicio):
-  return {
-    "tipo":"SECCION",
-    "id":"guiaI4",
-    "nombre":"Práctica integradora de Registros y Listas",
-    "disponible":{"desde":fechaInicio},
-    "actividades":[
-      linkGuía("I4", curso),
-    ]
-  }
+# def guiaI?(curso, fechaInicio):
+#   return {
+#     "tipo":"SECCION",
+#     "id":"guiaI?",
+#     "nombre":"Práctica integradora de Registros y Listas",
+#     "disponible":{"desde":fechaInicio},
+#     "actividades":[
+#       linkGuía("I?", curso),
+#     ]
+#   }
 
-def guiaI5(curso, fechaInicio):
-  return {
-    "tipo":"SECCION",
-    "id":"guiaI5",
-    "nombre":"Compumundo Hiper Mega Red",
-    "disponible":{"desde":fechaInicio},
-    "actividades":[
-      linkGuía("I5", curso),
-    ]
-  }
+# def guiaI?(curso, fechaInicio):
+#   return {
+#     "tipo":"SECCION",
+#     "id":"guiaI?",
+#     "nombre":"Compumundo Hiper Mega Red",
+#     "disponible":{"desde":fechaInicio},
+#     "actividades":[
+#       linkGuía("I?", curso),
+#     ]
+#   }
 
 def guber_1(fecha):
   return {
@@ -6948,11 +7335,13 @@ CURSOS = {
       guia9("2026s2","11/9/2026-8:00"),
       guiaI1("2026s2","18/9/2026-8:00"),
       guiaI2("2026s2","18/9/2026-8:00"),
+      guiaI3("2026s2","25/9/2026-8:00"),
+      guiaI4("2026s2","25/9/2026-8:00"),
       guia10("2026s2","16/10/2026-8:00")
       # guia11("2026s2","23/11/2026-8:00"),
-      # guiaI3("2026s2","6/11/2026-8:00"),
-      # guiaI4("2026s2","6/11/2026-8:00"),
-      # guiaI5("2026s2","6/11/2026-8:00")
+      # guiaI?("2026s2","6/11/2026-8:00"),
+      # guiaI?("2026s2","6/11/2026-8:00"),
+      # guiaI?("2026s2","6/11/2026-8:00")
     ],
     "planilla":{
       "url":"1FAIpQLSccr1YI-WU2w5G9zQxauUPY9BFOrN9U4uGS_g1wL_2kZTdz6g",
@@ -6994,9 +7383,9 @@ CURSOS = {
       guiaI2("2026s1", "4/5/2026-8:00"),
       guia10("2026s1", "11/5/2026-8:00")
       # guia11("2026s1", "18/5/2026-8:00"),
-      # guiaI3("2026s1", "1/6/2026-8:00"),
-      # guiaI4("2026s1", "1/6/2026-8:00"),
-      # guiaI5("2026s1", "1/6/2026-8:00")
+      # guiaI?("2026s1", "1/6/2026-8:00"),
+      # guiaI?("2026s1", "1/6/2026-8:00"),
+      # guiaI?("2026s1", "1/6/2026-8:00")
     ],
     "planilla":{
       "url":"1FAIpQLScBYC_P5dbFA0v9e-GDTw65KMFn5PIM9IX0jZmHSTUXdyW5oA",
