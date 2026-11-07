@@ -189,3 +189,9 @@ def CambiarCeldaTablero(t, pos, cof):
     cof(t["board"][pos[0]][pos[1]])
   else:
     t["board"][pos[0]][pos[1]] = cof
+
+def validar(expresión, pre=""):
+  return validarBoolEnCelda(expresión, True, v, pre)
+
+def validarFalso(expresión, pre=""):
+  return validarBoolEnCelda(expresión, False, v, pre)
