@@ -3,6 +3,7 @@
 import os
 from subprocess import Popen
 import time
+from utils import ejecutandoLocal
 
 def ejecutarConTimeout(comando, timeout, ruta):
   inicio = time.time()
@@ -25,10 +26,12 @@ def ejecutar(cmd, ruta, timeout=None):
     "python3",
     "ejecucionProceso.py",
     '"'+cmd+'"',
-    ruta
+    ruta,
+    ("LOCAL" if ejecutandoLocal() else "-")
   ]
   if not (timeout is None):
     comandoAEjecutar.append(str(timeout))
+  # print(comandoAEjecutar)
   ejecucion = Popen(comandoAEjecutar)
   errcode = ejecucion.wait()
   stdout = ""

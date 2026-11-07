@@ -12,7 +12,9 @@ class Runner(object):
   def __init__(self):
     self.proceso_en_ejecucion = None
   def run(self, comandoAEjecutar, fOut, fErr, ruta):
-    self.proceso_en_ejecucion = Popen(comandoAEjecutar, stdout=fOut, stderr=fErr, universal_newlines=True, shell=True, preexec_fn=lambda: sacarPrivilegios(ruta)
+    # print(comandoAEjecutar)
+    self.proceso_en_ejecucion = Popen(comandoAEjecutar, stdout=fOut, stderr=fErr, universal_newlines=True, shell=True
+      , preexec_fn=lambda: inicialización(ruta)
       # , user=USER_RT
     )
     return self.proceso_en_ejecucion
@@ -29,10 +31,12 @@ class Runner(object):
 def handler_timeout(runner):
   runner.end()
 
-def sacarPrivilegios(ruta):
+def inicialización(ruta):
+  os.chdir(ruta)
+  if LOCAL:
+    return
   os.setsid()
   # os.system("ulimit -v " + str(MEM_MAX_KB))
-  os.chdir(ruta)
   resource.setrlimit(resource.RLIMIT_AS, (MEM_MAX_B, MEM_MAX_B))
   resource.setrlimit(resource.RLIMIT_RSS, (MEM_MAX_B, MEM_MAX_B))
   # resource.setrlimit(resource.RLIMIT_STACK, (MEM_MAX_B, MEM_MAX_B))
@@ -57,10 +61,13 @@ def LanzarComando(cmd, ruta, RUTA_STDOUT, RUTA_STDERR, timeout):
   fErr.close()
   exit(errcode)
 
+LOCAL = False
+
 if __name__ == '__main__':
   cmd = sys.argv[1][1:-1]
   ruta = sys.argv[2]
-  timeout = int(sys.argv[3]) if len(sys.argv) > 3 else None
+  LOCAL = sys.argv[3] == "LOCAL"
+  timeout = int(sys.argv[4]) if len(sys.argv) > 4 else None
   RUTA_STDOUT = os.path.join(ruta, 'stdout.out')
   RUTA_STDERR = os.path.join(ruta, 'stderr.out')
   LanzarComando(cmd, ruta, RUTA_STDOUT, RUTA_STDERR, timeout)
