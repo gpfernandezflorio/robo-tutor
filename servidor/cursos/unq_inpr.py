@@ -3382,11 +3382,11 @@ def guia7_ej6f(fecha, curso):
     "nombre":"6. ¿Vamos al banco? - Parte 2 (f)",
     "enunciado":e7_6("<code>cuantosDolaresSePuedeComprarCon_Pesos(cantidadDePesos)</code> que indica la cantidad de dólares que se pueden comprar con una cantidad de pesos dada.", True, curso),
     "run_data":[
-      validarNumEnCelda("cuantosDolaresSePuedeComprarCon_Pesos(0)",0,v),
-      validarNumEnCelda("cuantosDolaresSePuedeComprarCon_Pesos(50)",0,v),
-      validarNumEnCelda("cuantosDolaresSePuedeComprarCon_Pesos(100)",1,v),
-      validarNumEnCelda("cuantosDolaresSePuedeComprarCon_Pesos(190)",1,v),
-      validarNumEnCelda("cuantosDolaresSePuedeComprarCon_Pesos(250)",2,v)
+      validarNum("cuantosDolaresSePuedeComprarCon_Pesos(0)",0),
+      validarNum("cuantosDolaresSePuedeComprarCon_Pesos(50)",0),
+      validarNum("cuantosDolaresSePuedeComprarCon_Pesos(100)",1),
+      validarNum("cuantosDolaresSePuedeComprarCon_Pesos(190)",1),
+      validarNum("cuantosDolaresSePuedeComprarCon_Pesos(250)",2)
     ],
     "disponible":{"desde":fecha}
   }
@@ -3398,11 +3398,11 @@ def guia7_ej6g(fecha, curso):
     "nombre":"6. ¿Vamos al banco? - Parte 2 (g)",
     "enunciado":e7_6("<code>cuantosEurosSePuedeComprarCon_Pesos(cantidadDePesos)</code> que indica la cantidad de euros que se pueden comprar con una cantidad de pesos dada.", True, curso),
     "run_data":[
-      validarNumEnCelda("cuantosEurosSePuedeComprarCon_Pesos(0)",0,v),
-      validarNumEnCelda("cuantosEurosSePuedeComprarCon_Pesos(100)",0,v),
-      validarNumEnCelda("cuantosEurosSePuedeComprarCon_Pesos(120)",1,v),
-      validarNumEnCelda("cuantosEurosSePuedeComprarCon_Pesos(190)",1,v),
-      validarNumEnCelda("cuantosEurosSePuedeComprarCon_Pesos(250)",2,v)
+      validarNum("cuantosEurosSePuedeComprarCon_Pesos(0)",0),
+      validarNum("cuantosEurosSePuedeComprarCon_Pesos(100)",0),
+      validarNum("cuantosEurosSePuedeComprarCon_Pesos(120)",1),
+      validarNum("cuantosEurosSePuedeComprarCon_Pesos(190)",1),
+      validarNum("cuantosEurosSePuedeComprarCon_Pesos(250)",2)
     ],
     "disponible":{"desde":fecha}
   }
@@ -3414,11 +3414,11 @@ def guia7_ej6h(fecha, curso):
     "nombre":"6. ¿Vamos al banco? - Parte 2 (h)",
     "enunciado":e7_6("<code>cuantosYuanesSePuedeComprarCon_Pesos(cantidadDePesos)</code> que indica la cantidad de yuanes que se pueden comprar con una cantidad de pesos dada.", True, curso),
     "run_data":[
-      validarNumEnCelda("cuantosYuanesSePuedeComprarCon_Pesos(0)",0,v),
-      validarNumEnCelda("cuantosYuanesSePuedeComprarCon_Pesos(15)",0,v),
-      validarNumEnCelda("cuantosYuanesSePuedeComprarCon_Pesos(20)",1,v),
-      validarNumEnCelda("cuantosYuanesSePuedeComprarCon_Pesos(30)",1,v),
-      validarNumEnCelda("cuantosYuanesSePuedeComprarCon_Pesos(40)",2,v)
+      validarNum("cuantosYuanesSePuedeComprarCon_Pesos(0)",0),
+      validarNum("cuantosYuanesSePuedeComprarCon_Pesos(15)",0),
+      validarNum("cuantosYuanesSePuedeComprarCon_Pesos(20)",1),
+      validarNum("cuantosYuanesSePuedeComprarCon_Pesos(30)",1),
+      validarNum("cuantosYuanesSePuedeComprarCon_Pesos(40)",2)
     ],
     "disponible":{"desde":fecha}
   }
@@ -3430,9 +3430,9 @@ def guia7_ej6i(fecha, curso):
     "nombre":"6. ¿Vamos al banco? - Parte 2 (i)",
     "enunciado":e7_6("<code>cuantosPesosSiVendo_Dólares(cantidadDeMonedaExtranjera)</code> que indica la cantidad de pesos a obtener si se venden (depositan) la cantidad de dólares dada.", True, curso),
     "run_data":[
-      validarNumEnCelda("cuantosPesosSiVendo_Dólares(0)",0,v),
-      validarNumEnCelda("cuantosPesosSiVendo_Dólares(1)",80,v),
-      validarNumEnCelda("cuantosPesosSiVendo_Dólares(2)",160,v)
+      validarNum("cuantosPesosSiVendo_Dólares(0)",0),
+      validarNum("cuantosPesosSiVendo_Dólares(1)",80),
+      validarNum("cuantosPesosSiVendo_Dólares(2)",160)
     ],
     "disponible":{"desde":fecha}
   }
@@ -3444,9 +3444,9 @@ def guia7_ej6j(fecha, curso):
     "nombre":"6. ¿Vamos al banco? - Parte 2 (j)",
     "enunciado":e7_6("<code>cuantosPesosSiVendo_Euros(cantidadDeMonedaExtranjera)</code> que indica la cantidad de pesos a obtener si se venden (depositan) la cantidad de euros dada.", True, curso),
     "run_data":[
-      validarNumEnCelda("cuantosPesosSiVendo_Euros(0)",0,v),
-      validarNumEnCelda("cuantosPesosSiVendo_Euros(1)",90,v),
-      validarNumEnCelda("cuantosPesosSiVendo_Euros(2)",180,v)
+      validarNum("cuantosPesosSiVendo_Euros(0)",0),
+      validarNum("cuantosPesosSiVendo_Euros(1)",90),
+      validarNum("cuantosPesosSiVendo_Euros(2)",180)
     ],
     "disponible":{"desde":fecha}
   }
@@ -3458,9 +3458,9 @@ def guia7_ej6k(fecha, curso):
     "nombre":"6. ¿Vamos al banco? - Parte 2 (k)",
     "enunciado":e7_6("<code>cuantosPesosSiVendo_Yuanes(cantidadDeMonedaExtranjera)</code> que indica la cantidad de pesos a obtener si se venden (depositan) la cantidad de yuanes dada.", True, curso),
     "run_data":[
-      validarNumEnCelda("cuantosPesosSiVendo_Yuanes(0)",0,v),
-      validarNumEnCelda("cuantosPesosSiVendo_Yuanes(1)",12,v),
-      validarNumEnCelda("cuantosPesosSiVendo_Yuanes(2)",24,v)
+      validarNum("cuantosPesosSiVendo_Yuanes(0)",0),
+      validarNum("cuantosPesosSiVendo_Yuanes(1)",12),
+      validarNum("cuantosPesosSiVendo_Yuanes(2)",24)
     ],
     "disponible":{"desde":fecha}
   }
@@ -4399,8 +4399,8 @@ def guia9_ej12(fecha):
     "nombre":"12. El más chico",
     "enunciado": biblioteca + " Escribir la función <code>mínimoEntre_Y_</code>, que dados dos valores describe aquel que sea más chico. Por ejemplo, <code>mínimoEntre_Y_(3, 7)</code> describe <code>3</code>, mientras que <code>mínimoEntre_Y_(9, 4)</code> describe <code>4</code>.",
     "run_data":[
-      validarNumEnCelda("mínimoEntre_Y_(3,7)",3,v),
-      validarNumEnCelda("mínimoEntre_Y_(9,4)",4,v)
+      validarNum("mínimoEntre_Y_(3,7)",3),
+      validarNum("mínimoEntre_Y_(9,4)",4)
     ],
     "disponible":{"desde":fecha}
   }
@@ -4412,8 +4412,8 @@ def guia9_ej13(fecha):
     "nombre":"13. El más grande",
     "enunciado": biblioteca + " Escribir ahora la función <code>máximoEntre_Y_</code> que dados dos valores describe aquel que sea el más grande.",
     "run_data":[
-      validarNumEnCelda("máximoEntre_Y_(3,7)",7,v),
-      validarNumEnCelda("máximoEntre_Y_(9,4)",9,v)
+      validarNum("máximoEntre_Y_(3,7)",7),
+      validarNum("máximoEntre_Y_(9,4)",9)
     ],
     "disponible":{"desde":fecha}
   }
@@ -4492,8 +4492,8 @@ def guia9_ej17(fecha):
     "nombre":"17. De booleano a número",
     "enunciado": biblioteca + " Escribir la función <code>unoSi_CeroSiNo</code> que dado un booleano, describe el número 1 si el booleano dado es Verdadero, y cero, sí el booleano es Falso.",
     "run_data":[
-      validarNumEnCelda("unoSi_CeroSiNo(True)",1,v),
-      validarNumEnCelda("unoSi_CeroSiNo(False)",0,v)
+      validarNum("unoSi_CeroSiNo(True)",1),
+      validarNum("unoSi_CeroSiNo(False)",0)
     ],
     "disponible":{"desde":fecha}
   }
@@ -4779,11 +4779,11 @@ def guia9_ej32(fecha):
     ])+"<br>"+resaltado("Ayuda: ") + "Se recomienda resolver el problema con dos variables, una que representa el número para la posición actual, y otra que representa el de la posición anterior. Luego, basta repetir tantas veces como una menos de la posición pedida, actualizando las variables en cada paso. Para esto último será necesaria la ayuda de una tercer variable que actúa como auxiliar.",
     "timeout":4,
     "run_data":[
-      validarNumEnCelda("fibonacciNro_(0)",1,v),
-      validarNumEnCelda("fibonacciNro_(2)",2,v),
-      validarNumEnCelda("fibonacciNro_(3)",3,v),
-      validarNumEnCelda("fibonacciNro_(6)",13,v),
-      validarNumEnCelda("fibonacciNro_(10)",89,v)
+      validarNum("fibonacciNro_(0)",1),
+      validarNum("fibonacciNro_(2)",2),
+      validarNum("fibonacciNro_(3)",3),
+      validarNum("fibonacciNro_(6)",13),
+      validarNum("fibonacciNro_(10)",89)
     ],
     "disponible":{"desde":fecha}
   }
@@ -6410,9 +6410,9 @@ def guia10_ej3i(fecha):
     "enunciado": e10_3("<code>valorParaEnvidoDe_</code> que describa el número que aporta la carta dada en el canto del envido. El número se corresponde al número de la carta, si la misma no es figura, y cero, si fuera figura.<br>"+atención+": Si ya sabe jugar al truco, tenga en cuenta que se está preguntando el valor que aportaría una única carta, no una jugada de multiples cartas."),
     "pre":pre10_3_tipos,
     "run_data":[
-      validarNumEnCelda("valorParaEnvidoDe_("+carta(3,"Copas")+")",3,v),
-      validarNumEnCelda("valorParaEnvidoDe_("+carta(6,"Oros")+")",6,v),
-      validarNumEnCelda("valorParaEnvidoDe_("+carta(11,"Espadas")+")",0,v)
+      validarNum("valorParaEnvidoDe_("+carta(3,"Copas")+")",3),
+      validarNum("valorParaEnvidoDe_("+carta(6,"Oros")+")",6),
+      validarNum("valorParaEnvidoDe_("+carta(11,"Espadas")+")",0)
     ],
     "disponible":{"desde":fecha}
   }
@@ -6425,8 +6425,8 @@ def guia10_ej3j(fecha):
     "enunciado": e10_3("<code>mayorValorEntre_Y_</code> que describe el valor más grande entre dos cartas, según lo que aporta cada una para el envido. Por ejemplo, si las cartas son un 7 y un 12, describe 7, pues el 12 no aporta nada para el envido."),
     "pre":pre10_3_tipos,
     "run_data":[
-      validarNumEnCelda("mayorValorEntre_Y_("+carta(3,"Copas")+","+carta(6,"Oros")+")",6,v),
-      validarNumEnCelda("mayorValorEntre_Y_("+carta(10,"Copas")+","+carta(4,"Oros")+")",4,v)
+      validarNum("mayorValorEntre_Y_("+carta(3,"Copas")+","+carta(6,"Oros")+")",6),
+      validarNum("mayorValorEntre_Y_("+carta(10,"Copas")+","+carta(4,"Oros")+")",4)
     ],
     "disponible":{"desde":fecha}
   }
@@ -6439,9 +6439,9 @@ def guia10_ej3k(fecha):
     "enunciado": e10_3("<code>sumaParaElEnvidoCon_Y_</code> que dadas dos cartas, describe el número que tienen las mismas para el envido. El envido se calcula como la suma los valores del envido de cada carta más 20, si las cartas son del mismo palo, o como el mayor valor entre ellas, cuando son de distinto palo."),
     "pre":pre10_3_tipos,
     "run_data":[
-      validarNumEnCelda("sumaParaElEnvidoCon_Y_("+carta(3,"Copas")+","+carta(6,"Oros")+")",6,v),
-      validarNumEnCelda("sumaParaElEnvidoCon_Y_("+carta(5,"Oros")+","+carta(6,"Oros")+")",31,v),
-      validarNumEnCelda("sumaParaElEnvidoCon_Y_("+carta(5,"Oros")+","+carta(12,"Oros")+")",25,v)
+      validarNum("sumaParaElEnvidoCon_Y_("+carta(3,"Copas")+","+carta(6,"Oros")+")",6),
+      validarNum("sumaParaElEnvidoCon_Y_("+carta(5,"Oros")+","+carta(6,"Oros")+")",31),
+      validarNum("sumaParaElEnvidoCon_Y_("+carta(5,"Oros")+","+carta(12,"Oros")+")",25)
     ],
     "disponible":{"desde":fecha}
   }
@@ -6723,10 +6723,10 @@ def guia10_ej6c(fecha):
     "enunciado": e10_6("<code>categoríaDelPuesto_</code>, que dado un valor de tipo puesto devuelve su categoría según la siguiente tabla:"+tablaHtml([["GestorDeProyecto", "4"],["LíderDeProyecto", "3"],["Desarrollador", "2"],["Operador", "1"]])),
     "pre":pre10_6_tipo,
     "run_data":[
-      validarNumEnCelda("categoríaDelPuesto_(GestorDeProyecto)",4,v),
-      validarNumEnCelda("categoríaDelPuesto_(LíderDeProyecto)",3,v),
-      validarNumEnCelda("categoríaDelPuesto_(Desarrollador)",2,v),
-      validarNumEnCelda("categoríaDelPuesto_(Operador)",1,v)
+      validarNum("categoríaDelPuesto_(GestorDeProyecto)",4),
+      validarNum("categoríaDelPuesto_(LíderDeProyecto)",3),
+      validarNum("categoríaDelPuesto_(Desarrollador)",2),
+      validarNum("categoríaDelPuesto_(Operador)",1)
     ],
     "disponible":{"desde":fecha}
   }
@@ -6986,10 +6986,10 @@ def guia10_ej9j(fecha):
     "enunciado": e10_9("<code>cuántosAñosPasaronEntre_Y_</code>, que dadas dos fechas describa el número de años que hay entre las dos fechas (no tiene en cuenta períodos de menos de 1 año -- o sea, si la distancia es menor a 1 año, describe 0)."),
     "pre":pre10_9_tipo,
     "run_data":[
-      validarNumEnCelda('cuántosAñosPasaronEntre_Y_('+f(29,"Abril",1997)+','+f(11,"Diciembre",1997)+')',0,v),
-      validarNumEnCelda('cuántosAñosPasaronEntre_Y_('+f(29,"Abril",1997)+','+f(11,"Marzo",1997)+')',0,v),
-      validarNumEnCelda('cuántosAñosPasaronEntre_Y_('+f(29,"Abril",1997)+','+f(11,"Marzo",1999)+')',2,v),
-      validarNumEnCelda('cuántosAñosPasaronEntre_Y_('+f(29,"Abril",1997)+','+f(11,"Mayo",1999)+')',3,v)
+      validarNum('cuántosAñosPasaronEntre_Y_('+f(29,"Abril",1997)+','+f(11,"Diciembre",1997)+')',0),
+      validarNum('cuántosAñosPasaronEntre_Y_('+f(29,"Abril",1997)+','+f(11,"Marzo",1997)+')',0),
+      validarNum('cuántosAñosPasaronEntre_Y_('+f(29,"Abril",1997)+','+f(11,"Marzo",1999)+')',2),
+      validarNum('cuántosAñosPasaronEntre_Y_('+f(29,"Abril",1997)+','+f(11,"Mayo",1999)+')',3)
     ],
     "disponible":{"desde":fecha}
   }
@@ -7113,6 +7113,9 @@ def guia10(curso, fechaInicio):
     ]
   }
 
+def l(*args):
+  return "[" + ",".join(map(str,args)) + "]"
+
 def guia11_ej1(fecha):
   return {
     "tipo":"CODIGO",
@@ -7120,9 +7123,9 @@ def guia11_ej1(fecha):
     "nombre":"1. Singular",
     "enunciado": "Escribir la función <code>singularCon_</code> que dado un elemento describe la lista que tiene únicamente el elemento dado.",
     "run_data":[
-      validar('singularCon_(Rojo)==[Rojo]'),
-      validar('singularCon_(6)==[6]'),
-      validar('singularCon_([1,2,3])==[[1,2,3]]')
+      validarEq('singularCon_(Rojo)',l("Rojo")),
+      validarEq('singularCon_(6)',l(6)),
+      validarEq('singularCon_('+l(1,2,3)+')',l(l(1,2,3)))
     ],
     "disponible":{"desde":fecha}
   }
@@ -7134,8 +7137,8 @@ def guia11_ej2(fecha):
     "nombre":"2. El segundo",
     "enunciado": "Escribir la función <code>segundoDe_</code> que dada una lista, describe el segundo elemento de la lista. Puede asumir que la lista tiene al menos dos elementos.",
     "run_data":[
-      validar('segundoDe_([Rojo,Azul])==Azul'),
-      validar('segundoDe_([[1,2,3],[4,5,6],[7,8,9]])==[4,5,6]')
+      validarEq('segundoDe_('+l("Rojo","Azul")+')',"Azul"),
+      validarEq('segundoDe_('+l(l(1,2,3),l(4,5,6),l(7,8,9))+')',l(4,5,6))
     ],
     "disponible":{"desde":fecha}
   }
@@ -7147,9 +7150,9 @@ def guia11_ej3(fecha):
     "nombre":"3. Es singular",
     "enunciado": biblioteca+" Escribir la función <code>esSingular_</code> que dada una lista indica si la misma es singular, es decir, si tiene únicamente un elemento. Notar que la función debe ser total.<br>"+resaltado("AYUDA")+": considerar utilizar <code>esVacía</code> en combinación con otras operaciones primitivas para arribar a una solución.",
     "run_data":[
-      validar('esSingular_([Rojo])'),
-      validar('esSingular_([[1,2,3]])'),
-      validarFalso('esSingular_([1,2,3])'),
+      validar('esSingular_('+l("Rojo")+')'),
+      validar('esSingular_('+l(l(1,2,3))+')'),
+      validarFalso('esSingular_('+l(1,2,3)+')'),
       validarFalso('esSingular_([])')
     ],
     "disponible":{"desde":fecha}
@@ -7160,9 +7163,6 @@ def e11_4(s):
 
 pre11_4 = tipos_carta
 
-def l(*args):
-  return "[" + ",".join(args) + "]"
-
 def guia11_ej4a(fecha):
   return {
     "tipo":"CODIGO",
@@ -7171,8 +7171,8 @@ def guia11_ej4a(fecha):
     "enunciado": e11_4("<code>primerCartaDeLaMano_</code>, que dada una “mano” describa la primera carta a jugar."),
     "pre":pre11_4,
     "run_data":[
-      validar('primerCartaDeLaMano_('+l(carta(2,"Oros"))+')=='+carta(2,"Oros")),
-      validar('primerCartaDeLaMano_('+l(carta(4,"Copas"),carta(6,"Espadas"))+')=='+carta(4,"Copas"))
+      validarEq('primerCartaDeLaMano_('+l(carta(2,"Oros"))+')',carta(2,"Oros")),
+      validarEq('primerCartaDeLaMano_('+l(carta(4,"Copas"),carta(6,"Espadas"))+')',carta(4,"Copas"))
     ],
     "disponible":{"desde":fecha}
   }
@@ -7185,8 +7185,8 @@ def guia11_ej4b(fecha):
     "enunciado": e11_4("<code>segundaCartaDeLaMano_</code>, que dada una “mano” describa la segunda carta a jugar."),
     "pre":pre11_4,
     "run_data":[
-      validar('segundaCartaDeLaMano_('+l(carta(2,"Oros"),carta(5,"Copas"))+')=='+carta(5,"Copas")),
-      validar('segundaCartaDeLaMano_('+l(carta(4,"Copas"),carta(11,"Espadas"))+')=='+carta(11,"Espadas"))
+      validarEq('segundaCartaDeLaMano_('+l(carta(2,"Oros"),carta(5,"Copas"))+')',carta(5,"Copas")),
+      validarEq('segundaCartaDeLaMano_('+l(carta(4,"Copas"),carta(11,"Espadas"))+')',carta(11,"Espadas"))
     ],
     "disponible":{"desde":fecha}
   }
@@ -7199,8 +7199,8 @@ def guia11_ej4c(fecha):
     "enunciado": e11_4("<code>tercerCartaDeLaMano_</code>, que dada una “mano” describa la tercera carta a jugar."),
     "pre":pre11_4,
     "run_data":[
-      validar('tercerCartaDeLaMano_('+l(carta(2,"Oros"),carta(5,"Copas"),carta(3,"Bastos"))+')=='+carta(3,"Bastos")),
-      validar('tercerCartaDeLaMano_('+l(carta(4,"Copas"),carta(11,"Espadas"),carta(1,"Espadas"))+')=='+carta(1,"Espadas"))
+      validarEq('tercerCartaDeLaMano_('+l(carta(2,"Oros"),carta(5,"Copas"),carta(3,"Bastos"))+')',carta(3,"Bastos")),
+      validarEq('tercerCartaDeLaMano_('+l(carta(4,"Copas"),carta(11,"Espadas"),carta(1,"Espadas"))+')',carta(1,"Espadas"))
     ],
     "disponible":{"desde":fecha}
   }
@@ -7213,21 +7213,21 @@ def guia11_ej4d(fecha):
     "enunciado": e11_4("<code>laMano_LuegoDeRobarUnaCartaDe_</code>, que dada una “mano” y un “mazo” describe la mano resultante luego de robar la primera carta del mazo y agregarla a la mano del jugador."),
     "pre":pre11_4,
     "run_data":[
-      validar('laMano_LuegoDeRobarUnaCartaDe_('+
+      validarEq('laMano_LuegoDeRobarUnaCartaDe_('+
         l(carta(2,"Oros"),carta(3,"Copas"))+
       ','+
         l(carta(5,"Espadas"),carta(6,"Copas"),carta(2,"Bastos"))+
-      ')=='+l(carta(2,"Oros"),carta(3,"Copas"),carta(5,"Espadas"))),
-      validar('laMano_LuegoDeRobarUnaCartaDe_('+
+      ')',l(carta(2,"Oros"),carta(3,"Copas"),carta(5,"Espadas"))),
+      validarEq('laMano_LuegoDeRobarUnaCartaDe_('+
         l(carta(12,"Bastos"),carta(7,"Espadas"))+
       ','+
         l(carta(1,"Oros"))+
-      ')=='+l(carta(12,"Bastos"),carta(7,"Espadas"),carta(1,"Oros"))),
-      validar('laMano_LuegoDeRobarUnaCartaDe_('+
+      ')',l(carta(12,"Bastos"),carta(7,"Espadas"),carta(1,"Oros"))),
+      validarEq('laMano_LuegoDeRobarUnaCartaDe_('+
         l()+
       ','+
         l(carta(3,"Espadas"))+
-      ')=='+l(carta(3,"Espadas")))
+      ')',l(carta(3,"Espadas")))
     ],
     "disponible":{"desde":fecha}
   }
@@ -7240,12 +7240,12 @@ def guia11_ej4e(fecha):
     "enunciado": e11_4("<code>laMano_LuegoDeJugarUnaCarta</code>, que dada una “mano”, describe la mano resultante luego de jugar la próxima carta de la mano."),
     "pre":pre11_4,
     "run_data":[
-      validar('laMano_LuegoDeJugarUnaCarta('+
+      validarEq('laMano_LuegoDeJugarUnaCarta('+
         l(carta(2,"Bastos"),carta(5,"Espadas"),carta(6,"Copas"))+
-      ')=='+l(carta(5,"Espadas"),carta(6,"Copas"))),
-      validar('laMano_LuegoDeJugarUnaCarta('+
+      ')',l(carta(5,"Espadas"),carta(6,"Copas"))),
+      validarEq('laMano_LuegoDeJugarUnaCarta('+
         l(carta(7,"Oros"),carta(2,"Oros"),carta(10,"Bastos"))+
-      ')=='+l(carta(2,"Oros"),carta(10,"Bastos")))
+      ')',l(carta(2,"Oros"),carta(10,"Bastos")))
     ],
     "disponible":{"desde":fecha}
   }
@@ -7258,12 +7258,393 @@ def guia11_ej4f(fecha):
     "enunciado": e11_4("<code>laMano_LuegoDeJugarLaSegundaCarta</code>, que dada una “mano”, describe la mano resultante luego de jugar exclusivamente la segunda de las cartas."),
     "pre":pre11_4,
     "run_data":[
-      validar('laMano_LuegoDeJugarLaSegundaCarta('+
+      validarEq('laMano_LuegoDeJugarLaSegundaCarta('+
         l(carta(2,"Bastos"),carta(5,"Espadas"),carta(6,"Copas"))+
-      ')=='+l(carta(2,"Bastos"),carta(6,"Copas"))),
-      validar('laMano_LuegoDeJugarLaSegundaCarta('+
+      ')',l(carta(2,"Bastos"),carta(6,"Copas"))),
+      validarEq('laMano_LuegoDeJugarLaSegundaCarta('+
         l(carta(7,"Oros"),carta(2,"Oros"),carta(10,"Bastos"))+
-      ')=='+l(carta(7,"Oros"),carta(10,"Bastos")))
+      ')',l(carta(7,"Oros"),carta(10,"Bastos")))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def e11_5(s):
+  return "Para un juego particular se necesita armar “tiras” de cartas. Una tira de cartas es una secuencia de cartas en orden creciente, es decir, una lista con un orden particular. Para agregar una carta a una tira (al comienzo de la misma), esta debe ser de diferente palo y de número menor a la primera carta de la tira. Se pide entonces que escriba la siguiente función:<br><br>"+s
+
+pre11_5 = tipos_carta
+
+def guia11_ej5a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej5a",
+    "nombre":"5. La tira de cartas (a)",
+    "enunciado": e11_5("<code>primerasTresCartasDeLaTira_</code>, que dada una “tira”, describe una lista con las primeras 3 cartas de la misma."),
+    "pre":pre11_5,
+    "run_data":[
+      validarEq('primerasTresCartasDeLaTira_('+
+        l(carta(2,"Bastos"),carta(5,"Espadas"),carta(6,"Copas"))+
+      ')',l(carta(2,"Bastos"),carta(5,"Espadas"),carta(6,"Copas"))),
+      validarEq('primerasTresCartasDeLaTira_('+
+        l(carta(2,"Espadas"),carta(3,"Oros"),carta(4,"Bastos"),carta(5,"Espadas"),carta(6,"Copas"))+
+      ')',l(carta(2,"Espadas"),carta(3,"Oros"),carta(4,"Bastos")))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej5b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej5b",
+    "nombre":"5. La tira de cartas (b)",
+    "enunciado": e11_5("<code>laMano_TieneJugadaParaAgregarALaTira_</code>, que dada una mano y una tira, indique si la primera carta que puede jugar el jugador puede ser agregada en la tira o no."),
+    "pre":pre11_5,
+    "run_data":[
+      validar('laMano_TieneJugadaParaAgregarALaTira_('+
+        l(carta(2,"Oros"),carta(2,"Espadas"),carta(10,"Copas"))+
+      ','+
+        l(carta(3,"Bastos"),carta(6,"Espadas"),carta(7,"Oros"))+
+      ')'),
+      validarFalso('laMano_TieneJugadaParaAgregarALaTira_('+
+        l(carta(2,"Oros"),carta(2,"Espadas"),carta(10,"Copas"))+
+      ','+
+        l(carta(3,"Oros"),carta(6,"Espadas"),carta(7,"Bastos"))+
+      ')'),
+      validarFalso('laMano_TieneJugadaParaAgregarALaTira_('+
+        l(carta(11,"Oros"),carta(2,"Espadas"),carta(10,"Copas"))+
+      ','+
+        l(carta(3,"Bastos"),carta(6,"Espadas"),carta(10,"Bastos"))+
+      ')'),
+      validarFalso('laMano_TieneJugadaParaAgregarALaTira_('+
+        l()+
+      ','+
+        l(carta(6,"Espadas"))+
+      ')')
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej5c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej5c",
+    "nombre":"5. La tira de cartas (c)",
+    "enunciado": e11_5("<code>laTira_DespuésDeJugar_</code>, que dada una tira de cartas y una carta que cumple las condiciones para ser agregada en la misma, describa la tira que resulta de jugar esa carta en esa tira."),
+    "pre":pre11_5,
+    "run_data":[
+      validarEq('laTira_DespuésDeJugar_('+
+        l(carta(2,"Bastos"),carta(5,"Espadas"),carta(6,"Copas"))+
+        ','+carta(1,"Espadas")+
+      ')',l(carta(1,"Espadas"),carta(2,"Bastos"),carta(5,"Espadas"),carta(6,"Copas"))),
+      validarEq('laTira_DespuésDeJugar_('+
+        l(carta(4,"Bastos"),carta(7,"Espadas"),carta(11,"Copas"))+
+        ','+carta(2,"Oros")+
+      ')',l(carta(2,"Oros"),carta(4,"Bastos"),carta(7,"Espadas"),carta(11,"Copas")))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def e11_6(s):
+  return "Queremos modelar unas pistas de carreras de un juego, para lo cual vamos a utilizar una lista de direcciones. La pista podemos pensarla entonces como dividida en tramos, donde cada tramo va a es la conjunción de dos elementos de la lista. Por ejemplo, la pista [Norte, Norte, Este, Este] es una pista con tres tramos, el primero es una recta, Norte-Norte, el segundo es una curva a la derecha, Norte-Este, y el tercero otra recta al Este, Este-Este.<br><br>Vamos a decir que el “siguiente tramo” es el primero de los tramos de una pista. Pedimos entonces que escriba la siguiente función:<br><br>"+s
+
+def guia11_ej6a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej6a",
+    "nombre":"6. Pistas de carreras (a)",
+    "enunciado": e11_6("<code>sigueRectaEn_</code>, que dada una pista que tiene un siguiente tramo, indique si el siguiente tramo es una recta."),
+    "run_data":[
+      validar('sigueRectaEn_('+
+        l("Este","Este")+
+      ')'),
+      validar('sigueRectaEn_('+
+        l("Sur","Sur","Norte")+
+      ')'),
+      validarFalso('sigueRectaEn_('+
+        l("Norte","Sur","Norte")+
+      ')')
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej6b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej6b",
+    "nombre":"6. Pistas de carreras (b)",
+    "enunciado": e11_6("<code>sigueCurvaADerechaEn_</code>, que dada una pista que tiene un siguiente tramo, indica si el siguiente tramo es una curva a la derecha."),
+    "run_data":[
+      validar('sigueCurvaADerechaEn_('+
+        l("Norte","Este")+
+      ')'),
+      validar('sigueCurvaADerechaEn_('+
+        l("Este","Sur","Sur")+
+      ')'),
+      validar('sigueCurvaADerechaEn_('+
+        l("Sur","Oeste","Este")+
+      ')'),
+      validarFalso('sigueCurvaADerechaEn_('+
+        l("Oeste","Sur","Sur")+
+      ')')
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej6c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej6c",
+    "nombre":"6. Pistas de carreras (c)",
+    "enunciado": e11_6("<code>sigueCurvaAIzquierdaEn_</code>, que dada una pista que tiene un siguiente tramo, indica si el siguiente tramo es una curva a la izquierda."),
+    "run_data":[
+      validar('sigueCurvaAIzquierdaEn_('+
+        l("Norte","Oeste")+
+      ')'),
+      validar('sigueCurvaAIzquierdaEn_('+
+        l("Sur","Este","Este")+
+      ')'),
+      validarFalso('sigueCurvaAIzquierdaEn_('+
+        l("Oeste","Oeste","Sur")+
+      ')')
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej6d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej6d",
+    "nombre":"6. Pistas de carreras (d)",
+    "enunciado": e11_6("<code>hayUnSiguienteTramoEn_</code>, que dada una pista indique si la misma tiene un siguiente tramo. La función debe ser total."),
+    "run_data":[
+      validar('hayUnSiguienteTramoEn_('+
+        l("Norte","Oeste")+
+      ')'),
+      validar('hayUnSiguienteTramoEn_('+
+        l("Este","Sur","Sur")+
+      ')'),
+      validarFalso('hayUnSiguienteTramoEn_('+
+        l("Este")+
+      ')'),
+      validarFalso('hayUnSiguienteTramoEn_('+
+        l()+
+      ')')
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej6e(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej6e",
+    "nombre":"6. Pistas de carreras (e)",
+    "enunciado": e11_6("<code>sigueUnaCurvaEn_</code>, que dada una pista indique si el siguiente tramo es una curva. La función debe ser total."),
+    "run_data":[
+      validar('sigueUnaCurvaEn_('+
+        l("Norte","Oeste")+
+      ')'),
+      validar('sigueUnaCurvaEn_('+
+        l("Norte","Este")+
+      ')'),
+      validarFalso('sigueUnaCurvaEn_('+
+        l("Norte","Norte")+
+      ')'),
+      validarFalso('sigueUnaCurvaEn_('+
+        l("Norte")+
+      ')'),
+      validarFalso('sigueUnaCurvaEn_('+
+        l()+
+      ')')
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej6f(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej6f",
+    "nombre":"6. Pistas de carreras (f)",
+    "enunciado": e11_6("<code>siguienteTramoEn_EsVálido</code>, que dada una pista que tiene un siguiente tramo, indique si el mismo es válido. Un tramo válido es una recta o una curva."),
+    "run_data":[
+      validar('siguienteTramoEn_EsVálido('+
+        l("Norte","Oeste")+
+      ')'),
+      validar('siguienteTramoEn_EsVálido('+
+        l("Sur","Oeste")+
+      ')'),
+      validarFalso('siguienteTramoEn_EsVálido('+
+        l("Norte","Sur")+
+      ')')
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej7(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej7",
+    "nombre":"7. Todos igualitos",
+    "enunciado": biblioteca + " Escribir la función <code>listaCon_Repetido_Veces</code> que dado un elemento de cualquier tipo y un número, describe una lista que tiene tantos elementos como el número dado, en donde cada elemento es el dado.<br><br>"+resaltado("Ejemplo")+": <code>listaCon_Repetido_Veces(Rojo, 4)</code> describe la lista <code>[Rojo, Rojo, Rojo, Rojo]</code>.",
+    "run_data":[
+      validarEq('listaCon_Repetido_Veces(Rojo,4)',l("Rojo","Rojo","Rojo","Rojo")),
+      validarEq('listaCon_Repetido_Veces(Este,6)',l("Este","Este","Este","Este","Este","Este"))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej8(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej8",
+    "nombre":"8. Todos seguiditos",
+    "enunciado": biblioteca + " Escribir la función <code>listaDesde_Hasta_</code> que dados dos enumerativos (por ejemplo, números), en donde el primero es más chico que el segundo, describe la lista que va del primero de los elementos, al segundo de los elementos, pasando por cada elemento intermedio.<br><br>"+resaltado("Ejemplo")+": <code>listaDesde_Hasta_(3, 7)</code> describe la lista <code>[3, 4, 5, 6, 7]</code>, y <code>listaDesde_Hasta_(Azul, Rojo)</code> describe la lista <code>[Azul, Negro, Rojo]</code>.",
+    "run_data":[
+      validarEq('listaDesde_Hasta_(2,2)',l(2)),
+      validarEq('listaDesde_Hasta_(3,7)',l(3,4,5,6,7)),
+      validarEq('listaDesde_Hasta_(Azul,Rojo)',l("Azul","Negro","Rojo"))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej9(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej9",
+    "nombre":"9. Vacía o con cosas",
+    "enunciado": biblioteca + " Escribir la función <code>singular_Si_</code> que dado un elemento de cualquier tipo, y un booleano que actúa de condición, describe una lista del tipo del elemento dado con las siguientes características. Si el booleano dado es verdadero, entonces la lista será una lista con un único elemento, el dado. Si en cambio es falso, será una lista vacía",
+    "run_data":[
+      validarEq('singular_Si_(Rojo,False)',l()),
+      validarEq('singular_Si_([3],True)',l(l(3)))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej10(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej10",
+    "nombre":"10. ¿Cuántos son?",
+    "enunciado": biblioteca + " Escribir la función <code>longitudDe_</code>, que dada una lista cualquiera, describa la cantidad de elementos de la misma.<br>"+resaltado("Ejemplo")+": <code>longitudDe_([Azul,Azul,Verde,Rojo])</code> describe 4.",
+    "run_data":[
+      validarNum('longitudDe_('+l(2,2,5,6,3)+')',5),
+      validarNum('longitudDe_('+l()+')',0)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej11(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej11",
+    "nombre":"11. ¿Y cuánto suman?",
+    "enunciado": biblioteca + " Escribir la función <code>sumatoriaDe_</code>, que dada una lista de números, describa la suma de todos los elementos de la misma.<br>"+resaltado("Ejemplo")+": <code>sumatoriaDe_([1,10,15,7,9])</code> describe el número 42, porque 1+10+15+7+9 es igual a 42.",
+    "run_data":[
+      validarNum('sumatoriaDe_('+l()+')',0),
+      validarNum('sumatoriaDe_('+l(93)+')',93),
+      validarNum('sumatoriaDe_('+l(2,8,5)+')',15)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej12(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej12",
+    "nombre":"12. ¿Y cuánto multiplican?",
+    "enunciado": biblioteca + " Escribir la función <code>productoriaDe_</code>, que dada una lista de números, describa el producto de todos los elementos de la misma.<br>"+resaltado("Ejemplo")+": <code>productoriaDe_([1,5,7,9])</code> describe el número 315, porque 1*5*7*9 es igual a 315.",
+    "run_data":[
+      validarNum('productoriaDe_('+l()+')',1),
+      validarNum('productoriaDe_('+l(2,4)+')',8),
+      validarNum('productoriaDe_('+l(9)+')',9)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej13(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej13",
+    "nombre":"13. Puntaje de cartas",
+    "enunciado": "Escribir la función <code>puntosEn_</code>, que dada una mano (lista de Carta) describe la cantidad de puntos que el jugador tiene en su mano, donde:<ul><li>Cada carta otorga tantos puntos como el número de la carta</li><li>Las cartas que son figuras otorgan todas 20 puntos.</li></ul>",
+    "pre":tipos_carta,
+    "run_data":[
+      validarNum('puntosEn_('+l()+')',0),
+      validarNum('puntosEn_('+l(carta(11,'Oros'))+')',20),
+      validarNum('puntosEn_('+l(carta(3,'Oros'),carta(5,'Espadas'))+')',8)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej14(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej14",
+    "nombre":"14. Aumentados",
+    "enunciado": ["Escribir la función <code>elementosDe_aumentadosEn_</code>, que dada una lista de números, y un número que representa una cantidad a aumentar, describe la lista en donde cada elemento fue aumentado en la cantidad dada",{"tex":"^1"},".<br>"+resaltado("Ejemplo")+": <code>elementosDe_aumentadosEn_([1,5,7,9], 3)</code> describe la lista <code>[4,8,10,12]</code>.<br><br>1: Cuando decimos “donde cada elemento...”, hacemos un pequeño abuso del lenguaje, para referirnos a que hay un vínculo entre la lista dada como parámetro (lista original) y la que la función va a describir (lista resultado), para cada uno de sus elementos, en cada una de las posiciones. Por ejemplo, sí decimos “donde cada elemento está aumentado en uno”, podemos decir que la lista resultado y la lista original tienen que tener la misma cantidad de elementos, y para la cada ubicación de la lista resultado, el elemento allí debe corresponderse al elemento en la misma posición en la lista original, pero sumado en uno, por ej. sí la lista original es [1, 2, 3] la lista resultado deberá ser [2, 3, 4]."],
+    "run_data":[
+      validarEq('elementosDe_aumentadosEn_('+l()+',5)',l()),
+      validarEq('elementosDe_aumentadosEn_('+l(2,3,7)+',0)',l(2,3,7)),
+      validarEq('elementosDe_aumentadosEn_('+l(6,12,4)+',7)',l(13,19,11))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej15(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej15",
+    "nombre":"15. Opuestos",
+    "enunciado": biblioteca+" Escribir la función <code>opuestasDe_</code>, que dada una lista de direcciones describe la lista donde cada elemento es la dirección opuesta a la misma.<br>"+resaltado("Ejemplo")+": <code>opuestasDe_([Norte, Este, Este])</code> describe la lista <code>[Sur, Oeste, Oeste]</code>.",
+    "run_data":[
+      validarEq('opuestasDe_('+l()+')',l()),
+      validarEq('opuestasDe_('+l("Norte")+')',l("Sur")),
+      validarEq('opuestasDe_('+l("Norte","Oeste","Oeste")+')',l("Sur","Este","Este"))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej16(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej16",
+    "nombre":"16. Siguientes",
+    "enunciado": biblioteca+" Escribir la función <code>siguientesDe_</code>, que dada una lista de elementos de algún tipo enumerativo primitivo (Color, Dirección, Número, Booleano) describe la lista donde cada elemento es el siguiente del dado.<br>"+resaltado("Ejemplo")+": <code>siguientesDe_([Norte, Este, Este])</code> describe la lista <code>[Este, Sur, Sur]</code> y <code>siguientesDe_([Rojo, Azul, Verde, Azul])</code> describe la lista <code>[Verde, Negro, Azul, Negro]</code>.",
+    "run_data":[
+      validarEq('siguientesDe_('+l()+')',l()),
+      validarEq('siguientesDe_('+l("Norte")+')',l("Este")),
+      validarEq('siguientesDe_('+l("Rojo","Verde")+')',l("Verde","Azul"))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej17(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej17",
+    "nombre":"17. El toque de Midas",
+    "enunciado": "Escribir la función <code>transformadasTodasEnOro_</code>, que dada una lista de cartas describe la lista donde cada elemento es la misma carta, pero de Oros. Por ejemplo, si la lista tiene el 7 de Bastos y el 3 de Espadas, se debe devolver la lista con el 7 de Oros y el 3 de Oros.",
+    "pre":tipos_carta,
+    "run_data":[
+      validarEq('transformadasTodasEnOro_('+l()+')',l()),
+      validarEq('transformadasTodasEnOro_('+l(carta(6,"Oros"))+')',l(carta(6,"Oros"))),
+      validarEq('transformadasTodasEnOro_('+l(carta(11,"Bastos"))+')',l(carta(11,"Oros"))),
+      validarEq('transformadasTodasEnOro_('+
+        l(carta(3,"Espadas"),carta(7,"Copas"),carta(4,"Oros"),carta(4,"Espadas"))+
+      ')',l(carta(3,"Oros"),carta(7,"Oros"),carta(4,"Oros"),carta(4,"Oros")))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej18(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej18",
+    "nombre":"18. Reverso",
+    "enunciado": biblioteca+" Escribir la función <code>reversoDe_</code>, que dada una lista describe su reverso.<br>"+resaltado("Ejemplo")+": <code>reversoDe_([Rojo, Azul, Negro, Verde])</code> describe la lista <code>[Verde, Negro, Azul, Rojo]</code>.",
+    "run_data":[
+      validarEq('reversoDe_('+l()+')',l()),
+      validarEq('reversoDe_('+l(1)+')',l(1)),
+      validarEq('reversoDe_('+l("Rojo","Verde")+')',l("Verde","Rojo")),
+      validarEq('reversoDe_('+l(6,3,11)+')',l(11,3,6))
     ],
     "disponible":{"desde":fecha}
   }
@@ -7284,7 +7665,28 @@ def guia11(curso, fechaInicio):
       guia11_ej4c(fechaInicio),
       guia11_ej4d(fechaInicio),
       guia11_ej4e(fechaInicio),
-      guia11_ej4f(fechaInicio)
+      guia11_ej4f(fechaInicio),
+      guia11_ej5a(fechaInicio),
+      guia11_ej5b(fechaInicio),
+      guia11_ej5c(fechaInicio),
+      guia11_ej6a(fechaInicio),
+      guia11_ej6b(fechaInicio),
+      guia11_ej6c(fechaInicio),
+      guia11_ej6d(fechaInicio),
+      guia11_ej6e(fechaInicio),
+      guia11_ej6f(fechaInicio),
+      guia11_ej7(fechaInicio),
+      guia11_ej8(fechaInicio),
+      guia11_ej9(fechaInicio),
+      guia11_ej10(fechaInicio),
+      guia11_ej11(fechaInicio),
+      guia11_ej12(fechaInicio),
+      guia11_ej13(fechaInicio),
+      guia11_ej14(fechaInicio),
+      guia11_ej15(fechaInicio),
+      guia11_ej16(fechaInicio),
+      guia11_ej17(fechaInicio),
+      guia11_ej18(fechaInicio)
     ]
   }
 

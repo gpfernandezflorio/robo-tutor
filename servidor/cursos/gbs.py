@@ -93,6 +93,9 @@ def validarNumEnCelda(expresión, n, celda):
     "tf":{"head":[0,0],"width":1,"height":1,"board":[[celdaCambiadaPorNúmero(celda, n)]]}
   }
 
+def validarNum(expresión, n):
+  return validarNumEnCelda(expresión, n, v)
+
 def validarNumEnTablero(expresión, n, t0):
   head = t0["head"]
   width = t0["width"]
@@ -195,3 +198,6 @@ def validar(expresión, pre=""):
 
 def validarFalso(expresión, pre=""):
   return validarBoolEnCelda(expresión, False, v, pre)
+
+def validarEq(expresión, resultado):
+  return validar(expresión+"=="+resultado)
