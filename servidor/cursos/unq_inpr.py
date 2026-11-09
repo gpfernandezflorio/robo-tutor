@@ -7649,6 +7649,514 @@ def guia11_ej18(fecha):
     "disponible":{"desde":fecha}
   }
 
+def guia11_ej19(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej19",
+    "nombre":"19. Solo los pares",
+    "enunciado": ["Escribir la función <code>paresDe_</code>, que dada una lista de números describe una lista solo con los pares de dicha lista",{"tex":"^2"},".<br>"+resaltado("Ejemplo")+": <code>paresDe_([1, 4, 2, 3, 7, 8, 9])</code> describe la lista <code>[4, 2, 8]</code>.<br><br>2: De la misma forma que antes, cuando decimos “solo con...” nos referimos a que la lista resultado debe tener solo algunos de los elementos que estaban en la lista original, pero otros no, y donde el orden en el que aparecen esos elementos es el mismo en el que aparecían en la lista original."],
+    "run_data":[
+      validarEq('paresDe_('+l()+')',l()),
+      validarEq('paresDe_('+l(1)+')',l()),
+      validarEq('paresDe_('+l(4,8)+')',l(4,8)),
+      validarEq('paresDe_('+l(1,6,3,11,2,1,2)+')',l(6,2,2))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej20(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej20",
+    "nombre":"20. Solo los impares",
+    "enunciado": "Escribir la función <code>imparesDe_</code>, que dada una lista de números describe una lista solo con los impares de dicha lista.<br>"+resaltado("Ejemplo")+": <code>imparesDe_([1, 4, 2, 3, 7, 8, 9])</code> describe la lista <code>[1, 3, 7, 9]</code>.",
+    "run_data":[
+      validarEq('imparesDe_('+l()+')',l()),
+      validarEq('imparesDe_('+l(12)+')',l()),
+      validarEq('imparesDe_('+l(3,5)+')',l(3,5)),
+      validarEq('imparesDe_('+l(1,6,3,11,2,1,2)+')',l(1,3,11,1))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej21(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej21",
+    "nombre":"21. Sacando elementos",
+    "enunciado": biblioteca+" Escribir la función <code>elementosDe_SinAparicionesDe_</code>, que dada una lista de elementos de cualquier tipo y un elemento, describe una lista solo con los elementos de la lista original que no son el elemento dado, es decir, la lista donde se quitaron todas las apariciones del elemento dado.<br>"+resaltado("Ejemplo")+": <code>elementosDe_SinAparicionesDe_([1, 4, 1, 3, 1, 8, 9], 1)</code> describe la lista <code>[4, 3, 8, 9]</code>.",
+    "run_data":[
+      validarEq('elementosDe_SinAparicionesDe_('+l()+',7)',l()),
+      validarEq('elementosDe_SinAparicionesDe_('+l(1)+',7)',l(1)),
+      validarEq('elementosDe_SinAparicionesDe_('+l(1)+',1)',l()),
+      validarEq('elementosDe_SinAparicionesDe_('+l("Rojo","Verde")+',Azul)',l("Rojo","Verde")),
+      validarEq('elementosDe_SinAparicionesDe_('+l("Rojo","Verde","Rojo","Azul")+',Rojo)',l("Verde","Azul")),
+      validarEq('elementosDe_SinAparicionesDe_('+l(2,2,2)+',2)',l())
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej22(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej22",
+    "nombre":"22. Sacando cartas",
+    "enunciado": "Escribir la función <code>soloLasFigurasDe_</code>, que dada una lista de cartas, describe una lista solo con aquellas cartas que son figuras.",
+    "pre":tipos_carta,
+    "run_data":[
+      validarEq('soloLasFigurasDe_('+l()+')',l()),
+      validarEq('soloLasFigurasDe_('+l(carta(2,"Espadas"))+')',l()),
+      validarEq('soloLasFigurasDe_('+l(carta(12,"Espadas"))+')',l(carta(12,"Espadas"))),
+      validarEq('soloLasFigurasDe_('+
+        l(carta(2,"Espadas"),carta(3,"Oros"),carta(12,"Copas"),carta(11,"Espadas"))+')',
+        l(carta(12,"Copas"),carta(11,"Espadas"))
+      )
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej23(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej23",
+    "nombre":"23. ¿Está o no está?",
+    "enunciado": biblioteca+" Escribir la función <code>contiene_A_</code>, que dada una lista de elementos de cualquier tipo, y un elemento, indica si el elemento dado está en la lista.<br>"+resaltado("Ejemplo")+": <code>contiene_A_([1, 4, 2, 3, 7, 8, 9], 3)</code> describe verdadero, ya que 3 está en la lista, mientras que <code>contiene_A_([1, 4, 2, 3, 7, 8, 9], 6)</code> describe falso, ya que 6 no está en la lista.",
+    "run_data":[
+      validarFalso('contiene_A_('+l()+',7)'),
+      validar('contiene_A_('+l("Este")+',Este)'),
+      validar('contiene_A_('+l("Sur","Este")+',Este)'),
+      validar('contiene_A_('+l("Negro","Rojo","Verde","Rojo","Azul")+',Rojo)'),
+      validarFalso('contiene_A_('+l("Azul","Rojo","Verde","Rojo","Azul")+',Negro)'),
+      validarFalso('contiene_A_('+l(6,5,2,8,2,1)+',7)')
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej24(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej24",
+    "nombre":"24. Dónde está",
+    "enunciado": biblioteca+" Escribir la función <code>índiceEn_De_</code>, que dada una lista de elementos de cualquier tipo, y un elemento, describe la primera ubicación de la lista en la que se encuentra dicho elemento. Puede asumir que el elemento está en la lista.<br>"+resaltado("Ejemplo")+": <code>índiceEn_De_([1, 4, 2, 3, 7, 3, 9], 3)</code> describe 4, ya que 3 está en la cuarta posición de la lista, mientras que <code>índiceEn_De_([1, 4, 2, 3, 7, 3, 9], 4)</code> describe 2, ya que 4 está en la segunda posición de la lista.",
+    "run_data":[
+      validarNum('índiceEn_De_('+l(7)+',7)',1),
+      validarNum('índiceEn_De_('+l(2,6,2,8)+',2)',1),
+      validarNum('índiceEn_De_('+l(1,2,3,1,2,3)+',3)',3)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej25(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej25",
+    "nombre":"25. Ni grande, ni chico",
+    "enunciado": "Escribir la función <code>hayAlgunoDe_Entre_Y_</code>, que dada una lista de números y dos números que describen la cota mínima y máxima respectivamente, indica si algún elemento de la lista dada está entre la cota dada, inclusive.<br>"+resaltado("Ejemplo")+": <code>hayAlgunoDe_Entre_Y_([1, 4, 8], 3, 5)</code> describe verdadero, ya que 4 está entre 3 y 5.",
+    "run_data":[
+      validarFalso('hayAlgunoDe_Entre_Y_('+l()+',3,5)'),
+      validar('hayAlgunoDe_Entre_Y_('+l(4)+',3,5)'),
+      validarFalso('hayAlgunoDe_Entre_Y_('+l(4)+',6,7)'),
+      validar('hayAlgunoDe_Entre_Y_('+l(4,5,6)+',6,7)'),
+      validar('hayAlgunoDe_Entre_Y_('+l(4,5,6,7,8,3,4,5,6,7,8)+',2,3)'),
+      validarFalso('hayAlgunoDe_Entre_Y_('+l(4,5,6,7,8,3,4,5,6,7,8)+',9,12)')
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej26(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej26",
+    "nombre":"26. Se carteó",
+    "enunciado": "Escribir la función <code>hayAlgúnAsEn_</code>, que dada una lista de cartas, indica si en dicha lista hay alguna que sea un as (un 1).",
+    "pre":tipos_carta,
+    "run_data":[
+      validarFalso('hayAlgúnAsEn_('+l()+')'),
+      validar('hayAlgúnAsEn_('+l(carta(1,"Oros"))+')'),
+      validar('hayAlgúnAsEn_('+l(carta(5,"Espadas"),carta(6,"Bastos"),carta(1,"Oros"),carta(10,"Bastos"))+')'),
+      validarFalso('hayAlgúnAsEn_('+l(carta(5,"Espadas"),carta(6,"Bastos"),carta(11,"Oros"),carta(10,"Bastos"))+')')
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej27(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej27",
+    "nombre":"27. El más chico de la lista",
+    "enunciado": biblioteca+" Escribir la función <code>minimoElementoEn_</code>, que dada una lista de números describe el número más chico en la lista.<br>"+resaltado("Ejemplo")+": <code>minimoElementoEn_([5, 4, 2, 3, 7, 8, 9])</code> describe 2.",
+    "run_data":[
+      validarNum('minimoElementoEn_('+l(7)+')',7),
+      validarNum('minimoElementoEn_('+l(6,8,12,5,8,10)+')',5),
+      validarNum('minimoElementoEn_('+l(6,8,12,5,8,10,3)+')',3)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej28(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej28",
+    "nombre":"28. El más grande de la lista",
+    "enunciado": biblioteca+" Escribir la función <code>máximoElementoEn_</code>, que dada una lista de números describe el número más grande en la lista.<br>"+resaltado("Ejemplo")+": <code>máximoElementoEn_([5, 4, 2, 3, 7, 8, 9])</code> describe 9.",
+    "run_data":[
+      validarNum('máximoElementoEn_('+l(7)+')',7),
+      validarNum('máximoElementoEn_('+l(6,8,12,5,8,10)+')',12),
+      validarNum('máximoElementoEn_('+l(6,8,12,5,8,10,13)+')',13)
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej29(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej29",
+    "nombre":"29. La mejor carta",
+    "enunciado": "Escribir la función <code>laMejorCartaEn_ParaTira_</code>, que dada una lista de cartas, describe la mejor posible para sumar a una tira. Recordemos que para sumar a una tira se debe jugar una carta que sea menor a la primera de la tira y de distinto palo. Por otro lado, el concepto de mejor está dado por el palo de la carta jugada, donde Oro es la mejor posible, seguido de Copas, luego Espadas y finalmente Bastos.",
+    "pre":tipos_carta,
+    "run_data":[
+      validarEq('laMejorCartaEn_ParaTira_('+
+        l(carta(3,"Oros"),carta(4,"Bastos"))+','+
+        l(carta(6,"Oros"),carta(10,"Copas"))+
+      ')',carta(4,"Bastos")),
+      validarEq('laMejorCartaEn_ParaTira_('+
+        l(carta(12,"Oros"),carta(10,"Bastos"))+','+
+        l(carta(11,"Copas"))+
+      ')',carta(10,"Bastos")),
+      validarEq('laMejorCartaEn_ParaTira_('+
+        l(carta(4,"Copas"),carta(4,"Bastos"))+','+
+        l(carta(6,"Espadas"))+
+      ')',carta(4,"Copas"))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej30(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej30",
+    "nombre":"30. Todos hasta",
+    "enunciado": biblioteca+" Escribir las funciones <code>elementosEn_Hasta_</code> y <code>elementosEn_AntesDe_</code>, que dada una lista de elementos y un índice (posición de la lista), describe la lista de todos los elementos en la original hasta dicho índice (incluyéndolo en la primera y sin incluirlo en la segunda).<br>"+resaltado("Ejemplo")+": <code>elementosEn_Hasta_([5, 4, 2, 3, 7, 8, 9], 4)</code> describe la lista <code>[5, 4, 2, 3]</code>, es decir, todos los elementos hasta la posición 4. <code>elementosEn_AntesDe_([5, 4, 2, 3, 7, 8, 9], 4)</code> describe la lista <code>[5, 4, 2]</code>, es decir, todos los elementos que están antes de la posición 4.",
+    "run_data":[
+      validarEq('elementosEn_Hasta_('+l(5, 4, 2, 3, 7, 8, 9)+',4)',l(5, 4, 2, 3)),
+      validarEq('elementosEn_Hasta_('+l(5, 4, 2, 3)+',4)',l(5, 4, 2, 3)),
+      validarEq('elementosEn_Hasta_('+l(5, 4, 2, 3)+',1)',l(5)),
+      validarEq('elementosEn_AntesDe_('+l(5, 4, 2, 3, 7, 8, 9)+',4)',l(5, 4, 2)),
+      validarEq('elementosEn_AntesDe_('+l(5, 4, 2, 3)+',4)',l(5, 4, 2)),
+      validarEq('elementosEn_AntesDe_('+l(5, 4, 2, 3)+',1)',l())
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej31(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej31",
+    "nombre":"31. Todos desde",
+    "enunciado": biblioteca+" Escribir las funciones <code>elementosEn_Desde_</code> y <code>elementosEn_DespuésDe_</code>, que dada una lista de elementos y un índice (posición de la lista), describe la lista de todos los elementos en la original desde dicho índice (incluyéndolo en la primera y sin incluirlo en la segunda).<br>"+resaltado("Ejemplo")+": <code>elementosEn_Desde_([5, 4, 2, 3, 7, 8, 9], 4)</code> describe la lista <code>[3, 7, 8, 9]</code>, es decir, todos los elementos desde la posición 4. <code>elementosEn_DespuésDe_([5, 4, 2, 3, 7, 8, 9], 4)</code> describe la lista <code>[7, 8, 9]</code>, es decir, todos los elementos que están después de la posición 4.",
+    "run_data":[
+      validarEq('elementosEn_Desde_('+l(5, 4, 2, 3, 7, 8, 9)+',4)',l(3, 7, 8, 9)),
+      validarEq('elementosEn_Desde_('+l(5, 4, 2, 3, 7, 8, 9)+',1)',l(5, 4, 2, 3, 7, 8, 9)),
+      validarEq('elementosEn_Desde_('+l(5, 4, 2, 3)+',4)',l(3)),
+      validarEq('elementosEn_DespuésDe_('+l(5, 4, 2, 3, 7, 8, 9)+',4)',l(7, 8, 9)),
+      validarEq('elementosEn_DespuésDe_('+l(5, 4, 2, 3)+',4)',l())
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej32(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej32",
+    "nombre":"32. Sin elemento",
+    "enunciado": biblioteca+" Escribir la función <code>elementosEn_SinPrimeraApariciónDe_</code>, que dada una lista de elementos y un elemento que puede o no estar en la lista, describe la lista sin la primera aparición de dicho elemento.<br>"+resaltado("Ejemplo")+": <code>elementosEn_SinPrimeraApariciónDe_([5, 4, 2, 3, 4, 8, 9], 4)</code> describe la lista <code>[5, 2, 3, 4, 8, 9]</code>, es decir, todos los elementos menos el primer 4.<br>"+resaltado("Ayuda")+": Puede implementarse mediante la utilización de las funciones previamente realizadas.",
+    "run_data":[
+      validarEq('elementosEn_SinPrimeraApariciónDe_('+l()+',Sur)',l()),
+      validarEq('elementosEn_SinPrimeraApariciónDe_('+l("Rojo","Verde","Negro")+',Azul)',l("Rojo","Verde","Negro")),
+      validarEq('elementosEn_SinPrimeraApariciónDe_('+l(1,2,3,4,5,6,1,2,3,4,5,6)+',5)',l(1,2,3,4,6,1,2,3,4,5,6))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej33(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej33",
+    "nombre":"33. Sacando las copias",
+    "enunciado": biblioteca+" Escribir la función <code>sinDuplicados_</code>, que dada una lista de elementos, describe la lista sin duplicados.<br>"+resaltado("Ejemplo")+": <code>sinDuplicados_([7, 5, 2, 2, 7, 8, 5])</code> describe la lista <code>[7, 5, 2, 8]</code> o <code>[2, 7, 8, 5]</code>, dependiendo de la estrategia que elija para solucionar el problema.",
+    "run_data":[
+      validarEq('sinDuplicados_('+l()+')',l()),
+      validarEq('sinDuplicados_('+l("Rojo","Azul","Verde")+')',l("Rojo","Azul","Verde")),
+      validar('sinDuplicados_('+l(7,5,2,2,7,8,5)+')==[7,5,2,8] || sinDuplicados_('+l(7,5,2,2,7,8,5)+')==[2,7,8,5]')
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej34a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej34a",
+    "nombre":"34. Clonando (a)",
+    "enunciado": "Escribir la función <code>laLista_Clonada_Veces</code>, que dada una lista de elementos, y un número, describe la lista que resulta de clonar tantas veces como el número dado, con todos los elementos en el orden original.<br>"+resaltado("Ejemplo")+": <code>laLista_Clonada_Veces([Rojo, Verde, Azul], 3)</code> describe la lista <code>[Rojo, Verde, Azul, Rojo, Verde, Azul, Rojo, Verde, Azul]</code>.",
+    "run_data":[
+      validarEq('laLista_Clonada_Veces('+l()+',1)',l()),
+      validarEq('laLista_Clonada_Veces('+l()+',6)',l()),
+      validarEq('laLista_Clonada_Veces('+l(4)+',7)',l(4,4,4,4,4,4,4)),
+      validarEq('laLista_Clonada_Veces('+l("Norte","Sur")+',3)',l("Norte","Sur","Norte","Sur","Norte","Sur"))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej34b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej34b",
+    "nombre":"34. Clonando (b)",
+    "enunciado": "Escribir la función <code>losElementosDe_Clonados_Veces</code>, que dada una lista de elementos, y un número, describe la lista que resulta de clonar tantas veces como el número dado cada uno de los elementos de la lista en el orden original.<br>"+resaltado("Ejemplo")+": <code>losElementosDe_Clonados_Veces([Rojo, Verde, Azul], 3)</code> describe la lista <code>[Rojo, Rojo, Rojo, Verde, Verde, Verde, Azul, Azul, Azul]</code>.",
+    "run_data":[
+      validarEq('losElementosDe_Clonados_Veces('+l()+',1)',l()),
+      validarEq('losElementosDe_Clonados_Veces('+l()+',6)',l()),
+      validarEq('losElementosDe_Clonados_Veces('+l(4)+',7)',l(4,4,4,4,4,4,4)),
+      validarEq('losElementosDe_Clonados_Veces('+l("Norte","Sur")+',3)',l("Norte","Norte","Norte","Sur","Sur","Sur"))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej35(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej35",
+    "nombre":"35. ¿Ordenada?",
+    "enunciado": biblioteca+" Construir la función <code>estáOrdenada_</code> que, dada una lista de números indica si está ordenada de menor a mayor. Para que una lista esté ordenada, cada elemento debe ser menor o igual al que le sigue.<br>"+resaltado("Ejemplo")+": <code>estáOrdenada_([1, 7, 9, 15])</code> describe Verdadero, mientras que <code>estáOrdenada_([2, 15, 9, 7])</code> describe Falso.",
+    "run_data":[
+      validar('estáOrdenada_('+l()+')'),
+      validar('estáOrdenada_('+l(125)+')'),
+      validar('estáOrdenada_('+l(6,6)+')'),
+      validarFalso('estáOrdenada_('+l(6,5)+')'),
+      validar('estáOrdenada_('+l(1,2,3,4,5,6)+')'),
+      validar('estáOrdenada_('+l(1,7,9,15)+')'),
+      validarFalso('estáOrdenada_('+l(2,15,9,7)+')'),
+      validarFalso('estáOrdenada_('+l(1,2,3,4,1)+')'),
+      validarFalso('estáOrdenada_('+l(3,2,3,4,5)+')')
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej36(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej36",
+    "nombre":"36. Ordenando",
+    "enunciado": biblioteca+" Escribir la función <code>laLista_Ordenada</code>, que dada una lista de números, describe la misma lista con los elementos ordenados.<br>"+resaltado("Ejemplo")+": <code>laLista_Ordenada([2, 15, 9, 7])</code> describe la lista <code>[2, 7, 9, 15]</code>.<br><br>"+resaltado("Ayuda")+": Se sugiere la siguiente estrategia:<ol type='a'><li>Busque el elemento más chico en la lista y agrégalo al resultado</li><li>Borre el elemento más chico de la lista original.</li><li>Repita a y b hasta que la lista original esté vacía.</li></ol>",
+    "run_data":[
+      validarEq('laLista_Ordenada('+l(2,15,9,7)+')',l(2,7,9,15)),
+      validarEq('laLista_Ordenada('+l(6,3,6)+')',l(3,6,6)),
+      validarEq('laLista_Ordenada('+l(9,9,9,9)+')',l(9,9,9,9)),
+      validarEq('laLista_Ordenada('+l()+')',l()),
+      validarEq('laLista_Ordenada('+l(125)+')',l(125))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def e11_37(s):
+  return "Podemos también trabajar con listas dentro de listas. Los dos primeros nos pueden ayudar en algunas soluciones que impliquen esto, y los siguientes trabajan listas de listas:<br><br>"+s
+
+def guia11_ej37a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej37a",
+    "nombre":"37. Algo de listas de listas (a)",
+    "enunciado": e11_37("Escriba la función <code>losPrimeros_De_</code> que dado un número y una lista de elementos, describe la lista que contiene los primeros N elementos de la lista dada, donde N es el número dado.<br>"+resaltado("Ejemplo")+": <code>losPrimeros_De_(3, [2, 15, 9, 7, 21])</code> describe la lista <code>[2, 15, 9]</code>."),
+    "run_data":[
+      validarEq('losPrimeros_De_(0,'+l()+')',l()),
+      validarEq('losPrimeros_De_(0,'+l(15,8,11,13,8,11)+')',l()),
+      validarEq('losPrimeros_De_(1,'+l(15)+')',l(15)),
+      validarEq('losPrimeros_De_(6,'+l(15,8,11,13,8,11)+')',l(15,8,11,13,8,11)),
+      validarEq('losPrimeros_De_(2,'+l(4,2,8,11,6)+')',l(4,2))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej37b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej37b",
+    "nombre":"37. Algo de listas de listas (b)",
+    "enunciado": e11_37("Escriba la función <code>lista_SinLosPrimeros_</code> que dada una lista de elementos y un número, describe la lista original sin los primeros N elementos, donde N es el número dado.<br>"+resaltado("Ejemplo")+": <code>lista_SinLosPrimeros_([2, 15, 9, 7, 21], 3)</code> describe la lista <code>[7, 21]</code>."),
+    "run_data":[
+      validarEq('lista_SinLosPrimeros_('+l()+',0)',l()),
+      validarEq('lista_SinLosPrimeros_('+l(15,8,11,13,8,11)+',0)',l(15,8,11,13,8,11)),
+      validarEq('lista_SinLosPrimeros_('+l(15)+',1)',l()),
+      validarEq('lista_SinLosPrimeros_('+l(15,8,11,13,8,11)+',6)',l()),
+      validarEq('lista_SinLosPrimeros_('+l(4,2,8,11,6)+',2)',l(8,11,6))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej37c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej37c",
+    "nombre":"37. Algo de listas de listas (c)",
+    "enunciado": e11_37("Escriba la función <code>lista_AgrupadaDeA_</code> que dada una lista de elementos y un número, describe una lista de listas en donde cada lista interna es un grupo de los siguientes N elementos de la lista original, donde N es el número dado. La última lista contiene los elementos restantes, incluso si no forman un grupo de N elementos.<br>"+resaltado("Ejemplo")+": <code>lista_AgrupadaDeA_([2, 15, 9, 7, 21, 3, 10], 3)</code> describe la lista de listas <code>[[2, 15, 9], [7, 21, 3], [10]]</code>."),
+    "run_data":[
+      validarEq('lista_AgrupadaDeA_('+l()+',0)',l()),
+      validarEq('lista_AgrupadaDeA_('+l()+',4)',l()),
+      validarEq('lista_AgrupadaDeA_('+l(1,2,3)+',4)',l(l(1,2,3))),
+      validarEq('lista_AgrupadaDeA_('+l(1,2,3,4,5,6,7,8,9,10)+',4)',l(l(1,2,3,4),l(5,6,7,8),l(9,10))),
+      validarEq('lista_AgrupadaDeA_('+l(1,2,3,4,5,6)+',2)',l(l(1,2),l(3,4),l(5,6)))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej37d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej37d",
+    "nombre":"37. Algo de listas de listas (d)",
+    "enunciado": e11_37("Escriba la función <code>lista_Desagrupada</code> que dada una lista de listas de elementos, donde cada lista interna es un grupo, describe la lista que contiene a todos los elementos de cada uno de los grupos, en el orden dado por el grupo, y su posición dentro del grupo.<br>"+resaltado("Ejemplo")+": <code>lista_Desagrupada([[2, 15, 9], [7, 21, 3], [10]])</code> describe la lista <code>[2, 15, 9, 7, 21, 3, 10]</code>."),
+    "run_data":[
+      validarEq('lista_Desagrupada('+l()+')',l()),
+      validarEq('lista_Desagrupada('+l(l())+')',l()),
+      validarEq('lista_Desagrupada('+l(l(),l(),l())+')',l()),
+      validarEq('lista_Desagrupada('+l(l(2,15,9),l(7,21,3),l(10))+')',l(2,15,9,7,21,3,10))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej37e(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej37e",
+    "nombre":"37. Algo de listas de listas (e)",
+    "enunciado": e11_37("Escriba la función <code>combinarCadaElementoDe_Con_</code> que dadas dos lista de elementos del mismo tipo, describe la lista de listas que resulta de agrupar el primer elemento de la primera lista con el primer elemento de la segunda lista, el segundo de la primera lista con el segundo de la segunda lista, etc.<br>"+resaltado("Ejemplo")+": <code>combinarCadaElementoDe_Con_([2, 15, 9], [7, 21, 3])</code> describe la lista de listas <code>[[2, 7], [15, 21], [9, 3]]</code>."),
+    "run_data":[
+      validarEq('combinarCadaElementoDe_Con_('+l()+','+l()+')',l()),
+      validarEq('combinarCadaElementoDe_Con_('+l("Azul")+','+l("Rojo")+')',l(l("Azul","Rojo"))),
+      validarEq('combinarCadaElementoDe_Con_('+l(2,15,9)+','+l(7,21,3)+')',l(l(2,7),l(15,21),l(9,3)))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def e11_38(s):
+  return biblioteca+" Con listas podemos modelar conjuntos matemáticos. Podemos para ello crear un registro que “envuelva” a la lista en cuestión, y pensar operaciones para ese registro. Usaremos el siguiente tipo de datos:<br>"+código("type Conjunto is record {<br>&nbsp;&nbsp;/*<br>&nbsp;&nbsp;&nbsp;&nbsp;PROPÓSITO: Modela un conjunto, en el sentido matemático.<br>&nbsp;&nbsp;&nbsp;&nbsp;INVARIANTE DE REPRESENTACIÓN:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* La lista de elementos no contiene duplicados.<br>&nbsp;&nbsp;*/<br>&nbsp;&nbsp;field elementos // Lista de “Elemento”<br>}")+"<br><br>"+s
+
+tipos_conjunto = "type Conjunto is record {\n  field elementos\n}"
+
+pre11_38 = tipos_conjunto + '''\n
+function conjuntosIgualesX(c1,c2) {
+  eqPorAhora := True
+  foreach x in elementos(c1) {
+    estáX := False
+    foreach x2 in elementos(c2) {
+      if (x==x2) { estáX := True }
+    }
+    if (not estáX) { eqPorAhora := False }
+  }
+  foreach x in elementos(c2) {
+    estáX := False
+    foreach x2 in elementos(c1) {
+      if (x==x2) { estáX := True }
+    }
+    if (not estáX) { eqPorAhora := False }
+  }
+  return (eqPorAhora)
+}
+
+function esConjuntoX(c) {
+  restantes := elementos(c)
+  esRepe := False
+  while (not esVacía(restantes) && not esRepe) {
+    foreach x in resto(restantes) {
+      if (x == primero(restantes)) { esRepe := True }
+    }
+    restantes := resto(restantes)
+  }
+  return (esVacía(restantes))
+}'''
+
+def conj(*args):
+  return "Conjunto(elementos <- "+l(*args)+")"
+
+def validarEqConj(c1,c2):
+  return validar("esConjuntoX("+c1+") && conjuntosIgualesX("+c1+","+c2+")")
+
+def guia11_ej38a(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej38a",
+    "nombre":"38. Listas como conjuntos (a)",
+    "enunciado": e11_38("Escriba la función <code>conjuntoCon_</code> que dada una lista con los elementos que pertenecen al conjunto, describe un conjunto con los elementos dados. Tener en cuenta la invariante de representación de los conjuntos, que no pueden tener dos veces el mismo elemento, incluso sií este elemento aparece múltiples veces en la lista dada al momento de creación."),
+    "pre":pre11_38,
+    "run_data":[
+      validarEqConj('conjuntoCon_('+l()+')',conj()),
+      validarEqConj('conjuntoCon_('+l(2,15,9,7)+')',conj(2,7,9,15)),
+      validarEqConj('conjuntoCon_('+l("Sur","Sur","Sur")+')',conj("Sur"))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej38b(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej38b",
+    "nombre":"38. Listas como conjuntos (b)",
+    "enunciado": e11_38("Escriba la función <code>uniónDe_Con_</code> que dados dos conjuntos describa el conjunto resultante de unir todos los elementos del primero con todos los elementos del segundo."),
+    "pre":pre11_38,
+    "run_data":[
+      validarEqConj('uniónDe_Con_('+conj()+','+conj()+')',conj()),
+      validarEqConj('uniónDe_Con_('+conj(1,2,3)+','+conj(4,5,6)+')',conj(1,2,3,4,5,6)),
+      validarEqConj('uniónDe_Con_('+conj(1,2)+','+conj(2,3)+')',conj(1,2,3))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej38c(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej38c",
+    "nombre":"38. Listas como conjuntos (c)",
+    "enunciado": e11_38("Escriba la función <code>intersecciónDe_Con_</code> que dados dos conjuntos describa el conjunto resultante de intersecar todos los elementos del primero con todos los elementos del segundo, es decir, solo aquellos elementos que están en ambos conjuntos al mismo tiempo."),
+    "pre":pre11_38,
+    "run_data":[
+      validarEq('intersecciónDe_Con_('+conj()+','+conj()+')',conj()),
+      validarEq('intersecciónDe_Con_('+conj(1,2,3,4)+','+conj(2,3,4,5)+')',conj(2,3,4)),
+      validarEq('intersecciónDe_Con_('+conj("Rojo")+','+conj("Rojo")+')',conj("Rojo"))
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej38d(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej38d",
+    "nombre":"38. Listas como conjuntos (d)",
+    "enunciado": e11_38("Escriba la función <code>es_SubconjuntoDe_</code> que dados dos conjuntos describa sií el primero de los conjuntos es un subconjunto del segundo. Es decir, sií todos los elementos del primero están en el segundo."),
+    "pre":pre11_38,
+    "run_data":[
+      validar('es_SubconjuntoDe_('+conj()+','+conj()+')'),
+      validar('es_SubconjuntoDe_('+conj()+','+conj(1,2,3)+')'),
+      validarFalso('es_SubconjuntoDe_('+conj(1,2,3)+','+conj(2)+')')
+    ],
+    "disponible":{"desde":fecha}
+  }
+
+def guia11_ej38e(fecha):
+  return {
+    "tipo":"CODIGO",
+    "id":"guia11_ej38e",
+    "nombre":"38. Listas como conjuntos (e)",
+    "enunciado": e11_38("Escriba la función <code>es_IgualA_</code> que dados dos conjuntos describa si son iguales. Recordar que en los conjuntos el orden de los elementos no es relevante así que para que dos conjuntos sean iguales lo único que hay que verificar es que tengan exactamente los mismos elementos."),
+    "pre":pre11_38,
+    "run_data":[
+      validar('es_IgualA_('+conj()+','+conj()+')'),
+      validar('es_IgualA_('+conj(1,2,3)+','+conj(3,2,1)+')'),
+      validarFalso('es_IgualA_('+conj(2,3)+','+conj(3)+')'),
+      validarFalso('es_IgualA_('+conj(3)+','+conj(3,4)+')')
+    ],
+    "disponible":{"desde":fecha}
+  }
+
 def guia11(curso, fechaInicio):
   return {
     "tipo":"SECCION",
@@ -7686,7 +8194,36 @@ def guia11(curso, fechaInicio):
       guia11_ej15(fechaInicio),
       guia11_ej16(fechaInicio),
       guia11_ej17(fechaInicio),
-      guia11_ej18(fechaInicio)
+      guia11_ej18(fechaInicio),
+      guia11_ej19(fechaInicio),
+      guia11_ej20(fechaInicio),
+      guia11_ej21(fechaInicio),
+      guia11_ej22(fechaInicio),
+      guia11_ej23(fechaInicio),
+      guia11_ej24(fechaInicio),
+      guia11_ej25(fechaInicio),
+      guia11_ej26(fechaInicio),
+      guia11_ej27(fechaInicio),
+      guia11_ej28(fechaInicio),
+      guia11_ej29(fechaInicio),
+      guia11_ej30(fechaInicio),
+      guia11_ej31(fechaInicio),
+      guia11_ej32(fechaInicio),
+      guia11_ej33(fechaInicio),
+      guia11_ej34a(fechaInicio),
+      guia11_ej34b(fechaInicio),
+      guia11_ej35(fechaInicio),
+      guia11_ej36(fechaInicio),
+      guia11_ej37a(fechaInicio),
+      guia11_ej37b(fechaInicio),
+      guia11_ej37c(fechaInicio),
+      guia11_ej37d(fechaInicio),
+      guia11_ej37e(fechaInicio),
+      guia11_ej38a(fechaInicio),
+      guia11_ej38b(fechaInicio),
+      guia11_ej38c(fechaInicio),
+      guia11_ej38d(fechaInicio)#,
+      #guia11_ej38e(fechaInicio)
     ]
   }
 
